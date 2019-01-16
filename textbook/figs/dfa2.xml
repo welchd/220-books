@@ -1,0 +1,110 @@
+<ipe version="60010" creator="Ipe 6.0 preview 10">
+<info created="D:20040131220523" modified="D:20040131220523"/>
+<page mediabox="-197.421 -407.409 397.579 434.591">
+<layer name="alpha"/>
+<path layer="alpha" stroke="black" fill="white" pen="0.8">
+8 0 0 8 60 60 e
+</path>
+<text stroke="black" pos="56.875 57.472" type="label" valign="bottom" size="10">a</text>
+<path stroke="black" pen="0.8" arrow="7">
+36.848 59.9285 m
+52 60 l
+</path>
+<group>
+<path stroke="black" fill="white" pen="0.8">
+8 0 0 8 150.662 60.1063 e
+</path>
+<text stroke="black" pos="148.225 56.0423" type="label" valign="bottom" size="10">b</text>
+</group>
+<path stroke="black" pen="0.8" arrow="4.5">
+63.9313 67.2716 m
+67.728 80.4384
+53.0473 80.4384
+56.0847 68.0312 s
+</path>
+<path stroke="black" pen="0.8" arrow="4.5">
+56.3378 -33.7587 m
+54.566 -43.3806
+68.2343 -43.6338
+65.1969 -31.733 s
+</path>
+<path stroke="black" pen="0.8" arrow="4.5">
+100.886 6.5015 m
+98.355 -2.86723
+108.733 -4.63969
+109.239 5.99508 s
+</path>
+<text stroke="black" pos="48.4913 80.1852" type="label" valign="bottom" size="10">1,3</text>
+<text stroke="black" pos="46.9726 18.9087" type="label" valign="bottom" size="10">2</text>
+<text stroke="black" pos="81.9025 43.2168" type="label" valign="bottom" size="10">4</text>
+<text stroke="black" pos="105.695 65.7523" type="label" valign="bottom" size="10">1,2</text>
+<text stroke="black" pos="101.139 38.4058" type="label" valign="bottom" size="10">3,4</text>
+<text stroke="black" pos="45.4539 -53.2558" type="label" valign="bottom" size="10">3,4</text>
+<path stroke="black" pen="0.8" arrow="normal">
+66.9687 -21.8579 m
+98.1019 8.27396 l
+</path>
+<text stroke="black" pos="75.8277 -26.6688" type="label" valign="bottom" size="10">1,2</text>
+<text stroke="black" pos="100.127 -12.9956" type="label" valign="bottom" size="10">1</text>
+<text stroke="black" pos="131.007 22.2004" type="label" valign="bottom" size="10">2</text>
+<text stroke="black" pos="113.036 -29.7074" type="label" valign="bottom" size="10">3,4</text>
+<text stroke="black" pos="132.779 3.20978" type="label" valign="bottom" size="10">1</text>
+<text stroke="black" pos="156.376 13.8752" type="label" valign="bottom" size="10">2,3,4</text>
+<group>
+<path stroke="black" fill="white" pen="0.8">
+8 0 0 8 59.875 -26.1568 e
+</path>
+<text stroke="black" pos="56.625 -29.408" type="label" valign="bottom" size="10">d</text>
+</group>
+<path stroke="black" pen="normal" arrow="normal">
+146.626 -18.2787 m
+137.419 7.08036
+114.722 9.99909 s
+</path>
+<path stroke="black" pen="normal" arrow="normal">
+58.5694 52.1289 m
+59.2216 -18.1835 s
+</path>
+<path stroke="black" pen="normal" arrow="normal">
+64.6889 53.5182 m
+97.9904 20.5435 s
+</path>
+<path stroke="black" pen="normal" arrow="normal">
+143.458 56.6267 m
+115.59 44.9953
+109.632 24.4855 s
+</path>
+<path stroke="black" pen="normal" arrow="normal">
+113.367 22.0898 m
+137.419 31.591
+145.316 54.1546 s
+</path>
+<path stroke="black" pen="normal" backarrow="normal">
+67.9954 60.2718 m
+142.664 60.2762 s
+</path>
+<path stroke="black" fill="white" pen="0.8">
+9.88909 0 0 9.88909 153.421 -25.464 e
+</path>
+<path stroke="black" fill="white" pen="0.8">
+9.88909 0 0 9.88909 106.296 15.176 e
+</path>
+<path stroke="black" fill="white" pen="0.8">
+8 0 0 8 106.188 15.296 e
+</path>
+<path stroke="black" fill="white" pen="0.8">
+8 0 0 8 153.312 -25.344 e
+</path>
+<text stroke="black" pos="151.688 -28.5952" type="label" valign="bottom" size="10">e</text>
+<text stroke="black" pos="104.562 12.0448" type="label" valign="bottom" size="10">c</text>
+<path stroke="black" pen="normal" arrow="normal">
+111.91 7.03495 m
+117.505 -17.8133
+143.777 -23.278 s
+</path>
+<path stroke="black" pen="normal" arrow="normal">
+152.536 -15.6145 m
+150.827 52.108 s
+</path>
+</page>
+</ipe>

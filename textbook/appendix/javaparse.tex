@@ -1,0 +1,457 @@
+\chapter{Recursive Descent Parsing}
+\label{app:parsing}
+
+\section{Templated parsing code for balanced parentheses grammar}
+
+In this appendix we illustrate how to design a recursive descent parser 
+for the following simple grammar.
+
+\begin{eqnarray*}
+  \X{B} & \rightarrow & \epsilon \\
+  \X{B} & \rightarrow & ( \X{B} ) \: \X{B}\\
+  \X{B} & \rightarrow & [ \X{C} ] \\
+  \X{C} & \rightarrow & ( \X{B} ) , ( \X{B} )\\
+\end{eqnarray*}
+
+First we need to generate the overall recursive flow of the
+parser using the templates given earlier in Section~\ref{sec:templateparsing}.
+We need to define two methods \algfont{parseNonterminal}\texttt{B},
+and 
+\algfont{parseNonterminal}\texttt{C}, along with two auxiliary methods 
+\algfont{parseProduction}\texttt{B1} and
+\algfont{parseProduction}\texttt{B2} for the nonterminal $\X{B}$.  
+These are given in Figure~\ref{fig:parsing}.
+The reader may also want to review Example~\ref{ex:parsing}. 
+
+\begin{figure}[p]
+\hspace*{.8in}\begin{minipage}{5in}
+\begin{tabbing}
+xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
+\textbf{method} \algfont{parseNonterminal}\texttt{B}\\ 
+\textbf{begin} \\
+\> Token $T$ = \algfont{peek}()\\
+\> \textbf{if} $T$==`(' \textbf{then}\\
+\> \> \textbf{return} \algfont{parseProduction}\texttt{B1}\\
+\> \textbf{elseif} $T$==`[' \textbf{then}\\
+\> \> \textbf{return} \algfont{parseProduction}\texttt{B2}\\
+\> \textbf{else} Check for $\X{B} \rightarrow \epsilon$ case.\\
+\> \textbf{endif}\\
+\textbf{end} 
+\end{tabbing}
+
+\begin{tabbing}
+xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
+\textbf{method} \algfont{parseProduction}\texttt{B1} \\
+\textbf{begin}\\
+\> Tree $S$ = \textbf{new} Tree()\\
+\> \algfont{check}('('); $S$.\algfont{addLeaf}('(')\\
+\> $S$.\algfont{addSubtree}(\algfont{parseNonterminal}\texttt{B})\\
+\> \algfont{check}(')'); $S$.\algfont{addLeaf}(')')\\
+\> $S$.\algfont{addSubtree}(\algfont{parseNonterminal}\texttt{B})\\
+\> \textbf{return} $S$\\
+\textbf{end} 
+\end{tabbing}
+
+\begin{tabbing}
+xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
+\textbf{method} \algfont{parseProduction}\texttt{B2} \\
+\textbf{begin}\\
+\> Tree $S$ = \textbf{new} Tree()\\
+\> \algfont{check}('['); $S$.\algfont{addLeaf}('[')\\
+\> $S$.\algfont{addSubtree}(\algfont{parseNonterminal}\texttt{C})\\
+\> \algfont{check}(']'); $S$.\algfont{addLeaf}(']')\\
+\> \textbf{return} $S$\\
+\textbf{end} 
+\end{tabbing}
+
+\begin{tabbing}
+xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
+\textbf{method} \algfont{parseNonterminal}\texttt{C}\\ 
+\textbf{begin} \\
+\> Tree $S$ = \textbf{new} Tree()\\
+\> \algfont{check}('('); $S$.\algfont{addLeaf}('(')\\
+\> $S$.addSubtree(\algfont{parseNonterminal}\texttt{B})\\
+\> \algfont{check}(')'); $S$.\algfont{addLeaf}(')')\\
+\> \algfont{check}(','); $S$.\algfont{addLeaf}(',')\\
+\> \algfont{check}('('); $S$.\algfont{addLeaf}('(')\\
+\> $S$.\algfont{addSubtree}(\algfont{parseNonterminal}\texttt{B})\\
+\> \algfont{check}(')'); $S$.\algfont{addLeaf}(')')\\
+\textbf{end} 
+\end{tabbing}
+\end{minipage}
+\caption{A recursive descent parser for a simple grammar.} \label{fig:parsing}
+\end{figure}
+
+\section{Java implementation for balanced parentheses grammar}
+
+We now want to convert the template parsing code of the previous section
+into a working Java program.  We first need to define the stream input
+and parse tree helper classes.  Our simple tokenizer for this example
+will be the builtin Java \verb|StringTokenizer|, which will break
+up the input at white spaces.  
+
+In the code that follows 
+we write our \verb|check| method to return a \verb|boolean| value
+instead of throwing an exception so that we can easily illustrate
+the location of errors in the bad input strings.  
+
+%\newpage
+%The Java
+%implementation begins on page~\pageref{parsecode}.
+%\newpage
+\label{parsecode}
+{\footnotesize%
+\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\begin{verbatim}
+import java.util.StringTokenizer;
+
+public class ParseInput 
+{ 
+  String str, curToken;
+  boolean haveCurToken;
+  StringTokenizer tokens;
+
+  public ParseInput( String s ) 
+  { 
+    str = new String(s);  
+    haveCurToken = false;
+    tokens = new StringTokenizer(str);
+  }
+
+  String peek()
+  {
+    if (haveCurToken) return curToken;
+    else
+    {
+      if (tokens.hasMoreTokens())
+      { 
+         curToken = tokens.nextToken();  
+         haveCurToken=true;
+         return curToken;
+      }
+      else return new String();  // end of input indicator
+    }
+  }
+
+  boolean check(String s)
+  {
+    if (haveCurToken) 
+    { 
+      haveCurToken=false; 
+      return s.equals( curToken ); 
+    }
+    else 
+    { 
+      if (tokens.hasMoreTokens()) return s.equals( tokens.nextToken() ); 
+      else return false;
+    }
+  }
+
+  boolean checkEndInput()
+  {
+    if (haveCurToken) return false;
+    else return tokens.hasMoreTokens()==false; 
+  }
+}
+\end{verbatim}%
+}%\footnotesize
+
+Our data structure for the returned parse trees will be an ordered
+rooted tree of strings.  The methods \verb|addLeaf| and 
+\verb|addSubtree| do what is expected by appending children 
+to an \verb|ArrayList| of siblings.
+The only complicated part of our implementation is the \verb|toString| 
+method which outputs the parse tree in a readable format, where we
+indent to the right for each depth level of the parse tree.
+Lines printed with the same indentation (top-to-bottom order) correspond
+to the left-to-right ordering of the siblings.
+
+%\newpage
+{\footnotesize% 
+\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\begin{verbatim}
+import java.util.*;
+
+public class PTree
+{ 
+  String obj;
+  ArrayList subtrees;
+  
+  public PTree(String root) 
+  { 
+    obj = new String(root);
+    subtrees = new ArrayList();
+  }
+
+  public void addLeaf(String leaf)
+  {
+    subtrees.add(new PTree(leaf)); // with empty subtree
+  }
+
+  public void addSubtree(PTree subtree)
+  {
+    subtrees.add(subtree);  // note: reference to subtree
+  }
+
+  static int tabpos=0;
+  //
+  public String toString()
+  {
+    StringBuffer sb = new StringBuffer(obj);
+
+    if (subtrees.size()>0) 
+    {
+       tabpos += obj.length()+3;
+       sb.append("-->");
+       for (int i=0; i<subtrees.size(); i++)
+       {
+          if (i>0) for (int j=0; j<tabpos; j++) sb.append(" ");
+          sb.append( subtrees.get(i).toString() );
+          if (i<subtrees.size()-1) sb.append("\n");
+       }
+       tabpos -= obj.length()+3;
+    }
+
+    return sb.toString();
+  }
+}
+\end{verbatim}%
+}%\footnotesize
+
+Next we write Java code for the recursive descent parser.  Notice the
+close correspondence between this and 
+to the pseudo-code of the previous section.  To make things slightly
+more sophisticated we add error strings to the constructed parse tree, 
+whenever our method \verb|check| does not match an input token.
+
+{\footnotesize%
+\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\begin{verbatim}
+import java.io.*;
+import java.lang.*;
+
+public class ParseBP 
+{ 
+  static ParseInput in;
+
+  static public PTree ParseBP(String s) // mainParser
+  {
+    in = new ParseInput(s);  // start token input stream from s
+
+    PTree PT = ParseNonterminalB();
+    if ( ! in.checkEndInput() ) PT.addLeaf("errorEOI"); 
+    return PT;  
+  }
+
+  static public PTree ParseNonterminalB()
+  {
+    String T=in.peek();
+
+    // match epsilon or non-processed )
+    //
+    if (T.length()==0 || T.equals(")"))  
+    { 
+        return new PTree("B-->null"); 
+    }
+    if (T.equals("(")) return ParseProductionB1();
+    if (T.equals("[")) return ParseProductionB2(); 
+    return new PTree("errorChar"); 
+  }
+
+  static public PTree ParseProductionB1()
+  {
+    PTree S = new PTree("B1");
+    if (in.check("(")) S.addLeaf("("); else S.addLeaf("error(");
+    S.addSubtree(ParseNonterminalB());
+    if (in.check(")")) S.addLeaf(")"); else S.addLeaf("error)");
+    S.addSubtree(ParseNonterminalB());
+    return S;
+  }
+
+  static public PTree ParseProductionB2()
+  {
+    PTree S = new PTree("B2");
+    if (in.check("[")) S.addLeaf("["); else S.addLeaf("error[");
+    S.addSubtree(ParseNonterminalC());
+    if (in.check("]")) S.addLeaf("]"); else S.addLeaf("error]");
+    return S;
+  }
+
+  static public PTree ParseNonterminalC()
+  {
+    PTree S = new PTree("C");
+    if (in.check("(")) S.addLeaf("("); else S.addLeaf("error(");
+    S.addSubtree(ParseNonterminalB());
+    if (in.check(")")) S.addLeaf(")"); else S.addLeaf("error)");
+    if (in.check(",")) S.addLeaf(","); else S.addLeaf("error,");
+    if (in.check("(")) S.addLeaf("("); else S.addLeaf("error(");
+    S.addSubtree(ParseNonterminalB());
+    if (in.check(")")) S.addLeaf(")"); else S.addLeaf("error)");
+    return S;
+  }
+}
+\end{verbatim}%
+}% footnotesize
+
+One thing to observe in the above method
+\algfont{parseNonterminal}\texttt{B}
+is that the grammar is designed so that we do not need to check for `]' 
+when matching the $\X{B}\rightarrow \epsilon$ case.
+
+%\newpage
+Finally, in the same class \verb|ParseBP| that is given above (note the
+\verb|static| modifiers) we write a 
+main method to do some testing on some input strings of whitespace
+separated tokens.
+ 
+{\footnotesize% 
+\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\begin{verbatim}
+public static void main( String[] args ) 
+{
+  // testing simple case
+  System.out.println( "Input 1: ( )" );
+  System.out.println( ParseBP( "( )" ) );
+
+  // testing nested B
+  System.out.println( "Input 2: ( ( ) ( ) )" );
+  System.out.println( ParseBP( "( ( ) ( ) )" ) );
+
+  // testing simple B followed by C
+  System.out.println( "Input 3: ( ) [ ( ) , ( ) ]" );
+  System.out.println( ParseBP( "( ) [ ( ) , ( ) ]" ) );
+
+  // error since things after the last bracket ]
+  System.out.println( "Input 4: [ ( ( ) ( ) ) , ( ) ] ( )" );
+  System.out.println( ParseBP( "[ ( ( ) ( ) ) , ( ) ] ( )" ) );
+
+  // testing nested nonterminal C
+  System.out.println( "Input 5: [ ( ( ) [ ( ) , ( ) ] ) , ( ) ]");
+  System.out.println( ParseBP( "[ ( ( ) [ ( ) , ( ) ] ) , ( ) ]" ) );
+
+  // error with bad character
+  System.out.println( "Input 6: ( ( x ) )"); 
+  System.out.println( ParseBP( "( ( x ) )" ) ); 
+
+  // error inside evaluation of nonterminal C
+  System.out.println( "Input 7: ( ) [ ( ) , ]"); 
+  System.out.println( ParseBP( "( ) [ ( ) , ]" ) ); 
+}
+\end{verbatim}%
+}%footnotesize
+
+We show the output of our special parentheses parser on some input examples
+in Figure~\ref{fig:parseoutput}.
+
+\begin{figure}[p]
+{\footnotesize
+%\hspace*{-.1in}
+\begin{tabular}{ll}
+\begin{minipage}{3in}
+\begin{verbatim}
+Input 1: ( )
+B1-->(
+     B-->null
+     )
+     B-->null
+
+Input 2: ( ( ) ( ) )
+B1-->(
+     B1-->(
+          B-->null
+          )
+          B1-->(
+               B-->null
+               )
+               B-->null
+     )
+     B-->null
+
+Input 3: ( ) [ ( ) , ( ) ]
+B1-->(
+     B-->null
+     )
+     B2-->[
+          C-->(
+              B-->null
+              )
+              ,
+              (
+              B-->null
+              )
+          ]
+
+Input 4: [ ( ( ) ( ) ) , ( ) ] ( )
+B2-->[
+     C-->(
+         B1-->(
+              B-->null
+              )
+              B1-->(
+                   B-->null
+                   )
+                   B-->null
+         )
+         ,
+         (
+         B-->null
+         )
+     ]
+     errorEOI
+\end{verbatim}
+\end{minipage} & \hspace*{-4ex}
+\begin{minipage}{3.5in}
+\begin{verbatim}
+Input 5: [ ( ( ) [ ( ) , ( ) ] ) , ( ) ]
+B2-->[
+     C-->(
+         B1-->(
+              B-->null
+              )
+              B2-->[
+                   C-->(
+                       B-->null
+                       )
+                       ,
+                       (
+                       B-->null
+                       )
+                   ]
+         )
+         ,
+         (
+         B-->null
+         )
+     ]
+
+
+Input 6: ( ( x ) )
+B1-->(
+     B1-->(
+          errorChar
+          error)
+          B-->null
+     )
+     B-->null
+     errorEOI
+
+
+Input 7: ( ) [ ( ) , ]
+B1-->(
+     B-->null
+     )
+     B2-->[
+          C-->(
+              B-->null
+              )
+              ,
+              error(
+              B-->null
+              error)
+          error]
+\end{verbatim} 
+\end{minipage} 
+\end{tabular} }
+\caption{Sample parse trees obtained from our program \algfont{parseBP}.}
+\label{fig:parseoutput}
+\end{figure}

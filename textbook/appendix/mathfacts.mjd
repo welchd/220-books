@@ -1,0 +1,85 @@
+\chapter{Some Basic Mathematical Facts}
+
+This chapter presents equalities
+and inequalities useful in algorithm analysis~\cite{manber}
+
+\section{Arithmetic, Geometric, and Other Series}
+
+General arithmetic series is specified by the recurrence
+\(a_n = a_{n-1} + c\), where \(c\) is a constant. The sum of
+its \(n\) terms is
+\[
+a_{1}+a_{2}+\ldots+a_{n} = \frac{n}{2}(a_1 + a_n ) \equiv
+a_1 c \frac{n(n+1)}{2}
+\] 
+When \(a_1=1\) and \(c=1\), 
+\[
+1 + 2 + \dots + n = \frac{n(n+1)}{2}
+\]
+
+General geometric series is specified by the recurrence
+\(a_n = ca_{n-1}\), where \(c \ne 1\) is a constant. The
+sum of its \(n\) terms is
+\[
+a_{1}+a_{2}+\ldots+a_{n} = a_1 \frac{c^n - 1}{c - 1}
+\]
+If \(0 < c < 1\), it is better to rewrite the sum as
+\[
+a_{1}+a_{2}+\ldots+a_{n} = a_1 \frac{1 - c^n}{1-c}
+\]
+When \(n\) goes to infinity, the sum of the latter
+infinite geometric series is
+\[
+\sum\limits_{k=1}^{\infty}a_k = \frac{a_1}{1-c}
+\]
+The sum of squares
+\[
+1 + 2^2 + 3^2 + \ldots + n^2 = \frac{n(n+1)(2n+1)}{6}
+\]
+The harmonic series \(a_n = \frac{1}{n}\) has the following
+sum:
+\[
+H_n = \sum\limits_{k=1}^{n}\frac{1}{k} = \ln n + \gamma + 
+O \left (\frac{1}{n} \right )
+\]
+where \(\gamma = 0.577\ldots\) is the Euler's constant.
+
+\section{Basic Rules of Logarithms}
+
+The logarithm \(\log_x y\) of base \(x\) of \(y\) is defined
+by the equality:
+\(
+x^{\log_x y} = y
+\)
+and has the following properties:
+\begin{itemize}
+\item \(\log_x ( a \cdot b ) = \log_x a + \log_x b\)
+\item \(\log_x ( a / b )     = \log_x a - \log_x b\)
+\item \(\log_x ( a^b )       = b \log_x a\)
+\end{itemize}
+
+Using the definition and the properties of the logarithm,
+it is easy to show that the following rules hold:
+\[
+\begin{array}{lll} 
+\log_x y & = & \frac{1}{\log_y x}\\
+\log_x z & = & \frac{\log_y z}{\log_y x}\\
+z^{\log_x y} & = & y^{\log_x z}
+\end{array}
+\]
+The last rule is easily proven by taking logarithm of base
+\(x\) of the left and right sides of the equality.\\
+
+The sum of logarithms is \(O(n \log n)\):
+\[
+\sum\limits_{k=1}^{n} \lfloor \log_2 k \rfloor =
+(n+1)\lfloor \log_2 n \rfloor - 2^{\lfloor \log_2 n \rfloor + 1} + 2
+\]
+
+Stirling's approximation of the 
+factorial \(n!\):
+\[
+n! = \sqrt{2\pi n}\left ( \frac{n}{e} \right )^n \left ( 1 + O(1/n)\right )
+\approx 2.5 n^{n+0.5}e^{-n}
+\] 
+also implies that \(\log_2 (n!) = O(n \log n)\)

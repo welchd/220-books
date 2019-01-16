@@ -1,0 +1,1731 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\newcommand\R{\mathbb{R}}
+\newcommand\iif{\Longleftrightarrow}
+
+\title{Introduction to Algorithms, Data Structures and Formal languages exercise answers}
+\author{Andrew Hay}
+\date{2007}
+
+\begin{document}
+
+\section{Exercise answers}
+
+\subsection*{Exercise 1.1.1}
+
+We have one equation and one unknown, need to rearrange to find \(c\):
+
+\begin{align*}
+T(n) &= c n^2 \\
+T(10) &= c  10^2=500\\
+c &= \frac{500}{10^2} \\
+c &= 5 \\
+\end{align*}
+
+Simply put \(n=1000\) into \(T(n)=5n^2\):
+
+\[T(1000)=5(1000)^2=5\times10^6\]
+
+The algorithm takes 5 million elementary operations to process 1000 data items.
+
+
+
+\subsection*{Exercise 1.1.2}
+
+As above, work out the constants \(c_A\) and \(c_B\) and then work out how many elementary operations each algorithm takes with \(n=2^{20}\) to find the fastest algorithm for processing \(2^{20}\) data items.
+
+\begin{align*}
+T_A(2^{10})=c_A 2^{10} \times log_2(2^{10}) &= 10 \\ 
+c_A  2^{10} \times 10 &= 10 \\
+c_A &= \frac{1}{2^{10}} = 2^{-10} \\
+\end{align*}
+
+\begin{align*}
+T_B(2^{10})=c_B  (2^{10})^2 &= 1 \\
+c_B &= 2^{-20} \\
+\end{align*}
+
+
+Given the formulas for \(T_A(n)\) and \(T_B(n)\) and the constants \(c_A\) and \(c_B\), put \(n=2^{20}\) into each formula. The fastest algorithm is the algorithm with the smallest number of elementary operations.
+
+\[T_A(2^{20})=2^{-10} \times 2^{20} \times log_2(2^{20})=2^{10} \times 20<2^{15}\]
+\[T_B(2^{20})=2^{-20} \times (2^{20})^{20}=2^{20}\]
+
+Because \(T_A(2^{20}) < T_B(2^{20})\) algorithm A processes \(2^{20}\) data items the fastest.
+
+
+
+\subsection*{Exercise 1.2.1}
+
+The running time is linear. This is because when \(j=m=1\) the assignment statement makes \(m \leftarrow n-1\). Then when \(j=n-1\), the assignment statement makes \(m \leftarrow (n-1)^2\). As the inner loop runs once every time \(j=m\), it runs a total of two times and does \(n\) operations each loop. The outer loop runs \(n+1\) times. 
+
+\[\therefore T(n) = c_1(n+1) + 2(c_2n)=c_3n \in O(n)\]
+
+
+
+\subsection*{Exercise 1.3.1}
+
+\begin{align*}
+10n^3-5n+15 \in O(n^2)& \\
+\iif & \exists c_1 \in \R^+,\;\exists n_0 \in \mathbb{N},\;10n^3-5n+15 \leq c_1n^2\textit{ for }  n > n_0 \\
+\end{align*}
+
+Need to show that for any value of \(c_1\) and \(n_0\) the inequality does not hold true for all \(n > n_0\).
+
+\begin{align*}
+10n^3-5n+15 &\leq c n^2 \\
+10n-5n^{-1}+15n^{-2} &\leq c  \\
+\end{align*}
+
+For all values of \(c\), this does not hold true when \(n>max(1,c)\) (\(n\) is a positive integer) and so does not hold for all \(n>n_0\), no matter which \(n_0\) picked. 
+
+\(\therefore\) Because for all values of \(c\) and \(n_0\), \(10n^3-5n+15\leq c n^2\) does not hold true for all \(n > n_0\), \[10n^3-5n+15 \notin O(n^2)\]
+
+
+
+
+\subsection*{Exercise 1.3.2}
+
+\begin{align*}
+10n^3-5n+15 \in \Theta(n^3) & \\
+\iff &\exists c_1, c_2 \in \R^+,\;\exists n_0 \in \mathbb{N},\; c_1n^3 \leq 10n^3-5n+15 \leq c_2n^3 \textit{ for }  n > n_0  \\
+\end{align*}
+
+Need to find  \(c_1\), \(c_2\) and \(n_0\) such that \(c_1n^3 \leq 10n^3-5n+15 \leq c_2n^3\) holds true for \(n > n_0\).
+
+\[c_1n^3 \leq 10n^3-5n+15 \leq c_2n^3\]
+\[c_1 \leq 10-5n^{-2}+15n^{-3} \leq c_2\]
+
+We know \(\lim_{n \rightarrow \infty}(10-5n^{-2}+15n^{-3})=10\), let \(c_1=1\) and \( c_2=20\). Because we know that the limit of \(10-5n^{-1}+15n^{-2}\) is a constant, there will be a value  \(n_0\) such that for \(n>n_0\), \( 1\leq 10-5n^{-2}+15n{-3} \leq 20\). 
+
+\[\therefore 10n^3-5n+15 \in \Theta(n^3)\]
+
+Note: this is similar to Lemma 1.20, the Limit rule. In this case \(f(n) = 10n^3-5n+15\) and \(g(n)=n^3\). Because \(\lim_{n \rightarrow \infty}\frac{f(n)}{g(n)}=10\), \(f(n) \in \theta(g(n))\).
+
+
+
+\subsection*{Exercise 1.3.3}
+
+\begin{align*}
+10n^3-5n+15 \in \Omega(n^4) & \iff \exists c_1 \in \R^+,\;\exists n_0 \in \mathbb{N},\;10n^3-5n+15 \geq c_1n^4\textit{ for }  n > n_0 \\
+\end{align*}
+
+Need to show that for any value of \(c_1\) and \(n_0\) the inequality does not hold true for all \(n > n_0\).
+
+\begin{align*}
+10n^3-5n+15 &\geq cn^4 \\
+10-5n^{-1}+15n^{-2} &\geq cn \\
+\end{align*}
+
+We know \(\lim_{n \rightarrow \infty}(10-5n^{-1}+15n{-2})=10\), so no matter which constant \(c\) is picked, the inequality cannot be true for all \(n > n_0\)(a constant grows slower than \(n\)) . So there does not exist any constant that makes \(c n^4 \leq 10n^3-5n+15 \) true for \(n > n_0\).
+
+\[\therefore 10n^3-5n+15 \notin \Omega(n^4)\].
+
+
+\subsection*{Exercise 1.3.4}
+
+In the definition for \(g(n) \in \Theta(f(n))\), the definition for both Big Omega and Big Oh are also in there. 
+
+\begin{align*}
+g(n) \in \Theta(f(n))  \iff & \exists c_1, c_2 \in \R^+,\;\exists n_0 \in \mathbb{N},\; c_1f(n) \leq g(n) \leq c_2f(n) \textit{for }  n > n_0 \\
+\iff & 
+	 \begin{array}{l} 
+	 \exists c_1 \in \R^+,\;\exists n_0 \in \mathbb{N},\;c_1f(n) \leq g(n)\textit{ for }  n > n_0, \\ 
+	 \exists c_2 \in \R^+,\;\exists n_0 \in \mathbb{N},\;g(n) \leq c_2f(n)\textit{ for }  n > n_0 \\
+	 \end{array} \\
+\iff & g(n) \in \Omega(f(n)),\;g(n) \in O(f(n)) \\ 
+\end{align*}
+
+
+
+\subsection*{Exercise 1.3.5}
+
+Need to show for each function \(f(n)\) is Big Oh of the function preceeding it in table 1.2.
+
+\begin{align*}
+g(n) \in O(f(n))  \iff & \exists c_1 \in \R^+,\;\exists n_0 \in \mathbb{N},\;g(n) \leq c_1f(n)\textit{ for }  n > n_0 \\
+\end{align*}
+ 
+ It is sufficient to show that the left hand side of the inequality reduces down to a constant, and the right hand side is an increasing function of \(n\). 
+ 
+ 
+ 
+\begin{align*}
+n \in O(n\log{n})& : n \leq c_1n\log{n} \\
+&\iff  1 \leq c_1\log{n}\\
+\end{align*}
+
+\(\therefore\) Because \(\log{n}\) is an increasing function of \(n\), 
+\[ n \in O(n\log{n})\]
+
+ 
+ 
+\begin{align*}
+n\log{n} \in O(n^{1.5})& : n\log{n} \leq c_1n^{1.5} \\
+& \iff 1 \leq \frac{c_1n^{0.5}}{log{n}}\\
+\end{align*}
+
+We know any positive power of n is grows quicker than any logarithm (Example 1.24) so \(\frac{c_1n^{0.5}}{log{n}}\) is an increasing function of \(n\).
+\[ \therefore n\log{n} \in O(n^{1.5})\]
+ 
+ 
+ 
+\begin{align*}
+n^{1.5} \in O(n^2)&: n^{1.5} \leq c_1n^2\\
+& \iff 1 \leq c_1n^{0.5}\\
+\end{align*}
+
+\(\therefore\) As any positive power of n is an increasing function (Example 1.21), 
+\[ n^{1.5} \in O(n^2)\]
+ 
+ 
+ 
+\begin{align*}
+n^2 \in O(n^3)&: n^2 \leq c_1n^3\\
+& \iff 1 \leq c_1n\\
+\end{align*}
+
+\[\therefore n^2 \in O(n^3)\]
+
+
+
+\begin{align*}
+n^3 \in O(2^n)&:n^3 \leq c_12^n \\
+& \iff 1 \leq \frac{c_12^n}{n^3}\\
+\end{align*}
+
+
+We know that exponential functions with base greater than 1 grow quicker than any positive power of \(n\) (Example 1.23),
+so \(\frac{c_12^n}{n^3}\) is an increasing function of \(n\).
+\[ \therefore n^3 \in O(2^n)\]
+
+
+
+\subsection*{Exercise 1.3.6}
+
+Lemma 1.17 proof:
+\begin{align*}
+h \in O(g)  \iff & \exists c_0 \in \R^+,\;\exists n_0 \in \mathbb{N},\;h \leq c_0g\textit{ for }  n > n_0 \\
+g \in O(f)  \iff & \exists c_1 \in \R^+,\;\exists n_1 \in \mathbb{N},\;g \leq c_1f\textit{ for }  n > n_1 \\
+\intertext{Then this is also true:}& h \leq c_0g \leq c_0 c_1 f \textit{ for }  n > n_0 n_1 \\
+ \Longrightarrow & h \leq c_0 \ c_1 f \textit{ for }  n > n_0 n_1 \\
+ \iff &h \in O(f)
+\end{align*}
+\(\therefore\) Big Oh is transitive.
+
+
+\(\newline\)
+Lemma 1.18 proof:
+\begin{align*}
+g_1 \in O(f_1)  \iff & \exists c_1 \in \R^+,\;\exists n_1 \in \mathbb{N},\;g_1 \leq c_1f_1\textit{ for }  n > n_1 \\
+g_2 \in O(f_2)  \iff & \exists c_2 \in \R^+,\;\exists n_2 \in \mathbb{N},\;g_2 \leq c_2f_2\textit{ for }  n > n_2 \\
+\intertext{Then by adding inequalities:}& g_1+g_2 \leq c_1f_1 + c_2f_2 \textit{ for }  n > \max\{n_1,n_2\}\\
+ \Longrightarrow & g_1+g_2 < c_1c_2\max\{f_1,f_2\} \textit{ for } n > \max\{n_1,n_2\}\\
+ \iff & g_1+g_2 \in O(\max\{f_1,f_2\}) 
+\end{align*}
+\(\therefore\) The Rule of sums for Big Oh is true.
+
+
+\(\newline\)
+Lemma 1.19 proof:
+\begin{align*}
+g_1 \in O(f_1)  \iff & \exists c_1 \in \R^+,\;\exists n_1 \in \mathbb{N},\;g_1 \leq c_1f_1\textit{ for }  n > n_1 \\
+g_2 \in O(f_2)  \iff & \exists c_2 \in \R^+,\;\exists n_2 \in \mathbb{N},\;g_2 \leq c_2f_2\textit{ for }  n > n_2 \\
+\intertext{Then by multiplying inequalities:}& g_1g_2 \leq c_1f_1c_2f_2 \textit{ for }  n > n_1n_2\\
+ \iff & g_1g_2 \leq c_1c_2f_1f_2 \textit{ for } n > n_1,n_2\\
+ \iff & g_1g_2 \in O(f_1f_2) 
+\end{align*}
+\(\therefore\) The Rule of products for Big Oh is true.
+
+
+\subsection*{Exercise 1.3.7}
+
+The rule of sums for Big Omega will be:
+
+\[g_1 \in \Omega(f_1), g_2 \in \Omega(f_2) \Longrightarrow g_1+g_2 \in \Omega(min(f_1,f_2)\] 
+
+This is because Big Omega sets a lower bound on a function. Thus, the lower bound of the addition of two functions is the minimum of the lower bound of each individual function.
+
+The rules of sums for Big Theta will be:
+
+\[ g_1 \in \Theta(f_1), g_2 \in \Theta(f_2)  \Longrightarrow 
+	\left\{ \begin{array}{ll}
+  g_1+g_2 \in \Theta(f_1) & \mbox{if \(f_1 \in \Theta(f_2)\)};\\
+  g_1+g_2 \in O(\max{(f_1,f_2)}),\; g_1+g_2 \in \Omega(\min{(f_1,f_2)}) & \mbox{else}.\end{array} \right. \] 
+  
+This is because if \(g_1 \in \Theta(f_1)\) this means that the two functions have the same asymptotic running time. \(f_1\) is both the upper and lower bound on \(g_1\). Thus only if \(f_1 \in \Theta(f_2)\) (\(f_2 \in \Theta(f_1)\) is equivalent) is the sum \(g_1+g_2 \in \Theta(f_1)\). 
+
+\subsection*{Exercise 1.3.8}
+
+The Lemmas and proofs will be similar to the Big Oh versions, except max will instead be min, and the inequalities will be instead of less than be greater than.
+
+\(\newline\)
+Lemma 1.16 (Scaling):
+
+\[ \forall c \in \R+,\; cf \in \Omega(f)\]
+
+By selecting the constant \(c_1\) to be \(2c\), \( cf \leq 2cf \) is true for all \(n > 0\). Thus, constant factors are ignored.
+
+
+\(\newline\)
+Lemma 1.17 (Transitivity):
+
+\[h \in \Omega(g), g \in \Omega(f) \Longrightarrow h \in \Omega(f)\]
+
+Proof:
+\begin{align*}
+h \in \Omega(g))  \iff & \exists c_0 \in \R^+,\;\exists n_0 \in \mathbb{N},\;h \geq c_0g\textit{ for }  n > n_0 \\
+g \in \Omega(f))  \iff & \exists c_1 \in \R^+,\;\exists n_1 \in \mathbb{N},\;g \geq c_1f\textit{ for }  n > n_1 \\
+\intertext{Then this is also true:} & h \geq c_0g \geq c_0 c_1 f \textit{ for }  n > n_0 n_1 \\
+ \Longrightarrow & h \geq c_0 \ c_1 f \textit{ for }  n > n_0 n_1 \\
+ \iff & h \in \Omega(f)
+\end{align*}
+\(\therefore\) Big Omega is transitive.
+
+
+\(\newline\)
+Lemma 1.18 (Rule of sums):
+
+\[g_1 \in \Omega(f_1), g_2 \in \Omega(f_2) \Longrightarrow g_1+g_2 \in \Omega(min(f_1,f_2)\] 
+
+Proof:
+\begin{align*}
+g_1 \in \Omega(f_1))  \iff & \exists c_1 \in \R^+,\;\exists n_1 \in \mathbb{N},\;g_1 \geq c_1f_1\textit{ for }  n > n_1 \\
+g_2 \in \Omega(f_2))  \iff & \exists c_2 \in \R^+,\;\exists n_2 \in \mathbb{N},\;g_2 \geq c_2f_2\textit{ for }  n > n_2 \\
+\intertext{Then by adding inequalities:}& g_1+g_2 \geq c_1f_1 + c_2f_2 \textit{ for }  n > \max\{n_1,n_2\}\\
+ \Longrightarrow & g_1+g_2 > c_1c_2\min\{f_1,f_2\} \textit{ for } n > \max\{n_1,n_2\}\\
+ \iff & g_1+g_2 \in \Omega(\min\{f_1,f_2\}) 
+\end{align*}
+\(\therefore\) The Rule of sums for Big Omega is true.
+
+
+\(\newline\)
+Lemma 1.19 (Rule of products):
+
+\[g_1 \in \Omega(f_1), g_2 \in \Omega(f_2) \Longrightarrow g_1g_2 \in \Omega(f_1f_2)\] 
+
+Proof:
+\begin{align*}
+g_1 \in \Omega(f_1))  \iff & \exists c_1 \in \R^+,\;\exists n_1 \in \mathbb{N},\;g_1 \geq c_1f_1\textit{ for }  n > n_1 \\
+g_2 \in \Omega(f_2))  \iff & \exists c_2 \in \R^+,\;\exists n_2 \in \mathbb{N},\;g_2 \geq c_2f_2\textit{ for }  n > n_2 \\
+\intertext{Then by multiplying inequalities:}& g_1g_2 \geq c_1f_1c_2f_2 \textit{ for }  n > n_1n_2\\
+ \iff & g_1g_2 \geq c_1c_2f_1f_2 \textit{ for } n > n_1,n_2\\
+ \iff & g_1g_2 \in \Omega(f_1f_2) 
+\end{align*}
+\(\therefore\) The Rule of products for Big Omega is true.
+
+
+\subsection*{Exercise 1.4.1}
+
+Note: for \(T(n)=\log{\log{n}}\), the base needs to be changed from base 10 to another base. This is because the constant for \(T(n)\) would be \(\log{\log{10}}=0\), this clearly wont work.
+\newline
+
+\begin{tabular}{|c|c|cccc|c|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Time complexity}} &\multicolumn{4}{|c|}{\textbf{Input size} \(n\)}& \textbf{Time} \(T(n)\) \\
+\cline{1-6} 
+\textit{Function}& \textit{Notation}& \textit{10}& \textit{30}& \textit{100}& \textit{1000}& \\
+\hline
+\("\log{\log{n}}"\)& \(\log{\log{n}}\)& 1& 1.23& 1.42& 1.68& \(\log{\log{n}} / \log{\log{10}}\) \\
+\hline 
+\("n^2\log{n}"\)&\(n^2\log{n}\)& 1& 13.29& 200& 30000& \( n^2\log{n} / 100\log{10} \)\\
+\hline
+\end{tabular}
+
+
+
+\subsection*{Exercise 1.4.2}
+
+You can make \(n\) the subject of the equation for all \(f(n)\) except for \(n\log{n}\). To work out \(n\log{n}\), simply guess \(n\) until you find the correct value for 1 millennium.
+\newline
+
+\begin{tabular}{|c|c|}
+\hline
+& \textbf{Length of time to run an algorithm} \\
+\cline{2-2}
+\(f(n)\)& 1millennium \\
+\hline
+\(n\)& \(5.26 \cdot 10^9 \)\\
+\hline
+\(n\log{n}\)& \( 5.99 \cdot 10^8\) \\
+\hline
+\(n^{1.5}\)& \(6.51 \cdot 10^6\) \\
+\hline
+\(n^2\)& 229,334\\
+\hline
+\(n^3\)& 8,071\\
+\hline
+\(2^n\)& 39\\
+\hline
+\end{tabular}
+
+
+\subsection*{Exercise 1.6.1}
+
+Need to show for each example, \(T(n) \in \Omega(n)\) for general \(n\).
+
+\(\newline\)
+Example 1.30:
+
+\(T(n) = \frac{n(n+1)}{2}\) for general \(n\).
+
+\(T(n) \in \Omega(n)\) because the fastest growing term in \(T(n)\) is \(n^2\), as \(n^2 \in \Omega(n)\) so is \(T(n)\).
+
+\(\newline\)
+Example 1.31:
+
+Considering  \(T(n) \in O(\log{n})\), \(T(n) \notin \Omega(n)\) because you cant have a lower bound greater than the upper bound.
+
+
+\subsection*{Exercise 1.6.2}
+
+\[ T(n) =kT\left(\frac{n}{k}\right)+cn;\; T(1)=0\]
+
+Making the equation a function of \(m\) by substituting \(n=k^m\).
+
+\[ T(k^m) = kT(k^{m-1})+ck^m;\; T(1)=0\]
+
+Then telescoping this:
+
+
+\begin{eqnarray*}
+T(k^m) &=& kT(k^{m-1}) + ck^m \\
+T(k^m) &=& k(kT(k^{m-2})+ ck^{m-1}) + ck^m \\
+&=&k^2T(k^{m-2}) + 2ck^m \\
+&...& \\
+T(k^m) &=& k^mT(1) + cmk^m \\
+&=& cmk^m \\
+\end{eqnarray*}
+
+Turn the equation back to a function of \(n\):
+
+\[T(n) = cn\log_k{n}\]
+
+Clearly, as constants drop off in Big Oh, \(T(n) \in O(n\log{n})\)
+
+
+\subsection*{Exercise 1.6.3}
+
+\[ T(n) =kT(\frac{n}{k})+ckn;\; T(1)=0\]
+
+Just like the in the above exercise, make the equation a function of \(m\) by substituting \(n=k^m\).
+
+\[ T(k^m) = kT(k^{m-1})+ck^{m+1};\; T(1)=0\]
+
+Then telescoping this:
+
+
+\begin{eqnarray*}
+T(k^m) &=& kT(k^{m-1}) + ck^{m+1} \\
+T(k^m) &=& k(kT(k^{m-2})+ ck^m) + ck^{m+1} \\
+&=&k^2T(k^{m-2}) + 2ck^{m+1} \\
+&...& \\
+T(k^m) &=& k^mT(1) + cmk^{m+1} \\
+&=& cmk^{m+1} = ckmk^m\\
+\end{eqnarray*}
+
+Turn the equation back to a function of \(n\):
+
+\[T(n) = ckn\log_k{n}\]
+
+Clearly, as constants drop off (k is also a constant) in Big Oh, \(T(n) \in O(n\log{n})\)
+
+
+\subsection*{Exercise 1.7.1}
+
+We know that \(n \in O(n\log{n})\) and so a linear algorithm has a better performance than an "\(n\log{n}\)" algorithm. So algorithm B has better performance in the "Big Oh" sense than A, but for small enough \(n\), algorithm A is quicker. 
+
+The cutoff point is when the \(T_{\textbf{A}}(n) = T_{\textbf{B}}(n)\):
+
+\begin{align*}
+T_{\textbf{A}}(n) &= T_{\textbf{B}}(n)\\
+5n\log_{10}{n} &= 40n \\
+\log_{10}{n} &= 8 \\
+n &= 10^8 \\ 
+\end{align*}
+
+For \(n < 10^8\) algorithm A is quicker, as it has the smallest constant. For \(n > 10^8\) algorithm B is quicker as it grows slower than algorithm A.
+
+It's interesting to note that even though algorithm B is quicker in the "Big Oh" sense, that only occurs when processing more than 100 million data items. 
+
+
+\subsection*{Exercise 1.7.2}
+
+\begin{align*}
+T_{\textbf{A}}(10^9) &= 10^6 \\
+T_{\textbf{B}}(10^9) &= 1.58 \times 10^7 \\
+\end{align*}
+
+Algorithm A is over ten times faster than B. And because we can tolerate the occasional long running time, which would be more likely to occur in the algorithm with longer running time in the "Big Oh" sense (Algorithm A), Algorithm A is the algorithm that should be used.
+
+This is because we are now dealing with an average time, which will also have a standard deviation, which would be smaller for the algorithm with the quickest running time. The algorithm with the longest running time has the largest standard deviation, and the largest range of times.
+
+
+
+\subsection*{Exercise 2.1.1}
+
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\(i\)& \(C_i\)& \(M_i\) &\multicolumn{10}{|c|}{\textbf{Data to sort}} \\
+\hline
+\multicolumn{3}{|c|}{}& 91& \textbf{70}& 65& 50& 31& 25& 20& 15& 8& 2 \\
+\hline
+1& 1& 1& \underline{70} & 91& \textbf{65}& 50& 31& 25& 20& 15& 8& 2 \\
+\hline
+2& 2& 2& \underline{65} & 70& 91& \textbf{50}& 31& 25& 20& 15& 8& 2 \\
+\hline
+3& 3& 3& \underline{50} & 65& 70& 91& \textbf{31}& 25& 20& 15& 8& 2 \\
+\hline
+4& 4& 4& \underline{31} & 50& 65& 70& 91& \textbf{25}& 20& 15& 8& 2 \\
+\hline
+5& 5& 5& \underline{25} & 30& 50& 65& 70& 91& \textbf{20}& 15& 8& 2 \\
+\hline
+6& 6& 6& \underline{20} & 25& 30& 50& 65& 70& 91& \textbf{15}& 8& 2 \\
+\hline
+7& 7& 7& \underline{15} & 20& 25& 30& 50& 65& 70& 91& \textbf{8}& 2 \\
+\hline
+8& 8& 8& \underline{8} & 15& 20& 25& 30& 50& 65& 70& 91& \textbf{2} \\
+\hline
+9& 9& 9& \underline{2} & 8& 15& 20& 25& 30& 50& 65& 70& 91 \\
+\hline
+\end{tabular}
+
+Adding up the columns we get a total of 90 comparisons plus data moves. 
+
+
+\subsection*{Exercise 2.1.2}
+
+There are many ways of proving it is correct, using mathematical induction is an easy one. We will concentrate on the sorted part of the array, and show that insertion sort at each step, takes a sorted part and while keeping it sorted, increases its size by one.
+
+The basis is when the sorted part is of size \(i=1\), that is sorted by definition.
+
+The inductive step is that if the sorted part is of size \(i\), then after the next iteration of the inner loop the sorted part is of size \(i+1\) and remains sorted. 
+
+The next element \(t\) from the unsorted part is inserted into the sorted part. Insertion sort inserts this element \(t\) in the sorted array at position \(j\) such that \(a[j-1] \leq t < a[j+1]\) (unless its the maximum or minimum, if so then it is not less than or greater than or equal to any element respectively). 
+
+Clearly, the sorted array with \(t\) inserted is also sorted, as all elements smaller than \(t\) are below it, and all elements greater than or equal to it are above it. Duplicates will then be lumped together as is required. This sorted part is now of size \(i+1\).
+
+\(\therefore\) by mathematical induction, insertion sort is correct.
+
+
+
+\subsection*{Exercise 2.1.3}
+
+Insertion sort runs the slowest on the totally reverse ordered array. A totally reverse ordered array has the maximum number of inversions: \(  \binom {n} {2} = \frac{n(n-1)}{2}\). This is \(\Theta(n^2)\).
+
+Just like in Lemma 2.6, because each swap removes only one inversion, the worst-case time complexity of insertion sort is \(\Theta(n^2)\).
+
+
+
+\subsection*{Exercise 2.1.4}
+
+We know that if you swap any two elements both below (less than \(i\)) element \(a[i]\) the inversions for \(a[i]\) are unchanged. So we want to know how many inversions there are with respect to the preceding elements, \(a[0],...,a[i-1]\) when this is sorted.
+
+An inversion is any pair of positions out of order, so the number of inversions between \(a[i]\) and the elements below it is the total number of elements greater than \(a[i]\). 
+
+To insert \(a[i]\) into its correct position, every element greater than \(a[i]\) must be move up once. Thus the total number of data moves to insert \(a[i]\) is equal to the total number of inversions with respect to the elements preceding it.
+
+
+
+\subsection*{Exercise 2.1.5} 
+
+We don't need to consider the elements less than \(i\) or greater than \(i+gap\) because the ordering of those elements with respect to either \(a[i]\) or \(a[i+gap]\) wont change, and hence the inversions will not change. 
+
+We also know that at least 1 inversion will be removed as \(a[i]\) and \(a[i+gap]\) are out of order and after the swap will be in order (\(a[i] \neq a[i+gap]\) because we would not swap them if they were equal), but what about the elements in between them?
+
+You cannot add inversions, this is because the only place inversions can be added is between the pairs of in order elements (\(i,k\)) or (\(k,i+gap\)) where \(i < k < i+gap\) . If (before the elements are swapped) there is no inversion (they are in order) between elements \(i\) and \(k\), \(a[i] < a[k]\), then because \(a[i+gap] < a[i] < a[k]\) there is no inversion after the swap. Similarly for if there is no inversion between elements \(k\) and \(i+gap\) before the swap, there is no inversion after the swap.
+
+Hence, no inversions are added, and since one inversion is removed (elements \(i\) and \(i+gap\) are out of order) the lower bound is 1. However need an example to show that the minimum number of inversions removed is 1.  
+
+Let all the elements in indexes \(i+1\) to \(i+gap-1\) be greater than both \(a[i]\) and \(a[i+gap]\). That means that with respect to the elements in the indexes between \(i+1\) and \(i+gap-1\), \(a[i+gap]\) has inversions on everyone of the elements, and \(a[i]\) has none. If we swap \(a[i]\) with \(a[i+gap]\), because both of the swapped elements are smaller than the elements between them, no inversions are added. This means that in this situation, only 1 inversion is removed.
+
+Because it was proved earlier that the lower bound on inversions is \(1\), and there is a case where only \(1\) inversion is removed, we can say that a minimum of \(1\) inversion are removed.
+
+The maximum number of removed inversions is if for every pairs of elements (\(i,k\)) or (\(k,i+gap\)) where \(i < k < i+gap\) there existed an inversion before the swap, after the swap there is no inversion. There are \(2gap-2\) pairs, so the upper bound of removed inversions is \(2gap-1\). Again, we need an example to show that this is the maximum number of removed inversions.
+
+Let the maximum and minimum number between the indexes \(i\) and \(i+gap\) be \(a[i]\) and \(a[i+gap]\) respectively. This means elements \(i\) and \(i+gap\) have inversions with every other element in the interval \(i\) to \(i+gap\), a total of \(2(gap-2)+1=2gap-1\) inversions. After elements \(i\) and \(i+gap\) are swapped, these two elements have no inversions in the interval. This is a removal of \(2gap-1\) inversions.
+
+And again, because we proved earlier you cannot remove more than \(2gap-1\) inversions, and there is a case where \(2gap-1\) inversions are removed, we can say that a maximum of \(2gap-1\) inversions are removed.
+
+And thus, if you swap elements \(a[i]\) and \(a[i+gap]\) of an array \(a\) the number of inversions removed is at least \(1\) and at most \(2gap-1\).
+
+
+\subsection*{Exercise 2.1.6}
+
+The while loop runs until there are no data swaps in the inner for-loop. If we investigate what happens, at the first iteration when \(r = n-1\) the inner for-loop runs over the entire array swapping elements out of order. The while loop only stops when there are no swaps, or in other words, the array is sorted.
+
+The maximum number of times the inner loop runs is \(n\) times, which happens in the worst case of an inversely sorted array. The inner loop does \(n-1\) comparisons and upwards of \(n-1\) swaps. Thus the worst case running time of bubble sort is \(O(n^2)\).
+
+The average case is quicker than the worst case, but it is still bounded above by \(O(n^2)\).
+
+
+\subsection*{Exercise 2.1.7}
+
+At each step, selection sort searches through the unsorted array part looking for the minimum element then does one swap to move that element to the right most of the sorted array part.
+
+Regardless of the ordering of the array, selection sort still must, at each iteration, search through the entire unsorted array part.
+
+The maximum number of swaps is \(n\), as each swap moves at least one element into its correct position.
+
+The number of comparisons is the sum \(\sum_{i=n-1}^1{i}= \frac{n(n-1)}{2} \in O(n^2)\). This is calculated by summing the number of comparisons for each iteration to find the minimum element in the unsorted array part, which is the size of the unsorted array part minus one.
+
+Thus, for any array ordering, Selection sort is \(O(n^2)\).
+
+
+\subsection*{Exercise 2.1.8}
+
+Insertion sort is \(O(n)\) as the inner while loop will never run as \(temp < a[k]\; (a[i] < a[i-1])\) is always false in an already sorted array. This leaves \(n-1\) iterations of the outer loop, hence it is linear. This is far faster than the worst case running time of \(O(n^2)\).
+
+Bubble sort is also \(O(n)\), as no swaps will happen so the inner loop will run once doing \(n-1 \in O(n)\) comparisons. And again, it is far faster than the worse case running time of \(O(n^2)\). 
+
+Selection sort has been shown to be \(O(n^2)\) for any array sorting, so it will be this for both a sorted array and in the worst case.
+
+
+\subsection*{Exercise 2.1.9}
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\(h\)& \(i\)& \(C_i\)& \(M_i\) &\multicolumn{10}{|c|}{\textbf{Data to sort}} \\
+\hline
+5& \multicolumn{3}{|c|}{}& 91& 70& 65& 50& 31& 25& 20& 15& 8& 2 \\
+\cline{2-14}
+& 5& 1& 1& \textbf{25}& & & & & \textbf{91}& & & & \\
+\cline{2-14}
+& 6& 1& 1& & \textbf{20}& & & & & \textbf{70}& & & \\
+\cline{2-14}
+& 7& 1& 1& & & \textbf{15}& & & & & \textbf{65}& & \\
+\cline{2-14}
+& 8& 1& 1& & & & \textbf{8}& & & & & \textbf{50}& \\
+\cline{2-14}
+& 9& 1& 1& & & & & \textbf{2}& & & & & \textbf{31} \\
+\hline
+2& \multicolumn{3}{|c|}{}& 25& 20& 15& 8& 2& 91& 70& 65& 50& 31 \\
+\cline{2-14}
+& 2& 1& 1& \textbf{15}& & \textbf{25}& & & & & & & \\
+\cline{2-14}
+& 3& 1& 1& & \textbf{8}& & \textbf{20}& & & & & & \\
+\cline{2-14}
+& 4& 2& 2& \textbf{2}& & \textbf{15}& & \textbf{25}& & & & & \\
+\cline{2-14}
+& 5& 1& 0& & & & 20& & 91& & & & \\
+\cline{2-14}
+& 6& 1& 0& & & & & 25& & 70& & & \\
+\cline{2-14}
+& 7& 2& 1& & & & 20& & \textbf{65}& & \textbf{91}& & \\
+\cline{2-14}
+& 8& 2& 1& & & & & 25& & \textbf{50}& & \textbf{70}& \\
+\cline{2-14}
+& 9& 3& 2& & & & 20& & \textbf{31}& & \textbf{65}& & \textbf{91} \\
+\hline
+1& \multicolumn{3}{|c|}{}& 2& 8& 15& 20& 25& 31& 50& 65& 70& 91 \\
+\cline{2-14}
+& 1& 1& 0& 2& 8& & & & & & & & \\
+\cline{2-14}
+& 2& 1& 0& & 8& 15& & & & & & & \\
+\cline{2-14}
+& 3& 1& 0& & & 15& 20& & & & & & \\
+\cline{2-14}
+& 4& 1& 0& & & & 20& 25& & & & & \\
+\cline{2-14}
+& 5& 1& 0& & & & & 25& 31& & & & \\
+\cline{2-14}
+& 6& 1& 0& & & & & & 31& 50& & & \\
+\cline{2-14}
+& 7& 1& 0& & & & & & & 50& 65& & \\
+\cline{2-14}
+& 8& 1& 0& & & & & & & & 65& 70& \\
+\cline{2-14}
+& 9& 1& 0& & & & & & & & & 70& 91\\
+\hline
+\end{tabular}
+
+Adding up the columns we get a total of 40 comparisons plus data moves. This is over half that of insertions sorts 90, so even with a low \(n\) value, shell sort is better than insertion sort.
+
+
+\subsection*{Exercise 2.2.1}
+
+Total time for this algorithm given that \(n=k^m\) is:
+
+\begin{align*}
+T(n) &=k c \left( \frac{n}{k} \right)^2 + c(k-1)n \\
+&= c \frac{n^2}{k} + c(k-1)n \\ 
+&= cn \left( \frac{n}{k} + (k-1) \right) \\ 
+\end{align*}
+
+Need to find the value of \(k\) such that \(T(n)\) is minimal. This is the same when \( f(k,n)=\frac{n}{k} + k-1 \) is minimal. We note that this is a function of both \(n\) and \(k\) and that also \(1 \leq k \leq n\). At the boundary:
+
+\[f(1,n) = n\]
+\[f(n,n) = n\]
+
+Which means there is at least one local maximum or one local minimum in between \(1 \leq k \leq n\) as the function is not equal to \(n\) at every other \(k\) in the interval. To find the value of k that is a local max or min, use partial differentiation with respect to \(k\) keeping \(n\) constant and when this equals to 0 is a turning point.
+
+\begin{align*}
+\frac{\partial f(k,n)}{\partial k} &= -\frac{n}{k^2} + 1 \\
+1&= \frac{n}{k^2} \\
+n &= k^2 \\
+k &= \sqrt{n} \\
+\end{align*}
+
+Since \(f(\sqrt{n},n) = 2\sqrt{n}-1 < n\) then this is a local minimum.
+Thus, when \(k = \sqrt{n}\) (we set \(m=2\) in \(n=k^m\)), \(T(n) = cn(2\sqrt{n} -1)\) is minimal too. This is provided that insertion sort runs in \(\theta(n^2)\) in the average and worst case, which is true.
+
+It is not as fast as merge sorts \(O(n\log{n})\) but quicker than insertion sorts \(O(n^2)\), which makes sense.
+
+
+\subsection*{Exercise 2.3.1}
+
+For the dynamic passive strategy to run in quadratic time, it would need to select at each step the maximum or minimum element. The probability of selecting the max or min out of \(k\) elements is \(\frac{2}{k}\), the total probability of always selecting the maximum or minimum is the sum of that from \(n\) to \(2\). This is because at each recurse, the size decreases by one (only one side is recursively sorted, the other size has zero elements).
+
+\[2\Pi_{i=2}^n\frac{1}{i} = \frac{2}{n!}\]
+
+Which is substantially better than if only choosing a fixed proportion (\(\frac{2^n}{n!}\)) (In fact I think I have made a mistake here).
+
+Thus, using a dynamic passive strategy outperforms the static choice of a pivot as the chances for quadratic running time are smaller.
+
+
+\subsection*{Exercise 2.3.2}
+
+Partitioning of a 7-element array with \(l=0\), \(m=3\), and \(r=6\). The pivot \(p=25\) is chosen as the median of \(a[0]=25\), \(a[3]=31\), and \(a[6]=20\)
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{7}{|c|}{\textbf{Data to sort}}& \multicolumn{3}{|c|}{\textbf{Description}}\\
+\hline
+0& 1& 2& 3& 4& 5& 6& \multicolumn{3}{|l|}{ \(\leftarrow\)Indices} \\
+\hline
+25& 8& 2& 31& 15& 50& 20& \multicolumn{3}{|c|}{Initial array} \\
+\hline
+20& 8& 2& 25& 15& 50& 31& \multicolumn{3}{|c|}{median-of-three sort (\( a[l],a[m],a[r] \))} \\
+\hline
+20& 8& 2& 50& 15& \textbf{25} & 31& \multicolumn{3}{|c|}{ \textbf{swap}(\( p=a[m],a[r-1] \))} \\
+\hline
+20& 8& 2& 50& 15& \textbf{25} & 31& \(i\)& \(j\)& Condition \\
+\hline
+ & 8& & & 15& \textbf{25}& & 1& 4& \(a[i]<p;\; i\leftarrow i+1;\; p>a[j]\) \\
+\hline
+ & & 2& & 15& \textbf{25}& & 2& 4& \(a[i]<p;\; i\leftarrow i+1;\; p>a[j]\) \\
+\hline
+ & & & 50& 15& \textbf{25}& & 3& 4& \(a[i]\geq p;\; p>a[j]\) \\
+\cline{1-7}
+ & & & 15& 50& \textbf{25}& & & & \(\textbf{swap}(a[i],a[j]);\; i\leftarrow i+1;\; j\leftarrow j-1\) \\
+\hline
+ & & & & & \textbf{25}& & 4& 3& \(i >j;\;\)\textbf{break} \\
+\hline
+20& 8& 2& 15& \textbf{25}& 50& 31& \multicolumn{3}{|c|}{swap(\(a[i],p=a[r-1]\))} \\
+\hline
+\end{tabular}
+
+\subsection*{Exercise 2.3.3}
+
+Partitioning of a 7-element array with \(l=0\), \(m=3\), and \(r=6\). The pivot \(p=8\) is chosen as the median of \(a[0]=25\), \(a[3]=8\), and \(a[6]=2\)
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{7}{|c|}{\textbf{Data to sort}}& \multicolumn{3}{|c|}{\textbf{Description}}\\
+\hline
+0& 1& 2& 3& 4& 5& 6& \multicolumn{3}{|l|}{ \(\leftarrow\)Indices} \\
+\hline
+25& 8& 8& 8& 8& 8& 2& \multicolumn{3}{|c|}{Initial array} \\
+\hline
+2& 8& 8& 8& 8& 8& 25& \multicolumn{3}{|c|}{median-of-three sort (\( a[l],a[m],a[r] \))} \\
+\hline
+2& 8& 8& 8& 8& \textbf{8} & 25& \multicolumn{3}{|c|}{ \textbf{swap}(\( p=a[m],a[r-1] \))} \\
+\hline
+2& 8& 8& 8& 8& \textbf{8} & 25& \(i\)& \(j\)& Condition \\
+\hline
+& 8& & & 8& \textbf{8}& & 1& 4& \(a[i] \leq p;\; i \leftarrow i+1;\; p \leq a[j]\) \\
+\hline
+& & 8& & 8& \textbf{8}& & 2& 4& \(a[i] \leq p;\; i \leftarrow i+1;\; p \leq a[j]\) \\
+\hline
+& & & 8& 8& \textbf{8}& & 3& 4& \(a[i] \leq p;\; i \leftarrow i+1;\; p \leq a[j]\) \\
+\hline
+& & & & 8& \textbf{8}& & 4& 4& \(a[i] \leq p;\; i \leftarrow i+1;\; p \leq a[j]\) \\
+\hline
+& & & & 8& \textbf{8}& & 5& 4& \(a[i] \leq p;\; i \leftarrow i+1;\; p \leq a[j]\) \\
+\hline
+& & & & 8& \textbf{8}& 25& 6& 4& \(a[i] > p;\; p \leq a[j];\; j\leftarrow j-1\) \\
+\hline
+& & & 8& & \textbf{8}& 25& 6& 3& \(a[i] > p;\; p \leq a[j];\; j\leftarrow j-1\) \\
+\hline
+& & 8& & & \textbf{8}& 25& 6& 2& \(a[i] > p;\; p \leq a[j];\; j\leftarrow j-1\) \\
+\hline
+& 8& & & & \textbf{8}& 25& 6& 1& \(a[i] > p;\; p \leq a[j];\; j\leftarrow j-1\) \\
+\hline
+2& & & & & \textbf{8}& 25& 6& 0& \(a[i] > p;\; p > a[j]\) \\
+\hline
+& & & & & \textbf{8}& & 6& 0& \(i >j;\;\)\textbf{break} \\
+\hline
+2& 8& 8& 8& 8& 25& \textbf{8}& \multicolumn{3}{|c|}{swap(\(a[i],p=a[r-1]\))} \\
+\hline
+\end{tabular}
+
+Because when \(i\) is increased it wont always stop before it hits the index the pivot is in. As can be seen, it can instead stop on an element those value AND index is greater than the pivot. This means by swapping, the left and right hand sides are no longer less than or equal, or greater than or equal to the pivot respectively. 
+
+
+\subsection*{Exercise 2.3.4}
+
+It depends on how the pivot is chosen, let us consider 3 cases, Median of three, fixed pivot at the start, and random pivot. 
+
+Random pivot will run in \(O(n\log{n})\) time, as will median of three as it selects the best pivot at each step. Fixed pivot at the start will run in \(O(n^2)\) time, as it chooses the minimum element at every step. 
+
+
+\subsection*{Exercise 2.4.1}
+
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Position}& 1& 2& 3& 4& 5& 6& 7& 8& 9& 10& 11& 12 \\
+\hline
+\textbf{Index}& 0& 1& 2& 3& 4& 5& 6& 7& 8& 9& 10& 11 \\
+\hline
+Array at step 1& 91& 75& 70& 31& 65& 50& 25& 20& 15& 2& 8& \textbf{85} \\
+\hline
+Array at step 2& 91& 75& 70& 31& 65& \textbf{85}& 25& 20& 15& 2& 8& 50 \\
+\hline
+Array at step 3& 91& 75& \textbf{85}& 31& 65& 70& 25& 20& 15& 2& 8& 50 \\
+\hline
+\end{tabular}
+
+
+\subsection*{Exercise 2.4.2}
+
+Building the minimum heap by adding to the heap the array keys in Figure 2.8 from right to left. Below is the array representation of the resulting minimum heap:
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+Position& 1& 2& 3& 4& 5& 6& 7& 8& 9& 10 \\
+\hline
+Key& 2& 15& 8& 20& 50& 20& 31& 25& 65& 91 \\
+\hline
+\end{tabular}
+
+
+\subsection*{Exercise 2.4.3}
+
+Restoring the heap after deleting the maximum element:
+
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Position}& 1& 2& 3& 4& 5& 6& 7& 8 \\
+\hline
+\textbf{Index}& 0& 1& 2& 3& 4& 5& 6& 7 \\
+\hline
+Array at step 1& \textbf{15}& 65& 50& 31& 8& 2& 25& 20 \\
+\hline
+Array at step 2& 65& \textbf{15}& 50& 31& 8& 2& 25& 20 \\
+\hline
+Array at step 3& 65& 31& 50& \textbf{15}& 8& 2& 25& 20 \\
+\hline
+Array at step 4& 65& 31& 50& 20& 8& 2& 25& \textbf{15} \\
+\hline
+\end{tabular}
+
+
+\subsection*{Exercise 2.4.4}
+
+The algorithm works by doing a recursively building the left heap, then the right and then percolating down the root. The order of subtrees to turn into a heap is starting at the \(\lfloor n/2 \rfloor\) element and ending at the first element. It is far simpler to code it this way, but the principle is the same as if it was coded recursively. 
+
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Position}& 1& 2& 3& 4& 5& 6& 7& 8& 9 \\
+\textbf{Index}& 0& 1& 2& 3& 4& 5& 6& 7& 8 \\
+\hline
+Initial array& 10& 20& 30& 40& 50& 60& 70& 80& 90 \\
+\hline
+Building max heap& 10& 20& 30& 90& 50& 60& 70& 80& 40 \\
+& 10& 20& 70& 90& 50& 60& 30& 80& 40 \\
+& 10& 90& 70& 80& 50& 60& 30& 20& 40 \\
+& 90& 80& 70& 40& 50& 60& 30& 20& 10 \\
+\hline
+Max heap& 90& 80& 70& 40& 50& 60& 30& 20& 10 \\
+\hline
+Deleting max 1& 10& 80& 70& 40& 50& 60& 30& 20& \textbf{90} \\
+Restoring heap 1-8& 80& 50& 70& 40& 10& 60& 30& 20& \textbf{90} \\
+\hline
+Deleting max 2& 20& 50& 70& 40& 10& 60& 30& \textbf{80}& \textbf{90} \\
+Restoring heap 1-7& 70& 50& 60& 40& 10& 20& 30& \textbf{80}& \textbf{90} \\
+\hline
+Deleting max 3& 30& 50& 60& 40& 10& 20& \textbf{70}& \textbf{80}& \textbf{90} \\
+Restoring heap 1-6& 60& 50& 30& 40& 10& 20& \textbf{70}& \textbf{80}& \textbf{90} \\
+\hline
+Deleting max 4& 20& 50& 30& 40& 10& \textbf{60}& \textbf{70}& \textbf{80}& \textbf{90} \\
+Restoring heap 1-5& 50& 40& 30& 20& 10& \textbf{60}& \textbf{70}& \textbf{80}& \textbf{90} \\
+\hline
+Deleting max 5& 10& 40& 30& 20& \textbf{50}& \textbf{60}& \textbf{70}& \textbf{80}& \textbf{90} \\
+Restoring heap 1-4& 40& 20& 30& 10& \textbf{50}& \textbf{60}& \textbf{70}& \textbf{80}& \textbf{90} \\
+\hline
+Deleting max 6& 40& 20& 30& 10& \textbf{50}& \textbf{60}& \textbf{70}& \textbf{80}& \textbf{90} \\
+Restoring heap 1-3& 30& 20& 10& \textbf{40}& \textbf{50}& \textbf{60}& \textbf{70}& \textbf{80}& \textbf{90} \\
+\hline
+Deleting max 7& 10& 20& \textbf{30}& \textbf{40}& \textbf{50}& \textbf{60}& \textbf{70}& \textbf{80}& \textbf{90} \\
+Restoring heap 1-2& 20& 10& \textbf{30}& \textbf{40}& \textbf{50}& \textbf{60}& \textbf{70}& \textbf{80}& \textbf{90} \\
+\hline
+Deleting max 8& 10& \textbf{20}& \textbf{30}& \textbf{40}& \textbf{50}& \textbf{60}& \textbf{70}& \textbf{80}& \textbf{90} \\
+\hline
+\end{tabular}
+
+
+\subsection*{Exercise 2.4.5}
+
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Position}& 1& 2& 3& 4& 5& 6& 7& 8& 9& 10 \\
+\textbf{Index}& 0& 1& 2& 3& 4& 5& 6& 7& 8& 9 \\
+\hline
+Initial array& 2& 8& 15& 20& 25& 31& 50& 65& 70& 91 \\
+\hline
+Building max heap& 2& 8& 15& 20& 91& 31& 50& 65& 70& 25 \\
+& 2& 8& 15& 70& 91& 31& 50& 65& 20& 25 \\
+& 2& 8& 50& 70& 91& 31& 15& 65& 20& 25 \\
+& 2& 91& 50& 70& 25& 31& 15& 65& 20& 8 \\
+& 91& 70& 50& 65& 25& 31& 15& 2& 20& 8 \\
+\hline
+Max heap& 91& 70& 50& 65& 25& 31& 15& 2& 20& 8 \\
+\hline
+Deleting max 1& 8& 70& 50& 65& 25& 31& 15& 2& 20& \textbf{91} \\
+Restoring heap 1-9& 70& 65& 50& 20& 25& 31& 15& 2& 8& \textbf{91} \\
+\hline
+Deleting max 2& 8& 65& 50& 20& 25& 31& 15& 2& \textbf{70}& \textbf{91} \\
+Restoring heap 1-8& 65& 25& 50& 20& 8& 31& 15& 2& \textbf{70}& \textbf{91} \\
+\hline
+Deleting max 3& 2& 25& 50& 20& 8& 31& 15& \textbf{65}& \textbf{70}& \textbf{91} \\
+Restoring heap 1-7& 50& 25& 31& 20& 8& 2& 15& \textbf{65}& \textbf{70}& \textbf{91} \\
+\hline
+Deleting max 4& 15& 25& 31& 20& 8& 2& \textbf{50}& \textbf{65}& \textbf{70}& \textbf{91} \\
+Restoring heap 1-6& 31& 25& 15& 20& 8& 2& \textbf{50}& \textbf{65}& \textbf{70}& \textbf{91} \\
+\hline
+Deleting max 5& 2& 25& 15& 20& 8& \textbf{31}& \textbf{50}& \textbf{65}& \textbf{70}& \textbf{91} \\
+Restoring heap 1-5& 25& 20& 15& 2& 8& \textbf{31}& \textbf{50}& \textbf{65}& \textbf{70}& \textbf{91} \\
+\hline
+Deleting max 6& 8& 20& 15& 2& \textbf{25}& \textbf{31}& \textbf{50}& \textbf{65}& \textbf{70}& \textbf{91} \\
+Restoring heap 1-4& 20& 8& 15& 2& \textbf{25}& \textbf{31}& \textbf{50}& \textbf{65}& \textbf{70}& \textbf{91} \\
+\hline
+Deleting max 7& 2& 8& 15& \textbf{20}& \textbf{25}& \textbf{31}& \textbf{50}& \textbf{65}& \textbf{70}& \textbf{91} \\
+Restoring heap 1-3& 15& 8& 2& \textbf{20}& \textbf{25}& \textbf{31}& \textbf{50}& \textbf{65}& \textbf{70}& \textbf{91} \\
+\hline
+Deleting max 8& 2& 8& \textbf{15}& \textbf{20}& \textbf{25}& \textbf{31}& \textbf{50}& \textbf{65}& \textbf{70}& \textbf{91} \\
+Restoring heap 1-2& 8& 2& \textbf{15}& \textbf{20}& \textbf{25}& \textbf{31}& \textbf{50}& \textbf{65}& \textbf{70}& \textbf{91} \\
+\hline
+Deleting max 9& 2& \textbf{8}& \textbf{15}& \textbf{20}& \textbf{25}& \textbf{31}& \textbf{50}& \textbf{65}& \textbf{70}& \textbf{91} \\
+\hline
+\end{tabular}
+
+
+\subsection*{Exercise 2.4.6}
+
+No, for example if you run heap sort on the array \(\{1,2,2\}\), the ordering of the 2's changes. This is because the heap creation step in heap sort does not preserve order of equal keys.
+
+Similarly, quick sort is also not stable, but insertion sort and merge sort are stable.
+
+
+\subsection*{Exercise 2.4.7}
+
+The only significant increase in running time is at the start when the heap is first created (since its in the wrong order, percolating requires each element to move down to the leaves). But since this step is still \(O(n)\) it is trumped by the \(O(n\log{n})\) running time for the deletion of all the max values. Hence, it does not differ significantly from the average-case running time.
+
+
+\subsection*{2.5.1}
+
+Quick select does \(p\) linear operations, while quick sort does one \(O(n\log{n})\) operation.
+
+\begin{align*}
+T_{select}(n,p) &= pc_1n \\
+T_{sort}(n,p) &= c_2n \log_2{n} \\
+\end{align*}
+
+When \(T_{sort}(n,p) < T_{select}(n,p)\) is when quick sort is quicker than quick select in finding \(p\) keys.
+
+\begin{align*}
+T_{sort}(n,p) &< T_{select}(n,p) \\
+c_2n \log_2{n} &< pc_1n \\
+p &> \frac{c_2}{c_1} \log_2{n} \\
+\end{align*}
+
+Because quick select is pretty much just quick sort but skipping one half at each step, we can treat it as if \(c1 \approx c2 \). This means when \(p > \log_2{n}\), quick sort is quicker, otherwise quick select is quicker.
+
+When \(n=10^6\) and \(p=10\), \(10 < log_2{n}= 19.9\). Therefore, quick sort is quicker.
+
+
+\subsection*{Exercise 2.5.2}
+
+Heap select will only be a maximum of twice as fast. This is because after the heap is constructed in heap sort (\(O(n)\) operation), each element in the heap that is selected is the maximum. Thus, instead of doing \(n\) deleting the max and restoring the heap, only \(\frac{n}{2}\) deleting the max and restoring the heap will be done on average. This is still \(O(n\log{n})\).
+
+Merge select on the other hand follows the basic recurrence:
+
+\[T(n)=T\left(\frac{n}{2}\right)+n=2n \in O(n)\]
+
+Instead of running merge sort on both sides, only one side is selected for merge select, hence the constant \(1\) in front of \(T(\frac{n}{2})\). This is as quick as quick select.
+
+
+\subsection*{Exercise 2.6.1}
+
+We want to prove the average case complexity of sorting \(n\) by pairwise comparisons is \(\Omega(n\log{n})\). To do this we need to show that a decision tree with \(k\) leaves has the sum of all the heights of its leaves to be at least \(k\log_2{k}\). The best case is when the number of leaves on the left subtree is equal to the number of leaves on the right subtree. Let \(H(k)\) be the sum of all heights of k leaves in the best decision tree. 
+
+\[H(k) = 2H\left(\frac{k}{2}\right) + k = k\log_2{k}\]
+
+For any other decision tree that is not the best decision tree, the sum of heights will be greater than or equal to \(H(k)\).
+
+When \(k=n!\), or the number of leaves is equal to the number of permutations of an array \(n\), then \(H(n!)=n!\log{n!}\). To find the average height of a leaf, given that each permutation has equal probability, is the total of all heights divided by the total number of leaves:
+
+\[H(n!)_{avg} = \frac{H(n!)}{n!} = \log{n!} \approx n\log{n} - 1.44n\]
+
+This means that on average, in the best decision tree, \(H(n!)_{avg} > n\log{n} \) comparisons are required to sort \(n\) keys.
+And because every decision trees average leaf height is greater than or equal to  \(H(n!)_{avg} \in \Omega(n\log{n})\), the average-case complexity of sorting \(n\) keys is \(\Omega(n\log{n})\).
+
+
+\subsection*{Exercise 2.6.2}
+
+The time complexity is linear, as it takes \(n\) steps to scan through array \(a\), and then a further \(n\) steps to print out the contents of \(t\).
+
+Theorem 2.30 says that any algorithm that sorts by comparing \textit{only pairs of elements} must use at least \(\lceil log{n!}\rceil\) comparisons both in the worst case and average case. This algorithm uses the specific knowledge that the contents of the array \(a\) are integers in the range 1..1000. 
+
+This algorithm would not work if the keys can only be compared to each other, and had no absolute value as they do here.
+
+
+
+\subsection*{Exercise 3.1.1}
+
+It will be identical as in Figure 3.3 except the very last step will not return 4, but instead \(a[m] > k\) so \(r \leftarrow m-1\), and then \(l > r\) and the loop will terminate and then return not found.
+
+
+\subsection*{Exercise 3.1.2}
+
+Binary search halves the array at each step, thus the worse is when it does not find the key until there is only one element left in the range. Using the improved binary search that only does one comparison to split the array, we are looking for the smallest integer \(k\) such that \(2^k \geq 10^6\). 
+
+\begin{align*}
+2^k &\geq 10^6 \\
+k &\geq \log_2{10^6} \\
+k &\geq 19.9 \\
+\end{align*}
+
+Thus \(k=20\) and 20 comparisons are needed to reduce the range to 1, there will be in total 21 comparisons as at the end the comparison \(a[l]=k\) is done. 
+
+
+\subsection*{Exercise 3.1.3}
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Index}& 0& 1& 2& 3& 4& 5& 6& 7& 8& 9& \textbf{next index }m \\
+\hline
+Step 1& 10& 20& 35& 45& 55& 60& 75& 80& \textbf{85}& 100& \(8 = 0+ \left\lceil \frac{85-10}{100-10}\cdot 9 \right\rceil\) \\ 
+\hline
+Step 2& & & & & & & & & \textbf{85}& 100& \(8 = 8+ \lceil \frac{85-85}{100-85}\cdot 1 \rceil\) \\ 
+\hline
+Step 3& & & & & & & & & 85& & return value: 8 \\ 
+\hline
+\end{tabular}
+
+Interpolation search will search through three positions.
+
+
+\subsection*{Exercise 3.5.1}
+
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+Hash table index& 0& 1& 2& 3& 4& 5& 6& 7& 8& 9& 10& 11& 12 \\
+\hline
+Insert 10&&&&&&&&&&& \textbf{10}&& \\
+\hline
+Insert 26& \textbf{26}&&&&&&&&&& 10&& \\
+\hline
+Insert 52, collision at 0& 26&&&&&&&&&& 10&& \textbf{52} \\
+\hline
+Insert 76& 26&&&&&&&&&& 10& \textbf{76}& 52 \\
+\hline
+Insert 13, collision at 0& 26&&&&&&&&& \textbf{13}& 10& 76& 52 \\
+\hline
+Insert 8& 26&&&&&&&& \textbf{8}& 13& 10& 76& 52 \\
+\hline
+Insert 3& 26&&& \textbf{3}&&&&& 8& 13& 10& 76& 52 \\
+\hline
+Insert 33& 26&&& 3&&&& \textbf{33}& 8& 13& 10& 76& 52 \\
+\hline
+Insert 60, collision at 8& 26&&& 3&&& \textbf{60}& 33& 8& 13& 10& 76& 52 \\
+\hline
+Insert 42, collision at 3& 26&& \textbf{42}& 3&&& 60& 33& 8& 13& 10& 76& 52 \\
+\hline
+Resulting hash table& 26&& 42& 3&&& 60& 33& 8& 13& 10& 76& 52 \\
+\hline
+\end{tabular}
+
+
+\subsection*{Exercise 3.5.2}
+
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+Hash table index& 0& 1& 2& 3& 4& 5& 6& 7& 8& 9& 10& 11& 12 \\
+\hline
+Insert 10&&&&&&&&&&& \textbf{10}&& \\
+\hline
+Insert 26& \textbf{26}&&&&&&&&&& 10&& \\
+\hline
+Insert 52, collision at 0, \(\Delta=4\)& 26&&&&&&&&& \textbf{52}& 10&& \\
+\hline
+Insert 76& 26&&&&&&&&& 52& 10& \textbf{76}& \\
+\hline
+Insert 13, collision at 0, \(\Delta=1\)& 26&&&&&&&&& 52& 10& 76& \textbf{13}\\
+\hline
+Insert 8& 26&&&&&&&& \textbf{8}& 52& 10& 76& 13\\
+\hline
+Insert 3& 26&&& \textbf{3}&&&&& 8& 52& 10& 76& 13\\
+\hline
+Insert 33& 26&&& 3&&&& \textbf{33}& 8& 52& 10& 76& 13\\
+\hline
+Insert 60, collision at 8, \(\Delta=4\)& 26&&& 3& \textbf{60}&&& 33& 8& 52& 10& 76& 13\\
+\hline
+Insert 42, collision at 3, \(\Delta=3\)& 26& \textbf{42}&& 3& 60&&& 33& 8& 52& 10& 76& 13\\
+\hline
+Resulting hash table& 26& 42&& 3& 60&&& 33& 8& 52& 10& 76& 13\\
+\hline
+\end{tabular}
+
+
+\subsection*{Exercise 3.5.3}
+
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+Hash table index& 0& 1& 2& 3& 4& 5& 6& 7& 8& 9& 10& 11& 12 \\
+\hline
+Insert 10&&&&&&&&&&& \textbf{10}&& \\
+\hline
+Insert 26& \textbf{26}&&&&&&&&&& 10&& \\
+\hline
+Insert 52, collision at 0& \{26,\textbf{52}\}&&&&&&&&& & 10&& \\
+\hline
+Insert 76& \{26,52\}&&&&&&&&& & 10& \textbf{76}& \\
+\hline
+Insert 13, collision at 0& \{26,52,\textbf{13}\}&&&&&&&&& & 10& 76& \\
+\hline
+Insert 8& \{26,52,13\}&&&&&&&& \textbf{8}&& 10& 76& \\
+\hline
+Insert 3& \{26,52,13\}&&& \textbf{3}&&&&& 8&& 10& 76& \\
+\hline
+Insert 33& \{26,52,13\}&&& 3&&&& \textbf{33}& 8&& 10& 76& \\
+\hline
+Insert 60, collision at 8& \{26,52,13\}&&& 3&&&& 33& \{8,\textbf{60}\}&& 10& 76& \\
+\hline
+Insert 42, collision at 3& \{26,52,13\}&&& \{3,\textbf{42}\}&&&& 33& \{8,60\}&& 10& 76& \\
+\hline
+Resulting hash table& \{26,52,13\}&&& \{3,42\}&&&& 33& \{8,60\}&& 10& 76& \\
+\hline
+\end{tabular}
+
+
+\subsection*{Exercise 3.6.1}
+
+For OADH-table, the theoretical estimates for the search time are \(T_{ss}(0.75)=1.85\) and \(T_{us}(0.75)=4\) for successful and unsuccessful search respectively. Insertion of a key takes the same time as an unsuccessful search, 4 probes. Deletion of a key takes the same time as a successful search, 1.85 probes.
+
+For an AVL tree, with \(n=1048576=2^{20}\), search, insertion and deletions take 20 steps. Roughly steps will be equivalent to probes, and its clear that from table 3.5, since sorting is not a requirement and that construction happens only once (and the other operations are frequent), that OADH-table is best.
+
+It is best when you only want to search, and it is still best when we want to insert and delete things frequently.
+
+
+\subsection*{Exercise 4.1.1}
+
+Consider a set of arcs \(E\) and nodes \(V\), we want to construct the digraph \(G=(V,E')\) where \(E'=E\). We do this by taking the empty digraph \(G'=(V,\{\})\) and for each arc in \(E\) add it to the graph \(G'\). Each time we add an arc \((u,v) \in E\) to \(G'\), we are adding one to the outdegree of node \(u\) and one to the indegree of \(v\). When we have added all the arcs we get the graph \(G\) and since every time the outdegree of a node increased, the indegree of a node also increased. Hence, the sum of the outdegrees equal the sum of the indegrees.
+
+For a graph, an analogous statement would be that the sum of all the number of edges on each vertices is equal to twice the number of edges in the graph. This is because each edge touches two different nodes.
+
+
+\subsection*{Exercise 4.1.2}
+
+Given that the path exists between nodes \(u\) and \(v\), then there exists a sequence of nodes \(uv_1v_2...v_kv\) such that no node is repeated. If no node is repeated, then \(k \leq n-2\) where \(n\) is the number of nodes in the digraph. If \(k\) was any greater, than a node would be repeated, and it would be a cycle rather than a path.
+
+As \(d(u,v) = k+1\), \(d(u,v) \leq n-1\).
+
+
+\subsection*{Exercise 4.1.3}
+
+We have defined sparse being if the number of edges being \(O(n)\) where \(n\) is the number of nodes. And dense is when the number of edges are \(\Theta(n^2)\).
+
+Let \(D_i\) be the total number of indegrees of the digraph. We know that the number of edges \(e = D_i\). The average indegree of a node is \(\frac{D_i}{n}\).
+
+For sparse graphs, the number of edges \(e \in O(n)\). What is the average indegree of a node?
+
+\begin{align*}
+e \in O(n) & \iff \exists c\in R^+, \exists n_0 \in \mathbb{N}, e \geq cn,\; n>n_0 \\
+& \iff \exists c\in R^+, \exists n_0 \in \mathbb{N}, \frac{D_i}{n} \geq c,\; n>n_0 \\
+& \iff \textit{average indegree of a node is } O(1) \\
+\end{align*}
+
+For dense graphs, the number of edges \(e \in \Theta(n^2)\). What is the average indegree of a node?
+
+\begin{align*}
+e \in O(n) & \iff \exists c_1,c_2\in R^+, \exists n_0 \in \mathbb{N}, c_1n^2 \geq e \geq c_2n^2,\; n>n_0 \\
+& \iff \exists c_1,c_2\in R^+, \exists n_0 \in \mathbb{N}, c_1n \geq \frac{D_i}{n} \geq c_2n,\; n>n_0 \\
+& \iff \textit{average indegree of a node is } \Theta(n) \\
+\end{align*}
+
+
+\subsection*{Exercise 4.2.1}
+
+\[\left[
+	\begin{array}{ccccccc}
+	0& 0& 1& 0& 0& 0& 0 \\
+	1& 0& 0& 0& 0& 0& 0 \\
+	1& 1& 0& 0& 0& 0& 0 \\
+	0& 0& 0& 0& 1& 1& 1 \\
+	0& 0& 0& 0& 0& 1& 0 \\
+	0& 0& 0& 1& 1& 0& 1 \\
+	0& 1& 1& 0& 0& 0& 0 \\
+	\end{array}
+\right]\]
+
+
+\subsection*{Exercise 4.2.2}
+
+\begin{align*}
+&7 \\
+&1\; 4\; 5 \\
+&0\; 3 \\
+&0\; 6 \\
+&0\; 5 \\
+&5 \\
+&\\
+&5\\
+&0 \\
+\end{align*}
+
+
+\subsection*{Exercise 4.2.3}
+
+\[\left[
+	\begin{array}{ccccccc}
+	0& 1& 1& 0& 0& 0& 0 \\
+	0& 0& 1& 0& 0& 0& 1 \\
+	1& 0& 0& 0& 0& 0& 1 \\
+	0& 0& 0& 0& 0& 1& 0 \\
+	0& 0& 0& 1& 0& 1& 0 \\
+	0& 0& 0& 1& 1& 0& 0 \\
+	0& 0& 0& 1& 0& 1& 0 \\
+	\end{array}
+\right]\]
+
+
+\subsection*{Exercise 4.2.4}
+
+\(G\):
+\[\left[
+	\begin{array}{cccccccccccc}
+	0& 1& 1& 1& 1& 1& 1& 1& 1& 1& 1& 1 \\
+	0& 0& 0& 1& 0& 1& 0& 1& 0& 1& 0& 1 \\
+	0& 0& 0& 0& 0& 1& 0& 0& 1& 0& 0& 1 \\
+	0& 0& 0& 0& 0& 0& 0& 1& 0& 0& 0& 1 \\
+	0& 0& 0& 0& 0& 0& 0& 0& 0& 1& 0& 0 \\
+	0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 1 \\
+	0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0 \\
+	0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0 \\
+	0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0 \\
+	0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0 \\
+	0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0 \\
+	0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0& 0 \\
+	\end{array}
+\right]\]
+
+\(G_r:\)
+\[\left[
+	\begin{array}{cccccccccccc}
+	0&0&0&0&0&0&0&0&0&0&0&0 \\
+	1&0&0&0&0&0&0&0&0&0&0&0 \\
+	1&0&0&0&0&0&0&0&0&0&0&0 \\
+	1&1&0&0&0&0&0&0&0&0&0&0 \\
+	1&0&0&0&0&0&0&0&0&0&0&0 \\
+	1&1&1&0&0&0&0&0&0&0&0&0 \\
+	1&0&0&0&0&0&0&0&0&0&0&0 \\
+	1&1&0&1&0&0&0&0&0&0&0&0 \\
+	1&0&1&0&0&0&0&0&0&0&0&0 \\
+	1&1&0&0&1&0&0&0&0&0&0&0 \\
+	1&0&0&0&0&0&0&0&0&0&0&0 \\
+	1&1&1&1&0&1&0&0&0&0&0&0 \\
+	\end{array}
+\right]\]
+
+
+\subsection*{Exercise 4.2.5}
+
+Assuming that arcs only go down the tree (and not up).
+
+Adjacency matrix:
+\[\left[
+	\begin{array}{ccccccc}
+	0& 1& 1& 0& 0& 0& 0 \\
+	0& 0& 0& 1& 1& 0& 0 \\
+	0& 0& 0& 0& 0& 1& 1 \\
+	0& 0& 0& 0& 0& 0& 0 \\
+	0& 0& 0& 0& 0& 0& 0 \\
+	0& 0& 0& 0& 0& 0& 0 \\
+	0& 0& 0& 0& 0& 0& 0 \\
+	\end{array}
+\right]\]
+
+Adjacency list:
+\begin{align*}
+&7 \\
+&1\; 2 \\
+&3\; 4 \\
+&5\; 6 \\
+&\\
+&\\
+&\\
+&\\
+&0 \\
+\end{align*}
+
+
+\subsection*{Exercise 5.1.1}
+
+At each time we turn right, else if its a dead end back up as little as possible. What we are doing is applying to the \emph{visit} algorithm (Figure 5.1) a heuristic, a method of solving a problem, to the \emph{'choose a grey node \emph{u}'} statement. The \emph{visit} algorithm allows for any way of choosing which grey node to choose next, so the way specified in Exercise 5.1.1 is a valid way that will, eventually, result in finding the exit.
+
+
+\subsection*{Exercise 5.2.1}
+
+This digraph has all 4 type of arcs.
+
+Adjacency list:
+\begin{align*}
+& 4 \\
+& 1,2,3 \\
+& 2 \\
+& 1 \\
+& 2 \\
+& 0 \\
+\end{align*}
+
+
+\subsection*{Exercise 5.2.2} 
+
+When DFS is run on the graph, the follow timestamps are obtained.
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+v& 0& 1& 2& 3& 4& 5& 6 \\
+\hline
+\(seen[v]\)& 0& 2& 1& 6& 7& 8& 9 \\
+\hline
+\(done[v]\)& 5& 3& 4& 13& 12& 11& 10 \\
+\hline
+\end{tabular}
+
+Tree arcs:
+(0,2),(2,1),(3,4),(4,5),(5,6)
+
+Forward arcs:
+(3,5),(3,6)
+
+Back arcs:
+(1,0),(2,0),(5,3),(5,4)
+
+Cross arcs:
+(6,1),(6,2)
+
+
+
+\subsection*{Exercise 5.2.3}
+
+We have DFS looking at the arc \((u,v)\in E(G)\) at this time, and want to know if it is a forward arc or a cross arc. A forward arc is a non-tree arc where \(u\) is an ancestor of \(v\) in the tree that \(u\) and \(v\) are in. A cross arc is when \(u\) is neither an ancestor nor descendant of \(v\) in the tree that \(u\) and \(v\) are in.
+
+We already know that if \(v\) is white it is a tree arc and when \(v\) is grey it is a back arc. When \(v\) is black it is either a forward arc, or a cross arc. To determine if its a forward arc, need to check if \(u\) is an ancestor of \(v\) (Theorem 5.5):
+
+\[seen[u] < seen[v] < done[u] < done[v]\]
+
+If this is true then \((u,v)\) is a forward arc, else it is a cross arc.
+
+
+\subsection*{Exercise 5.2.4}
+
+We know the definitions (Definition 5.1) of all four arcs. By using those definitions, and also Theorem 5.5, we can prove each of the three statements.
+
+Let \((v,w) \in E(G)\) be an arc. A forward arc is an arc such that \(v\) is an ancestor of \(w\) in the tree and is not a tree arc. If the arc \((v,w)\) is in the tree (a tree arc), then \(v\) is still an ancestor of \(w\). Thus, the arc \((v,w)\) is a tree or forward arc if and only if \(v\) is an ancestor of \(w\). 
+
+By Theorem 5.5, \(v\) is an ancestor of \(w\) is equivalent to:
+
+\[seen[v] < seen[w] < done[w] < done[v]\]
+
+The arc \((v,w)\) is a back arc if \(w\) is an ancestor of \(v\) in the tree and is not a tree arc. If \(w\) is an ancestor of \(v\) then it cannot be a tree arc by the above proof. This means that the arc is a back arc if and only if \(w\) is an ancestor of \(v\).
+
+By Theorem 5.5, \(w\) is an ancestor of \(v\) is equivalent to:
+
+\[seen[w] < seen[v] < done[v] < done[w]\]
+
+The arc \((v,w)\) is a cross arc if neither \(v\) nor \(w\) are the ancestor of the other. But, we only need to check if \(w\) is not an ancestor of \(v\). This is because of the order that DFS visits these nodes, if it visits \(v\) before \(w\) \((seen[v] < seen[w])\) then this will be a tree or forward arc. So to be a cross arc, \(seen[w] < seen[v]\) must be true. This means that the arc \((v,w)\) is a cross arc if and only if \(w\) is not an ancestor of \(v\).
+
+By Theorem 5.5, \(w\) is not an ancestor of \(v\) is equivalent to:
+
+\[seen[w] < done[w] < seen[v] < done[v]\]
+
+
+\subsection*{Exercise 5.2.5}
+
+(i) Simply apply the rules found in Exercise 5.2.4, the table entries are the type of arc \((u,v)\) would be if the arc existed.
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\(u\)& \multicolumn{7}{|c|}{\(v\)} \\
+\hline
+& 0& 1& 2& 3& 4& 5& 6 \\
+\hline
+0& & Tree& Forward& Tree& Forward& Forward& Forward \\
+\hline
+1& Back& & Tree& Cross& Forward& Forward& Forward \\
+\hline
+2& Back& Back& & Cross& Forward& Tree& Forward \\
+\hline
+3& Back& Cross& Cross& & Cross& Cross& Cross \\
+\hline
+4& Back& Back& Back& Cross& & Back& Cross \\
+\hline
+5& Back& Back& Back& Cross& Tree& & Tree \\
+\hline
+6& Back& Back& Back& Cross& Cross& Back&  \\
+\hline
+\end{tabular}
+
+Of course, if some of these arcs existed, and DFS was run on the graph, some of the timestamps would change.
+\newline \newline
+
+(ii) It would be a back arc.
+\newline \newline
+
+(iii) No, because they are on different branches of the tree (hence if \((3,2)\) was an arc in the graph, it would be a cross arc)
+\newline \newline
+
+(iv) No, because then when DFS is at time 4, instead of expanding node 4, it would expand node 3, and the DFS tree would be entirely different.
+\newline \newline
+
+(v) Yes, because it is DFS the tree would be the same (but not if it was BFS), the arc would be a forward arc.
+
+
+\subsection*{Exercise 5.2.6}
+
+At first, looking at the differences between the seen time stamps and the done time stamps seems promising. If the stamps (either the seen time or the done time) differ by one then its a tree arc. But this fails when a node in the tree has 3 or more children.
+
+Let \((v,w) \in E(G)\), for this to be a tree arc \(v\) must be an ancestor of \(w\) and there is no node \(u\) in between \(v\) and \(w\) in the tree. Let \(A(u_1,u_2)\) be true if \(u_1\) is a ancestor of \(u_2\) for any two nodes in \(E(G)\):
+
+\[(v,w) \in E(G) \text{ is a tree arc} \iff A(v,w), \forall u \in E(G), \neg A(v,u) \wedge \neg A(u,w), u \neq v,w \]
+
+Thus, because \(A(u_1,u_2)\) is computable with only the timestamps (Theorem 5.5), there is a way to distinguish tree arcs from non-tree arcs just by looking at the timestamps.
+
+
+\subsection*{Exercise 5.2.7}
+
+Let \((u,v) \in E(G)\), for this to be a cross edge, when node \(u\) is being examined by DFS, node \(v\) has to have been done. Except, when node \(v\) is being examined, one of its neighbors is node \(u\) and so node \(v\) will never be done before node \(u\) is done. Therefore, there are no cross edges on a DFS tree on a graph \(G\).
+
+
+\subsection*{Exercise 5.2.8}
+
+Adjacency list:
+\begin{align*}
+& 3 \\
+& 1,2 \\
+& 0 \\
+& \\
+& 0 \\
+\end{align*}
+
+If \(v=1\) and \(w=2\) then even though \(w\) is reachable from \(v\), it is not a descendant of \(v\). This is because the path passes through both their ancestors. Thus, the conjecture would be true if instead of \(w\) being a descendant of \(v\) that the two nodes share a common ancestor (i.e.: in the same DFS tree).
+
+
+\subsection*{Exercise 5.2.9} 
+
+The order of the nodes in the digraph in the \(seen\) array is equal to the preorder labeling of the nodes, and the order of the nodes in the diagraph in the \(done\) array is equal to the post order labeling of the nodes.
+
+
+\subsection*{Exercise 5.2.10}
+
+To prove via induction, we need both a base case an an inductive step.
+
+The base case is when there are no white nodes as neighbors of node \(s\), then the algorithm does no recursion and returns. In this case \texttt{rec\_dfs\_visit} since there are no nodes reachable from \(s\).
+
+The inductive step is that given that given all the white nodes that are neighbors of node \(s\) our theorem is true for them, then it is also true for node \(s\). For each node reachable from \(s\) via a path of white nodes, the start of every path is one of the neighbors of \(s\). Because the call to \texttt{rec\_dfs\_visit} with input \(s\) only terminates when the recursive calls of \texttt{rec\_dfs\_visit} with input of each of the white neighbors of \(s\) finish. 
+All the recursive calls to \texttt{rec\_dfs\_visit} then cover each of the paths from \(s\) to each node reachable by a path of white nodes, and thus satisfies the inductive step.
+
+Finally, because each path cannot have a loop in it, there is a finite number of recursions and \texttt{rec\_dfs\_visit} is guaranteed to terminate.
+
+Therefore, by mathematical induction, Theorem 5.4 is true.
+
+
+\subsection*{Exercise 5.3.1}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Queue indices& 0& 1& 2& 3 \\
+\hline
+Adding node 0& 0& & & \\
+\hline
+Adding node 2& 0& 2& & \\
+\hline
+Deleting node 0& 2& & & \\
+\hline
+Adding node 1& 2& 1& & \\
+\hline
+Deleting node 2& 1& & & \\
+\hline
+Deleting node 1& & & & \\
+\hline
+Adding node 3& 3& & & \\
+\hline
+Adding node 4& 3& 4& & \\
+\hline
+Adding node 5& 3& 4& 5& \\
+\hline
+Adding node 6& 3& 4& 5& 6 \\
+\hline
+Deleting node 3& 4& 5& 6 & \\
+\hline
+Deleting node 4& 5& 6 & & \\
+\hline
+Deleting node 5& 6 & & & \\
+\hline
+Deleting node 6& & & & \\
+\hline
+\end{tabular}
+
+The resulting BFS forest is given below:
+
+Adjacency list:
+\begin{align*}
+&7 \\
+&2 \\
+& \\
+&1 \\
+&4,5,6 \\
+& \\
+& \\
+& \\
+&0 \\
+\end{align*}
+
+\subsection*{Exercise 5.3.2}
+
+Simply use Theorem 5.7.
+
+
+\subsection*{Exercise 5.3.3}
+
+?
+
+
+\subsection*{Exercise 5.5.1}
+
+Adjacency list:
+\begin{align*}
+&2 \\
+&1 \\
+&0 \\
+&0 \\
+\end{align*}
+
+
+\subsection*{Exercise 5.5.2}
+
+By theorem 5.11, every DAG has a topological ordering \((v_1,v_2,...v_n)\) such that there are no arcs \((v_i,v_j) \in E(G)\) such that \(i < j\). This means that there are no arcs going from right to left in the topological ordering. This means that node \(v_1\) has no arcs going into it and node \(v_n\) has no nodes going away from it, they are respectively, a source and sink node. Therefore for every DAG there is at least one source and sink node.
+
+
+\subsection*{Exercise 5.5.3}
+
+In the following example, using the visiting times when running DFS on it results in the sink being in the middle of the topological ordering:
+
+Adjacency list:
+\begin{align*}
+&3 \\
+&1,2 \\
+& \\
+&1 \\
+&0 \\
+\end{align*}
+
+Therefore, in general, the visiting time is not a topological ordering.
+
+
+\subsection*{Exercise 5.5.4}
+
+Shirt, hat, tie, jacket, glasses, underwear, trousers, socks, shoes, belt.
+
+
+\subsection*{Exercise 5.5.5}
+
+For adjacency matrix, at each step the next source must be found in \(O(n)\) time, and the its arcs must be deleted. The total time then would be \(O(n^2 + e)\) since overall, each arc will be deleted once. If you consider deleting a single arc to be constant time, then for adjacency lists, the time is also \(O(n^2 + e)\).
+
+
+\subsection*{Exercise 5.5.6}
+
+Simply delete vertices with 0 or 1 edges on them from the graph (including the edges), if at anytime there are no vertices with the number of edges less than 2, then the graph has a cycle. Otherwise, if the entire graph can be deleted by only deleting vertices with 0 or 1 edges, then the graph is acyclic.
+
+
+\subsection*{Exercise 5.6.1} 
+
+Adjacency list:
+\begin{align*}
+&4 \\
+&1,2 \\
+&0 \\
+&3 \\
+&2 \\
+&0 \\
+\end{align*}
+
+There are two strongly connected components in this graph, DFS only finds one tree.
+
+
+\subsection*{Exercise 5.6.2}
+
+Need to first run BFS on the digraph \(G\) in Example 5.20 getting the resulting forest F. Then run DFS on the reverse digraph \(G_r\) choosing each root from among the white nodes that finished latest in the resulting forest F. Then each DFS tree in the search of \(G_r\) contains one of the strong components.
+
+Reverse ordering of nodes by finish time running DFS on \(G\): \{4,5,0,3,2,1\}
+
+Resulting forest running DFS on \(G_r\) choosing new roots in the order given above:
+
+Adjacency list:
+\begin{align*}
+&6 \\
+&2 \\
+& \\
+&3 \\
+& \\
+&5 \\
+& \\
+\end{align*}
+
+So there are three strong components: \{4,5\},\{0,2,3\},\{1\}.
+
+
+\subsection*{Exercise 5.7.1}
+
+Adjacency list:
+\begin{align*}
+&3 \\
+&1 \\
+&2 \\
+& 0,1 \\
+\end{align*}
+
+If the algorithm does not check to the end of the level, it will return that the shortest cycle is \{2,0,1,2\} instead of \{2,1,2\}.
+
+
+\subsection*{Exercise 5.7.2}
+
+The worst case time complexity of the algorithm is \(O(n+e)\), as it only needs to run \texttt{dfsvisit} on each node once, which then does constant number of operations on each of its edges. 
+
+
+\subsection*{Exercise 5.7.3}
+
+We need to find two disjointed subsets. Consider the number of 1's (it can just as easily be the number of 0's) to be \(k\) in a bit vector of length \(n\), an edge can only be between another bit vector with either \(k-1\) or \(k+1\) 1's. This is because if the number of ones is less than \(k-1\) or greater than \(k+1\) then there will be more than 1 difference in the bits. Also, two different bit vectors with the same number of 1's will not have an edge because they will differ in two places exactly (not the required one).
+
+One way of satisfying this condition is if all the odd number of 1's are on one side, and all the even number of 1's are on the other. This means that for any \(n\)-cube you can find a bipartite consisting of the odd number of 1's bit vectors in one group, and the even number of 1's in the other.
+
+
+
+\section{Problems with exercises}
+
+\subsection*{Exercise 1.6.1}
+
+When it says 'do the same for examples 1.31-1.33' for example 1.31 its not in \( \Omega(n)\) at all. 
+
+\subsection*{Exercise 2.1.7}
+
+"Find the maximum and average \textit{individual} time complexity of data moves...", I'm not sure about the word "individual" in the context of time complexity. Would the sentence make more sense if that word was removed, it would go something like this:
+"Find the maximum and average time complexities of data moves..."
+
+Unless you want 4 things, the average time complexity of data moves and also comparisons, and the maximum time complexity of data moves and also comparisons? When you say "data moves and comparisons" in the context of time complexities, it usually means adding the two values together. But here it may mean to treat them separately, in which case I think people might get a bit confused (I did).
+
+\subsection*{Exercises 3.3}
+
+Because I cant easily draw those trees, I thought instead of wasting my time working out how to do so in LaTeX to best match your trees, I'll leave that to you to complete in a fraction of the time I would take.
+
+\subsection*{Exercise 4.1.2}
+
+\(d(u,v) = + \infty \) if there exists no path between the two nodes, hence \(d(u,v) \leq n-1\) is not true if the path does not exist.
+
+\subsection*{Exercise 5}
+
+Again, I felt it better to tackle the word questions rather than spend great amounts of time getting in an acceptable graph.
+
+\subsection*{Figure 5.7}
+
+The code for \texttt{dfsvisit} is incorrect, as soon as \(v\) is inserted to the top of the \(S\) the algorithm needs to immediately goto the start of the while loop. This ensures that when a white node \(v\) of the current \(u\) is found, that the algorithm then expands \(v\) first. The modified algorithm is specified in Figure \ref{fig:dfsvisitmod}. The current algorithm in the book adds all the neighbors of \(u\) to the stack, then deletes the very last added neighbor, and so on.
+
+\begin{figure}
+\begin{tabbing}
+tab \=tab \= tab\= tab\= \kill
+\textbf{algorithm} dfsvisit \\
+\> \textbf{\emph{Input:}} node \(s\)\\
+\textbf{begin} \\\> S.insert(\(s\)) \\
+\> \textbf{while not} S.isempty() \textbf{do} \\
+\> \> \(u \leftarrow\) S.get\_top() \\
+\> \> \(seen[u] \leftarrow time;\; time \leftarrow time+1\) \\
+\> \> \(colour[u] \leftarrow\) GREY \\
+\> \> \(noNewNode \leftarrow TRUE\) \\
+\> \> \textbf{for} each \(v\) adjacent to \(u\) \textbf{do} \\
+\> \> \> \textbf{if} \(colour[v] =\) WHITE \textbf{then} \\
+\> \> \> \> \( pred[v] \leftarrow u\) \\
+\> \> \> \> S.insert(\(v\)) \\
+\> \> \> \> \( noNewNode \leftarrow FALSE \) \\
+\> \> \> \> \textbf{\emph{break}} \\
+\> \> \> \textbf{end if} \\
+\> \> \textbf{end for} \\
+\> \> \textbf{if} noNewNode \textbf{then} \\
+\> \> \> S.delete() \\ 
+\> \> \> \(colour[u] \leftarrow \) BLACK \\
+\> \> \> \(done[u] \leftarrow time;\; time \leftarrow time +1\) \\
+\> \> \textbf{end if} \\
+\> \textbf{end while} \\
+\textbf{end} \\
+\end{tabbing}
+\caption{Modified \emph{dfsvisit} algorithm} 
+\label{fig:dfsvisitmod}
+\end{figure}
+
+The new algorithm as soon as it sees a WHITE node, does DFS on that node first. The way to go back to the start of the while loop via break and the 'noNewNode' boolean is is the best that I can think of, but it does make it look a bit more complex.
+
+
+\subsection*{Exercise 5.2.5}
+
+It might be confusing to people to list the arcs when you don't know what the graph \(G\) is, considering that an arc must be in the graph to be forward, tree, cross or back arc. Might want to mention that if an arc exists, what would it be?
+
+
+\subsection*{Exercise 5.2.10}
+
+It should be obvious, but I haven't explained myself very well here. In case you miss it (somehow) you should have a good read of my "answer"
+
+
+\subsection*{Figure 5.9}
+
+Looking at the method calls to both the stack and the queue, I feel that you should instead use pop, push and peek. Those are the ones that I used when tutoring 105. In this algorithm then, you could replace "Q.get\_head()" with "Q.pop()", which you can then remove the "Q.delete()". A more serious error is in the level variable, when computing the level it needs to be "\(level \leftarrow d[u]+1\)", consider what happens if you have a branching of more than 1.
+
+
+\subsection*{Exercise 5.3.3}
+
+I'm not sure what it means by 'contained in a cycle'.
+
+
+\subsection*{Theorem 5.19}
+
+It seems point two simply prohibits any node in \(G_i\) from have a cycle of size 2 with any node in \(G_j\). Yet it doesn't seem to prohibit this example:
+
+Adjacency list:
+\begin{align*}
+&4 \\
+&1,2 \\
+&0 \\
+&3 \\
+&1,2 \\
+&0 \\
+\end{align*}
+
+If \(G_1=\{0,1\}\) and \(G_2=\{2,3\}\), these are clearly strongly connected. And there does not exist a \(v\in G_1\) and a \(w \in G_2\) such that \((v,w) \in E(G)\) and \((w,v) \in E(G)\), so it also satisfies point two. Yet the entire graph is strongly connected. It seems from the Theorem 5.15 for graphs, you want the definition so that no two \(G_i\) and \(G_j\) are strongly connected. 
+
+This example shows two ways of partitioning the graph, I'm sure you need no directed cycles in the quotient graph to have a unique partitioning.
+
+For uniqueness the properties of the theorem are too weak.
+
+
+
+\section{Syntax errors}
+
+On page 45 at the top of the page, "Thus any arbitrary arrae...". Array is miss spelt as arrae.
+
+On page 84 in table 3.3, \(Pr_{365}(n)\) is inside the third row instead of \(Pr_{365}(m)\).
+
+On page 138 half way down the page, the figure 5.15 is referred to as "In Figure 5.7 are three ...".
+
+\end{document}=

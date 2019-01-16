@@ -1,0 +1,1430 @@
+\chapter{Java graph ADT}
+\label{app:javagraph}
+
+This appendix presents a
+simplified abstract class for representing a graph abstract data type
+(ADT).  Although it is fully functional, it purposely omits most exception
+handling and other niceties that should be in any commercial level
+package.  These details would distract from our overall (introductory)
+goal of showing how to implement a basic graph class in Java.\\
+
+Our plan is to have a common data structure that represents both graphs
+and digraphs.  A graph will be a digraph with anti-parallel arcs; that
+is, if $(u,v) \in E$ then $(v,u) \in E$ also. The initial abstract class
+presented below requires a core set of methods needed for the realized
+graph ADT.  It will be extended with the actual internal data structure
+representation in the form of adjacency matrix or adjacency lists (or
+whatever the designer picks).
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize%
+\begin{verbatim}
+package graphADT;
+
+import java.util.ArrayList;
+import java.io.BufferedReader;
+
+/*
+ * Current Abstract Data Type interface for (di)graph classes.
+ */
+public interface Graph 
+{
+ // Need default, copy and BufferedReader constructors
+ // (commented since Java doesn't allow abstract constructors!)
+ //
+ // public GraphADT(); 
+ // public GraphADT(GraphADT); 
+ // public GraphADT(BufferedReader in);
+\end{verbatim}%
+}
+
+Right from the beginning we get in trouble since Java does not allow
+abstract constructors.   We will leave these as comments and hope the
+graph class designer will abide by them.   We want to create graphs
+from an empty graph, copy an existing graph, or read in one from some
+external source.   In the case of a  \verb|BufferedReader| constructor
+the user has to attach one to a string,  file or keyboard.   We will
+see examples later.\\
+
+We now proceed by presenting the alteration methods required for our 
+graph class interface.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+  // data structure modifiers
+  //
+  void addVertices(int i);       // Add some vertices
+  void removeVertex(int i);      // Remove vertex
+
+  void addArc(int i, int j);     // Add directed edge
+  void removeArc(int i, int j);  // Remove directed edge
+
+  void addEdge(int i, int j);    // Add undirected edge
+  void removeEdge(int i, int j); // Remove undirected edge
+\end{verbatim}%
+}
+
+This small set of methods allows one to build the graph.  We will soon
+explicitly define the methods for adding or deleting edges in terms of
+the two arc methods.  An extended class can override these to improve
+efficiency if it wants.   We now list a few methods for extracting
+information from a graph object.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+// data structure queries
+//
+boolean isArc(int i, int j);    // Check for arcs
+boolean isEdge(int i, int j);   // Check for edges
+
+int degree(int i);        // Number of neighbours (outgoing)
+int inDegree(int i);      // Number of incoming arcs
+
+ArrayList<Integer> neighbours(int i);  // List of (out-)neighbours
+
+int order();                 // Number of vertices
+int size();                  // Number of edges
+
+// output (default same as representation)
+//
+String toString();
+
+} // end of interface Graph
+\end{verbatim}%
+}
+
+For our implementation, we want a vertex's degree to equal the number of
+vertices returned by the \verb|neighbours| method, which in our
+implementations will correspond to \verb|degree(i)|.
+Also, the method \verb|isEdge(i,j)| will most likely just check
+whether \verb|isArc(i,j) && isArc(j,i)| is true.
+
+Finally, one nice thing to offer is a method to view/save/print a graph. 
+Traditionally in Java we define a \verb|toString| method for this.
+Our two actual implementations will return human viewable adjacency
+lists or adjacency matrices, depending on the internal representation.\\
+
+%Notice how we went ahead and defined both the adjacency matrix and
+%adjacency lists output methods.  
+We have the \verb|toString| method
+as an interface requirement for the derived classes to define.   We want a
+\verb|BufferedReader| constructor for a graph class to accept its own
+\verb|toString| output. Two common external graph representations
+are handled by the methods given below.
+
+\label{graphoutput}
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+public String toStringAdjMatrix()
+{
+ StringBuffer o = new StringBuffer();
+ o.append(order()+"\n");
+
+ for( int i = 0; i < order(); i++ )
+ {
+    for( int j = 0; j < order(); j++ )
+    {
+       if ( isArc(i,j) ) o.append("1 ");
+       else o.append("0 ");
+    }
+    o.append("\n");
+ }
+ return o.toString();
+}
+
+public String toStringAdjLists()
+{
+ StringBuffer o = new StringBuffer();
+ o.append(order()+"\n");
+
+ for( int i = 0; i < order(); i++ )
+ {
+    for( int j = 0; j < order(); j++ )
+    {
+       if ( isArc(i,j) ) o.append(j+" ");
+    }
+    o.append("\n");
+ }
+ return o.toString();
+}
+\end{verbatim}%
+}
+
+To make things convenient for ourselves we require that the first line of
+our (two) external graph representations contain the number of vertices.
+Strictly speaking, this is not needed for an 0/1 adjacency matrix.
+This makes our parsing job easier and this  format allows us to store
+more than one graph per input stream. (We can terminate a stream of
+graphs with a sentinel graph of order zero.)
+
+\section{Java adjacency matrix implementation}
+
+We now define our first usable graph class based on an adjacency matrix
+representation (for graphs and digraphs). This class extends our graph
+interface \verb|Graph|.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+package graphADT;
+
+import java.io.*;
+import java.util.*;
+
+/*  Current implementation uses adjacency matrix form of a graph.
+ */
+public class GraphAdjMatrix implements Graph
+{
+
+    //  Internal Representation and Constructors
+    //
+    protected int order;            // Number of vertices
+    protected boolean adj[][];      // Adjacency matrix of graph
+
+    public GraphAdjMatrix()         // default constructor
+    {
+        order = 0;
+    }
+
+    public GraphAdjMatrix(GraphAdjMatrix G) // copy constructor
+    {
+        int n = G.order();
+        if ( n>0 ) { adj = new boolean[n][n]; order = n; }
+
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                adj[i][j] = G.adj[i][j];
+    }
+    public GraphAdjMatrix(Graph G) // conversion constructor
+    {
+        int n = G.order();
+        if ( n>0 ) { adj = new boolean[n][n]; order = n; }
+
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                if (G.isArc(i,j)) adj[i][j] = true;
+    }
+\end{verbatim}%
+}
+
+
+%We isolated a private method \verb|_allocate| that gets memory for 
+%the adjacency matrix.  
+The default constructor simply creates an empty graph and thus there is 
+no need to allocate any space.  The two copy constructors simply copy 
+onto a new $n$-by-$n$ matrix the boolean adjacency values of the old graph.  
+Notice that we want new storage and not an object reference for the copy.\\
+
+%\begin{note}
+%We use the programming convention of
+%beginning private variables and methods with the underscore character.
+%\end{note}
+%
+An alternative implementation (as given in the first edition of this
+textbook) would also keep an integer variable \verb|space| to represent 
+the total space allocated.  Whenever we delete vertices we do not want 
+to reallocate a new matrix but to reshuffle the entries into the upper 
+sub-matrix.
+Then whenever adding more  vertices we just extend the dimension of
+the sub-matrix.
+
+Our last input constructor for \verb|GraphAdjMatrix| is now given.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+public GraphAdjMatrix(BufferedReader buffer)
+{
+  try
+  {
+      String line = buffer.readLine().trim();
+      String[] tokens = line.split("\\s+");
+  
+      if (tokens.length != 1)
+      {
+        throw new Error("bad format: number of vertices");
+      }
+      int n = order = Integer.parseInt(tokens[0]);
+  
+      if ( n>0 ) adj = new boolean[n][n];
+  
+      for (int i = 0; i < n; i++)
+      {
+         line = buffer.readLine().trim();
+         tokens = line.split("\\s+");
+         if (tokens.length != n)
+         {
+            throw new Error("bad format: adjacency matrix");
+         }
+         
+         for (int j = 0; j < n; j++)
+         {
+            int entry = Integer.parseInt(tokens[j]);
+            adj[i][j] = entry != 0;
+         }
+       }
+  }
+   catch (IOException x) 
+   { throw new Error("bad input stream"); }
+}
+
+\end{verbatim}%
+}
+
+We have tried to minimize the complexity of this \verb|BufferedReader| constructor.   We do however
+throw a couple of errors if something does go wrong.   Otherwise, this method simply reads in an integer
+$n$ denoting the dimension of the adjacency matrix and then reads in the 0/1 matrix.  Notice how the use
+of the \verb|String.split| method to extract the integer inputs.\\
+
+
+We next define several methods for altering this graph data structure.
+The first two methods allow the user to add or delete vertices from a
+graph.
+
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+    //  Mutator Methods
+    //
+    public void addVertices(int n)
+    {
+        assert(0 <= n );
+        boolean matrix[][] = new boolean[order+n][order+n];
+
+        for (int i = 0; i < order; i++)
+        {
+            for (int j = 0; j < order; j++)
+            {
+                matrix[i][j] = adj[i][j];
+            }
+        }
+        order += n;
+        adj = matrix;
+    }
+
+    public void removeVertex(int v)
+    {
+        assert(0 <= v && v < order);
+        order--;
+
+        for (int i = 0; i < v; i++)
+        {
+            for (int j = v; j < order; j++)
+            {
+                adj[i][j] = adj[i][j+1];
+            }
+        }
+
+        for (int i = v; i < order; i++)
+        {
+            for (int j = 0; j < v; j++)
+            {
+                adj[i][j] = adj[i+1][j];
+            }
+            for (int j = v; j < order; j++)
+            {
+                adj[i][j] = adj[i+1][j+1];
+            }
+        }
+    }
+\end{verbatim}%
+}
+
+\if 01
+These two methods allow the user to add or delete vertices from a graph.  If we have already allocated
+enough space the \verb|addVertices| method will simply expand the current size (while initializing
+entries to \verb|false|).   Otherwise, a new larger matrix is allocated  and a copy is done.\\
+\fi
+
+
+
+The \verb|removeVertex| method is somewhat complicated in that we have to remove a row and column from
+the matrix corresponding to the vertex being deleted.  We decided to do this in two passes. The first
+pass (for variable $i < v$) simply shifts all column indices $j\geq v$ to the left.  The second pass
+(for variable $i \ge v$) has to shift entries up by one while also shifting column indices $j
+\geq v$ to the left.  The user of the graph should realize that the
+indices of the vertices change!\\
+
+Next, we have four relatively trivial methods for adding and deleting
+arcs (and edges). Like the mutator methods for checking for valid vertex
+indices we add some important \verb|assert| statements that can be
+turned on with an option to the java compiler for debugging graph
+algorithms.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+   // Mutator Methods (cont.)
+
+    public void addArc(int i, int j)
+    {
+        assert(0 <= i && i < order);
+        assert(0 <= j && j < order);
+        adj[i][j] = true;
+    }
+
+    public void removeArc(int i, int j)
+    {
+        assert(0 <= i && i < order);
+        assert(0 <= j && j < order);
+        adj[i][j] = false;
+    }
+
+    public void addEdge(int i, int j)
+    {
+        assert(0 <= i && i < order);
+        assert(0 <= j && j < order);
+        adj[i][j] = adj[j][i] = true;
+    }
+
+    public void removeEdge(int i, int j)
+    {
+        assert(0 <= i && i < order());
+        assert(0 <= j && j < order());
+        adj[i][j] = adj[j][i] = false;
+    }
+\end{verbatim}%
+}
+
+
+The methods to access properties of the graph are also pretty straightforward.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+    //  Access Methods
+    //
+    public boolean isArc(int i, int j)
+    {
+        assert(0 <= i && i < order);
+        assert(0 <= j && j < order);
+        return adj[i][j];
+    }
+
+    public boolean isEdge(int i, int j)
+    {
+        return isArc(i,j) && isArc(j,i);
+    }
+
+    public int degree(int i) // row count
+    {
+        assert(0 <= i && i < order);
+        int sz = 0;
+        for (int j = 0; j < order; j++)
+        {
+            if (adj[i][j]) sz++;
+        }
+        return sz;
+    }
+
+    public int inDegree(int i) // column count
+    {
+        assert(0 <= i && i < order);
+        int sz = 0;
+        for (int j = 0; j < order; j++)
+        {
+            if (adj[j][i]) sz++;
+        }
+        return sz;
+    }
+\end{verbatim}%
+}
+
+Our constant-time method for checking whether an arc is present in a graph is given above in the method
+\verb|isArc|.   Unfortunately, we have to check all neighbours for computing the in- and out- degrees.
+Also the method, given below, for returning a list of neighbours for a vertex will need to scan all
+potential vertices.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+    public ArrayList<Integer> neighbours(int i)
+    {
+        assert(0 <= i && i < order);
+        ArrayList<Integer> nbrs = new ArrayList<Integer>();
+
+        for (int j = 0; j < order; j++)
+        {
+            if (adj[i][j]) nbrs.add(j);
+        }
+
+        return nbrs;
+    }
+
+
+    public int order()
+    {
+        return order;
+    }
+
+    public int size() // Number of arcs (edges count twice)
+    {
+        int sz = 0;
+//      boolean undirected = true;
+        for (int i = 0; i< order; i++)
+        {
+            for (int j = 0; j< order; j++)
+            {
+                if ( adj[i][j]) sz++;
+//              if ( adj[i][j] != adj[j][i] ) undirected = false;
+            }
+        }
+        return sz;  // undirected ? sz / 2 : sz;
+    }
+\end{verbatim}%
+}
+
+The order of the graph is stored in an integer variable \verb|_order|.
+However, we have to count all \verb|true| entries in the boolean
+adjacency matrix to return the size.   Notice that if we  are working
+with an undirected graph this returns twice the expected number
+(since we store each edge as two arcs).   If we specialize this
+class we may want to uncomment the indicated statements to autodetect
+undirected graphs (whenever the matrix is symmetric). It is probably
+safer to leave it as it is written, with the understanding that the
+user knows how \emph{size} is defined for this implementation of
+\verb|Graph|.
+
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+  // default output is readable by constructor
+  //
+  public String toString() { return toStringAdjMatrix(); }
+  
+} // end class GraphAdjMatrix
+\end{verbatim}%
+}
+
+We finish our implementation by setting our output method \verb|toString| 
+to return an adjacency matrix.   Recall the method \verb|toStringAdjMatrix|
+was presented earlier on page~\pageref{graphoutput}.
+
+\section{Java adjacency lists implementation}
+
+We now present an alternate implementation of our graph ADT using
+the adjacency lists data structure.   We will use the Java API
+class \verb|Vector| to store these lists.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+package graphADT;
+
+import java.io.*;
+import java.util.*;
+
+/*  Current implementation uses adjacency lists form of a graph.
+ */
+public class GraphAdjLists implements Graph
+{
+    //  Internal Representation and Constructors
+    //
+    protected ArrayList<ArrayList<Integer>> adj;
+
+    public GraphAdjLists()
+    {
+        adj = new ArrayList<ArrayList<Integer>>();
+    }
+
+    public GraphAdjLists(Graph G)
+    {
+        int n = G.order();
+        adj = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i < n; i++)
+        {
+            adj.add(G.neighbours(i));
+        }
+    }
+\end{verbatim}%
+}
+
+%We mimic the adjacency matrix code here with a private method to
+%allocate memory. The method \verb|_allocate| creates a list of lists
+%(that is, a \verb|Vector| of \verb|Vector|s). Note the created list, using
+%\verb|new Vector()|, within the argument of the \verb|addElement| method.
+We use an \verb|ArrayList| that contains an \verb|ArrayList| of
+\verb|Integer| for our representation. We decided that the copy
+constructor for \verb|Graph| is sufficient in terms of efficiency so do
+not need to define a specialized copy constructor for
+\verb|GraphAdjLists|, handled automatically by the Java runtime
+environment.
+The default constructor creates a list of no lists (that is, no vertices).
+For better efficiency, the copy constructor takes over the role of our
+allocator and appends the neighbour lists of the graph parameter $G$
+directly onto a new adjacency list.
+
+%\begin{note}
+%Above we are probably illustrating a bad programming style.  Why?
+%\end{note}
+
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+    public GraphAdjLists(BufferedReader buffer)
+    {
+        try
+        {
+            String line = buffer.readLine().trim();
+            String[] tokens = line.split("\\s+");
+
+            if (tokens.length != 1)
+            {
+                throw new Error("bad format: number of vertices");
+            }
+
+            adj = new ArrayList<ArrayList<Integer>>();
+            int n = Integer.parseInt(tokens[0]);
+
+            for (int u = 0; u < n; u++)
+            {
+                ArrayList<Integer> current = new ArrayList<Integer>();
+                line = buffer.readLine().trim();
+                int limit = 0;
+                if (!line.equals(""))
+                {
+                    tokens = line.split("\\s+");
+                    limit = tokens.length;
+                }
+
+                for (int i = 0; i < limit; i++)
+                {
+                    current.add(Integer.parseInt(tokens[i]));
+                }
+                adj.add(current);
+            }
+        }
+        catch (IOException x)
+        { throw new Error("bad input stream"); }
+    }
+\end{verbatim}%
+}
+
+Our stream constructor reads in an integer denoting the order $n$ of the
+graph and then reads in $n$ lines denoting the adjacency lists.  Notice
+that we \emph{do not} check for correctness of the data.  For example,
+a graph of 5 vertices could have erroneous adjacency lists with numbers
+outside the range $0$ to $4$. We leave these robustness considerations
+for an extended class to fulfil,  if desired.  Also note that we do not
+list the vertex index in front of the individual lists and we use white
+space to separate items. A blank line indicates an empty list (that is,
+no neighbours) for a vertex.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+    //  Mutator Methods
+    //
+    public void addVertices(int n)
+    {
+        assert(0 <= n);
+        if ( n > 0 )
+        {
+            for (int i = 0; i < n; i++)
+            {
+                adj.add(new ArrayList<Integer>());
+            }
+        }
+    }
+
+    public void removeVertex(int i)
+    {
+        assert(0 <= i && i < order());
+        adj.remove(i);
+        Integer I = new Integer(i);
+        for (int u = 0; u < order(); u++)
+        {
+            ArrayList<Integer> current = adj.get(u);
+            current.remove(I); // remove i from adj lists
+            for (Integer num: current)
+            {
+                if (num > i)  // relabel larger indexed nodes
+                {
+                    int index = current.indexOf(num);
+                    current.set(index, num-1);
+                }
+            }
+        }
+    }
+\end{verbatim}%
+}
+
+Adding vertices is easy for our adjacency lists representation.   Here we
+just expand the internal \verb|_adj| list by appending new empty lists.
+The \verb|removeVertex| method is a little complicated in that we have
+to scan each list to remove arcs pointing to the vertex being deleted.
+We also have chosen to relabel vertices so that there are no gaps (that
+is, we want vertex indexed by $i$ to be labeled \verb|Integer(i)|).  A good
+question would be to find a more efficient \verb|removeVertex| method.
+One way would be to also keep an in-neighbour list for each vertex.
+However, the  extra data structure overhead is not desirable for our
+simple implementation.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+    public void addArc(int i, int j)
+    {
+        assert(0 <= i && i < order());
+        assert(0 <= j && j < order());
+        if (isArc(i,j)) return;
+        (adj.get(i)).add(j);
+    }
+
+    public void removeArc(int i, int j)
+    {
+        assert(0 <= i && i < order());
+        assert(0 <= j && j < order());
+        if (!isArc(i,j)) return;
+        (adj.get(i)).remove(new Integer(j));
+    }
+
+    public void addEdge(int i, int j)
+    {
+        addArc(i,j);
+        addArc(j,i);
+    }
+
+    public void removeEdge(int i, int j)
+    {
+        removeArc(i,j);
+        removeArc(j,i);
+    }
+\end{verbatim}%
+}
+
+Adding and removing arcs is easy since the methods to do this 
+exist in the \verb|Vector| class.  All we have to do 
+is access the appropriate adjacency list.   We have decided
+to place a safeguard in the \verb|addArc| method to prevent parallel
+arcs from being added between two vertices.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+    //  Access Methods
+    //
+    public boolean isArc(int i, int j)
+    {
+        assert(0 <= i && i < order());
+        assert(0 <= j && j < order());
+        return (adj.get(i)).contains(new Integer(j));
+    }
+
+    public boolean isEdge(int i, int j)
+    {
+        return isArc(i,j) && isArc(j,i);
+    }
+
+    public int inDegree(int i)
+    {
+        assert(0 <= i && i < order());
+        int sz = 0;
+        for (int j = 0; j < order(); j++)
+        {
+            if (isArc(j,i))  sz++;
+        }
+        return sz;
+    }
+
+    public int degree(int i)
+    {
+        assert(0 <= i && i < order());
+        return (adj.get(i)).size();
+    }
+\end{verbatim}%
+}
+
+Note how we assume that the \verb|contains| method of a \verb|Vector|
+object does a data equality check and not just a reference check. The
+\verb|outDegree| method probably runs in constant time since we just
+return the list's size.   However, the \verb|inDegree| method has to
+check all adjacency lists and could have to inspect  all arcs of the
+graph/digraph.
+
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize%
+\begin{verbatim}
+    public ArrayList<Integer> neighbours(int i)
+    {
+        assert(0 <= i && i < order());
+        ArrayList<Integer> nei = new ArrayList<Integer>();
+        for (Integer vert : adj.get(i))
+        {
+            nei.add(vert);
+        }
+        return nei;
+        //return (ArrayList<Integer>)(adj.get(i)).clone();
+    }
+
+    public int order()
+    {
+        return adj.size();
+    }
+
+    public int size()    // Number of arcs (counts edges twice)
+    {
+        int sz = 0;
+        for (int i=0; i<order(); i++)
+        {
+            sz += (adj.get(i)).size();
+        }
+        return sz;
+    }
+\end{verbatim}%
+}
+
+We do not want to have any internal references to the graph data structure
+being available to non-class members.   Thus, we elected to return a clone
+of the adjacency list for our \verb|neighbours| method. We did not want to
+keep redundant data so the order of our graph is simply the size of the
+\verb|adj| list. 
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+// default output readable by constructor
+//
+public String toString() { return toStringAdjLists(); }
+
+} // end class GraphAdjLists
+\end{verbatim}%
+}
+
+Again, we have the default output format for this class be compatible 
+with the constructor \verb|BufferedReader|.
+(The method \verb|toStringAdjLists| is defined on
+page~\pageref{graphoutput}.)
+
+\section{Standardized Java graph class}
+
+We now have two implementations of a graph class as
+specified by our interface (abstract class) \verb|Graph|.  We want to write 
+algorithms that can handle either format.  Since Java is object-oriented
+we could have all our algorithms take a \verb|Graph| object and
+the run-time dynamic mechanism should ascertain the correct adjacency
+matrix or adjacency lists methods.
+For example, we could write a graph coloring algorithm prototyped
+as \verb|public int color(Graph G)|  and pass it
+either a \verb|GraphAdjMatrix| or a \verb|GraphAdjLists|.
+And it should work fine!\\ 
+
+We next present a simple test program for how one would use our graph
+implementations.  We encourage the reader to trace through the steps and
+to try to obtain the same output.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+import java.io.*; import graphADT.*;
+
+public class test {
+
+public static void main(String argv[])
+{
+   Graph G1 = new GraphAdjLists();
+
+   G1.addVertices(5);
+   G1.addArc(0,2); G1.addArc(0,3); G1.addEdge(1,2);
+   G1.addArc(2,3); G1.addArc(2,0); G1.addArc(2,4);
+   G1.addArc(3,2); G1.addEdge(4,1); G1.addArc(4,2);
+
+   System.out.println(G1);
+
+   Graph G2 = new GraphAdjMatrix(G1);
+
+   G2.removeArc(2,0); G2.removeArc(4,1); G2.removeArc(2,3);
+
+   System.out.println(G2);
+
+   Graph G3 = new GraphAdjLists(G2);
+
+   G3.addVertices(2);
+   G3.addArc(5,4); G3.addArc(5,2); G3.addArc(5,6);
+   G3.addArc(2,6); G3.addArc(0,6); G3.addArc(6,0);
+
+   System.out.println(G3);
+
+   Graph G4 = new GraphAdjLists(G3);
+
+   G4.removeVertex(4); G4.removeEdge(5,0); G4.addVertices(1);
+   G4.addEdge(1,6);
+
+   System.out.println(G4);
+}
+} // test
+\end{verbatim}%
+}
+
+The expected output, using JDK version 1.6, is given in
+Figure~\ref{fig:graphoutput}.   Note that the last version of the
+digraph $G$ has a vertex of  out-degree zero in the adjacency lists. 
+(To compile our program we type `javac test.java' and to execute it 
+we type `java test' at our command-line prompt `\$'.)
+
+\begin{figure}
+\hspace*{.8in}\begin{minipage}{5in}
+{\begin{verbatim}
+$ javac test.java
+$ java test
+5
+2 3 
+2 4 
+1 3 0 4 
+2 
+1 2 
+
+5
+0 0 1 1 0 
+0 0 1 0 1 
+0 1 0 0 1 
+0 0 1 0 0 
+0 0 1 0 0 
+
+7
+2 3 6 
+2 4 
+1 4 6 
+2 
+2 
+4 2 6 
+0 
+
+7
+2 3 
+2 6 
+1 5 
+2 
+2 5 
+
+1 
+
+\end{verbatim}%
+}
+\end{minipage}
+\caption{Sample output of the graph \algfont{test} program.}
+\label{fig:graphoutput}
+\end{figure}
+%\vfill
+
+\section{Extended graph classes: weighted edges}
+\label{sec:wgraphs}
+
+The graph ADT presented in the previous sections can be easily extended
+to provide a  customized data type.  For example, if one only wants
+undirected graphs then a more restrictive class can be developed to
+prevent arc operations.  In this section we want to illustrate how one
+can develop an ADT for arc-weighted graphs. We first want to define a
+new graph interface that allows for these weights.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+public interface wGraph extends Graph
+{
+    class Weight<X>
+    {
+        private X value;
+        public Weight(X arg)
+        {
+            value = arg;
+        }
+        public X getValue()
+        {
+            return value;
+        }
+        public void setValue(X arg)
+        {
+            value = arg;
+        }
+        public String toString()
+        {
+            return value.toString();
+        }
+    }
+
+    void addArc(int i, int j);  // overridden with "default weight"
+    void addArc(int i, int j, Weight weight);   
+
+    void setArcWeight(int i, int j, Weight weight);    
+    //assumes edge i-j exists; and replaces the weight of edge i-j
+
+    Weight getArcWeight(int i, int j);
+
+    ArrayList<Weight> neighbourWeights(int i);   
+    // If you call neighbours(i) and neighbourWeights(i) then 
+    // the k-th element of both lists are correlated
+}
+\end{verbatim}%
+}
+
+In the above interface, we define a class to represent arbitrary
+weights. Usually one uses \verb|Weight<Integer>| as the arc attributes.
+Since \verb|wGraph| extends \verb|Graph|, the existing graph algorithms,
+written for non-weighted graphs, should still work.
+
+We can implement a \verb|wGraph| in several ways just like we had
+\verb|GraphAdjMatrix| and \verb|GraphAdjLists| for the interface
+\verb|Graph|.  We can then create a \verb|wGraph| object by creating an
+implementation object, such as:\\
+\verb|      wGraph wG = new wGraphMatrix(Buffer);|
+
+An adjacency matrix implementation for this interface is given below.
+Note that the \verb|BufferedReader| constructor assumes weights of type
+\verb|Integer|. If one wants a floating point data type then another
+constructor (or creation method) is required.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+package graphADT;
+
+import java.util.ArrayList; import java.io.*;
+
+public class wGraphMatrix implements wGraph
+{
+    protected int order;
+    protected Weight[][] adjW;  // null entry means no arc
+
+    public wGraphMatrix()
+    {
+       order = 0;
+    }
+
+    public wGraphMatrix(wGraphMatrix G)
+    {
+        int n = order = G.order();
+        if ( n > 0 )
+        {
+            adjW = new Weight[n][n];
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                adjW[i][j] = G.adjW[i][j];
+            }
+        }
+    }
+
+    public wGraphMatrix(wGraph G) //convert implementation
+    {
+        int n = order = G.order();
+        adjW = new Weight[n][n];
+
+        for (int i = 0; i < n; i++)
+        {
+            ArrayList<Integer> nbrs = G.neighbours(i);
+            ArrayList<Weight> wNbrs = G.neighbourWeights(i);
+            for (int j = 0; j < nbrs.size(); j++)
+            {
+                int index = nbrs.get(j);
+                adjW[i][index] = wNbrs.get(j);
+            }
+        }
+    }
+
+    public wGraphMatrix(Graph G) // promote and/or copy
+    {
+        int n = order = G.order();
+        if ( n > 0 )
+        {
+            adjW = new Weight[n][n];
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (G.isArc(i, j))
+                {
+                    adjW[i][j] = new Weight<Integer>(1);
+                }
+            }
+        }
+    }
+
+    public wGraphMatrix(BufferedReader buffer) 
+    {
+        try
+        {
+            String line = buffer.readLine().trim();
+            String[] tokens = line.split("\\s+");
+
+            if (tokens.length != 1)
+            {
+                throw new Error("bad format: number of vertices");
+            }
+            int n = order = Integer.parseInt(tokens[0]);
+
+            if ( n > 0 )
+            {
+                adjW = new Weight[n][n];
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                line = buffer.readLine().trim();
+                tokens = line.split("\\s+");
+                if (tokens.length != n)
+                {
+                  throw new Error("bad format: adjacency matrix");
+                }
+
+                for (int j = 0; j < n; j++)
+                {
+                    int entry = Integer.parseInt(tokens[j]);
+                    if (entry != 0)
+                    {
+                      adjW[i][j] = new Weight<Integer>(entry);
+                    }
+                }
+            }
+        }
+        catch (IOException x)
+        {
+            throw new Error("bad input stream");
+        }
+
+    }
+
+    // mutator methods
+
+    public void addVertices(int n)
+    {
+        assert(0 <= n );
+        Weight weights[][] = new Weight[order+n][order+n];
+
+        for (int i = 0; i < order; i++)
+        {
+            for (int j = 0; j < order; j++)
+            {
+	            weights[i][j] = adjW[i][j];
+            }
+        }
+        order += n;
+        adjW = weights;
+    }
+
+    public void removeVertex(int v)
+    {
+        assert(0 <= v && v < order);
+        order--;
+
+        for (int i = 0; i < v; i++)
+        {
+            for (int j = v; j < order; j++)
+            {
+                adjW[i][j] = adjW[i][j+1];
+            }
+        }
+
+        for (int i = v; i < order; i++)
+        {
+            for (int j = 0; j < v; j++)
+            {
+                adjW[i][j] = adjW[i+1][j];
+            }
+            for (int j = v; j < order; j++)
+            {
+                adjW[i][j] = adjW[i+1][j+1];
+            }
+        }
+    }
+
+    public void addArc(int i, int j)
+    {
+        assert(0 <= i && i < order());
+        assert(0 <= j && j < order());
+        adjW[i][j] = new Weight<Integer>(1); //default weight
+    }
+
+    public void removeArc(int i, int j)
+    {
+        assert(0 <= i && i < order());
+        assert(0 <= j && j < order());
+        adjW[i][j] = null;
+    }
+
+    public void addEdge(int i, int j)
+    {
+        addArc(i,j); addArc(j,i);
+    }
+
+    public void removeEdge(int i, int j)
+    {
+        removeArc(i,j); removeArc(j,i);
+    }
+
+    public void addArc(int i, int j, Weight weight)
+    {
+        assert(0 <= i && i < order());
+        assert(0 <= j && j < order());
+        adjW[i][j] = weight;
+    }
+
+    public void setArcWeight(int i, int j, Weight weight)
+    {
+        assert(isArc(i, j));
+        adjW[i][j] = weight;
+    }
+
+    public Weight<?> getArcWeight(int i, int j)
+    {
+        assert(isArc(i, j));
+        return adjW[i][j];
+    }
+
+    // accessor methods
+
+    public boolean isArc(int i, int j)
+    {
+        assert(0 <= i && i < order);
+        assert(0 <= j && j < order);
+        return adjW[i][j] != null;
+    }
+
+    public boolean isEdge(int i, int j)
+    {
+        return isArc(i,j) && isArc(j,i);
+    }
+
+    public int inDegree(int i) // column count
+    {
+        assert(0 <= i && i < order);
+        int sz = 0;
+        for (int j = 0; j < order; j++)
+        {
+            if (adjW[j][i] != null) sz++;
+        }
+        return sz;
+    }
+
+    public int degree(int i) // row count
+    {
+        assert(0 <= i && i < order);
+        int sz = 0;
+        for (int j = 0; j < order; j++)
+        {
+            if (adjW[i][j] != null) sz++;
+        }
+        return sz;
+    }
+
+    public int order()
+    {
+        return order;
+    }
+
+    public int size()  // Number of arcs (edges count twice)
+    {
+        int sz = 0;
+        for (int i = 0; i< order; i++)
+        {
+            for (int j = 0; j< order; j++)
+            {
+                if (adjW[i][j] != null) sz++;
+            }
+        }
+        return sz;  // undirected ? sz / 2 : sz;
+    }
+
+    public ArrayList<Integer> neighbours(int i)
+    {
+        assert(0 <= i && i < order);
+        ArrayList<Integer> nbrs = new ArrayList<Integer>();
+
+        for (int j = 0; j < order; j++)
+        {
+            if (adjW[i][j] != null) nbrs.add(j); 
+        }
+        return nbrs;
+    }
+
+    public ArrayList<Weight> neighbourWeights(int i)
+    {
+        ArrayList<Weight> nbrsWei = new ArrayList<Weight>();
+
+        for (int j = 0; j < order(); j++)
+        {
+            if (adjW[i][j] != null)
+            {
+               nbrsWei.add(adjW[i][j]); // corresponding weight
+            }
+        }
+        return nbrsWei;
+    }
+
+    public String toString()  // print weights in n-by-n matrix 
+    {
+        StringBuffer o = new StringBuffer();
+        o.append(order()+"\n");
+
+        for (int i = 0; i < order(); i++)
+        {
+            for (int j = 0; j < order(); j++)
+            {
+                if (adjW[i][j] != null)
+                {
+                    o.append(adjW[i][j] + " ");
+                }
+                else
+                {
+                    o.append(0 + " ");
+                }
+            }
+            o.append("\n");
+        }
+        return o.toString();
+    }
+ 
+}
+\end{verbatim}%
+}
+
+One thing to note is that if one wants to output the underlying graph 
+representation (that is, without weights) one can simply call 
+the \verb|toString| method of \verb|Graph| reference.  \\
+
+We conclude by mentioning that the details for an adjacency lists
+implementation, \verb|wGraphLists|, are included in the graph library
+accompanying this book.  We note that this adjacency lists version of the
+ADT is more suitable when one expects weights of numerical value 0 or
+has sparse graphs.
+
+\if 01
+The next program shows how to use both the \verb|wGraphMatrix|
+and \verb|wGraphLists| classes.
+
+{\renewcommand{\ttdefault}{pcr} % for verbatim environment
+\footnotesize \begin{verbatim}
+import java.io.*; import graphADT.*;
+
+class myW extends wGraph.Weight<Integer> 
+{ 
+  myW(int x) { super(new Integer(x)); }
+}
+
+public class testwgraph {
+
+public static void main(String argv[]) 
+{
+   wGraph G1 = new wGraphLists();
+
+   G1.addVertices(5); 
+   G1.addArc(0,2); G1.addArc(0,3); G1.addEdge(1,2); 
+   G1.addArc(2,3); G1.addArc(2,0); G1.addArc(2,4); 
+   G1.addArc(3,2); G1.addEdge(4,1); G1.addArc(4,2);
+
+   System.out.println(G1);
+
+   wGraph G2 = new wGraphMatrix(G1);
+
+   G2.removeArc(2,0); G2.removeArc(4,1); G2.removeArc(2,3);
+
+   G2.addVertices(1); G2.addArc(5,3); G2.addEdge(5,2);
+   G2.removeVertex(5);
+
+   System.out.println(G2);
+
+   wGraph G3 = new wGraphLists(G2);
+
+   G3.addVertices(2);
+   G3.addArc(5,4); G3.addArc(5,2); G3.addArc(5,6);
+   G3.addArc(2,6); G3.addArc(0,6); G3.addArc(6,0);
+
+   System.out.println(G3);
+
+   wGraph G4 = new wGraphLists(G3);
+
+   G4.removeVertex(4); G4.removeEdge(5,0); G4.addVertices(1); 
+   G4.addEdge(1,6);
+
+   System.out.println(G4);
+
+   wGraph GM = new wGraphMatrix();
+
+   GM.addVertices(5); GM.addArc(0,2);
+   GM.addArc(1,2,new myW(6));
+   GM.addArc(3,2,new myW(7));
+   GM.addArc(4,2,new myW(9));
+   GM.addEdge(0,3); GM.setArcWeight(0,3,new myW(8));
+
+   System.out.println(GM);
+   System.out.println(new GraphAdjMatrix(GM));
+
+   wGraph GL = new wGraphLists(GM);
+
+   GL.removeVertex(2);
+   GL.addArc(3,0,new myW(10));
+   GL.setArcWeight(0,2,new myW(11));
+   GL.addArc(3,2,new myW(12));
+   GL.addEdge(1,0);
+   GL.setArcWeight(1,0,new myW(13));
+
+   System.out.println(GL);
+   System.out.println(new GraphAdjLists(GL));
+} 
+} // end testwgraph
+\end{verbatim}%
+}
+
+The output of this test program is given in Figure~\ref{fig:wgraphoutput}.
+
+
+\begin{figure}
+\hspace*{.8in}\begin{minipage}{5in}
+{\begin{verbatim}
+5
+2 1 3 1 
+2 1 4 1 
+1 1 3 1 0 1 4 1 
+2 1 
+1 1 2 1 
+
+5
+0 0 1 1 0 
+0 0 1 0 1 
+0 1 0 0 1 
+0 0 1 0 0 
+0 0 1 0 0 
+
+7
+2 1 3 1 6 1 
+2 1 4 1 
+1 1 4 1 6 1 
+2 1 
+2 1 
+4 1 2 1 6 1 
+0 1 
+
+7
+2 1 3 1 
+2 1 6 1 
+1 1 5 1 
+2 1 
+2 1 5 1 
+
+1 1 
+
+5
+0 0 1 8 0 
+0 0 6 0 0 
+0 0 0 0 0 
+1 0 7 0 0 
+0 0 9 0 0 
+
+5
+0 0 1 1 0 
+0 0 1 0 0 
+0 0 0 0 0 
+1 0 1 0 0 
+0 0 1 0 0 
+
+4
+2 11 1 1 
+0 13 
+0 1 
+0 10 2 12 
+
+4
+2 1 
+0 
+0 
+0 2 
+\end{verbatim}%
+}
+\end{minipage}
+\caption{Sample output of the weighted graph \algfont{test} program.}
+\label{fig:wgraphoutput}
+\end{figure}
+\fi

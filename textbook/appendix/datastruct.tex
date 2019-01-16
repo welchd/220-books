@@ -1,0 +1,148 @@
+\chapter{Background on Data Structures}
+\label{ch:app:datastruct}
+
+We assume that the reader is familiar with basic data structures such
+as arrays and with the basic data types built in to most programming
+languages (such as integer, floating point, string, etc). Many programming
+applications require the programmer to create complicated combinations
+of the built-in structures. Some languages make this easy by allowing
+the user to define new data types (for example Java or C++ classes), and
+others do not (for example C, Fortran). These new data types are concrete
+implementations in the given language of \defnfont{abstract data type}s
+(\defnfont{ADT}s), which are mathematically specified.
+
+\section{Informal discussion of ADTs}
+\label{sec:app:adt-informal}
+
+An ADT consists of a set with certain operations on it. How those
+operations are to be carried out is not our concern here. It is up to the
+programmer to choose an implementation that suits the given application.
+
+Some of the key ADTs are: list, stack, queue, priority queue, dictionary,
+disjoint sets. We discuss them each below in turn, semi-formally. 
+
+A \defnfont{container} is a collection of objects from some universal
+set $U$. Basic operations are to create a new empty container, insert an
+element, check whether the container is empty (the \algfont{isEmpty} operation). 
+We assume that each element when inserted returns a locator that identifies its 
+position uniquely.
+
+We can then try to \algfont{find} an element. Depending on the
+additional operations defined, this may be easy or difficult. We may
+need to enumerate all locators. We can also find the \algfont{size}
+of a container by enumerating all locators. Again, this may be very
+inefficient, and for certain applications a special size operation
+may be defined. Similarly, many container ADTs have a 
+\algfont{delete} operation. Some of these allow quick removal of an
+element, while others have to find it first, which may be slower.
+
+Other operations can be expressed in terms of the basic ones. For
+example, we can sometimes modify or update an element by finding it,
+remembering its locator, deleting it, then inserting the new value at
+the given location. This procedure is sometimes very inefficient, so a
+special update operation may be required in some situations. We normally
+try to have as few basic operations as possible, and other operations
+such as sorting are expressed in terms of these (this is the aim of
+``generic programming").
+
+As we see a container is very general. Some of the important container
+ADTs are listed below.
+
+A \defnfont{list} is a container that stores elements in a linear
+sequence. Some basic operations are to \algfont{insert} in a given
+position in the sequence, to \algfont{delete} an element at a given
+position. To find an element requires sequential search, enumerating
+all locators until the element is found or we run out of locators. The first element 
+of a list is called the \defnfont{head} and the last is the \defnfont{tail}.
+A \defnfont{sublist} is a contiguous piece of the list, that can be traversed by the 
+iterator with no gaps. If we divide the list into two sublists by choosing an 
+element $x$ and letting the head sublist consist of all elements before $x$, and the 
+tail sublist consist of all elements after it (either sublist, or neither, may 
+contain $x$, depending on the situation).
+
+The main data structures used for implementing a list are arrays and
+singly- and doubly-linked lists. They have different properties. For
+example, to find the middle element of a list implemented as an array
+is a constant-time operation but this is not true for the linked lists,
+since one must traverse the list, not having direct access to the middle
+element as in an array. On the other hand, to insert an element in a
+given (nonempty) position in an array takes longer than with the linked
+list implementation.
+
+A \defnfont{sorted list} is a container of elements from a totally
+ordered set $U$, with the same basic operations as a list, except that
+the elements are kept sorted in ascending order.
+
+A \defnfont{stack} is a restricted kind of list in which insertion and deletion
+occur at the same end (``top") of the list, and at no other position. The
+basic operations are \algfont{insert} (also called \algfont{push}),
+\algfont{delete} (also called \algfont{pop}), and \algfont{getTop}
+(also called \algfont{peek}) which returns the element at the top of the
+list without removing it.
+
+A \defnfont{queue} is a restricted kind of list in which insertion occurs at one end
+(the ``tail") and deletion occurs at the other end (the ``head"). The
+basic operations are \algfont{insert} (also called \algfont{enqueue} or 
+\algfont{push}), \algfont{delete} (also called \algfont{dequeue} or 
+\algfont{pop}), and \algfont{getHead} (also called \algfont{peek}) which 
+returns the element at the head without removing it.
+
+A \defnfont{priority queue} is a container of elements from a totally
+ordered set $U$ that allows us to \algfont{insert} an element, to
+find the smallest element with \algfont{peek}, and to remove the
+smallest element with \algfont{delete}.
+ A more advanced operation is \algfont{decreaseKey} which finds and makes 
+an element smaller. A general delete operation is not usually defined.
+
+A priority queue can be well implemented using a binary heap, if the
+operation \algfont{decreaseKey} is not required to be particularly efficient. 
+Otherwise, more sophisticated implementations are normally used.
+
+A \defnfont{dictionary} (also called \defnfont{table}, 
+\defnfont{associative array} 
+or \defnfont{map}) is a a container with basic operations
+\algfont{find}, \algfont{insert}, and \algfont{delete}. It is usually
+also desired to perform an \algfont{update} operation many times, since
+dictionaries are often used for dynamic databases.
+
+Some of these ADTs can be used to simulate other ones. For example,
+a dictionary can be implemented using a list. Insertion occurs
+after the last element, and finding is via sequential search. For
+practical situations where a dictionary is used, the \algfont{find}
+operation is used a lot, so such an inefficient implementation would not
+normally be used. Similarly, one can use a list to simulate a priority
+queue. Insertion occurs at one end and finding the maximum element by
+sequential search. Or we could use a sorted list, where insertion occurs
+at the correct point and removing the minimum element is particularly
+easy, since it is just removing the first element.
+
+\section{Notes on a more formal approach}
+\label{sec:app:adt-formal}
+
+The discussion above still doesn't define the various ADTs in a completely
+satisfactory way. As in abstract algebra, we must specify not only the
+basic operations but also their properties using a set of axioms. It can
+be quite difficult to do this succinctly. Also, whereas in the case of
+algebra the basic structures (group, ring, field \dots) have been agreed
+on for many decades, the axiomatic definitions of the main ADTs do not
+seem to be completely standardized yet. So we shall not give a complete
+axiomatic presentation, but limit ourselves to an example.
+
+The stack ADT could be defined as follows.
+
+A stack on a set $U$ is a set $S$ with operations \algfont{push},
+\algfont{pop}, \algfont{peek}, \algfont{isEmpty}. There is an empty
+stack called $\varepsilon$ which corresponds to $S$ being the empty
+set. These operations do the following: \algfont{push} takes an ordered
+pair consisting of a stack and an element of $U$ as an argument, and
+returns a stack; \algfont{pop} takes a stack as an argument and returns
+an element of $U$; \algfont{peek} takes a stack as an argument and returns
+either an element of $u$ or ``ERROR"; \algfont{isEmpty} returns either
+0 (false) or 1 (true). The axioms for every stack S and element $x$ of $U$ are 
+as follows.
+\begin{itemize}
+\item \algfont{isEmpty}($\varepsilon$) = 1
+\item \algfont{pop}(\algfont{push}($S$, $x$)) = $S$
+\item \algfont{peek}(\algfont{push}($S$, $x$)) = $x$
+\end{itemize}
+

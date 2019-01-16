@@ -1,0 +1,1142 @@
+\chapter{Weighted Digraphs and Optimization Problems}
+\label{ch:weighted}
+
+
+\section{ weighted graph problems}
+\section{ Dijkstra}
+\section{ Bellman-Ford}
+\section{ Floyd}
+\section{ Prim, Kruskal}
+
+
+So far our digraphs have only encoded information about connection
+relations between nodes. For many applications it is important to study
+not only \boldfont{whether} one can get from $A$ to $B$, but
+\boldfont{how much it will cost} to do so.
+
+For example, the weight could represent how much it costs to use a link
+in a communication network, or distance between nodes in a
+transportation network. We shall use the terminology of cost and distance
+interchangeably (so, for example, we talk about finding a minimum weight
+path by choosing a shortest edge).
+
+We need a different ADT for this purpose. 
+
+\section{Weighted digraphs}
+\label{sec:weighted}
+
+\begin{Definition}
+A \defnfont{weighted digraph} is a pair $(G, c)$ where $G$ is a digraph
+and $c$ is a \defnfont{cost function}, that is, a function associating a
+real number to each arc of $G$.
+
+\end{Definition}
+
+We interpret $c(u, v)$ as the cost of using arc $(u, v)$. An ordinary digraph 
+can be thought of as a special type of weighted digraph where the cost of each 
+arc is $1$. A weighted graph may be represented as a symmetric digraph where 
+each of a pair of antiparallel arcs has the same weight.
+
+In Figure~\ref{fig:graphExample5} we display a classic unweighted graph
+(called the $3$-cube) of diameter $3$, a digraph with arc weights, and a
+graph with edge weights.
+
+\begin{figure}
+\centerline{\IpeScale{80}\Ipe{./figs/graphEx5.ipe}}
+
+\caption{Some weighted (di)graphs.}
+\label{fig:graphExample5}
+\end{figure}
+
+There are two obvious ways to represent a weighted digraph on a
+computer. One is via a matrix. The adjacency matrix is modified so that
+each entry of $1$ (signifying that an arc exists) is replaced by the
+cost of that arc. Another is a double adjacency list. In this case, the
+list associated to a node $v$ contains, alternately, an adjacent node
+$w$ and then the cost $c(v, w)$.  
+
+If there is no arc between $u$ and $v$, then in an ordinary adjacency
+matrix the corresponding entry is $0$. However, in a weighted adjacency
+matrix, the ``cost" of a non-existent arc should be set consistantly 
+for most applications. We adopt the following \boldfont{convention}. 
+An entry of \verb|null| or $0$ in a weighted 
+adjacency matrix
+means that the arc does not exist, and vice versa. In many of our
+algorithms below, such entries should be replaced by the programming
+equivalent of \verb|null| for class objects, or $\infty$ for 
+primitive data types.  In the later case, we might use some positive 
+integer greater than any expected value that might occur during
+an execution of the program. 
+
+
+\begin{Example}
+The two weighted (di)graphs of Figure~\ref{fig:graphExample5} are
+stored as weighted adjacency matrices below.
+
+\[ 
+\left[
+\begin{array}{cccc}
+0 & 1 & 4 & 0  \\
+0 & 0 & 0 & 2  \\
+0 & 2 & 0 & 5  \\
+2 & 0 & 0 & 0  \\
+\end{array}
+\right]
+\hspace{2cm}
+\left[
+\begin{array}{cccccc}
+0 & 4 & 1 & 0 & 4 & 0 \\
+4 & 0 & 0 & 2 & 3 & 4 \\
+1 & 0 & 0 & 0 & 3 & 0 \\
+0 & 2 & 0 & 0 & 0 & 1 \\
+4 & 3 & 3 & 0 & 0 & 2 \\
+0 & 4 & 0 & 1 & 2 & 0 \\
+\end{array}
+\right]
+\]
+
+The corresponding weighted adjacency lists representations are
+
+$$
+\AdjLists{
+\begin{tabular}{llll}
+1 & 1 & 2 & 4 \\
+3 & 2 &   &   \\
+1 & 2 & 3 & 5 \\
+0 & 2 &   & \\
+\end{tabular}
+}
+$$
+ and \hspace{2cm}
+$$
+\AdjLists{
+\begin{tabular}{llllllll}
+1 & 4 & 2 & 1 & 4 & 4 & & \\
+0 & 4 & 3 & 2 & 4 & 3 & 5 & 4 \\
+0 & 1 & 4 & 3 & & & & \\
+1 & 2 & 5 & 1 & & & & \\
+0 & 4 & 1 & 3 & 2 & 3 & 5 & 2 \\
+1 & 4 & 3 & 1 & 4 & 2 & & \\
+\end{tabular}
+}
+$$
+\end{Example}
+
+See Appendix~\ref{sec:wgraphs} for sample Java code for representing
+the abstract data type of edge-weighted digraphs.
+
+%\subsection*{Exercises}
+
+\section{Distance and diameter in the unweighted
+case}\label{sec:unweighted}
+
+One important application for graphs is to model computer networks or
+parallel processor connections.  There are many properties of such
+networks that can be obtained by studying the characteristics of the
+graph model. For example, how do we send a message from one computer to
+another, using the fewest intermediate nodes? This question is answered
+by finding a shortest path in the graph.  We may also want to know what
+the largest number of communication links that may be required for any
+two nodes to talk with each other; this is equal to the diameter of
+the graph.
+
+\begin{Definition}\label{def:diameter}
+The \defnfont{diameter} of a strongly connected digraph $G$ is the
+maximum of $d(u,v)$ over all nodes $u, v\in V(G)$.
+\end{Definition}
+
+\begin{note} If the digraph is not strongly connected then the
+diameter is not defined; the only ``reasonable" thing it could be
+defined to be would be $+\infty$, or perhaps $n$ (since 
+no path in $G$ can have length more than $n-1$).
+\end{note}
+
+\begin{Example}
+The diameter of the $3$-cube in Figure~\ref{fig:graphExample5} is easily
+seen to be $3$. Since the digraph $G_2$ in Figure~\ref{fig:graphExample}
+is not strongly connected, the diameter is undefined.  
+\end{Example}
+
+The problem of computing distances in (ordinary, unweighted) digraphs is
+relatively easy. We already know from Theorem~\ref{thm:BFSdist} that
+for each search tree, BFS finds the distance from the root $s$ to each
+node in the tree (this distance equals the level of the node). If $v$
+is not in the tree then $v$ is not reachable from $s$ and so $d(s,v) =
++\infty$ (or is undefined,  depending on your convention). 
+
+It is often useful to have a readily available \defnfont{distance matrix}.
+The $(i, j)$-entry of this matrix contains the distance between node $i$
+and node $j$. Such a matrix can be generated by running \algfont{BFSvisit}
+from each node in turn; this gives an algorithm with running time in
+$\Theta(n^2+nm)$.
+
+
+\begin{Example}
+An adjacency matrix and a distance matrix for the 3-cube shown in
+Figure~\ref{fig:graphExample5} is given below.  The maximum entries of
+value $3$ indicate the diameter. The reader should check these entries
+by performing a breadth-first search from each vertex.
+
+\[
+\left[
+\begin{array}{cccccccc}
+0& 1& 1& 0& 0& 0& 1& 0\\
+1& 0& 0& 1& 0& 0& 0& 1 \\
+1& 0& 0& 1& 1& 0& 0& 0\\
+0& 1& 1& 0& 0& 1& 0& 0 \\
+0& 0& 1& 0& 0& 1& 1& 0 \\
+0& 0& 0& 1& 1& 0& 0& 1 \\
+1& 0& 0& 0& 1& 0& 0& 1 \\
+0& 1& 0& 0& 0& 1& 1& 0 \\
+\end{array}
+\right]
+\hspace{2cm}
+\left[
+\begin{array}{cccccccc}
+0& 1& 1& 2& 2& 3& 1& 2\\
+1& 0& 2& 1& 3& 2& 2& 1\\
+1& 2& 0& 1& 1& 2& 2& 3\\
+2& 1& 1& 0& 2& 1& 3& 2\\
+2& 3& 1& 2& 0& 1& 1& 2\\
+3& 2& 2& 1& 1& 0& 2& 1\\
+1& 2& 2& 3& 1& 2& 0& 1\\
+2& 1& 3& 2& 2& 1& 1& 0\\
+\end{array}
+\right]
+\]
+
+\end{Example}
+
+It is more difficult to compute distance in weighted digraphs. In the
+next two sections we consider this problem.
+
+\subsection*{Exercises}
+
+\begin{Exercise}
+\label{ex:BFSfails}
+Give an example of a weighted digraph in which the obvious BFS approach
+does not find the shortest path from the root to each other node.
+\end{Exercise}
+
+\begin{Exercise}
+\label{ex:radius}
+The \defnfont{eccentricity} of a node $u$ in a  digraph $G$  is the
+maximum of $d(u, v)$ over all $v\in V(G)$. The \defnfont{radius} of $G$
+is the minimum eccentricity of a node. Write an
+algorithm to compute the radius of a digraph in time $\Theta(n^2 +
+nm)$. How can we read off the radius from a distance matrix?
+\end{Exercise}
+
+\section{Single-source shortest path problem}
+\label{sec:SSSP}
+
+The \defnfont{single-source shortest path} problem (SSSP) is as
+follows. We are given a weighted digraph $(G, c)$ and a source node
+$s$. For each node $v$ of $G$, we must find the minimum weight of a path
+from $s$ to $v$ (by the weight of a path we mean the sum of the weights
+on the arcs).
+
+\begin{Example}
+\label{eg:SSSP}
+In the weighted digraph of Figure~\ref{fig:graphExample5}, we can see by
+considering all possibilities that the unique minimum weight path from
+$0$ to $3$ is $0\, 1\, 3$, of weight $3$.
+\end{Example}
+
+We first present an algorithm of Dijkstra that gives an optimal
+solution to the SSSP whenever all weights are nonnegative. It
+does not work in general if some weights are negative---see
+Exercise~\ref{ex:dijk-neg-fails}. 
+
+Dijkstra's algorithm is an example of a \defnfont{greedy algorithm}. At
+each step it makes the best choice involving only local information,
+and never regrets its past choices. It is easiest to describe in terms of
+a set $S$ of nodes which grows to equal $V(G)$. 
+
+Initially the only paths available are the one-arc paths from $s$ to
+$v$, of weight $c(s, v)$. At this stage, the set $S$  contains only the
+single node $s$. We choose the neighbour $u$ with $c(s, u)$ minimal and
+add it to $S$. Now the fringe nodes adjacent to $s$ and $u$ must be
+updated to reflect the new information (it is possible that there
+exists a path from $s$ to $v$, passing through $u$, that is shorter
+than the direct path from $s$). Now we choose the node (at ``level" $1$
+or $2$) whose current best distance to $s$ is smallest, and update
+again. We continue in this way until all nodes belong to $S$.
+
+The basic structure of the algorithm is presented in
+Figure~\ref{fig:dijkstra-alg}.
+
+\begin{figure}
+\hspace*{.6in}\begin{minipage}{5in}
+\Algorithm{Dijkstra}{weighted digraph $(G, c)$; node $s\in V(G)$}{}
+{
+\> array $colour[0..n-1]$, $dist[0..n-1]$ \\
+\> \textbf{for} $u\in V(G)$ \textbf{do} \\
+\> \> $dist[u] \gets c[s,u]$; $colour[u] \gets$ WHITE  \\
+\> \textbf{end for} \\
+\> $dist[s] \gets 0$; $colour[s] \gets $ BLACK\\
+\> \textbf{while}  there is a white node  \\
+\> \> find a white node $u$ so that $dist[u]$ is minimum\\
+\> \> $colour[u] \gets $ BLACK \\
+\> \> \textbf{for}  $x \in V(G)$ \textbf{do}\\
+\> \> \> \textbf{if} $colour[x] = $ WHITE  \textbf{then} \\
+\> \> \> \> $dist[x] \gets \min \{dist[x], dist[u] + c[u,x]\}$\\  
+\> \> \> \textbf{end if} \\
+\> \> \textbf{end for} \\
+\> \textbf{end while} \\
+\> \textbf{return} $dist$\\ 
+}
+\end{minipage}
+\caption{Dijkstra's algorithm, first version.}
+\label{fig:dijkstra-alg}
+\end{figure}
+
+
+\begin{Example}
+\label{eg:dijkstra}
+An application of Dijkstra's algorithm on the second digraph
+of Figure~\ref{fig:graphExample5} is given in Table~\ref{tab:dijkstrarun}
+for each starting vertex $s$.
+
+The table illustrates that the distance vector is updated at 
+most $n - 1$ times (only before a new vertex is selected and added to $S$). 
+Thus we could have omitted the lines with $S=\set{0,1,2,3}$ in 
+Table~\ref{tab:dijkstrarun}.
+\end{Example}
+
+\begin{table}[h]
+\caption{Illustrating Dijkstra's algorithm.}\label{tab:dijkstrarun}
+\begin{center}
+\begin{tabular}{|c|c|}\hline
+\textbf{current} $S \subseteq V$ &  \textbf{distance vector} $dist$  \\ \hline
+\set{0} & $0, 1, 4, \infty$  \\
+\set{0,1} & $0, 1, 4, 3$  \\
+\set{0,1,3} & $0, 1, 4, 3$  \\
+\set{0,1,2,3} & $0, 1, 4, 3$  \\ \hline
+\set{1} & $\infty, 0, \infty, 2$  \\
+\set{1,3} & $4, 0, \infty, 2$ \\
+\set{0,1,3} & $4, 0, 8, 2$ \\
+\set{0,1,2,3} & $4, 0, 8, 2$ \\ \hline
+\set{2} & $\infty, 2, 0, 5$  \\
+\set{1,2} & $\infty, 2 , 0, 4$ \\
+\set{1,2,3} & $6, 2, 0, 4$  \\
+\set{0,1,2,3} & $6, 2, 0, 4$ \\ \hline
+\set{3} & $2, \infty, \infty, 0$ \\
+\set{0,3} & $2, 3, 6, 0$ \\
+\set{0,1,3} & $2, 3, 6, 0 $ \\
+\set{0,1,2,3} & $2, 3, 6, 0$ \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Why does Dijkstra's algorithm work? The proof of correctness is a
+little longer than for previous algorithms. The key observation is the
+following result. By an \defnfont{$S$-path} from $s$ to $w$ we mean a
+path all of whose intermediate nodes belong to $S$. In other words, $w$
+need not belong to $S$, but all other nodes in the path do belong to $S$.
+
+\begin{Theorem}
+\label{thm:dijkstra} Suppose that all arc weights are nonnegative. Then
+at the top of the \boldfont{while} loop, we have the following properties:
+\begin{description}
+\item[P1:] if $x\in V(G)$, then $dist[x]$ is the minimum cost of an $S$-path 
+from $s$ to $x$;
+\item[P2:] if $w\in S$, then $dist[w]$ is the minimum cost of a path
+from $s$ to $w$.
+\end{description}
+\end{Theorem}
+
+\begin{note} Assuming the result to be true for a moment, we can see
+that once a node $u$ is added to $S$ and $dist[u]$ is updated, $dist[u]$
+never changes in subsequent iterations. When the algorithm terminates,
+all nodes belong to $S$ and hence $dist$ holds the correct distance information.
+\end{note}
+\begin{proof} 
+Note that at every step, $dist[x]$ does contain
+the length of \boldfont{some} path from $s$ to $x$; that path is an
+$S$-path if $x\in S$. Also, the update formula ensures that $dist[x]$
+never increases. 
+
+To prove P1 and P2, we use induction on the number of times $k$ we
+have been through the while-loop. Let $S_k$ denote the value of $S$
+at this stage. When $k=0$, $S_0=\{s\}$, and since $dist[s]=0$, P1 and
+P2 obviously hold. Now suppose that they hold after $k$ times through
+the while-loop and let $u$ be the next special node chosen during that
+loop. Thus $S_{k+1} = S_k \cup \set{u}.$
+
+We first show that P2 holds after $k+1$ iterations. Suppose that
+$w\in S_{k+1}$.  If $w\neq u$ then $w\in S$ and so P2 trivially
+holds for $w$ by the inductive hypothesis. On the other hand,
+if $w=u$, consider any $S_{k+1}$-path $\gamma$ from $s$ to $u$.
+%(see Figure~\ref{fig:dijk-proof1}). 
+We shall show that $dist[u] \leq
+|\gamma |$ where $| \gamma | $ denotes the weight of $\gamma$. The
+last node before $u$ is some $y\in S_k$. Let $\gamma_1$ be the subpath
+of $\gamma$ ending at $y$. Then $dist[u] \leq dist[y] + c(y,u)$ by the
+update formula. Furthermore $dist[y] \leq |\gamma_1 |$ by the inductive
+hypothesis applied to $y\in S_k$. Thus, combining these inequalities,
+we obtain $dist[u] \leq |\gamma_1 | + c(y, u) = | \gamma |$ as
+required. Hence P2 holds for every iteration.
+
+Now suppose $x\in V(G)$. Let $\gamma$ be any $S_{k+1}$-path to $x$. If
+$u$ is not involved then $\gamma$ is an $S_k$ path and so $|\gamma| \leq
+dist[x]$ by the inductive hypothesis. Now suppose that $\gamma$ does
+include $u$. 
+If $\gamma$ goes straight from $u$ to $x$, we let $\gamma_1$ denote the 
+subpath of $\gamma$ ending at $u$. Then $|\gamma| = |\gamma_1| + c(u,x) \geq 
+dist[x]$ by the update formula. 
+Otherwise, after reaching $u$, the path returns into $S_k$
+directly, emerging from $S_k$ again, at some node $y$ before going
+straight to $x$ (see Figure~\ref{fig:dijk-proof2}). Let $\gamma_1$
+be the subpath of $\gamma$ ending at $y$. Since P2 holds for $S_k$,
+there is a minimum weight $S_k$-path $\beta$ from $s$ to $y$ of length
+$dist[y]$. Thus by the update formula, 
+$$
+|\gamma| = |\gamma_1| + c(y,
+x) \geq |\beta| + c(y, x) \geq dist[y] + c(y, x) \geq dist[x].
+$$ 
+Hence P1 holds for all iterations.
+\end{proof}
+
+\begin{figure}
+\centerline{\input{figs/wDijkstra.pstex_t}}
+\caption{Picture for proof of Dijkstra's algorithm.}
+\label{fig:dijk-proof2}
+\end{figure}
+
+The study of the time complexity of Dijkstra's algorithm leads to many
+interesting topics.
+
+Note that the value of $dist[x]$ will change only if $x$ is adjacent to
+$u$. Thus if we use a weighted adjacency list, the block inside the
+second for-loop need only be executed $m$ times. However, if
+using the adjacency matrix representation, the block inside the for-loop
+must still be executed $n^2$ times.
+
+The time complexity is of order $a n + m$ if adjacency lists are used,
+and $a n + n^2$ with an adjacency matrix, where $a$ represents the time
+taken to find the node with minimum value of $dist$. The obvious method
+of finding the minimum is simply to scan through array $dist$
+sequentially, so that $a$ is of order $n$, and the running time of
+Dijkstra is therefore $\Theta(n^2)$. Dijkstra himself originally used
+an adjacency matrix and scanning of the $dist$ array. 
+
+The above analysis is strongly reminiscent of our analysis of graph
+traversals in Section~\ref{sec:trav}, and in fact Dijkstra's algorithm fits
+into the priority-first search framework discussed in
+Section~\ref{sec:PFS}. The key value associated to a node $u$ is simply the
+value $dist[u]$, the current best distance to that node from the root $s$.
+In Figure~\ref{fig:dijkstra-alg2} we present Dijkstra's algorithm in this
+way.
+
+\begin{figure}
+\Algorithm{Dijkstra2}{weighted digraph $(G, c)$; node $s\in V(G)$}{}
+{
+\> priority queue $Q$ \\
+\> array $colour[0..n-1]$, $dist[0..n-1]$ \\
+\> \textbf{for} $u\in V(G)$ \textbf{do} \\
+\> \> $colour[u] \gets$ WHITE  \\
+\> \textbf{end for} \\
+\> $colour[s] \gets $ GREY \\
+\> Q.\algfont{insert}($s$, $0$) \\
+\> \textbf{while not} Q.\algfont{isEmpty}() \textbf{do} \\
+\> \> $u \gets $ Q.\algfont{peek}(); $t_1 \gets$  Q.\algfont{getKey}($u$) \\
+\> \> \textbf{for} each $x$ adjacent to $u$ \textbf{do} \\
+\> \> \> $t_2 \gets t_1 + c(u, x)$ \\
+\> \> \>  \textbf{if} $colour[x] = $ WHITE \textbf{then} \\
+\> \> \> \> $colour[x] \gets $ GREY \\
+\> \> \> \> Q.\algfont{insert}($x, t_2$) \\
+\> \> \> \textbf{else if} $colour[x] = $ GREY \textbf{and} Q.\algfont{getKey}($x$) $ > t_2$ \textbf{then} \\
+\> \> \> \> Q.\algfont{decreaseKey}($x$, $t_2$) \\
+\> \> \> \textbf{end if} \\
+\> \> \textbf{end for} \\
+\> \> Q.\algfont{delete}() \\
+\> \> $colour[u] \gets $ BLACK \\
+\> \> $dist[u] \gets t_1$ \\
+\> \textbf{end while} \\
+\> \textbf{return} $dist$\\
+}
+\caption{Dijkstra's algorithm, PFS version.}
+\label{fig:dijkstra-alg2}
+\end{figure}
+
+
+It is now clear from this formulation that we need to perform $n$
+delete-min operations and at most $m$ decrease-key operations, and
+that these dominate the running time. Hence using a binary heap (see
+Section~\ref{sec:heapsort}), we can make Dijkstra's
+algorithm run in time $O((n + m) \log n)$. Thus if every node is reachable 
+from the source, it runs in time $O(m\log n)$.
+
+The quest to improve the complexity of algorithms like Dijkstra's has
+led to some very sophisticated data structures that can implement the
+priority queue in such a way that the decrease-key operation is faster
+than in a heap, without sacrificing the delete-min or other operations.
+Many such data structures have been found, mostly complicated variations
+on heaps; some of them are called Fibonacci heaps and 2--3 heaps. The
+best complexity bound for Dijkstra's algorithm, using a Fibonacci heap,
+is $O(m + n\log n)$.
+
+\subsection{Bellman--Ford algorithm}
+\label{subsec:bellford}
+
+This algorithm, unlike Dijkstra's handles negative weight arcs, but runs
+slower than Dijkstra's when all arcs are nonnegative. The basic idea,
+as with Dijkstra's algorithm, is to solve the SSSP under  restrictions
+that become progressively more relaxed. Dijkstra's algorithm solves the
+problem one node at a time based on their current distance estimate.
+
+In contrast, the Bellman--Ford algorithm solves the problem for all
+nodes at ``level" $0, 1, \dots , n-1$ in turn. By level we mean the
+minimum possible number of arcs in a minimum weight path to that node from the
+source.
+
+\begin{figure}
+\hspace*{1in}\begin{minipage}{5in}
+\Algorithm{BellmanFord}{weighted digraph $(G,c)$; node $s$}{}
+{
+\> array $dist[0..n-1]$ \\
+\> \textbf{for} $u \in V(G)$ \textbf{do} \\
+\> \> $dist[u] \gets \infty$ \\
+\> \textbf{end for} \\
+\> $dist[s] \gets 0$ \\
+\> \textbf{for} $i$ \textbf{from} $0$ \textbf{to} $n-1$ \textbf{do} \\
+\> \> \textbf{for} $x \in V(G)$ \textbf{do}\\
+\> \> \> \textbf{for} $v \in V(G)$ \textbf{do}\\
+\> \> \> \> $dist[v] \gets \min( dist[v], dist[x] + c(x,v) )$ \\
+\> \> \> \textbf{end for} \\
+\> \> \textbf{end for} \\
+\> \textbf{end for}\\
+\> \textbf{return} $dist$ \\
+}
+\end{minipage}
+\caption{Bellman--Ford algorithm.}
+\label{fig:bellford-code}
+\end{figure}
+
+\begin{Theorem} 
+Suppose that $G$ contains no negative weight cycles. Then after the $i$-th 
+iteration of the outer for-loop, $dist[v]$ contains the minimum weight of a 
+path to $v$ for all nodes $v$ with level at most $i$.
+\end{Theorem}
+
+\begin{proof} 
+Note that as for Dijkstra, the update formula is such that
+$dist$ values never increase.
+
+We use induction on $i$. When $i=0$ the  result is true because of our
+initialization. Suppose it is true for $i-1$. Let $v$ be a node at level
+$i$, and let $\gamma$ be a minimum weight path from $s$ to $v$. Since
+there are no negative weight cycles, $\gamma$ has $i$ arcs. If $y$
+is the last node of $\gamma$ before $v$, and $\gamma_1$ the subpath to
+$y$, then by the inductive hypothesis we have $dist[y] \leq | \gamma_1
+|$. Thus by the update formula we have $dist[v] \leq dist[y] + c(y, v)
+\leq | \gamma_1 | + c(y, v) \leq | \gamma |$ as required.
+\end{proof}
+
+The Bellman--Ford algorithm runs in time $\Theta(nm)$ using adjacency
+lists, since the statement in the inner for-loop need only be
+executed if $v$ is adjacent to $x$, and the outer loop runs $n$
+times. Using an adjacency matrix it runs in time $\Theta(n^3)$.
+
+\subsection*{Exercises}
+
+%\newpage
+\begin{Exercise} 
+\label{ex:do-bellford}
+Run the Bellman--Ford algorithm on the digraph with weighted adjacency 
+matrix given below. Choose each node as the source in turn as in 
+Example~\ref{eg:dijkstra}.
+$$
+\left[
+\begin{matrix}
+0 & 6 & 0 & 0 & 7 \\
+0 & 0 & 5 & -4 & 8 \\
+0 & -2 & 0 & 0 & 0 \\
+2 & 0 & 7 & 0 & 0 \\
+0 & 0 & -3 & 9 & 0 \\
+\end{matrix}
+\right]
+$$
+\end{Exercise}
+
+\begin{Exercise}\label{ex:SSSP-neg-cycle}
+Explain why the SSSP problem makes no sense if we allow digraphs with
+cycles of negative total weight.
+\end{Exercise}
+
+%\newpage
+\begin{Exercise}\label{ex:dijk-SI}
+The graph shows minimum legal driving times (in multiples of 5 minutes) 
+between various South Island towns. What is the shortest time to drive legally from
+Picton to (a) Wanaka, (b) Queenstown and (c) Invercargill? Explain which
+algorithm you use and show your work.
+\begin{center}
+\includegraphics[width=8cm]{figs/SI.xfg.eps}
+%\verb|\epsfig{figure=figs/SI.xfg.eps, width=12cm}|
+\end{center}
+\end{Exercise}
+
+\begin{Exercise}\label{ex:bellman-neg-cycle}
+Suppose the input to the Bellman--Ford algorithm is a digraph with a
+negative weight cycle. How does the algorithm detect this, so it can
+exit gracefully with an error message?
+\end{Exercise}
+
+\begin{Exercise}\label{ex:dijk-neg-fails}
+Give an example to show that Dijkstra's algorithm may fail to give the
+correct answer if some weights are negative. Make your example as small as
+possible. Then run the Bellman--Ford algorithm on the example and verify
+that it gives the correct answer.
+\end{Exercise}
+
+\begin{Exercise}
+\label{ex:dijk-proof}
+Where in the proof of Dijkstra's algorithm do we use the fact that 
+all the arc weights are nonnegative?
+\end{Exercise}
+
+\section{All-pairs shortest path problem}
+\label{sec:APSP}
+
+The problem is as follows: given a weighted digraph $(G, c)$, determine
+for each $u, v\in V(G)$ (the length of) a minimum weight path from $u$
+to $v$.
+
+It is easy to present this information in a distance matrix.
+
+\begin{Example}
+\label{eg:APSP}
+For the digraph of Figure~\ref{fig:graphExample5}, we have already
+calculated the all-pairs distance matrix in Example~\ref{eg:dijkstra}:
+
+$$
+\left(
+\begin{matrix}
+0 & 1 & 4 & 3 \\
+4 & 0 & 8 & 2 \\
+6 & 2 & 0 & 4 \\
+2 & 3 & 6 & 0
+\end{matrix}
+\right).
+$$
+\end{Example}
+
+Clearly we may compute this matrix as above by solving the single-source
+shortest path problem with each node taken as the root in turn. The time
+complexity is of course $\Theta(nA)$ where $A$ is the complexity of our
+single-source algorithm. Thus running the adjacency matrix version of
+Dijkstra $n$ times gives a $\Theta(n^3)$ algorithm, and the 
+Bellman--Ford algorithm $\Theta(n^2 m)$.
+
+There is a simpler method discovered by R. W. Floyd. Like the Bellman-Ford 
+algorithm, it is an example of an algorithm design technique called 
+\defnfont{dynamic programming}.
+This is where smaller, less-difficult subproblems are first solved, and the 
+solutions recorded, before
+the full problem is solved. Floyd's algorithm computes a distance matrix
+from a cost matrix in time $\Theta(n^3)$. It is faster than repeated
+Bellman--Ford for dense digraphs and unlike Dijkstra's algorithm,
+it can handle negative costs. For sparse graphs with positive costs
+repeated Dijkstra is competitive with Floyd, but for dense graphs they
+have the same asymptotic complexity. A key point in favour of Floyd's
+algorithm is its simplicity, as can be seen from the algorithm of
+Figure~\ref{fig:floydcode}. Floyd's algorithm is basically a simple
+triple for-loop.
+
+\begin{figure}
+\hspace*{.8in}\begin{minipage}{5in}
+\Algorithm{Floyd}{weighted digraph $(G,c)$}{}
+{
+\> array $d[0..n-1,0..n-1]$ \\
+\> \textbf{for} $u \in V(G)$ \textbf{do} \\
+\> \> \textbf{for} $v \in V(G)$ \textbf{do} \\
+\> \> \> $d[u, v] \gets c(u, v)$\\
+\> \> \textbf{end for} \\
+\> \textbf{end for} \\
+\> \textbf{for} $x \in V(G)$ \textbf{do}\\
+\> \> \textbf{for} $u \in V(G)$ \textbf{do}\\
+\> \> \> \textbf{for} $v \in V(G)$ \textbf{do}\\
+\> \> \> \> $d[u,v] \gets \min( d[u,v], d[u,x] + d[x,v] )$ \\
+\> \> \> \textbf{end for} \\
+\> \> \textbf{end for} \\
+\> \textbf{end for} \\
+\> \textbf{return} $d$ \\
+}
+\end{minipage}
+\caption{Floyd's algorithm.} \label{fig:floydcode}
+\end{figure}
+
+\begin{note}
+Observe that we are altering the value of $d[u, v]$ in the update
+formula. If we already have a weighted adjacency matrix $d$, there is
+no need for the first double loop. We simply overwrite entries in $d$
+via the update formula, and everything works.
+\end{note}
+
+\begin{Example}
+\label{eg:floyd}
+An application of Floyd's algorithm on the third graph of
+Figure~\ref{fig:graphExample5} is given below.  The initial cost 
+matrix is as follows.
+
+\[ 
+\left[
+\begin{array}{cccccc} % cost matrix
+0        & 4        & 1        & \infty & 4        & \infty \\
+4        & 0        & \infty & 2        & 3        & 4 \\
+1        &  \infty  & 0        &  \infty  & 3        &  \infty  \\
+ \infty  & 2        &  \infty  & 0        &  \infty  & 1 \\
+4        & 3        & 3        &  \infty  & 0        & 2 \\
+ \infty  & 4        &  \infty  & 1        & 2        & 0 \\
+\end{array}
+\right]
+\hspace{.5cm}
+\]
+
+In the matrices below, the index $k$ refers to
+the number of times we have been through the outer for-loop.
+
+\begin{samepage}
+{\footnotesize
+%
+\[
+\left[
+\begin{array}{cccccc} % k = 0
+0        & 4        & 1        &  \infty  & 4        &  \infty  \\
+4        & 0        & \textbf{5}    & 2        & 3        & 4 \\
+1        & \textbf{5}    & 0        &  \infty  & 3        &  \infty  \\
+ \infty  & 2        &  \infty  & 0        &  \infty  & 1 \\
+4        & 3        & 3        &  \infty  & 0        & 2 \\
+ \infty  & 4        &  \infty  & 1        & 2        & 0 \\
+\end{array}
+\right]
+\hspace{.5cm}
+\left[
+\begin{array}{cccccc} % k = 1
+0        & 4        & 1        & \textbf{6}    & 4     & \textbf{8} \\
+4        & 0        & 5        & 2        & 3        & 4 \\
+1        & 5        & 0        & \textbf{7}    & 3      & \textbf{9} \\
+\textbf{6}    & 2        & \textbf{7}    & 0        & \textbf{5}  & 1 \\
+4        & 3        & 3        & \textbf{5}    & 0        & 2 \\
+\textbf{8}   & 4        & \textbf{9}    & 1        & 2        & 0 \\
+\end{array}
+\right]
+\hspace{.5cm}
+\left[
+\begin{array}{cccccc} % k = 2
+0    & 4   & 1   & 6    & 4    & 8 \\
+4    & 0   & 5   & 2    & 3    & 4 \\
+1    & 5   & 0   & 7    & 3    & 9 \\
+6    & 2   & 7   & 0    & 5    & 1 \\
+4    & 3   & 3   & 5    & 0    & 2 \\
+8    & 4   & 9   & 1    & 2    & 0 \\
+\end{array}
+\right]
+\]\\[-5pt]
+\hspace*{1in}$k=1$ \hspace{1.2in} $k=2$ \hspace{1.2in} $k=3$ \\
+\[
+\left[
+\begin{array}{cccccc} % k = 3
+0    & 4   & 1   & 6    & 4    & \textbf{7} \\
+4    & 0   & 5   & 2    & 3    & \textbf{3} \\
+1    & 5   & 0   & 7    & 3    & \textbf{8} \\
+6    & 2   & 7   & 0    & 5    & 1 \\
+4    & 3   & 3   & 5    & 0    & 2 \\
+\textbf{7} &\textbf{3} & \textbf{8} & 1    & 2    & 0 \\
+\end{array}
+\right]
+\hspace{.5cm}
+\left[
+\begin{array}{cccccc} % k = 4
+0    & 4   & 1     & 6    & 4    & \textbf{6} \\
+4    & 0   & 5     & 2    & 3    & 3 \\
+1    & 5   & 0     & 7    & 3    & \textbf{5} \\
+6    & 2   & 7     & 0    & 5    & 1 \\
+4    & 3   & 3     & 5    & 0    & 2 \\
+\textbf{6} & 3   & \textbf{5} & 1    & 2    & 0 \\
+\end{array}
+\right]
+\hspace{.5cm}
+\left[
+\begin{array}{cccccc} % k = 5
+0    & 4   & 1     & 6    & 4    & 6 \\
+4    & 0   & 5     & 2    & 3    & 3 \\
+1    & 5   & 0     & \textbf{6} & 3    & 5 \\
+6    & 2   & \textbf{6} & 0    & \textbf{3} & 1 \\
+4    & 3   & 3     & \textbf{3} & 0    & 2 \\
+6    & 3   & 5     & 1    & 2    & 0 \\
+\end{array}
+\right]
+\]\\[-5pt]
+\hspace*{1in} $k=4$ \hspace{1.2in} $k=5$ \hspace{1.2in} $k=6$
+\\
+} % footnotesize
+\end{samepage}
+
+In the above matrices we list the entries that change in bold after each
+increment of $k$. Notice that undirected graphs, as expected, have
+symmetric distance matrices.
+\end{Example}
+
+Why does Floyd's algorithm work? The proof is again by induction.
+
+\begin{Theorem}
+\label{thm:floyd}
+At the bottom of the outer \boldfont{for} loop, for all nodes $u$ and $v$,
+$d[u,v]$ contains the minimum length of all paths from $u$ to $v$ that
+are restricted to using only intermediate nodes that have been seen in
+the outer \boldfont{for} loop. 
+\end{Theorem}
+
+\begin{note}
+Given this fact, when the algorithm terminates, all nodes have been seen
+in the outer \boldfont{for} loop and so $d[u,v]$ is the length of a
+shortest path from $u$ to $v$.
+\end{note}
+
+\begin{proof}
+To establish the above property, we use induction on the outer for-loop.
+Let $S_k$ be the set of nodes seen after $k$ times through the
+outer loop, and define an $S_k$-path  to be one all of whose
+intermediate nodes belong to $S_k$. The corresponding value of $d$ is 
+denoted $d_k$. We need to show that for all $k$, after $k$ times through 
+the outer for-loop, $d_k[u,v]$ is the minimum length of an $S_k$-path 
+from $u$ to $v$. 
+
+When $k=0$, $S_0 = \emptyset$ and the result holds. Suppose
+it is true after $k$ times through the outer loop and consider what
+happens at the end of the $(k+1)$-st time through the outer loop.
+Suppose that $x$ was the last node seen in the outer loop, so $S_{k+1}=
+S_k \cup \{x\}$. Fix $u, v\in V(G)$ and let $L$ be the minimum length of
+an $S_{k+1}$-path from $u$ to $v$. Obviously $L \leq d_{k+1}[u,v]$; we
+show that $d_{k+1}[u,v] \leq L$. 
+
+Choose an $S_{k+1}$-path $\gamma$ from $u$ to $v$ of length $L$. If $x$
+is not involved then the result follows by inductive hypothesis. If $x$
+is involved, let $\gamma_1, \gamma_2$ be the subpaths from $u$ to $x$
+and $x$ to $v$ respectively. Then $\gamma_1$ and $\gamma_2$ are
+$S_k$-paths and by the inductive hypothesis, $$L \geq |\gamma_1| +
+|\gamma_2| \geq d_k[u,x] + d_k[x,v] \geq d_{k+1}[u,v].$$
+\end{proof}
+
+The proof does not use the fact that weights are nonnegative---in
+fact Floyd's algorithm works for negative weights (provided of course
+that a negative weight cycle is not present).
+
+\subsection*{Exercises}
+
+\begin{Exercise}
+\label{do-floyd}
+Run Floyd's algorithm on the matrix of Exercise~\ref{ex:do-bellford}
+and check your answer against what was obtained there.
+\end{Exercise}
+
+\begin{Exercise}
+\label{ex:floyd-neg-cycle}
+Suppose the input to Floyd's algorithm is a digraph with a negative
+weight cycle. How does the algorithm detect this, so it can exit
+gracefully with an error message?
+\end{Exercise}
+
+\begin{samepage}
+\begin{Exercise}
+\label{ex:do-floyd-trick}
+\item The matrix $M$ shows costs of direct flights between towns A,
+B, C, D, E, F (where $\infty$, as usual, means that no direct flight
+exists). You are given the job of finding the cheapest route between
+each pair of towns. Solve this problem. Hint: save your working.
+$$
+M = \left[
+\begin{matrix}
+ 0 & 1 & 2 & 6 & 4 & \infty \\
+ 1 & 0 & 7 & 4 & 2 & 11 \\
+2 & 7 & 0 & \infty & 6 & 4\\
+ 6 & 4 & \infty & 0 & \infty & 1 \\
+ 4 & 2 & 6 & \infty & 0 & 3 \\
+ \infty &11 & 4 & 1 & 3 & 0
+\end{matrix}
+\right].
+$$
+
+\
+
+The next day, you are told that in towns D, E, F, political troubles
+mean that no passenger is  allowed to both take off and land there. Solve
+the problem with this additional constraint.
+\end{Exercise}
+\end{samepage}
+
+\section{Minimum spanning tree problem}
+\label{sec:MST}
+In this section, we use ``tree" to mean ``free tree" throughout.
+Recall that a tree is a connected acyclic graph. A \defnfont{spanning
+tree} of a graph $G$ is a spanning subgraph of $G$ that is itself a tree.
+
+\begin{Definition}
+Let $G$ be a weighted graph. A \defnfont{minimum spanning tree} (MST) 
+is a spanning tree for $G$ which has minimum total weight 
+(sum of all edge weights). 
+\end{Definition}
+
+\begin{note}If all weights are nonnegative and we
+only want a spanning subgraph with minimum total weight, this must be a
+tree anyway (if not, delete an edge from a cycle and keep a spanning
+subgraph).
+\end{note}
+
+The problem we are concerned with is this: given a weighted graph $G$,
+find a MST for $G$. There are obvious practical applications of this
+idea. For example, how can we cheaply link sites with communication
+links so that they are all connected?
+
+\begin{Example}
+In the third graph of Figure~\ref{fig:graphExample5}, the tree
+determined by the edges 
+$$\{0, 2\}, \{1, 3\}, \{3, 5\}, \{4, 5\}, \{2, 4\}$$ 
+has total weight $9$. It is a tree and has the $5$ smallest weight
+edges, so must be a MST.
+\end{Example}
+
+One should not search naively through all possible spanning trees: it is
+known that there are $n^{n-2}$ spanning trees for the complete graph
+$K_n$, for example!
+
+In this section we present two efficient algorithms to find a MST that
+(like Dijkstra's algorithm) fall into the category of greedy algorithms. 
+
+Each builds up a MST by iteratively choosing an edge greedily, that is,
+choosing one with minimum weight, subject to not obviously ruining our
+chance of extending to a spanning tree. It turns out that this simple
+approach works for the MST problem (obviously, not for all graph
+optimization problems!). There are other algorithms with better
+theoretical complexity for the MST problem, but none is as simple to
+understand.
+
+The algorithms can be described in an informal way very easily. The
+first, \defnfont{Prim's algorithm}, starts at a root vertex and chooses
+at each step an edge of minimum weight from the remaining edges, subject
+to: (a) adding the edge does not create a cycle in the subgraph built so
+far, and (b) the subgraph built so far is connected. By contrast,
+\defnfont{Kruskal's algorithm} does not start at a root: it follows
+rule (a) and ignores (b). Prim's algorithm is perhaps easier to program,
+but Kruskal's is easier to perform by hand.
+
+Each algorithm clearly terminates when no more edges can be found
+that satisfy the above condition(s). Since Prim's algorithm maintains
+acyclicity and connectedness, at each stage it has built a subgraph that
+is a tree. Kruskal's algorithm maintains acyclicity, so it has a forest
+at each step, and the different trees merge as the algorithm progresses.
+
+We might first ask why does each algorithm even form a spanning tree (see
+Exercise~\ref{ex:spanning-tree}). However, even given that a spanning
+tree is formed, it is not at all obvious that this spanning tree has
+minimum possible weight among all spanning trees of the graph.
+
+We now show the correctness of these algorithms. We may suppose that the
+graph is connected. If it is not, we cannot find a spanning tree anyway,
+and must be satisfied with a spanning forest. Prim's algorithm will
+terminate when it has explored the first component and must be
+restarted from a new root in another component. Kruskal's algorithm
+will find a spanning forest without modification.
+
+\begin{Theorem}
+\label{thm:prim-kruskal}
+Prim's and Kruskal's algorithms are correct.
+\end{Theorem}
+
+\begin{proof}
+Define a set of edges to be \emph{promising} if it can be
+extended in some way to a MST. Then the empty set is promising since
+some MST exists. We claim that at each step, the algorithms above have
+chosen a promising set of edges. When they terminate, no further
+extension of the set  is possible (by rule (a) above), and so we must
+have a MST.
+
+To prove the claim efficiently, we need a technical fact, as follows.
+Suppose that $B$ is a subset of $V(G)$, not containing all the vertices
+of $G$, and $T$ a promising set of edges such that no edge in $T$ leaves
+$B$. In other words, either both endpoints are in $B$ or neither
+endpoint is in $B$. Then if $e$ is a minimum weight edge that does leave
+$B$ (it has one endpoint in $B$ and one outside) then $T\cup\{e\}$ is
+also promising.
+
+To see this fact, note that since $T$ is promising, it is contained in
+some MST, $U$ say. If $e\in U$ there is nothing to prove. Otherwise,
+when we add $e$ to $U$ we create exactly one cycle. There must be at
+least one other edge, say $e'$, that leaves $B$, otherwise the cycle
+could not close. If we remove $e'$ we obtain a new tree that spans $G$
+and whose total weight is no greater than the total weight of $U$. Thus
+$V$ is also a MST, and since it contains $T\cup\{e\}$, that set is
+promising.
+
+Now to prove the claim, suppose that our algorithm has maintained a
+promising set $T$ of edges so far, and it has just chosen edge $e=\{u,v\}$.
+If we take $B$ at each step to be the set of vertices in the tree (Prim)
+or the set of vertices in the tree containing $u$ (Kruskal), then we may
+apply the fact above to conclude that $T \cup \{e\}$ is promising. This
+concludes the proof of correctness.
+\end{proof}
+
+The above informal descriptions of MST algorithms can be converted easily
+to an algorithm. In Figure~\ref{fig:primcode} we present the algorithm. Note
+how similar Prim's algorithm is to Dijkstra's. The main difference is
+in the update formula. We also store the PFS tree, which we elected not
+to do for Dijkstra.
+
+\begin{figure}
+\hspace*{.3in}\begin{minipage}{5in}
+\Algorithm{Prim}{weighted graph $(G, c)$; vertex $s\in V(G)$}{}
+{
+\> priority queue $Q$ \\
+\> array $colour[0..n-1], pred[0..n-1]$ \\
+\> \textbf{for} $u\in V(G)$ \textbf{do} \\
+\> \> $colour[u] \gets$ WHITE; $pred[u] \gets NULL$  \\
+\> \textbf{end for} \\
+\> $colour[s] \gets $ GREY \\
+\> Q.\algfont{insert}($s$, $0$) \\
+\> \textbf{while not} Q.\algfont{isEmpty}() \textbf{do} \\
+\> \> $u \gets $ Q.\algfont{peek}() \\
+\> \> \textbf{for} each $x$ adjacent to $u$ \textbf{do} \\
+\> \> \> $t \gets c(u, x)$ \\
+\> \> \>  \textbf{if} $colour[x] = $ WHITE \textbf{then} \\
+\> \> \> \> $colour[x] \gets $ GREY; $pred[x] \gets u$ \\
+\> \> \> \> Q.\algfont{insert}($x, t$) \\
+\> \> \> \textbf{else if} $colour[x] = $ GREY \textbf{and} Q.\algfont{getKey}($x$) $ > t$ \textbf{then} \\
+\> \> \> \> Q.\algfont{decreaseKey}($x, t$); $pred[x] \gets u$ \\
+\> \> \> \textbf{end if} \\
+\> \> \textbf{end for} \\
+\> \> Q.\algfont{delete}() \\
+\> \> $colour[u] \gets $ BLACK \\
+\> \textbf{end while} \\
+\> \textbf{return} $pred$ \\
+}
+\end{minipage}
+\caption{Prim's algorithm.}
+\label{fig:primcode}
+\end{figure}
+
+
+In Prim's algorithm, we checked whether a cycle would be created by adding
+an edge in the usual way: when exploring $\{u, v\}$ from $u$, if $v$ has
+already been seen and is not the parent of $u$, then adding $\{u, v\}$
+creates a cycle. With Kruskal's algorithm, we must use another method,
+since the above test does not work. Both $u$ and $v$ may have been seen,
+but may be in different trees.
+
+Observe that if we try to add an edge both of whose endpoints are in
+the same tree in the Kruskal forest, this will create a cycle, so the
+edge must be rejected. On the other hand, if the endpoints are in two
+different trees, a cycle definitely will not be created; rather, the two
+trees merge into a single one, and we should accept the edge. We need
+a data structure that can handle this efficiently. All we need is to be
+able to find the tree containing an endpoint, and to merge two trees. The
+\defnfont{disjoint sets} or \defnfont{union-find} ADT is precisely what
+is needed. It allows us to perform the \algfont{find} and \algfont{union}
+operations efficiently. % (see Section~\ref{sec:app:adt-informal}).
+
+\begin{figure}
+\hspace*{1in}\begin{minipage}{5in}
+\Algorithm{Kruskal}{weighted graph $(G, c)$}{}
+{
+\> disjoint sets ADT $A$ \\
+\> initialize $A$ with each vertex in its own set \\
+\> sort the edges in increasing order of cost \\
+\> \textbf{for} each edge $\{u, v\}$ in increasing cost order \textbf{do}\\
+\> \> \textbf{if not } $A$.\algfont{set}($u$) = $A$.\algfont{set}($v$) \textbf{then} \\
+\> \> \>  add this edge \\
+\> \> \> $A$.\algfont{union}($A$.\algfont{set}($u$), $A$.\algfont{set}($v$)) \\
+\> \> \textbf{end if} \\
+\> \textbf{end for} \\
+\> \textbf{return} $A$ \\
+}
+\end{minipage}
+\caption{Kruskal's algorithm.}
+\label{fig:Kruskal-alg}
+\end{figure}
+
+The complexity of the algorithm depends to a great extent on the data
+structures used. The best known for Prim is the same as for Dijkstra,
+namely $O(m + n\log n)$, and for Kruskal $O(m \log n)$. The disjoint sets
+ADT can be implemented in such a way that the union and find operations
+in Kruskal's algorithm runs in \boldfont{almost} linear time (the exact bound
+is very complicated). So if the edge weights are presorted, or can be
+sorted in linear time (for example, if they are known to be integers in
+a fixed range), then Kruskal's algorithm runs for practical purposes in
+linear time.
+
+\subsection*{Exercises}
+
+\begin{Exercise} \label{ex:doMST}
+Carry out each of these algorithms on the weighted
+graph of Figure~\ref{fig:graphExample5}. Do the two algorithms give the
+same spanning tree? 
+\end{Exercise}
+
+\begin{Exercise} \label{ex:spanning-tree}
+Prove the assertion made above that when Kruskal's or Prim's algorithm 
+terminates, the current set of edges forms a spanning tree.
+\end{Exercise}
+
+\begin{Exercise}\label{ex:silly-MST}
+Consider the following algorithm for the MST problem. Repeatedly delete
+edges from a connected graph $G$, at each step choosing the most
+expensive edge we can, subject to maintaining connectedness. Does it
+solve the MST problem sometimes? always?
+\end{Exercise}
+
+\section{Hard graph problems}
+\label{sec:hardgraph}
+We have presented several efficient algorithms for some common digraph
+problems. All of these algorithms have running time bounded above by a low
+degree polynomial in the size of the input. However, there are many
+essential problems that currently do not have known polynomial-time
+algorithms (so-called \defnfont{NP-hard} problems). Some examples
+are:
+\begin{itemize}
+\item finding the longest path between two nodes of
+a digraph;
+\item finding a $k$-colouring of a graph, for fixed $k\geq
+3$;
+\item finding a cycle that passes through all the vertices of
+a graph (a \defnfont{Hamiltonian cycle});
+\item finding a
+minimum weight path that passes through all the vertices of a weighted
+digraph (the \defnfont{travelling salesperson problem} or TSP);
+\item finding the largest \defnfont{independent set} in a graph --- that is, 
+a subset of vertices no two of which are connected by an edge;
+\item finding the smallest 
+\defnfont{vertex cover} of a graph---that is, a special subset of
+vertices so that each vertex of the graph is adjacent to one in that
+subset. (However, from Exercise~\ref{ex:konig}, this problem 
+is polynomial-time solvable when restricted to bipartite graphs.)
+
+\end{itemize}
+
+Investigating these problems is an active research area in computer
+science. In many cases the only approach known is essentially to try
+all possibilities, with some rules that prevent the listing of obviously
+hopeless ones. In some special cases (for example, graphs that are 
+\defnfont{planar} (they can be drawn in the plane without edges crossing) 
+or are in some sense ``close to" trees, much faster algorithms can be developed.
+
+\subsection*{Exercises}
+
+\begin{Exercise}\label{exr:tsp}
+Find a Hamiltonian cycle of the graph in Exercise~\ref{ex:dijk-SI}. Try to solve
+the TSP for this graph.
+\end{Exercise}
+
+\begin{Exercise}\label{exr:indset}
+What is the exact relation between the independent set and vertex cover problems?
+\end{Exercise}
+
+\section{Notes}
+
+Dijkstra's algorithm was proposed by E. W. Dijkstra in 1959.
+The Bellman--Ford algorithm was proposed independently by R.
+Bellman (1958) and L. R. Ford, Jr (1956). Floyd's algorithm was developed in 
+1962 by R. W. Floyd. Prim's algorithm was presented by R. C. Prim in 1957
+and reinvented by E. W. Dijkstra in 1959, but had been previously introduced by 
+V. Jarnik in 1930. Kruskal's algorithm was introduced by J. Kruskal in 1956.
+

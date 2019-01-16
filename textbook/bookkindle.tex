@@ -1,0 +1,280 @@
+%\documentclass[10pt,twoside,a4paper]{memoir}   
+\documentclass[10pt,oneside]{memoir}   
+\makeindex
+\checkandfixthelayout
+\usepackage{titlesec}      % customizing section titles
+\titleformat{\section}{\bfseries\large}{\thesection}{3pt}{}
+\titlespacing{\section}{0pt}{8pt}{4pt}
+\titleformat{\subsection}{\itshape}{\thesubsection}{2pt}{}
+\titlespacing{\subsection}{0pt}{4pt}{2pt}
+\titleformat{\subsubsection}[runin]{\scshape}{}{0em}{}
+\titlespacing{\subsubsection}{0pt}{5pt}{5pt}
+\usepackage[papersize={5.4in,7.2in},hmargin=0.1in,vmargin={0.1in,0.1in}]{geometry}  % page geometry
+\special{papersize=5.4in,7.2in}
+\usepackage[font=small,labelformat=simple,]{caption}   % customizing captions
+\usepackage[colorlinks,linkcolor=blue,urlcolor=blue,citecolor=blue,
+ bookmarksopen=true,
+ pdfauthor={Michael J. Dinneen}, 
+ pdfsubject={CS220 Textbook},
+ pdftitle={Introduction to Algorithms, Data Structures and Formal Languages},
+ pdfcreator={LaTeX with hyperref package},
+ pagebackref=true,
+]{hyperref}
+
+% following has problems with older ipe
+%\usepackage{auto-pst-pdf} % pdflatex -shell-escape 
+% need to use dvipdf and possibly trim margins manually
+
+\includeonly{
+intro/intro4,
+intro/intro3,
+intro/intro2,
+intro/intro,
+algorithm-analysis/alg-anal, 
+algorithm-analysis/sort,
+algorithm-analysis/search, 
+graph-algorithms/graphadt, 
+graph-algorithms/traversals, 
+graph-algorithms/optimization,
+%automata-grammars/automata,  % e-book excluded
+%automata-grammars/grammars,
+appendix/javagraphADT,
+appendix/javasortmeth,
+appendix/javaparse,
+appendix/datastruct,
+appendix/mathfacts,
+appendix/solutions,
+reference/reference
+}
+
+%% packages for graphics, etc
+
+\usepackage{ipe}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\usepackage{mathptm}
+\usepackage{pst-node}
+\usepackage{pst-tree}
+\usepackage{graphicx}
+\usepackage{psfig}      
+\usepackage{utopia}
+
+\usepackage{eso-pic}
+\newcommand\BackgroundPic{%
+\put(-220,3){%
+\parbox[b][\paperheight]{\paperwidth}{%
+\vfill
+\centering
+\includegraphics[width=\paperwidth,height=\paperheight,%
+keepaspectratio]{vc6spiral.eps}%
+\vfill
+}}}
+
+\theoremstyle{definition}
+\newtheorem{Lemma}{Lemma}
+\newtheorem{Theorem}[Lemma]{Theorem}
+\newtheorem{Definition}[Lemma]{Definition}
+\newtheorem{Corollary}[Lemma]{Corollary}
+\newtheorem{Example}[Lemma]{Example}
+\newtheorem{Exercise}{Exercise}
+
+\numberwithin{Lemma}{chapter}
+\numberwithin{Exercise}{section}
+
+\theoremstyle{remark}
+
+\newtheorem*{note}{Note}
+\newtheorem*{statement}{Statement}
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{tech}{\textbf{Technique}}
+
+% macros
+%
+\newcommand{\set}[1]{\mbox{$\{#1\}$}}
+\newcommand{\solution}[1]%
+{\medskip \noindent{\textsc{\textbf{Solution to Exercise~\ref{#1} on
+page~\pageref{#1}}}}:\newline }
+
+\newcommand{\AlgCmt}[1]{\psframebox[linecolor=lightgray]{\ #1\ }}
+\newcommand{\AdjLists}[1]{\psframebox[linecolor=lightgray]{\ #1\ }}
+
+\newcommand{\Algorbody}[1]{
+\begin{tabbing}
+xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
+
+#1
+\end{tabbing}
+}
+
+\newcommand{\Algorithm}[4]{ 
+\begin{tabbing}
+xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
+\textbf{algorithm } \algfont{#1} \\
+\> {\textit{\textbf{Input: }} #2}\\
+\textbf{begin} \\
+#4
+\textbf{end}
+\end{tabbing}
+}
+
+%\input Sanremo.fd
+%\newcommand{\CAP}[1]{\mbox{\usefont{U}{Sanremo}{xl}{n}\selectfont #1}}
+\input Starburst.fd
+\newcommand{\CAP}[1]{\mbox{\usefont{U}{Starburst}{xl}{n}\selectfont #1}}
+
+% roman letters in enumerate
+%
+\makeatletter
+\def\romenumi{
+\def\theenumi{\roman{enumi}}
+\def\p@enumi{\theenumi}
+\def\labelenumi{(\@roman\c@enumi)}}
+\makeatother
+
+\renewcommand{\labelitemii}{$\circ$}
+
+% fonts
+%
+\newcommand{\defnfont}[1]{\textbf{\textit{#1}}\index{#1}}
+\newcommand{\boldfont}[1]{\emph{#1}}
+\newcommand{\algfont}[1]{\texttt{#1}\index{algorithm!#1}}
+
+%
+% headings hacked from memoir package
+%
+\makeatletter
+\makepagestyle{220book}
+\setlength{\headwidth}{1.1\textwidth}
+\makerunningwidth{220book}{\headwidth}
+\makeheadrule{220book}{\headwidth}{\normalrulethickness}
+\makeheadposition{220book}{flushright}{flushleft}{}{}
+\makepsmarks{220book}{%
+  \let\@mkboth\markboth
+  \def\chaptermark##1{%
+        \markboth{{%\MakeUppercase{%
+          \ifnum \c@secnumdepth >\m@ne
+            \if@mainmatter
+              \@chapapp\ \thechapter: \ %
+            \fi
+          \fi
+          ##1}}{}}%
+  \def\sectionmark##1{\markright{%
+    \ifnum \c@secnumdepth>\z@
+      Section~\thesection: \ %
+    \fi
+    ##1}}
+  \def\tocmark{\markboth{\contentsname}{\contentsname}}
+  \def\lofmark{\markboth{\listfigurename}{\listfigurename}}
+  \def\lotmark{\markboth{\listtablename}{\listtablename}}
+  \def\bibmark{\markboth{\bibname}{\bibname}}
+ \def\indexmark{\markboth{\indexname}{\indexname}}
+}
+\makeevenhead{220book}
+{{\normalfont\large\bfseries\thepage} \quad \footnotesize\rightmark}
+{} {}
+\makeoddhead{220book}{}{}%
+{\footnotesize\leftmark \quad {\normalfont\large\bfseries\thepage}}
+\makeatother
+
+%
+\begin{document}   
+\AddToShipoutPicture*{\BackgroundPic}
+
+\pagestyle{220book}
+
+\makeevenfoot{plain}{}{}{}
+\makeoddfoot{plain}{}{}{}
+
+
+\if 11
+\title{\color{white}\textbf{\CAP Introduction to \CAP Algorithms and \CAP Data \CAP Structures}}
+\author{\color{yellow}\textsc{Michael J. Dinneen ~~~ Georgy Gimel'farb ~~~ Mark C. Wilson}\\[4.6in]}
+%\date{\color{white} February 2016\\[2ex] (4\textsuperscript{th} e-book edition)}
+\date{\color{white} \copyright 2016\\[2ex] (Fourth edition)}
+\maketitle
+\else
+\title{\textbf{Introduction to Algorithms and Data Structures}\\[4ex]}
+\author{Michael J. Dinneen \\ Georgy Gimel'farb \\ Mark C. Wilson\\[3in]}
+\date{February 2016\\[2ex] (4\textsuperscript{th} e-book edition)}
+
+\begin{titlingpage}
+\thispagestyle{empty}
+\aliaspagestyle{titlingpage}{companion}
+%\CenterWallPaper{vc6spiral.eps}
+\maketitle
+%\noindent\includegraphics[width=5.53in]{vc6spiral}
+\end{titlingpage}
+\fi
+
+\setcounter{page}{1}
+
+\tableofcontents
+
+\newpage
+\listoffigures
+
+\newpage
+\listoftables
+
+%\mainmatter
+\chapterstyle{ger}
+
+\include{intro/intro4}
+\include{intro/intro3}
+\include{intro/intro2}
+\include{intro/intro}
+
+\part{Introduction to Algorithm Analysis}
+
+\include{algorithm-analysis/alg-anal}
+\include{algorithm-analysis/sort}
+\include{algorithm-analysis/search}
+
+\part{Introduction to Graph Algorithms}
+\renewcommand{\rm}{} % quick fix for ignoring \rm in ipe figures 
+
+\include{graph-algorithms/graphadt}
+
+\include{graph-algorithms/traversals}
+
+\include{graph-algorithms/optimization}
+
+\if 01 % not used in CS220 any more
+\part{Introduction to Formal Languages}
+
+\include{automata-grammars/automata}
+
+\include{automata-grammars/grammars}
+\fi
+
+
+%\part*{Appendices}
+\part{Appendices}
+
+\appendix
+
+\include{appendix/javasortmeth}
+ 
+\include{appendix/javagraphADT}
+
+%% \include{appendix/javaparse}
+
+\include{appendix/datastruct}
+
+\include{appendix/mathfacts}
+
+\include{appendix/solutions}
+
+\chapterstyle{section}
+
+%\backmatter
+
+%\part{Bibliography/Index}
+
+\include{reference/reference}
+
+\printindex
+
+\end{document}

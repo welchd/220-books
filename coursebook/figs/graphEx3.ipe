@@ -1,0 +1,932 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%Creator: Ipe 5.0
+%%BoundingBox: 80 329 519 470
+%%EndComments
+{\catcode37=9\def\IPEdummy{({{)}} pop
+%%}\makeatletter\let\@notdefinable\relax
+%%\def\IPEc#1[#2]#3{\newcommand{#1}[#2]{#3}\ignorespaces}\@ifundefined
+%%{selectfont}{\let\selectfont\relax\def\fontsize#1#2{}}{}\makeatother
+%%\IPEc\IPEput[4]{\put(0,0){\special{psfile=\IPEfile}}}
+%%\IPEc\IPEmp[2]{\minipage[t]{#1bp}#2\special{color pop}\endminipage}
+%%\IPEc\IPEtext[1]{\makebox(0,0)[lb]{#1\special{color pop}}}
+%%\IPEc\IPEfs[1]{\IPEcolfs{0 0 0}{#1}}
+%%\IPEc\IPEcolfs[2]{\dimen0=#2pt\fontsize{#2}{1.2\dimen0}\selectfont
+%%\special{color push rgb #1}}
+%%\IPEc\IPEsize[2]{\unitlength1bp\ignorespaces}
+%%\IPEsize{436.158}{139.085}
+%%\begin{picture}(436.158,139.085)(81.9211,330.457)
+%%\IPEput{80}{329}{519}{470}
+%%\put(173.085,372.659){\IPEtext{\IPEfs{10}\rm 6}}
+%%\put(149.522,338.521){\IPEtext{\IPEfs{10}\rm 8}}
+%%\put(91.022,453.939){\IPEtext{\IPEfs{10}\rm 0}}
+%%\put(248.723,455.829){\IPEtext{\IPEfs{10}\rm 0}}
+%%\put(150.335,458.003){\IPEtext{\IPEfs{10}\rm 1}}
+%%\put(292.598,424.13){\IPEtext{\IPEfs{10}\rm 1}}
+%%\put(89.397,414.925){\IPEtext{\IPEfs{10}\rm 2}}
+%%\put(248.723,401.372){\IPEtext{\IPEfs{10}\rm 2}}
+%%\put(129.21,415.737){\IPEtext{\IPEfs{10}\rm 3}}
+%%\put(307.223,376.988){\IPEtext{\IPEfs{10}\rm 3}}
+%%\put(173.897,415.737){\IPEtext{\IPEfs{10}\rm 4}}
+%%\put(265.785,357.48){\IPEtext{\IPEfs{10}\rm 4}}
+%%\put(124.335,376.723){\IPEtext{\IPEfs{10}\rm 5}}
+%%\put(343.786,407.061){\IPEtext{\IPEfs{10}\rm 5}}
+%%\put(87.772,339.334){\IPEtext{\IPEfs{10}\rm 7}}
+%%\put(506.54,367.896){\IPEtext{\IPEfs{10}\rm 6}}
+%%\put(476.514,336.529){\IPEtext{\IPEfs{10}\rm 8}}
+%%\put(436.48,456.565){\IPEtext{\IPEfs{10}\rm 0}}
+%%\put(478.25,456.011){\IPEtext{\IPEfs{10}\rm 1}}
+%%\put(408.08,426.787){\IPEtext{\IPEfs{10}\rm 2}}
+%%\put(507.353,425.753){\IPEtext{\IPEfs{10}\rm 4}}
+%%\put(406.085,367.342){\IPEtext{\IPEfs{10}\rm 5}}
+%%\put(437.847,335.495){\IPEtext{\IPEfs{10}\rm 7}}
+%%\put(458.877,397.849){\IPEtext{\IPEfs{10}\rm 3}}
+%%\put(334.036,337.973){\IPEtext{\IPEfs{10}\rm 6}}
+%%\end{picture}\endinput}
+%% Ipe postscript prologue
+
+/IpeDict 60 dict def
+IpeDict begin
+/origmatrix matrix currentmatrix def
+
+/sg {setgray} bind def
+/sc {setrgbcolor} bind def
+/ss {0 setdash setlinewidth} bind def
+/sk {stroke} bind def
+/fi {fill} bind def
+/sfi {gsave fill grestore} bind def
+/mt {moveto} bind def
+/lt {lineto} bind def
+/np {newpath} bind def
+/cl {closepath} bind def
+/N {moveto} bind def
+/L {lineto} bind def
+/E {lineto} bind def
+/C {lineto closepath} bind def
+%%%%
+%% x y size dx dy -> ar -> x y [ draws arrowhead, computes new vertex ]
+/smallarrow {gsave exch atan 4 2 roll translate rotate dup scale
+newpath 0 0 moveto -1 0.3 lineto -1 -0.3 lineto closepath fill
+-1 0 moveto currentpoint transform grestore itransform} bind def
+/ar {gsave exch atan 4 2 roll translate rotate dup scale
+newpath 0 0 moveto -1 0.3 lineto -1 -0.3 lineto closepath
+gsave origmatrix setmatrix [] 0 setdash stroke grestore fill
+0 0 moveto currentpoint transform grestore itransform} bind def
+%%%%
+/af {ar moveto} bind def
+/at {ar lineto} bind def
+%% x y size dx dy -> arw -> [ draws arrowhead ]
+/arw {ar pop pop} bind def
+%%%%
+/ci {0 360 arc} bind def
+/el {gsave concat 0 exch 0 exch 0 360 newpath arc origmatrix
+setmatrix} bind def
+/gs {gsave} bind def
+/gr {grestore} bind def
+/gsts {gsave translate scale } bind def
+%%
+/marker {gsave translate 0 setlinewidth [] 0 setdash newpath} bind def
+/m1 {marker 0 exch 0 exch 0 360 arc stroke grestore} bind def
+/m2 {marker 0 exch 0 exch 0 360 arc fill grestore} bind def
+/m3 {marker dup dup moveto dup dup neg lineto dup neg dup lineto dup
+neg exch lineto closepath stroke grestore} bind def 
+/m4 {marker dup dup moveto dup dup neg lineto dup neg dup lineto dup
+neg exch lineto closepath fill grestore} bind def
+/m5 {marker dup dup moveto dup neg dup lineto dup dup neg moveto dup
+neg exch lineto closepath stroke grestore} bind def
+
+%% splines
+systemdict /setpacking known {/savepacking currentpacking def false
+  setpacking} if
+/q0 {0 0} def
+/q1 {0 0} def
+/q2 {0 0} def
+/q3 {0 0} def
+/p0 {0 0} def
+/p1 {0 0} def
+/p2 {0 0} def
+/p3 {0 0} def
+systemdict /setpacking known {savepacking setpacking} if
+
+%% x y /qi -> defp -> [/qi [x y] def]
+/defp {dup 4 1 roll load astore def} bind def
+
+/midpoint { exch 4 3 roll add 2 div 3 1 roll add 2 div } bind def
+/thirdpoint { exch 4 3 roll 2 mul add 3 div 3 1 roll exch 2 mul add 3
+div } bind def
+
+/prespl {/p3 defp /p2 defp /p1 defp /p0 defp
+p1 p2 thirdpoint /q1 defp
+p2 p1 thirdpoint /q2 defp
+p1 p0 thirdpoint q1 midpoint /q0 defp
+p2 p3 thirdpoint q2 midpoint /q3 defp } bind def
+/postspl { q1 q2 q3 curveto p1 p2 p3 } bind def
+/fspl { prespl q0 moveto postspl } bind def
+/spl { prespl postspl } bind def
+/xspl { pop pop pop pop pop pop } bind def
+
+/qspl { /p2 defp /p1 defp /p0 defp
+p1 p0 midpoint /q0 defp
+p1 p2 midpoint /q3 defp
+p1 q0 thirdpoint /q1 defp
+p1 q3 thirdpoint /q2 defp q0 moveto q1 q2 q3 curveto } bind def
+
+/cqspl { /p2 defp /p1 defp /p0 defp
+p1 p0 midpoint /q0 defp
+p1 p2 midpoint /q3 defp
+p1 q0 thirdpoint /q1 defp
+p1 q3 thirdpoint /q2 defp q0 moveto q1 q2 q3 curveto
+p2 p1 midpoint /q0 defp
+p2 p0 midpoint /q3 defp
+p2 q0 thirdpoint /q1 defp
+p2 q3 thirdpoint /q2 defp q1 q2 q3 curveto
+p0 p2 midpoint /q0 defp
+p0 p1 midpoint /q3 defp
+p0 q0 thirdpoint /q1 defp
+p0 q3 thirdpoint /q2 defp q1 q2 q3 curveto } bind def
+
+%% bitmaps
+/pix { /picstr exch string def } def
+%% wd ht -> preimg -> ..stuff for image..
+/preimg { 8 [ 3 index 0 0 5 index neg 0 7 index ]
+ {currentfile picstr readhexstring pop} } def
+/img { preimg image } bind def
+/kimg { preimg false 3 colorimage } bind def
+%%
+end
+%% Ipe prologue end
+
+IpeDict begin 230.848 319.279 translate
+
+% Preamble 1
+%%\documentclass[a4paper]{article}
+% Group
+
+% Line
+% ss 0
+1.2 [] ss
+np % # 2
+181.918 110.315 mt
+275.771 52.9092 lt
+% sk
+0 sg sk
+% End
+
+% Spline
+% ss 0
+1.2 [] ss
+np % # 7
+276.04 106.023
+276.04 106.023
+276.04 106.023
+257.805 44.5934 fspl
+213.56 22.8651 spl
+213.56 22.8651 spl
+213.56 22.8651 spl
+xspl
+% sk
+0 sg sk
+% End
+
+% Spline
+% ss 0
+1.2 [] ss
+np % # 7
+179.505 52.9092
+179.505 52.9092
+179.505 52.9092
+199.08 114.875 fspl
+243.593 136.335 spl
+243.593 136.335 spl
+243.593 136.335 spl
+xspl
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+% ar 2 7
+0 sg np % # 9
+177.675 112.533 mt
+207.22 141.166 lt
+247.845 141.166 lt
+278.314 109.762 lt
+278.453 54.2504 lt
+248.769 20.1694 lt
+209.002 20.1826 lt
+178.598 51.573 lt
+178.598 110.686 7 0 59.113 at
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+% ar 2 7
+0 sg np % # 2
+70.6875 104.851 mt
+108.062 93.472 7 37.3745 -11.379 at
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+% ar 2 7
+0 sg np % # 2
+109.688 85.344 mt
+85.3125 64.2112 7 -24.3755 -21.1328 at
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+% ar 2 7
+0 sg np % # 2
+27.625 82.0928 mt
+73.125 61.7728 7 45.5 -20.32 at
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+% ar 2 7
+0 sg np % # 2
+42.25 34.1376 mt
+95.875 21.1328 7 53.625 -13.0048 at
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+% ar 2 7
+0 sg np % # 2
+113.75 82.0928 mt
+109.688 29.2608 7 -4.062 -52.832 at
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+% ar 2 7
+0 sg np % # 2
+82.0625 53.6448 mt
+102.375 28.448 7 20.3125 -25.1968 at
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+% ar 2 7
+0 sg np % # 2
+61.75 101.6 mt
+40.625 47.1424 7 -21.125 -54.4576 at
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+% ar 2 7
+0 sg np % # 2
+19.5 133.299 mt
+20.3125 92.6592 7 0.8125 -40.6398 at
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+% ar 2 7
+0 sg np % # 2
+27.625 135.738 mt
+56.0625 113.792 7 28.4375 -21.946 at
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+np % # 2
+-138.201 139.537 mt
+-139.013 98.897 lt
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+np % # 2
+-104.888 60.6954 mt
+-79.7006 20.8682 lt
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+np % # 2
+-104.076 60.6954 mt
+-55.3256 56.6314 lt
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+np % # 2
+-142.263 97.2714 mt
+-52.8881 98.897 lt
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+1.2 [] ss
+np % # 4
+-78.0756 141.975 mt
+-99.2006 98.897 lt
+-104.888 59.0698 lt
+-139.826 22.4938 lt
+% sk
+0 sg sk
+% End
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+-79.7006 21.681 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+-56.1381 56.6314 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy -57.7631 53.3802
+% sk 0
+% f 0 10
+% s 6
+% End
+
+% Text
+% xy -81.3256 19.2426
+% sk 0
+% f 0 10
+% s 8
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+-137.388 137.911 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy -139.826 134.66
+% sk 0
+% f 0 10
+% s 0
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+20.3125 139.802 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 17.875 136.55
+% sk 0
+% f 0 10
+% s 0
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+-78.8881 141.975 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy -80.5131 138.724
+% sk 0
+% f 0 10
+% s 1
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+63.375 108.102 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 61.75 104.851
+% sk 0
+% f 0 10
+% s 1
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+-139.013 98.897 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy -141.451 95.6458
+% sk 0
+% f 0 10
+% s 2
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+20.3125 85.344 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 17.875 82.0928
+% sk 0
+% f 0 10
+% s 2
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+-99.2006 98.897 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy -101.638 96.4586
+% sk 0
+% f 0 10
+% s 3
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+78.8125 60.1472 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 76.375 57.7088
+% sk 0
+% f 0 10
+% s 3
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+-54.5131 98.897 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy -56.9506 96.4586
+% sk 0
+% f 0 10
+% s 4
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+37.375 40.64 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 34.9375 38.2016
+% sk 0
+% f 0 10
+% s 4
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+-104.076 59.8826 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy -106.513 57.4442
+% sk 0
+% f 0 10
+% s 5
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+115.375 90.2208 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 112.938 87.7824
+% sk 0
+% f 0 10
+% s 5
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+-140.638 23.3066 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy -143.076 20.0554
+% sk 0
+% f 0 10
+% s 7
+% End
+
+% End
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+249.138 20.6127 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+278.24 52.7922 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 275.692 48.6174
+% sk 0
+% f 0 10
+% s 6
+% End
+
+% Text
+% xy 245.666 17.2507
+% sk 0
+% f 0 10
+% s 8
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+208.07 140.538 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 205.632 137.286
+% sk 0
+% f 0 10
+% s 0
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+249.027 139.983 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 247.402 136.732
+% sk 0
+% f 0 10
+% s 1
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+179.669 110.76 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 177.232 107.508
+% sk 0
+% f 0 10
+% s 2
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+278.942 108.912 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 276.505 106.474
+% sk 0
+% f 0 10
+% s 4
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+177.675 50.5016 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 175.237 48.0632
+% sk 0
+% f 0 10
+% s 5
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+209.436 19.4674 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 206.999 16.2162
+% sk 0
+% f 0 10
+% s 7
+% End
+
+% End
+
+% Group
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+230.466 81.0087 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 228.029 78.5703
+% sk 0
+% f 0 10
+% s 3
+% End
+
+% End
+
+% Circle
+% ss 0
+1.2 [] ss
+np % xy
+105.625 21.9456 % r
+8.28885 ci
+% fi
+1 sg sfi
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 103.188 18.6944
+% sk 0
+% f 0 10
+% s 6
+% End
+
+% End
+
+end %% of Ipe figure

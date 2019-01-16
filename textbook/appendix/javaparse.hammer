@@ -1,0 +1,144 @@
+
+\chapter{Parsing Code}
+
+\section{Sample Parsing Code for Balanced Parentheses}
+\small
+\begin{verbatim}
+// =====================================================================
+// Parse.java -- A recursive descent parser for a simple grammar
+// Author          : John Hamer <j-hamer@cs.auckland.ac.nz>
+// Created On      : Sun Sep 26 12:24:18 1999
+// Last Modified By: John Hamer
+// Last Modified On: Sun Sep 26 12:30:13 1999
+// PURPOSE
+// This is the complete parser for the notes on Context-Free Grammars.
+// =====================================================================
+//
+public class Parse { 
+  protected String s;
+  protected int    pos;
+  public Parse( String s ) {
+    this.s = s;
+    pos    = 0;
+  }
+  public static class ParseError extends Exception {
+    public ParseError( String s, int pos, String msg ) {
+      super( msg + "\nOccurred in \"" + s + "\" at position " + pos );
+    }
+  }
+  protected void check( char c ) throws ParseError {
+    if( peek( ) != c )
+      throw new ParseError( s, pos, "Expected '" + c + "'" );
+    next( );
+  }
+  protected void next( ) { pos++; }
+  protected char peek( ) {
+    return pos < s.length( ) ? s.charAt( pos ) : (char)0;
+  }
+  //-- B ::= ( B ) B | <empty>
+  protected Tree parseB( ) throws ParseError {
+    if( peek( ) == '(' ) {
+      next( );
+      Tree b1 = parseB( );
+      check( ')' );
+      Tree b2 = parseB( );
+      return new Tree( "B -> (B) B", b1, b2 );
+    } else
+      return new Tree( "B -> " );
+  }
+  //-- Create a parser for s, and attempt to parse it as a B.  If the
+  //-- parsing fails, we print an informative message and return null.
+  //-- Otherwise we return a Tree that represents the parse.
+  public static Tree parse( String s ) {
+    try {
+      Parse p = new Parse( s );
+      Tree t = p.parseB( );
+      if( p.peek( ) != (char)0 ) throw new ParseError( s, p.pos, "Incomplete parse" );
+      return t;
+    } catch( ParseError e ) {
+      System.out.println( e );
+      return null;
+    }
+  }
+  public static class Tree {
+    protected String name;
+    protected Tree b1, b2;
+    public Tree( String name ) {
+      this.name = name;
+    }
+    public Tree( String name, Tree b1, Tree b2 ) {
+      this.name = name;
+      this.b1   = b1;
+      this.b2   = b2;
+    }
+    public String toString( ) {
+      StringBuffer sb    = new StringBuffer( );
+      StringBuffer rules = new StringBuffer( );
+      toStringBuffer( sb, rules, 0 );
+      return rules.append( sb ).toString( );
+    }
+    protected void toStringBuffer( StringBuffer sb, StringBuffer rules, int tab ) {
+      for( int i = 0; i < tab*2; i++ ) rules.append( ' ' );
+      rules.append( name ).append( '\n' );
+      if( b1 != null ) 
+      {
+        sb.append( '(' );
+        b1.toStringBuffer( sb, rules, tab + 1 );
+        sb.append( ')' );
+        b2.toStringBuffer( sb, rules, tab + 1 );
+      }
+    }
+  }
+  public static void main( String[] args ) {
+    System.out.println( parse( "()" ) );
+    System.out.println( parse( "(())" ) );
+    System.out.println( parse( "()()" ) );
+    System.out.println( parse( "(()())()" ) );
+    System.out.println( parse( "(()())()x" ) );
+    System.out.println( parse( "((x)())()" ) );
+    System.out.println( parse( "()())()" ) );
+  }
+}
+\end{verbatim}
+
+\newpage
+\section{Output of Sample Parser}
+
+\begin{verbatim}
+$ java Parse
+B -> (B) B
+  B -> 
+  B -> 
+()
+B -> (B) B
+  B -> (B) B
+    B -> 
+    B -> 
+  B -> 
+(())
+B -> (B) B
+  B -> 
+  B -> (B) B
+    B -> 
+    B -> 
+()()
+B -> (B) B
+  B -> (B) B
+    B -> 
+    B -> (B) B
+      B -> 
+      B -> 
+  B -> (B) B
+    B -> 
+    B -> 
+(()())()
+Parse$ParseError: Incomplete parse
+Occurred in "(()())()x" at position 8
+null
+Parse$ParseError: Expected ')'
+Occurred in "((x)())()" at position 2
+null
+Parse$ParseError: Incomplete parse
+Occurred in "()())()" at position 4
+null
+\end{verbatim}

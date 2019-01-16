@@ -1,0 +1,339 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%Creator: Ipe 5.0
+%%BoundingBox: 253 356 346 443
+%%EndComments
+{\catcode37=9\def\IPEdummy{({{)}} pop
+%%}\makeatletter\let\@notdefinable\relax
+%%\def\IPEc#1[#2]#3{\newcommand{#1}[#2]{#3}\ignorespaces}\@ifundefined
+%%{selectfont}{\let\selectfont\relax\def\fontsize#1#2{}}{}\makeatother
+%%\IPEc\IPEput[4]{\put(0,0){\special{psfile=\IPEfile}}}
+%%\IPEc\IPEmp[2]{\minipage[t]{#1bp}#2\special{color pop}\endminipage}
+%%\IPEc\IPEtext[1]{\makebox(0,0)[lb]{#1\special{color pop}}}
+%%\IPEc\IPEfs[1]{\IPEcolfs{0 0 0}{#1}}
+%%\IPEc\IPEcolfs[2]{\dimen0=#2pt\fontsize{#2}{1.2\dimen0}\selectfont
+%%\special{color push rgb #1}}
+%%\IPEc\IPEsize[2]{\unitlength1bp\ignorespaces}
+%%\IPEsize{91.5625}{84.1858}
+%%\begin{picture}(91.5625,84.1858)(254.219,357.907)
+%%\IPEput{253}{356}{346}{443}
+%%\put(336.156,417.962){\IPEtext{\IPEfs{10}\rm $b$}}
+%%\put(274.656,418.685){\IPEtext{\IPEfs{10}\rm $a$}}
+%%\put(306.906,367.568){\IPEtext{\IPEfs{10}\rm $c$}}
+%%\put(300.686,400.099){\IPEtext{\IPEfs{12}\rm 1, 2}}
+%%\put(280.998,392.318){\IPEtext{\IPEfs{12}\rm 1}}
+%%\put(299.091,434.383){\IPEtext{\IPEfs{12}\rm 2}}
+%%\put(325.392,385.615){\IPEtext{\IPEfs{12}\rm 2}}
+%%\put(331.088,359.806){\IPEtext{\IPEfs{12}\rm 1}}
+%%\end{picture}\endinput}
+%% Ipe postscript prologue
+
+/IpeDict 60 dict def
+IpeDict begin
+/origmatrix matrix currentmatrix def
+
+/sg {setgray} bind def
+/sc {setrgbcolor} bind def
+/ss {0 setdash setlinewidth} bind def
+/sk {stroke} bind def
+/fi {fill} bind def
+/sfi {gsave fill grestore} bind def
+/mt {moveto} bind def
+/lt {lineto} bind def
+/np {newpath} bind def
+/cl {closepath} bind def
+/N {moveto} bind def
+/L {lineto} bind def
+/E {lineto} bind def
+/C {lineto closepath} bind def
+%%%%
+%% x y size dx dy -> ar -> x y [ draws arrowhead, computes new vertex ]
+/smallarrow {gsave exch atan 4 2 roll translate rotate dup scale
+newpath 0 0 moveto -1 0.3 lineto -1 -0.3 lineto closepath fill
+-1 0 moveto currentpoint transform grestore itransform} bind def
+/ar {gsave exch atan 4 2 roll translate rotate dup scale
+newpath 0 0 moveto -1 0.3 lineto -1 -0.3 lineto closepath
+gsave origmatrix setmatrix [] 0 setdash stroke grestore fill
+0 0 moveto currentpoint transform grestore itransform} bind def
+%%%%
+/af {ar moveto} bind def
+/at {ar lineto} bind def
+%% x y size dx dy -> arw -> [ draws arrowhead ]
+/arw {ar pop pop} bind def
+%%%%
+/ci {0 360 arc} bind def
+/el {gsave concat 0 exch 0 exch 0 360 newpath arc origmatrix
+setmatrix} bind def
+/gs {gsave} bind def
+/gr {grestore} bind def
+/gsts {gsave translate scale } bind def
+%%
+/marker {gsave translate 0 setlinewidth [] 0 setdash newpath} bind def
+/m1 {marker 0 exch 0 exch 0 360 arc stroke grestore} bind def
+/m2 {marker 0 exch 0 exch 0 360 arc fill grestore} bind def
+/m3 {marker dup dup moveto dup dup neg lineto dup neg dup lineto dup
+neg exch lineto closepath stroke grestore} bind def 
+/m4 {marker dup dup moveto dup dup neg lineto dup neg dup lineto dup
+neg exch lineto closepath fill grestore} bind def
+/m5 {marker dup dup moveto dup neg dup lineto dup dup neg moveto dup
+neg exch lineto closepath stroke grestore} bind def
+
+%% splines
+systemdict /setpacking known {/savepacking currentpacking def false
+  setpacking} if
+/q0 {0 0} def
+/q1 {0 0} def
+/q2 {0 0} def
+/q3 {0 0} def
+/p0 {0 0} def
+/p1 {0 0} def
+/p2 {0 0} def
+/p3 {0 0} def
+systemdict /setpacking known {savepacking setpacking} if
+
+%% x y /qi -> defp -> [/qi [x y] def]
+/defp {dup 4 1 roll load astore def} bind def
+
+/midpoint { exch 4 3 roll add 2 div 3 1 roll add 2 div } bind def
+/thirdpoint { exch 4 3 roll 2 mul add 3 div 3 1 roll exch 2 mul add 3
+div } bind def
+
+/prespl {/p3 defp /p2 defp /p1 defp /p0 defp
+p1 p2 thirdpoint /q1 defp
+p2 p1 thirdpoint /q2 defp
+p1 p0 thirdpoint q1 midpoint /q0 defp
+p2 p3 thirdpoint q2 midpoint /q3 defp } bind def
+/postspl { q1 q2 q3 curveto p1 p2 p3 } bind def
+/fspl { prespl q0 moveto postspl } bind def
+/spl { prespl postspl } bind def
+/xspl { pop pop pop pop pop pop } bind def
+
+/qspl { /p2 defp /p1 defp /p0 defp
+p1 p0 midpoint /q0 defp
+p1 p2 midpoint /q3 defp
+p1 q0 thirdpoint /q1 defp
+p1 q3 thirdpoint /q2 defp q0 moveto q1 q2 q3 curveto } bind def
+
+/cqspl { /p2 defp /p1 defp /p0 defp
+p1 p0 midpoint /q0 defp
+p1 p2 midpoint /q3 defp
+p1 q0 thirdpoint /q1 defp
+p1 q3 thirdpoint /q2 defp q0 moveto q1 q2 q3 curveto
+p2 p1 midpoint /q0 defp
+p2 p0 midpoint /q3 defp
+p2 q0 thirdpoint /q1 defp
+p2 q3 thirdpoint /q2 defp q1 q2 q3 curveto
+p0 p2 midpoint /q0 defp
+p0 p1 midpoint /q3 defp
+p0 q0 thirdpoint /q1 defp
+p0 q3 thirdpoint /q2 defp q1 q2 q3 curveto } bind def
+
+%% bitmaps
+/pix { /picstr exch string def } def
+%% wd ht -> preimg -> ..stuff for image..
+/preimg { 8 [ 3 index 0 0 5 index neg 0 7 index ]
+ {currentfile picstr readhexstring pop} } def
+/img { preimg image } bind def
+/kimg { preimg false 3 colorimage } bind def
+%%
+end
+%% Ipe prologue end
+
+IpeDict begin 217.781 361.213 translate
+
+% Preamble 1
+%%\documentclass[a4paper]{article}
+% Group
+
+% Circle
+% ss 0
+0.8 [] ss
+np % xy
+60 60 % r
+8 ci
+% sk
+0 sg sk
+% End
+
+% Circle
+% ss 0
+0.8 [] ss
+np % xy
+120 60 % r
+8 ci
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 118.375 56.7488
+% sk 0
+% f 0 10
+% s b
+% End
+
+% Text
+% xy 56.875 57.472
+% sk 0
+% f 0 10
+% s a
+% End
+
+% Circle
+% ss 0
+0.8 [] ss
+np % xy
+90.75 9.6064 % r
+8 ci
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 89.125 6.3552
+% sk 0
+% f 0 10
+% s c
+% End
+
+% Spline
+% ss 0
+0.8 [] ss
+% ar 2 7
+0 sg 112 64 7 22.6605 -10.5734 arw
+np % # 7
+68 64
+68 64
+68 64
+89.3395 74.5734 fspl
+112 64 spl
+112 64 spl
+112 64 spl
+xspl
+% sk
+0 sg sk
+% End
+
+% Spline
+% ss 0
+0.8 [] ss
+% ar 2 7
+0 sg 116 52 7 18.7758 34.4694 arw
+np % # 6
+97.2242 17.5306
+97.2242 17.5306
+97.2242 17.5306
+116 52 fspl
+116 52 spl
+116 52 spl
+xspl
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+0.8 [] ss
+% ar 2 7
+0 sg np % # 2
+36.4375 60.3744 mt
+52 60 7 15.5625 -0.3744 at
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 82.9045 38.8858
+% sk 0
+% f 0 12
+% s 1, 2
+% End
+
+% Circle
+% ss 0
+0.8 [] ss
+np % xy
+90.8582 9.48642 % r
+9.88909 ci
+% sk
+0 sg sk
+% End
+
+% Line
+% ss 0
+0.8 [] ss
+% ar 2 7
+0 sg np % # 2
+62.8814 52.0537 mt
+84.4923 18.0334 7 21.6109 -34.0203 at
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 63.2165 31.1052
+% sk 0
+% f 0 12
+% s 1
+% End
+
+% Text
+% xy 81.3093 73.1697
+% sk 0
+% f 0 12
+% s 2
+% End
+
+% Text
+% xy 107.611 24.4017
+% sk 0
+% f 0 12
+% s 2
+% End
+
+% Spline
+% ss 0
+0.8 [] ss
+% ar 2 3.9
+0 sg 100.91 5.46431 3.9 -9.214 3.85451 arw
+np % # 8
+96.8892 0.939447
+96.8892 0.939447
+96.8892 0.939447
+104.93 -5.59647 fspl
+110.124 1.6098 spl
+100.91 5.46431 spl
+100.91 5.46431 spl
+100.91 5.46431 spl
+xspl
+% sk
+0 sg sk
+% End
+
+% Text
+% xy 113.307 -1.40678
+% sk 0
+% f 0 12
+% s 1
+% End
+
+% Spline
+% ss 0
+0.8 [] ss
+% ar 2 7
+0 sg 67.9772 57.5868 7 -21.5449 8.95 arw
+np % # 7
+112.163 57.0388
+112.163 57.0388
+112.163 57.0388
+89.5221 48.6368 fspl
+67.9772 57.5868 spl
+67.9772 57.5868 spl
+67.9772 57.5868 spl
+xspl
+% sk
+0 sg sk
+% End
+
+% End
+
+end %% of Ipe figure

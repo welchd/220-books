@@ -1,0 +1,1047 @@
+\documentclass[]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+%\newcommand{\illustr}[2]{\centerline{\includegraphics[width=#2]{#1}}}
+
+%\newcommand{\illuexe}[3]{\centerline{\includegraphics[width=#2,height=#3]{#1}}}
+
+
+\begin{document}
+\section{Exercises and Solutions}
+
+Most of the exercises below have solutions but you should try
+first to solve them. Each subsection with solutions is after
+the corresponding subsection with exercises. T
+
+\subsection{Time complexity and Big-Oh notation: exercises}
+
+\begin{enumerate}
+
+%%%%%%% 1 %%%%%%%
+\item A sorting method with
+``Big-Oh'' complexity \(O(n \log n )\) spends            
+exactly 1 millisecond to sort 1,000 data items. 
+Assuming that time \(T(n)\) of sorting \(n\) 
+items is directly proportional to
+\(n \log n\), that is, \(T(n)=cn\log n\),
+derive a formula for \(T(n)\), given the time \(T(N)\) 
+for sorting \(N\) items, and estimate 
+how long this method will sort 1,000,000 items.
+       
+%%%%%%% 2 %%%%%%%
+\item A quadratic algorithm with 
+processing time \(T(n)=cn^2 \)
+spends $T(N)$ seconds for processing $N$ data items. How much time 
+will be spent for
+processing $n=5000$ data items, assuming that $N=100$ and 
+$T(N)=1$ms? 
+
+%%%%%%% 3 %%%%%%%
+\item An algorithm with time complexity $O(f(n))$ and
+processing time $T(n) = cf(n)$, where \(f(n)\) is a known
+function of \(n\), spends 10 seconds to process 
+1000 data items. 
+How much time will be spent
+to process 100,000 data items if \(f(n) = n\) and \(f(n)=n^3\)? 
+
+%%%%%%% 4 %%%%%%%
+\item
+Assume that each of the expressions below gives the
+processing time \(T(n)\) spent by an algorithm for 
+solving a problem of size \(n\). Select the dominant 
+term(s) having the steepest increase in \(n\) 
+and specify the lowest Big-Oh complexity of each algorithm.\\
+
+\begin{tabular}{|l|c|c|} \hline
+Expression & Dominant term(s) &  
+\hspace*{1mm} $O(\ldots)$ \hspace*{1mm}  \\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$5 + 0.001 n^{3} + 0.025 n$ \vspace*{1mm}
+\end{minipage}
+& & \\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$500 n + 100 n^{1.5} + 50 n\log_{10}n$ \vspace*{1mm}
+\end{minipage}
+& & \\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$0.3 n + 5 n^{1.5} + 2.5 \cdot n^{1.75}$ \vspace*{1mm}
+\end{minipage}
+& & \\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$n^{2} \log_{2}n + n (\log_{2} n )^{2}$ \vspace*{1mm}
+\end{minipage}
+& & \\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$n \log_{3} n  + n \log_{2}n$ \vspace*{1mm}
+\end{minipage}
+& \hspace*{25mm} & \\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$3 \log_{8}n + \log_{2} \log_{2} \log_{2} n$ \vspace*{1mm}
+\end{minipage}
+& & \\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$100n + 0.01n^{2}$ \vspace*{2mm}
+\end{minipage}
+& & \\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$0.01n + 100n^{2}$ \vspace*{2mm}
+\end{minipage}
+& & \\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$2n +  n^{0.5} + 0.5n^{1.25}$ \vspace*{2mm}
+\end{minipage}
+& & \\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$0.01n \log_{2}n + n(\log_{2} n )^{2}$ \vspace*{2mm}
+\end{minipage}
+& & \\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$100n \log_{3} n + n^{3} + 100n$ \vspace*{2mm}
+\end{minipage}
+& & \\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$0.003\log_{4}n + \log_{2} \log_{2} n$ \vspace*{2mm}
+\end{minipage}
+& & \\ \hline
+\end{tabular}
+
+%%%%%%% 5 %%%%%%%
+\item The statements below show
+some features of ``Big-Oh'' notation for the functions
+$f \equiv f(n)$ and $g \equiv g(n)$.
+Determine whether each statement is
+TRUE or FALSE and correct the
+formula in the latter case. \\
+
+{\footnotesize
+\begin{tabular}{|l|l|l|} \hline
+{\bf Statement} & 
+\begin{minipage}{20mm} ~~\\
+Is it TRUE\\
+or FALSE? \\ 
+\end{minipage}& 
+\begin{minipage}{35mm} ~~\\
+If it is FALSE then write\\
+the correct formula \\
+\end{minipage} \\ \hline
+\begin{minipage}{40mm}~~\\
+Rule of sums:\\
+ $O(f + g) = O(f) + O(g)$\\ 
+\end{minipage}                &      &  \\ \hline
+\begin{minipage}{40mm}~~\\
+Rule of products:\\
+ $O(f \cdot g) = O(f) \cdot O(g)$ \\
+\end{minipage}                &      &  \\ \hline
+\begin{minipage}{40mm}~~\\
+Transitivity: \\
+if $g = O(f)$ and $h = O(f)$ \\
+then $g = O(h)$ \\
+\end{minipage}                &      & \\ \hline
+\begin{minipage}{40mm}~~\\
+$5n + 8n^{2} + 100n^{3} = O(n^{4})$\\
+~~~ \\
+\end{minipage}                &      &  \\ \hline
+\begin{minipage}{40mm}~~\\
+$5n + 8n^{2} + 100n^{3} = O(n^{2} \log n)$\\
+~~~\\
+\end{minipage}                &      &  \\ \hline
+\end{tabular}}
+
+%%%%%%% 6 %%%%%%%
+\item Prove that $T(n)=a_{0}+a_{1}n+a_{2}n^{2}+a_{3}n^{3}$
+is $O(n^{3})$ using the formal definition of the Big-Oh
+notation. {\it Hint:} Find a constant $c$ and threshold $n_0$ such that 
+$cn^3 \ge T(n)$ for $n \ge n_0$.
+
+%%%%%%% 7 %%%%%%%
+\item Algorithms \textbf{A} and 
+\textbf{B} spend
+exactly \(T_{\rm A}(n) = 0.1 n^{2} \log_{10}n\)
+and \(T_{\rm B}(n) = 2.5 n^{2}\) microseconds, respectively,
+for a problem of size \(n\).
+Choose the algorithm, which is better in the Big-Oh sense, and
+find out a problem size \(n_{0}\) such that for any larger 
+size \(n > n_{0}\) the chosen algorithm outperforms the
+other. If your problems are of the size $n \le 10^{9}$,
+which algorithm will you recommend to use?\\ 
+        
+%%%%%% 7A %%%%%%%%% 
+\item  Algorithms \textbf{A} and 
+\textbf{B} spend
+exactly \(T_{\rm A}(n) = c_{\rm A} n \log_{2}n\)
+and \(T_{\rm B}(n) = c_{\rm B} n^{2}\) microseconds, respectively,
+for a problem of size \(n\).
+Find the best algorithm for processing \(n=2^{20}\) data items if
+the algoritm {\bf A} spends 10 microseconds
+to process 1024 items and the algorithm {\bf B}
+spends only 1 microsecond to process 1024 items.
+
+%%%%%%% 8 %%%%%%%
+\item Algorithms \textbf{A} and \textbf{B} 
+spend exactly \(T_{\rm A}(n) = 5 \cdot n \cdot \log_{10}n\)
+and \(T_{\rm B}(n) = 25 \cdot n\) microseconds, respectively,
+for a problem of size \(n\). 
+Which algorithm is better in the Big-Oh sense? For
+which problem sizes does it outperform the
+other?
+         
+%%%%%%% 9 %%%%%%%
+\item 
+One of the two software packages, ${\bf A}$ or ${\bf B}$,
+should be chosen to process very big
+databases, containing each up to $10^{12}$ records. Average processing time 
+of the package ${\bf A}$ is 
+$T_{\rm A}(n) = 0.1 \cdot n \cdot \log_{2}n$ microseconds, and 
+the average processing time of the package ${\bf B}$ is 
+$T_{\rm B}(n) = 5 \cdot n$ microseconds. Which algorithm has 
+better performance in a "Big-Oh" sense? Work out exact conditions 
+when these packages outperform each other.\\
+
+%%%%%%% 10 %%%%%%%
+\item One of the two software packages, ${\bf A}$ or ${\bf B}$,
+should be chosen to process data collections,
+containing each up to $10^{9}$ records. Average processing time 
+of the package ${\bf A}$ is 
+$T_{\rm A}(n) = 0.001n$ milliseconds and 
+the average processing time of the package ${\bf B}$ is 
+$T_{\rm B}(n) = 500\sqrt{n}$ milliseconds. Which algorithm has 
+better performance in a "Big-Oh" sense? Work out exact conditions 
+when these packages outperform each other. \\
+
+%%%%%%% 11 %%%%%%%
+\item Software
+packages ${\bf A}$ and ${\bf B}$ of
+complexity $O(n \log n )$ and
+$O(n)$, respectively, spend exactly 
+$T_{\rm A}(n) = c_{\rm A}n \log_{10} n$
+and $T_{\rm B}(n) = c_{\rm B} n$ milliseconds to process
+\(n\) data items. During a test,
+the average time of processing $n=10^{4}$ 
+data items with the package {\bf A} and {\bf B} is
+100 milliseconds and 500 milliseconds, respectively. 
+Work out exact conditions when one package
+actually outperforms the other and recommend the best choice if
+up to $n = 10^{9}$ items should be processed. 
+
+%%%%%%% 12 %%%%%%%
+\item Let processing time of an algorithm of Big-Oh complexity \(O(f(n))\)
+be directly proportional to \(f(n)\).  Let
+three such algorithms \textbf{A}, \textbf{B}, and \textbf{C}                     
+have time complexity \(O(n^{2})\), \(O(n^{1.5})\), and \(O(n \log n )\),
+respectively.            
+During a test, each algorithm spends 10 seconds to process          
+100 data items. Derive the time each algorithm should    
+spend to process 10,000 items.        
+
+%%%%%%% 13 %%%%%%%
+\item 
+Software packages \textbf{A} and \textbf{B} have processing time
+exactly \(T_{\rm EP}= 3n^{1.5}\) and
+\(T_{\rm WP}= 0.03 n^{1.75}\), respectively.
+If you are interested in faster processing of up to 
+\(n = 10^{8}\) data items, then which package should be 
+choose? \\
+\end{enumerate}
+\subsection{Time complexity and Big-Oh notation: solutions}
+\begin{enumerate}
+
+%%%%%%% 1 %%%%%%% 
+\item Because processing time is \(T(n) = c n\log n\),
+the constant factor \(c = \frac{T(N)}{N\log N}\), and
+\(
+T(n) = T(N)\frac{n \log n}{N \log N}
+\).
+Ratio of logarithms of the same base
+is independent of the base (see Appendix in the textbook),
+hence, any appropriate base can be used in the above
+formula (say, base of 10). 
+Therefore, for \(n = 1000000\) the time is   
+\(
+T(1,000,000) = T(1,000) \cdot 
+\frac{1000000\log_{10} 1000000}{1000\log_{10} 1000}
+= 1 \cdot \frac{1000000 \cdot 6}{1000 \cdot 3} = 
+2,000 \ \mathrm{ms}
+\)  
+
+%%%%%%% 2 %%%%%%%
+\item The constant factor \(c = \frac{T(N)}{N^2 }\), therefore
+\(
+T(n) = T(N)\frac{n^2}{N^2} = \frac{n^2}{10000}\ \mathrm{ms}
+\)
+and \(T(5000) = 2,500\) ms.
+
+%%%%%%% 3 %%%%%%% 
+\item The constant factor 
+\(c = \frac{T(1000)}{f(1000)} = \frac{10}{f(1000)}\) milliseconds per item. 
+Therefore,
+\(T(n)=10\frac{f(n)}{f(1000)}\) ms and
+\(T(100,000)=10\frac{f(100,000)}{f(1000)}\) ms.
+If \(f(n)=n\) then \(T(100,000) = 1000\) ms. If 
+\(f(n)=n^3\), then \(T(100,000) = 10^7\) ms.
+
+%%%%%%% 4 %%%%%%%
+\item 
+\begin{tabular}{|l|c|c|} \hline
+Expression & Dominant term(s) &  
+\hspace*{1mm} $O(\ldots)$ \hspace*{1mm}  \\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$5 + 0.001 n^{3} + 0.025 n$ \vspace*{1mm}
+\end{minipage}
+& $0.001 n^{3}$ & $O(n^{3})$\\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$500 n + 100 n^{1.5} + 50 n\log_{10}n$ \vspace*{1mm}
+\end{minipage}
+& $100n^{1.5}$ &  $O(n^{1.5})$\\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$0.3n + 5 n^{1.5} + 2.5 \cdot n^{1.75}$ \vspace*{1mm}
+\end{minipage}
+& $2.5n^{1.75}$ & $O(n^{1.75})$\\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$n^{2} \log_{2}n + n (\log_{2} n )^{2}$ \vspace*{1mm}
+\end{minipage}
+& $n^{2} \log_{2} n$ & $O(n^{2} \log n)$ \\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$n \log_{3} n  + n \log_{2}n$ \vspace*{1mm}
+\end{minipage}
+& $n\log_{3}n$, $n\log_{2}n$ & $O(n\log n)$ \\ \hline
+\begin{minipage}{50mm} \vspace*{1mm}
+$3 \log_{8}n + \log_{2} \log_{2} \log_{2} n$ \vspace*{1mm}
+\end{minipage}
+& $3\log_{8}n$ & $O(\log n)$\\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$100n + 0.01n^{2}$ \vspace*{2mm}
+\end{minipage}
+& $0.01n^{2}$ & $O(n^{2})$\\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$0.01n + 100n^{2}$ \vspace*{2mm}
+\end{minipage}
+& $100n^{2}$ &  $O(n^{2})$\\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$2n +  n^{0.5} + 0.5n^{1.25}$ \vspace*{2mm}
+\end{minipage}
+& $0.5n^{1.25}$ & $O(n^{1.25})$\\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$0.01n \log_{2}n + n(\log_{2} n )^{2}$ \vspace*{2mm}
+\end{minipage}
+& $n(\log_{2} n )^{2}$ & $O(n(\log n )^{2})$ \\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$100n \log_{3} n + n^{3} + 100n$ \vspace*{2mm}
+\end{minipage}
+& $n^{3}$ & $O(n^{3})$ \\ \hline
+\begin{minipage}{50mm} \vspace*{2mm}
+$0.003\log_{4}n + \log_{2} \log_{2} n$ \vspace*{2mm}
+\end{minipage}
+& $0.003\log_{4}n$ & $O(\log n)$\\ \hline
+\end{tabular}
+   
+%%%%%%% 5 %%%%%%%
+\item
+\begin{tabular}{|l|l|l|} \hline
+{\bf Statement} & 
+\begin{minipage}{20mm} ~~\\
+Is it TRUE\\
+or FALSE? \\ 
+\end{minipage}& 
+\begin{minipage}{35mm} ~~\\
+If it is FALSE then write\\
+the correct formula \\
+\end{minipage} \\ \hline
+\begin{minipage}{40mm}~~\\
+Rule of sums:\\
+ $O(f + g) = O(f) + O(g)$\\ 
+\end{minipage}                & FALSE     &
+\begin{minipage}{40mm}~~\\
+  $O(f + g) =$ \\ $ \max \left\{ O(f), O(g) \right \}$\\ 
+\end{minipage} \\ \hline
+\begin{minipage}{40mm}~~\\
+Rule of products:\\
+ $O(f \cdot g) = O(f) \cdot O(g)$ \\
+\end{minipage}                &  TRUE    &  \\ \hline
+\begin{minipage}{40mm}~~\\
+Transitivity: \\
+if $g = O(f)$ and $h = O(f)$\\ then $g = O(h)$ \\
+\end{minipage}                &  FALSE     & 
+\begin{minipage}{40mm}~~\\
+if $g = O(f)$ and \\ $f = O(h)$ then \\ $g = O(h)$ \\
+\end{minipage} \\ \hline
+\begin{minipage}{40mm}~~\\
+$5n + 8n^{2} + 100n^{3} = O(n^{4})$\\
+~~~ \\
+\end{minipage}                &  TRUE    &  \\ \hline
+\begin{minipage}{40mm}~~\\
+$5n + 8n^{2} + 100n^{3} = O(n^{2} \log n)$\\
+~~~\\
+\end{minipage}                & FALSE     &  
+\begin{minipage}{40mm}~~\\
+$5n + 8n^{2} + 100n^{3} = O(n^{3})$\\
+~~~\\
+\end{minipage}\\ \hline
+\end{tabular}
+
+%%%%%%% 6 %%%%%%%
+\item
+It is obvious that
+$T(n) \le |a_{0}|+|a_{1}|n +|a_{2}|n^{2}+|a_{3}|n^{3}$.
+Thus if $n \ge 1$, then
+$T(n) \le cn^{3}$ where $c = |a_{0}|+|a_{1}|+ |a_{2}|+ |a_{3}|$
+so that $T(n)$ is $O(n^{3})$.
+
+%%%%%%% 7 %%%%%%%
+\item In the Big-Oh sense, the algorithm \textbf{B} is better. It 
+outperforms the algorithm \textbf{A} when $T_{\rm B}(n) \le T_{\rm A}(n)$,
+that is, when $2.5n^{2} \le 0.1 n^{2}\log_{10}n$. This inequality
+reduces to
+$\log_{10} n \ge 25$, or $n \ge n_{0}=10^{25}$. If
+$n \le 10^{9}$, the algorithm of choice is \textbf{A}.
+
+%%%%%%% 7A %%%%%%% 
+\item The constant factors for {\bf A} and {\bf B} are: 
+\[
+c_{\rm A}=\frac{10}{1024 \log_{2}1024} = \frac{1}{1024}; \quad
+c_{\rm B}=\frac{1}{1024^2}
+\]
+Thus, to process \(2^{20}=1024^2\) items the algorithms
+{\bf A} and {\bf B} will spend
+\[
+T_{\rm A}(2^{20}) = \frac{1}{1024}2^{20}\log_{2}(2^{20}) =
+20280 \mu\mathrm{s}\;\;\mathrm{and}\;\;
+T_{\rm B}(2^{20}) = \frac{1}{1024^{2}}2^{40} = 2^{20} \mu\mathrm{s},
+\] 
+respectively.
+Because \(T_{\rm B}(2^{20}) \gg T_{\rm A}(2^{20})\), the method
+of choice is {\bf A}.
+
+%%%%%%% 8 %%%%%%%
+\item In the Big-Oh sense, the algorithm \textbf{B} is better. It 
+outperforms the algorithm \textbf{A} if $T_{\rm B}(n) \le T_{\rm A}(n)$,
+that is, if $25n \le 5n\log_{10}n$, or
+$\log_{10} n \ge 5$, or $n \ge 100,000$.
+
+%%%%%%% 9 %%%%%%%
+\item In the ``Big-Oh'' sense, the algorithm {\bf B} of complexity
+$O(n)$ is better than {\bf A} of complexity $O(n \log n)$.
+he package {\bf B} has better performance in a 
+The package {\bf B} begins to outperform {\bf A} when
+$(T_{\rm A}(n) \ge T_{\rm B}(n)$, that is, when
+$0.1n \log_{2} n \ge 5 \cdot n$. This inequality reduces to
+$0.1 \log_{2}n \ge 5$, or $n \ge 2^{50}\approx
+10^{15}$. Thus for processing up to
+$10^{12}$ data items, the package of choice is {\bf A}.
+
+%%%%%%% 10 %%%%%%%
+\item
+In the ``Big-Oh'' sense, the package {\bf B} of complexity
+$O(n^{0.5})$ is better than {\bf A} of complexity $O(n)$.
+The package {\bf B} begins to outperform {\bf A} when
+$(T_{\rm A}(n) \ge T_{\rm B}(n)$, that is, when
+$0.001n \ge 500\sqrt{n}$. This inequality reduces to
+$\sqrt{n} \ge 5\cdot 10^{5}$, or $n \ge 25 \cdot 10^{10}$. 
+Thus for processing up to
+$10^{9}$ data items, the package of choice is {\bf A}.
+
+%%%%%%% 11 %%%%%%%
+\item 
+In the ``Big-Oh'' sense, the package {\bf B} of linear
+complexity $O(n)$ is better than the package {\bf A} of
+$O(n\log n)$ complexity.
+The processing times of the
+packages are $T_{\rm A}(n) = c_{\rm A}n \log_{10} n$
+and $T_{\rm B}(n) = c_{\rm B} n$, respectively. 
+The tests allows us to derive the constant factors:
+\[
+\begin{array}{lllll}
+c_{\rm A} & = & \frac{100}{10^{4}\log_{10} 10^{4}} & = 
+& \frac{1}{400}\\
+c_{\rm B} & = & \frac{500}{10^{4}} & = & \frac{1}{20}
+\end{array}
+\]
+The package {\bf B} begins to outperform {\bf A} when
+we must estimate the data size $n_{0}$ that ensures
+$T_{\rm A}(n) \ge T_{\rm B}(n)$, that is, when
+$ \frac{n \log_{10} n}{400} \ge \frac{n}{20}$. This
+inequality reduces to $\log_{10} n \ge \frac{400}{20}$, or 
+$n \ge 10^{20}$. Thus for processing up to
+$10^{9}$ data items, the package of choice is {\bf A}.
+
+%%%%%%% 12 %%%%%%%
+\item
+\begin{tabular}{|c|l|l|} \hline
+     & Complexity   & Time to process 10,000 items \\ \hline
+A1 \begin{minipage}{1mm}  \vspace{3mm}
+\end{minipage} & $O(n^{2})$ & $T(10,000) = T(100) \cdot \frac{10000^2}{100^2}
+                       = 10 \cdot 10000 = 100,000$ sec. \\
+A2 \begin{minipage}{1mm}  \vspace{3mm}
+\end{minipage} & $O(n^{1.5})$ & $T(10,000) = T(100) \cdot 
+                       \frac{10000^{1.5}}{100^{1.5}}
+                       = 10 \cdot 1000 = 10,000$ sec.\\           
+A3 \begin{minipage}{1mm}  \vspace{3mm}
+\end{minipage} & $O(n \log n)$ &    
+$T(10,000) = T(100) \cdot \frac{10000\log 10000}{100\log 100}
+= 10 \cdot 200 = 2,000$ sec.\\ \hline
+\end{tabular} 
+
+%%%%%%% 13 %%%%%%%
+\item
+In the Big-Oh sense, the package \textbf{A} is better. But it 
+outperforms the package \textbf{B} when $T_{\rm A}(n) \le T_{\rm B}(n)$,
+that is, when $3n^{1.5} \le 0.03 n^{1.75}$. This inequality reduces to
+$n^{0.25} \ge 3/0.03 (=100)$, or $n \ge 10^{8}$. Thus for processing up to
+$10^{8}$ data items, the package of choice is {\bf B}.
+
+\end{enumerate}
+
+\subsection{Recurrences and divide-and-conquer paradigm: exercises}
+
+\begin{enumerate}
+
+%%%%%%% 14 %%%%%%%
+\item Running time $T(n)$ of processing $n$ data items
+with a given algorithm is described by the recurrence:
+\[
+T(n) = k\cdot T \left ( \frac{n}{k} \right ) + c \cdot n; \;\;
+T(1) = 0.
+\]
+Derive a closed form formula
+for $T(n)$ in terms of $c$, $n$, and $k$. What is the computational 
+complexity of this algorithm in a ``Big-Oh'' sense? 
+\emph{Hint}: To have the well-defined recurrence, 
+assume that
+$n = k^{m}$ with the integer $m= \log_{k}n$ and $k$.\\
+
+%%%%%%% 15 %%%%%%%
+\item Running time \(T(n)\) of processing $n$ data items
+with another, slightly different algorithm 
+is described by the recurrence:
+\[
+T(n) = k \cdot T \left ( \frac{n}{k} \right ) + c \cdot k \cdot n; \;\;
+T(1) = 0.
+\]
+Derive a closed form formula
+for $T(n)$ in terms of $c$, $n$, and $k$ and detemine computational 
+complexity of this algorithm in a ``Big-Oh'' sense.
+\emph{Hint}: To have the well-defined recurrence, 
+assume that
+$n = k^{m}$ with the integer $m= \log_{k}n$ and $k$.\\
+
+%%%%%%% 16 %%%%%%%
+\item What value of $k=2$, $3$, or $4$ results in
+the fastest processing with the above algorithm?
+\emph{Hint}: You may need a relation $\log_{k}n = \frac{\ln n}{\ln k}$ where
+$\ln$ denotes the natural logarithm with the base $e=2.71828\ldots$).\\
+
+%%%%%%% 17 %%%%%%%
+\item Derive the recurrence that describes 
+processing time \(T(n)\) of the recursive method:
+\begin{verbatim}
+public static int recurrentMethod( 
+              int[] a, int low, int high, int goal ) {  
+  int target = arrangeTarget( a, low, high );
+  if ( goal < target )
+    return recurrentMethod( a, low, target-1, goal );
+  else if ( goal > target )
+    return recurrentMethod( a, target+1, high, goal );
+  else 
+    return a[ target ];  
+}
+\end{verbatim}
+The
+range of input variables is
+\(0 \le {\tt low} \le {\tt goal} \le {\tt high} \le {\tt a.length}-1\).
+A non-recursive method {\tt arrangeTarget()} has linear time complexity
+\(T(n)= c\cdot n\) where \(n = {\tt high} - {\tt low} + 1\)
+and returns integer {\tt target} in the range 
+\({\tt low} \le {\tt target} \le {\tt high}\). Output
+values of {\tt arrangeTarget()} 
+are equiprobable in this range, e.g. if
+\({\tt low}=0\) and \({\tt high} = n-1\), then every
+\({\tt target} = 0, 1, \ldots, n-1\) occurs
+with the same probability \(\frac{1}{n}\). Time for 
+performing elementary operations like if--else or
+return should not be taken into account in the recurrence. \\
+
+{\it Hint}: consider a call of {\tt recurrentMethod()} 
+for \(n = {\tt a.length}\) data items, e.g.
+{\tt recurrentMethod( a, 0, a.length - 1, goal )}
+and analyse all recurrences for \(T(n)\) for different
+input arrays. Each recurrence involves
+the number of data items the method
+recursively calls to. \\
+
+%%%%%%% 18 %%%%%%%
+\item Derive an explicit (closed--form) formula for 
+time \(T(n)\) of processing an array of size \(n\)
+if \(T(n)\) is specified implicitly by the recurrence:
+\[
+T(n) = \frac{1}{n}\left ( T(0) + T(1) + \cdots + T(n-1) \right ) + c\cdot n;
+\;\;\; T(0) = 0
+\] 
+{\it Hint}: You might need the \(n\)-th
+harmonic number $H_{n} = 1 + \frac{1}{2} + \frac{1}{3} +
+\cdots + \frac{1}{n} \approx \ln n + 0.577\)  for deriving the
+explicit formula for \(T(n)\). \\
+   
+%%%%%%% 18A %%%%%%%
+\item Determine an explicit formula for 
+the time \(T(n)\) of processing an array of size \(n\)
+if \(T(n)\) relates to the average of \(T(n-1)\),
+\ldots, \(T(0)\) as follows:
+\[
+T(n) = \frac{2}{n}\left ( T(0) + \cdots + T(n-1) \right ) + c
+\] 
+where T(0) = 0.\\
+
+{\it Hint}: You might need the 
+equation $\frac{1}{1\cdot 2} + \frac{1}{2\cdot 3} +
+\cdots + \frac{1}{n(n+1)} = \frac{n}{n+1}$ for deriving the
+explicit formula for \(T(n)\). \\
+   
+%%%%%%% 19 %%%%%%%
+\item The obvious linear algorithm for exponentiation $x^n$ 
+uses $n-1$ multiplications. Propose a faster algorithm and
+find its Big-Oh complexity in the case when $n=2^m$ 
+by writing and solving a recurrence formula.
+
+\end{enumerate}
+
+\subsection{Recurrences and divide-and-conquer paradigm: solutions}
+
+\begin{enumerate}
+
+%%%%%%% 14 %%%%%%%
+\item  The closed-form formula can be derived either by ``telescoping''\footnote{If you know
+difference equations in math, you will easily notice that the recurrences are the difference
+equations and "telescoping" is their solution by substitution of the same equation for 
+gradually decreasing arguments: $n-1$ or $n/k$.}
+   or by guessing from a few values and using then math induction.
+ \begin{enumerate}
+ \item \textsf{Derivation with ``telescoping'':}
+the recurrence $T(k^{m}) = k \cdot T(k^{m-1}) + c \cdot k^{m}$ 
+can be represented and ``telescoped'' as follows:
+\begin{eqnarray*}
+\frac{T(k^{m})}{k^{m}} & = & \frac{T(k^{m-1})}{k^{m-1}} + c\\
+\frac{T(k^{m-1})}{k^{m-1}} & = & \frac{T(k^{m-2})}{k^{m-2}} + c\\
+\cdots & \cdots & \cdots\\
+\frac{T(k)}{k} & = & \frac{T(1)}{1} + c
+\end{eqnarray*}
+Therefore, $\frac{T(k^{m})}{k^{m}} = c \cdot m$, or 
+$T(k^{m}) = c \cdot k^{m} \cdot m$, or $T(n) = c \cdot n \cdot \log_{k}n$.
+The Big-Oh complexity is $O(n\log n)$. 
+
+\item \textsf{Another version of telescoping:} the like substitution
+can be applied directly to the initial recurrence:
+\begin{eqnarray*}
+T(k^{m}) & = & k \cdot T(k^{m-1}) + c \cdot k^{m}\\
+k\cdot T(k^{m-1}) & = & k^{2} \cdot T(k^{m-2}) + c \cdot k^{m}\\
+\cdots & \cdots & \cdots\\
+k^{m-1}\cdot  T(k) &=& k^{m}\cdot T(1) + c \cdot k^{m}
+\;\;\; {\rm so} \: {\rm that} \;\; T(k^{m})= c \cdot m \cdot k^{m} 
+\end{eqnarray*}
+
+\item \textsf{Guessing and math induction:} let us construct a
+few initial values of \(T(n)\), starting from the given \(T(1)\) and
+successively applying the recurrence:
+
+\begin{eqnarray*}
+T(1) & = & 0\\
+T(k) & = & k \cdot T(1) + c \cdot k = c \cdot k\\
+T(k^{2}) & = & k \cdot T(k) + c \cdot k^{2} = 2\cdot c \cdot k^{2}\\
+T(k^{3}) & = & k \cdot T(k^{2}) + c \cdot k^{3} = 3\cdot c \cdot k^{3}\\
+\end{eqnarray*}
+This sequence leads to an assumption that $T(k^m) = c\cdot m \cdot k^{m}$.
+Let us explore it with math induction. The inductive steps are as
+follows:
+\begin{itemize}
+\item[({\it i})] The base case
+$T(1) \equiv T(k^{0}) = c\cdot 0 \cdot k^0 = 0$ holds under our assumption.\\
+\item[({\it ii})] Let the assumption holds for $l=0,\ldots,m-1$. Then
+\begin{eqnarray*}
+T(k^{m})& = & k\cdot T(k^{m-1}) + c \cdot k^{m}\\
+        & = & k \cdot c \cdot (m-1) \cdot k^{m-1} + c \cdot k^{m}\\
+        & = & c \cdot (m-1+1) \cdot k^{m} = c \cdot m \cdot k^{m}
+\end{eqnarray*}
+\end{itemize}
+Therefore, the assumed relationship holds for all values 
+\(m = 0, 1, \ldots, \infty\), so that 
+$T(n) = c \cdot n \cdot \log_{k}n$.
+\end{enumerate}
+The Big-Oh complexity of this algorithm is $O(n\log n)$.
+
+%%%%%%% 15 %%%%%%%
+\item
+The recurrence $T(k^{m}) = k \cdot T(k^{m-1}) + c \cdot k^{m + 1}$ 
+telescopes as follows:
+\[
+\begin{array}{lll}
+\frac{T(k^{m})}{k^{m+1}} & = & \frac{T(k^{m-1})}{k^{m}} + c\\
+\frac{T(k^{m-1})}{k^{m}} & = & \frac{T(k^{m-2})}{k^{m-1}} + c\\
+\cdots & \cdots & \cdots\\
+\frac{T(k)}{k^{2}} & = & \frac{T(1)}{k} + c\\
+\end{array}
+\]
+Therefore, $\frac{T(k^{m})}{k^{m+1}} = c \cdot m$, or 
+$T(k^{m}) = c \cdot k^{m+1} \cdot m $, 
+or $T(n) = c \cdot k \cdot n \cdot \log_{k}n$.
+The complexity is $O(n\log n)$ because $k$ is constant.
+
+%%%%%%% 16 %%%%%%%
+\item
+Processing time $T(n) = c \cdot k \cdot n \cdot \log_{k}n$ can
+be easily rewritten as $T(n) = c \frac{k}{\ln k} \cdot n \cdot \ln n$
+to give an explicit dependence of $k$. Because $\frac{2}{\ln 2} = 2.8854$,
+$\frac{3}{\ln 3} = 2.7307$, and $\frac{4}{\ln 4} = 2.8854$, the
+fastest processing is obtained for $k=3$.
+
+%%%%%%% 17 %%%%%%%
+\item
+Because all the variants:
+\[
+\begin{array}{lllll}
+T(n) = T(0) + cn & {\rm or} & 
+T(n) = T(n-1) + cn &{\rm if} & {\tt target} = 0\\
+T(n) = T(1) + cn & {\rm or} & 
+T(n) = T(n-2) + cn &{\rm if} & {\tt target} = 1\\
+T(n) = T(2) + cn & {\rm or} & 
+T(n) = T(n-3) + cn &{\rm if} & {\tt target} = 2\\
+\ldots & & \ldots & & \ldots \\
+T(n) = T(n-1) + cn & {\rm or} & 
+T(n) = T(0) + cn & {\rm if} & {\tt target} = n-1
+\end{array}
+\]
+are equiprobable, then the recurrence is
+\[
+T(n) = \frac{1}{n}\left ( T(0) + \ldots + T(n-1) \right ) + c\cdot n
+\]
+
+%%%%%%% 18 %%%%%%%
+\item
+The recurrence suggests that 
+$nT(n) = T(0)+T(1)+\cdots +T(n-2)+T(n-1) + cn^2$. It follows that
+$(n-1)T(n-1) = T(0)+\ldots +T(n-2) + c\cdot (n-1)^{2}$, and by
+subtracting the latter equation from the former one, we obtain the
+following basic recurrence: $nT(n) - (n-1)T(n-1) = T(n-1) + 2cn - c$.
+It reduces to $nT(n) = n\cdot T(n-1) + 2cn - c$, or 
+$T(n) = T(n-1) + 2c - \frac{c}{n}$.
+Telescoping results in the following system of equalities:
+\[
+\begin{array}{lllll}
+T(n) & = & T(n-1)  & +  2c & - \frac{c}{n}\\
+T(n-1) & = & T(n-2)  & + 2c  & - \frac{c}{n-1}\\
+\cdots & \cdots & \cdots  &  \cdots & \cdots \\
+T(2) & = & T(1)  & + 2c & - \frac{c}{2} \\
+T(1) & = & T(0)  & + 2c & - c \\ 
+\end{array}
+\]
+Because $T(0)=0$, the explicit expression for $T(n)$ is:
+\[
+T(n) = 2cn - c \cdot \left( 1+\frac{1}{2}+ \cdots + \frac{1}{n} \right )
+= 2cn - H_{n} \equiv 2cn - \ln n - 0.577
+\]
+
+%%%%%%% 18A %%%%%%%
+\item
+The recurrence suggests that 
+$nT(n) = 2(T(0)+T(1)+\ldots +T(n-2)+T(n-1)) + c \cdot n$.
+Because $(n-1)T(n-1) = 2(T(0)+\ldots +T(n-2)) + c \cdot (n-1)$, the
+subtraction of the latter equality from the former one results in the
+following basic recurrence $nT(n) - (n-1)T(n-1) = 2T(n-1) + c$. It
+reduces to $nT(n) = (n+1)T(n-1) + c$, or 
+$\frac{T(n)}{n+1} = \frac{T(n-1)}{n} + \frac{c}{n(n+1)}$.
+Telescoping results in the following system of equalities:
+\[
+\begin{array}{lllll}
+\frac{T(n)}{n+1} & = & \frac{T(n-1)}{n}  & +  & \frac{c}{n(n+1)}\\
+\frac{T(n-1)}{n} & = & \frac{T(n-2)}{n-1}  & +  & \frac{c}{(n-1)n}\\
+\cdots & \cdots & \cdots  &  \cdots & \cdots \\
+\frac{T(2)}{3} & = & \frac{T(1)}{2}  & + & \frac{c}{2 \cdot 3} \\
+\frac{T(1)}{2} & = & \frac{T(0)}{1}  & + & \frac{c}{1 \cdot 2} \\ 
+\end{array}
+\]
+Because $T(0)=0$, the explicit expression for $T(n)$ is:
+\[
+\frac{T(n)}{n+1} = \frac{1}{1 \cdot 2} + \frac{c}{2 \cdot 3} + \cdots 
+\frac{1}{(n-1)n} + \frac{c}{n(n+1)} = c \cdot \frac{n}{n+1}
+\]
+so that $T(n)= c \cdot n$.\\ 
+
+An alternative approach (guessing and math induction): 
+\[
+\begin{array}{lllll}
+T(0) & = & 0 & &\\
+T(1) & = & \frac{2}{1} \cdot   0 + c & = & c\\
+T(2) & = & \frac{2}{2} \left ( 0 + c \right ) + c & = & 2c\\
+T(3) & = & \frac{2}{3} \left ( 0 + c + 2c  \right ) + c & = & 3c\\
+T(4) & = & \frac{2}{4} \left ( 0+c+2c+3c \right ) + c & = & 4c
+\end{array}
+\] 
+It suggests an assumption $T(n) = cn$ to be explored with
+math induction:
+
+\begin{enumerate}
+\item[({\it i})] The assumption is valid for $T(0)=0$.
+\item[({\it ii})] Let it be valid for $k=1,\ldots,n-1$, that is,
+$T(k)=kc$ for $k=1,\ldots,n-1$. Then
+\[
+\begin{array}{lll}
+T(n) & = & \frac{2}{n}\left ( 
+0 + c + 2c + \ldots + (n-1)c
+\right ) + c \\
+&=& \frac{2}{n}\frac{(n-1)n}{2}c + c \\
+&=& (n-1)c + c = cn
+\end{array}
+\]
+\end{enumerate}
+The assumption is proven, and $T(n)=cn$.
+
+%%%%%%% 19 %%%%%%%
+\item 
+A straightforward linear exponentiation needs $\frac{n}{2}=2^{m-1}$ 
+multiplications to produce $x^{n}$ after having 
+already $x^{\frac{n}{2}}$. But because
+$x^{n} = x^{\frac{n}{2}} \cdot x^{\frac{n}{2}}$, it can be
+computed with only one multiplication more
+than to compute $x^{\frac{n}{2}}$. Therefore,
+more efficient exponentiation is performed as
+follows: $x^{2}=x \cdot x$, $x^{4}=x^{2} \cdot x^{2}$, 
+$x^{8}=x^{4} \cdot x^{4}$, etc. Processing time for
+such more efficient algorithm corresponds to a recurrence:
+$T(2^{m}) = T(2^{m-1}) + 1$, and by telescoping
+one obtains:
+\[
+\begin{array}{lll}
+T(2^{m}) & = & T(2^{m-1}) + 1\\
+T(2^{m-1}) & = & T(2^{m-2}) + 1\\
+\cdots & & \cdots \\
+T(2) & = & T(1) + 1\\
+T(1) & = & 0
+\end{array}
+\]  
+that is, $T(2^{m}) = m$, or $T(n)=\log_{2}n$. The ``Big-Oh''
+complexity of such algorithm is $O(\log n)$.
+
+\end{enumerate}
+
+\subsection{Time complexity of code: exercises}
+
+\begin{enumerate}
+
+%%%%%%% 20 %%%%%%%
+%%%%%%% 21 %%%%%%%
+\item Work out the computational complexity of the following piece
+of code:
+\begin{verbatim}
+  for( int i = n;  i > 0;  i /= 2 ) {
+    for( int j = 1;  j < n;  j *= 2 ) {
+      for( int k = 0;  k < n;  k += 2 ) {
+           ... // constant number of operations
+      }
+    }
+  } 
+\end{verbatim}
+
+%%%%%%% 22 %%%%%%%
+\item Work out the computational complexity of the   
+following piece of code.          
+\begin{verbatim}           
+   for ( i=1; i < n; i *= 2 ) {
+     for ( j = n; j > 0; j /= 2 ) {   
+       for ( k = j; k < n; k += 2 ) { 
+         sum += (i + j * k );          
+       }
+     }
+   }
+
+\end{verbatim}     
+ 
+%%%%%%% 23 %%%%%%%
+\item Work out the computational complexity of the following piece
+of code assuming that $n = 2^{m}$:
+\begin{verbatim}
+  for( int i = n;  i > 0;  i-- ) {
+    for( int j = 1;  j < n;  j *= 2 ) {
+      for( int k = 0;  k < j;  k++ ) {
+           ... // constant number C of operations
+      }
+    }
+  }
+ 
+\end{verbatim}
+
+%%%%%%% 24 %%%%%%%
+\item Work out the computational complexity (in the 
+``Big-Oh'' sense) of the following piece of code and explain
+how you derived it using the basic features of the ``Big-Oh''
+notation:
+\begin{verbatim}
+  for( int bound = 1; bound <= n; bound *= 2 ) {
+     for( int i = 0; i < bound; i++ ) {
+        for( int j = 0; j < n; j += 2 ) {
+           ... // constant number of operations
+        }
+        for( int j = 1; j < n; j *= 2 ) {
+           ... // constant number of operations
+        }
+     }
+  } 
+
+\end{verbatim}
+
+%%%%%%% 25 %%%%%%%
+\item Determine the average processing time \(T(n)\) 
+of the recursive algorithm:
+\begin{verbatim}
+1    int myTest( int n ) {
+2      if ( n <= 0 ) return 0;  
+3      else {
+4        int i = random( n - 1 );
+5        return myTest( i ) + myTest( n - 1 - i ); 
+6      }  
+7    }
+\end{verbatim}
+providing the algorithm {\tt random( int n )} spends 
+one time unit to return a random integer value uniformly 
+distributed in the range \([0, n]\) whereas all
+other instructions spend a negligibly small time (e.g., \(T(0)=0\)).
+\\ 
+
+{\it Hints}: derive and solve the basic recurrence
+relating \(T(n)\) in average to \(T(n-1)\),
+\ldots, \(T(0)\). 
+You might need the equation $\frac{1}{1\cdot 2} + \frac{1}{2\cdot 3} +
+\cdots + \frac{1}{n(n+1)} = \frac{n}{n+1}$ for deriving the
+explicit formula for \(T(n)\). 
+   
+%%%%%%% 26 %%%%%%%
+\item Assume that the array $a$ contains $n$ values, that 
+the method {\tt randomValue} takes constant number $c$ 
+of computational steps to
+produce each output value, and that the method 
+{\tt goodSort} takes $ n \log n$ computational steps
+to sort the array.
+Determine the Big-Oh complexity for the following
+fragments of code taking into account only the
+above computational steps:
+\begin{verbatim}
+for( i = 0; i < n; i++ ) {
+  for( j = 0; j < n; j++ )
+    a[ j ] = randomValue( i );
+  goodSort( a );
+}
+\end{verbatim} 
+
+\end{enumerate}
+
+\subsection{Time complexity of code: solutions}
+
+\begin{enumerate}
+
+%%%%%%% 20 %%%%%%%
+%%%%%%% 21 %%%%%%%
+\item
+In the outer {\tt for}-loop, the variable {\tt i} keeps halving
+so it goes round $\log_{2}n$ times. For each {\tt i},
+next loop goes round also $\log_{2}n$ times, because
+of doubling the variable {\tt j}. The innermost loop 
+by {\tt k} goes round $\frac{n}{2}$ times.
+Loops are nested, so the bounds may be multiplied to give that
+the algorithm is $O \left ( n (\log n)^{2} \right )$.
+
+%%%%%%% 22 %%%%%%%
+\item 
+Running time of the inner, middle, and outer loop is proportional to $n$,
+$\log n$, and $\log n$, respectively. Thus the overall Big-Oh
+complexity is $O(n (\log n)^{2})$.\\
+
+More detailed optional analysis gives the same value.
+Let $n=2^k$. Then the outer loop is executed $k$ times, the
+middle loop is executed $k+1$ times, and
+for each value $j=2^{k},2^{k-1},\ldots,2,1$, the inner loop 
+has different execution times:
+\[
+\begin{array}{|l|l|}\hline
+j & \mathrm{Inner} \; \mathrm{iterations} \\ \hline
+2^k & 1 \\
+2^{k-1} & (2^{k}-2^{k-1})\frac{1}{2}\\
+2^{k-2} & (2^{k}-2^{k-2})\frac{1}{2}\\
+\ldots & \ldots \\
+2^1 & (2^{k}-2^{1})\frac{1}{2}\\
+2^0 & (2^{k}-2^{0})\frac{1}{2}\\ \hline
+\end{array}
+\]
+In total, the number of inner/middle steps is 
+\begin{eqnarray*}
+1 + k \cdot 2^{k-1} - (1+2+\ldots+2^{k-1})\frac{1}{2} & = &
+1 + k \cdot 2^{k-1} - (2^{k}-1)\frac{1}{2} \\
+& = & 1.5 + (k-1) \cdot 2^{k-1} \equiv (\log_{2}n - 1)\frac{n}{2} \\
+& = & O(n \log n)
+\end{eqnarray*}
+Thus, the total complexity is $O(n (\log n)^{2})$. 
+
+%%%%%%% 23 %%%%%%%
+\item
+The outer {\tt for}-loop goes round $n$ times. For each {\tt i},
+the next loop goes round $m=\log_{2}n$ times, because
+of doubling the variable {\tt j}. For each {\tt j}, the innermost loop 
+by {\tt k} goes round {\tt j} times, so that the two inner
+loops together go round
+$1+2+4+\ldots + 2^{m-1}=2^{m}-1 \approx n$ times.
+Loops are nested, so the bounds may be multiplied to give that
+the algorithm is $O \left ( n^{2} \right )$.
+
+%%%%%%% 24 %%%%%%%
+\item The first and second successive innermost loops
+ have $O(n)$ and $O(\log n)$ complexity, respectively. 
+Thus, the overall complexity of the innermost part is
+$O(n)$. The outermost and middle loops have complexity
+$O(\log n)$ and $O(n)$, so a straightforward (and valid)
+solution is that the overall complexity is $O(n^{2}\log n)$.\\
+
+More detailed analysis shows that the outermost and
+middle loops are interrelated, and the number of 
+repeating the innermost part is as follows:
+\[
+1 + 2 + \ldots + 2^{m} = 2^{m+1}-1
+\]
+where $m = \lfloor \log_{2}n \rfloor$ is the smallest
+integer such that $2^{m+1} > n$. Thus actually this
+code has quadratic complexity $O(n^{2})$. But
+selection of either answer
+($O(n^{2}\log n)$ and $O(n^{2})$ is valid. 
+
+%%%%%%% 25 %%%%%%%
+\item
+The algorithm suggests that $T(n) = T(i) + T(n-1-i) + 1$. By summing
+this relationship for all the possible random
+values $i = 0,1,\ldots,n-1$, we obtain that in average
+$nT(n) = 2(T(0)+T(1)+\ldots +T(n-2)+T(n-1)) + n$.
+Because $(n-1)T(n-1) = 2(T(0)+\ldots +T(n-2)) + (n-1)$, the
+basic recurrence is as follows: $nT(n) - (n-1)T(n-1) = 2T(n-1) +1$,
+or $nT(n) = (n+1)T(n-1) +1$, or 
+$\frac{T(n)}{n+1} = \frac{T(n-1)}{n} + \frac{1}{n(n+1)}$.
+The telescoping results in the following system of expressions:
+\[
+\begin{array}{lllll}
+\frac{T(n)}{n+1} & = & \frac{T(n-1)}{n}  & +  & \frac{1}{n(n+1)}\\
+\frac{T(n-1)}{n} & = & \frac{T(n-2)}{n-1}  & +  & \frac{1}{(n-1)n}\\
+\cdots & \cdots & \cdots  &  \cdots & \cdots \\
+\frac{T(2)}{3} & = & \frac{T(1)}{2}  & + & \frac{1}{2 \cdot 3} \\
+\frac{T(1)}{2} & = & \frac{T(0)}{1}  & + & \frac{1}{1 \cdot 2} \\ 
+\end{array}
+\]
+Because $T(0)=0$, the explicit expression for $T(n)$ is:
+\[
+\frac{T(n)}{n+1} = \frac{1}{1 \cdot 2} + \frac{1}{2 \cdot 3} + \cdots 
+\frac{1}{(n-1)n} + \frac{1}{n(n+1)} = \frac{n}{n+1}
+\]
+so that $T(n)=n$.
+
+%%%%%%% 26 %%%%%%%
+\item
+The inner loop has linear complexity $cn$, but the
+next called method is of higher complexity $n\log n$.
+Because the outer loop is linear in $n$, 
+the overall complexity of this piece of code is 
+$n^{2}\log n$.
+\end{enumerate}
+\end{document}

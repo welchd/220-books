@@ -1,0 +1,68 @@
+\if 10
+\newpage
+\section*{Solutions to selected exercises}
+
+\newcommand{\M}{\hspace*{1in} (*)}
+\noindent Solution~\ref{ex:G0}:\\
+\begin{eqnarray*}
+  \X{E}  & \rightarrow & \X{E} + \X{T} \:|\:\X{E} - \X{T}\:|\:\X{T} \\
+  \X{T}  & \rightarrow & \X{T} * \X{F} \:|\:\X{T} / \X{F}\:|\:\X{F} \\
+ \X{F}  & \rightarrow & \X{F} \verb|^| \X{P}  \:|\: \X{P} \M \\
+ \X{P}  & \rightarrow & ( \:\X{E}\: ) \:|\: \X{N} \hspace{8pt}\M \\
+  \X{N}  & \rightarrow & \X{N} \X{D}\:|\: \X{D} \\
+  \X{D}  & \rightarrow & \mbox{0} \:|\: \mbox{1}\:|\: \mbox{2}\:|\: \mbox{3}\:|\: \mbox{4}\:|\: \mbox{5}\:|\: \mbox{6}\:|\: \mbox{7}\:|\: \mbox{8}\:|\: \mbox{9}
+\end{eqnarray*}
+
+
+\noindent Solution~\ref{ex:G1}:\\
+With `.' denoting any character except newline `\verb|\n|' and
+`\verb|\*|' being an escaped '*' we can use the following regular
+expression.
+\begin{verbatim}
+     ('\n' | '\t' | ' ' | //.*\n | /\*(.|'\n')*\*/)+
+\end{verbatim}
+
+\noindent Solution~\ref{ex:G2}:\\
+\begin{enumerate}
+\item  $$\X{L_1} \rightarrow \epsilon \mid  00\X{L_1}11 $$
+\item
+\begin{eqnarray*}
+  \X{L_2}  & \rightarrow & \X{M} \mid 0\X{L_2}1 \\
+  \X{M}  & \rightarrow & 1 \mid \X{M}1 \\
+\end{eqnarray*}
+\end{enumerate}
+
+\noindent Solution~\ref{ex:G3}:\\
+\begin{enumerate}
+\item
+\begin{eqnarray*}
+  \X{E_1}  & \rightarrow & aa \mid \X{B} \mid cc \\
+  \X{B}  & \rightarrow & \epsilon \mid \X{B}b \\
+\end{eqnarray*}
+\item
+\begin{eqnarray*}
+  \X{E_2}  & \rightarrow & \X{T_1}aa \mid \X{T_2} \\
+  \X{T_1}  & \rightarrow & \epsilon \mid a\X{T_1} \mid b\X{T_1} \\
+  \X{T_2}  & \rightarrow & \epsilon \mid bbaa\X{T_2} \\
+\end{eqnarray*}
+\end{enumerate}
+
+\noindent Solution~\ref{ex:G4}:\\
+$$a^+(bc)^+c^+$$
+
+\noindent Solution~\ref{ex:G5}:\\
+\begin{eqnarray*}
+  \X{L}  & \rightarrow & \X{F}\X{G} \\
+  \X{F}  & \rightarrow & \epsilon \\
+  \X{G}  & \rightarrow & \X{D_0}\X{G}0 \mid \X{D_1}\X{G}1 \mid \X{E} \\
+  \X{F}\X{D_0} & \rightarrow & \X{F}0 \\
+  \X{F}\X{D_1} & \rightarrow & \X{F}1 \\
+  1\X{D_0}  & \rightarrow & \X{D_0}1 \\
+  1\X{D_1}  & \rightarrow & \X{D_1}1 \\
+  0\X{D_0}  & \rightarrow & \X{D_0}0 \\
+  0\X{D_1}  & \rightarrow & \X{D_1}0 \\
+  \X{E}  & \rightarrow & \X{D_0}\X{E} \mid \X{D_1}\X{E} \mid 1\X{E} \mid
+0\X{E} \mid \# \\
+\end{eqnarray*}
+
+\fi % solution subsection
