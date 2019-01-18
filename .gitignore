@@ -254,3 +254,9 @@ TSWLatexianTemp*
 # standalone packages
 *.sta
 coursebook/coursebook.pdf
+
+# Texlipse
+coursebook/tmp
+coursebook/.project
+coursebook/.texlipse
+coursebook/.gitignore

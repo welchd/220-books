@@ -1,68 +1,25 @@
 \documentclass[11pt,oneside]{memoir}   
 \makeindex
 \checkandfixthelayout
-\usepackage{titlesec}      % customizing section titles
+
+
+% ## customizing section titles ## ----------------------------------------------
+\usepackage{titlesec}      
 \titleformat{\section}{\bfseries\large}{\thesection}{3pt}{}
 \titlespacing{\section}{0pt}{8pt}{4pt}
 \titleformat{\subsection}{\itshape}{\thesubsection}{2pt}{}
 \titlespacing{\subsection}{0pt}{4pt}{2pt}
 \titleformat{\subsubsection}[runin]{\scshape}{}{0em}{}
 \titlespacing{\subsubsection}{0pt}{5pt}{5pt}
+% ## customizing captions ## ----------------------------------------------
+\usepackage[font=small,labelformat=simple]{caption}
+
+
+% ## pagestyle ## ----------------------------------------------
 %\usepackage[papersize={5.4in,7.2in},hmargin=0.1in,vmargin={0.1in,0.1in}]{geometry}  % page geometry
 %\special{papersize=5.4in,7.2in}
 \usepackage{geometry}
 \geometry{a4paper, top=4cm, bottom=4cm, outer=5cm, inner=2cm, marginparwidth=2.5cm, marginparsep=2cm}
-\usepackage[font=small,labelformat=simple,]{caption}   % customizing captions
-\usepackage[colorlinks,linkcolor=blue,urlcolor=blue,citecolor=blue,
- bookmarksopen=true,
- pdfauthor={David Welch}, 
- pdfsubject={Coursebook},
- pdftitle={CS220 Algorithms and Data Structures},
- pdfcreator={LaTeX with hyperref package},
- pagebackref=true,
-]{hyperref}
-\usepackage{mdframed}
-
-% following has problems with older ipe
-% \usepackage{auto-pst-pdf} % pdflatex -shell-escape 
-% need to use dvipdf and possibly trim margins manually
-
-\includeonly{
-%intro/intro4,
-%intro/intro3,
-%intro/intro2,
-%intro/intro,
-%algorithm-analysis/alg-anal, 
-%algorithm-analysis/sort,
-%algorithm-analysis/search, 
-lectures/graph-adt, 
-%lectures/traversal, 
-%lectures/optimization,
-%automata-grammars/automata,  % e-book excluded
-%automata-grammars/grammars,
-%appendix/javagraphADT,
-%appendix/javasortmeth,
-%appendix/javaparse,
-%appendix/datastruct,
-%appendix/mathfacts,
-%appendix/solutions,
-%reference/reference
-}
-
-%% packages for graphics, etc
-
-\usepackage{ipe}
-\usepackage[svgnames,pdf]{pstricks}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
-
-\usepackage{mathptm}
-\usepackage{pst-node}
-\usepackage{pst-tree}
-\usepackage{graphicx}
-\usepackage{epsfig}      
-\usepackage{utopia}
 
 \usepackage{eso-pic}
 \newcommand\BackgroundPic{%
@@ -75,6 +32,49 @@ keepaspectratio]{figs/wNodeStatesBW.eps}%
 \vfill
 }}}
 
+%%%%%%%%%%%%%%%%%%%%%%%
+
+% ## packages for graphics, etc ## ----------------------------------------------
+%\usepackage[svgnames,pdf]{pstricks}
+%\usepackage{pst-node}
+%\usepackage{pst-tree}
+\usepackage{ipe}
+% following has problems with older ipe
+% \usepackage{auto-pst-pdf} % pdflatex -shell-escape 
+% need to use dvipdf and possibly trim margins manually
+\usepackage{graphicx}
+%\usepackage{epsfig} % <- outdated, use something else   
+
+
+% ## fonts ## ----------------------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathptm} % ! package has been declared obsolete
+
+\usepackage{utopia}
+\newcommand{\defnfont}[1]{\textbf{\textit{#1}}\index{#1}}
+\newcommand{\boldfont}[1]{\emph{#1}}
+\newcommand{\algfont}[1]{\texttt{#1}\index{algorithm!#1}}
+
+%\input Sanremo.fd
+%\newcommand{\CAP}[1]{\mbox{\usefont{U}{Sanremo}{xl}{n}\selectfont #1}}
+\input Starburst.fd      % weird star font
+\newcommand{\CAP}[1]{\mbox{\usefont{U}{Starburst}{xl}{n}\selectfont #1}}
+
+
+% ## style ## ----------------------------------------------
+\renewcommand{\labelitemii}{$\circ$}
+% roman letters in enumerate
+\makeatletter
+\def\romenumi{
+\def\theenumi{\roman{enumi}}
+\def\p@enumi{\theenumi}
+\def\labelenumi{(\@roman\c@enumi)}}
+\makeatother
+
+
+% ## math theorems ----------------------------------------------
 \theoremstyle{definition}
 \newtheorem{Lemma}{Lemma}
 \newtheorem{Theorem}[Lemma]{Theorem}
@@ -93,13 +93,45 @@ keepaspectratio]{figs/wNodeStatesBW.eps}%
 \newtheorem*{theorem}{Theorem}
 \newtheorem*{tech}{\textbf{Technique}}
 
-% macros
-%
+\newtheoremstyle{boxampleStyle}
+  {0pt} % measure of space to leave above the theorem.
+  {\topsep} % measure of space to leave below the theorem.
+  {\normalfont} % name of font to use in the body of the theorem.
+  {0pt} % measure of space to indent.
+  {\bfseries} % name of head font.
+  {. } % punctuation between head and body.
+  { } % space after theorem head.
+  {} %
+\theoremstyle{boxampleStyle} 
+\newtheorem{ExampleInBox}[Lemma]{Example}
+
+\usepackage{mdframed}
+\usepackage{xparse}
+\NewDocumentEnvironment{Boxample}{o}{%
+    \begin{mdframed}\begin{ExampleInBox}%
+}{%
+    \end{ExampleInBox}%
+    \vspace*{#1cm}%
+    \end{mdframed}%
+}
+
+% \newcommand{\truevspace}[1]{ %Call this macro to get a vertical space of #1 cm
+% \newcount\Scount
+% \Scount=0
+% \loop\vspace*{1cm}\par\goodbreak\advance\Scount by 1 \ifnum\Scount< #1 \repeat
+% }
+% \def\beginboxedexample{\begin{mdframed}\begin{Example}}
+% \def \endboxedexample #1 {\vspace{#1} \end{Example} \end{mdframed} }
+
+
+% ## definitions & macros ## ----------------------------------------------
 \newcommand{\set}[1]{\mbox{$\{#1\}$}}
 \newcommand{\solution}[1]%
-{\medskip \noindent{\textsc{\textbf{Solution to Exercise~\ref{#1} on
+{\medskip \noindent{\textsc{\textbf{Solution to \cref{#1} on
 page~\pageref{#1}}}}:\newline }
 
+
+% ## Algos ## ----------------------------------------------
 \newcommand{\AlgCmt}[1]{\psframebox[linecolor=lightgray]{\ #1\ }}
 \newcommand{\AdjLists}[1]{\psframebox[linecolor=lightgray]{\ #1\ }}
 
@@ -120,47 +152,22 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 #4
 \textbf{end}
 \end{tabbing}
-}
+} 
 
-\newcommand{\truevspace}[1]{ %Call this maccro to get a vertical space of #1 cm
-\newcount\Scount
-\Scount=0
-\loop\vspace*{1cm}\par\goodbreak\advance\Scount by 1 \ifnum\Scount< #1 \repeat
-}
 
-\def\beginboxedexample{\begin{mdframed}
- \begin{Example}
- }
-\def \endboxedexample #1 {\vspace{#1}
-\end{Example}
-\end{mdframed}
-}
+% ## refs ## ----------------------------------------------
+\usepackage[colorlinks,linkcolor=blue,urlcolor=blue,citecolor=blue,
+ bookmarksopen=true,
+ pdfauthor={David Welch}, 
+ pdfsubject={Coursebook},
+ pdftitle={CS220 Algorithms and Data Structures},
+ pdfcreator={LaTeX with hyperref package},
+ pagebackref=true,
+]{hyperref}
+\usepackage[capitalise,noabbrev,nameinlink ]{cleveref} 
 
-%\input Sanremo.fd
-%\newcommand{\CAP}[1]{\mbox{\usefont{U}{Sanremo}{xl}{n}\selectfont #1}}
-\input Starburst.fd
-\newcommand{\CAP}[1]{\mbox{\usefont{U}{Starburst}{xl}{n}\selectfont #1}}
 
-% roman letters in enumerate
-%
-\makeatletter
-\def\romenumi{
-\def\theenumi{\roman{enumi}}
-\def\p@enumi{\theenumi}
-\def\labelenumi{(\@roman\c@enumi)}}
-\makeatother
-
-\renewcommand{\labelitemii}{$\circ$}
-
-% fonts
-%
-\newcommand{\defnfont}[1]{\textbf{\textit{#1}}\index{#1}}
-\newcommand{\boldfont}[1]{\emph{#1}}
-\newcommand{\algfont}[1]{\texttt{#1}\index{algorithm!#1}}
-
-%
 % headings hacked from memoir package
-%
 \makeatletter
 \makepagestyle{220book}
 \setlength{\headwidth}{1.1\textwidth}
@@ -195,8 +202,33 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 {\footnotesize\leftmark \quad {\normalfont\large\bfseries\thepage}}
 \makeatother
 
-%
+\includeonly{
+%intro/intro4,
+%intro/intro3,
+%intro/intro2,
+%intro/intro,
+%algorithm-analysis/alg-anal, 
+%algorithm-analysis/sort,
+%algorithm-analysis/search, 
+lectures/graph-adt, 
+%lectures/traversal, 
+%lectures/optimization,
+%automata-grammars/automata,  % e-book excluded
+%automata-grammars/grammars,
+%appendix/javagraphADT,
+%appendix/javasortmeth,
+%appendix/javaparse,
+%appendix/datastruct,
+%appendix/mathfacts,
+%appendix/solutions,
+%reference/reference
+}
+
+
+% --- ### BEGIN DOCUMENT ### ---
 \begin{document}   
+
+% # title page
 \AddToShipoutPicture*{\BackgroundPic}
 
 \pagestyle{220book}
@@ -225,6 +257,7 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 \end{titlingpage}
 \fi
 
+% # front matter
 \setcounter{page}{1}
 
 %\tableofcontents
@@ -235,35 +268,34 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 %\newpage
 %\listoftables
 
+% # main matter
 %\mainmatter
 \chapterstyle{ger}
 
-\include{intro/intro4}
-\include{intro/intro3}
-\include{intro/intro2}
-\include{intro/intro}
+%\include{intro/intro4}
+%\include{intro/intro3}
+%\include{intro/intro2}
+%\include{intro/intro}
 
 %\part{Introduction to Algorithm Analysis}
 
-\include{algorithm-analysis/alg-anal}
-\include{algorithm-analysis/sort}
-\include{algorithm-analysis/search}
+%\include{algorithm-analysis/alg-anal}
+%\include{algorithm-analysis/sort}
+%\include{algorithm-analysis/search}
 
 %\part{Introduction to Graph Algorithms}
 \renewcommand{\rm}{} % quick fix for ignoring \rm in ipe figures 
 
 \include{lectures/graph-adt}
-
 \include{lectures/traversal}
-
 \include{lectures/optimization}
 
-\if 01 % not used in CS220 any more
-\part{Introduction to Formal Languages}
+\if 01 % not used in CS220 any more  <<[then remove it?]>>
+%\part{Introduction to Formal Languages}
 
-\include{automata-grammars/automata}
+%\include{automata-grammars/automata}
 
-\include{automata-grammars/grammars}
+%\include{automata-grammars/grammars}
 \fi
 
 
@@ -285,12 +317,10 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 %\include{appendix/solutions}
 
 \chapterstyle{section}
-
 %\backmatter
 
 %\part{Bibliography/Index}
-
-\include{reference/reference}
+%\include{reference/reference}
 
 \printindex
 
