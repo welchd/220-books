@@ -624,32 +624,36 @@ More complex data structures such as binary trees or heaps can be used to repres
 
 \section{Complexity of basic digraph operations}
 
+The basic operations we consider are checking for the existence of an arc between two nodes, finding the outdegree of a node, finding the in-degree of  a nodes, adding an arc between two nodes, deleing an arc between two nodes, adding a node, and deleting a node. 
+
+For the two data structures, we'll look at the steps we need to carry out various basic operations and the the total cost of all steps. 
+ 
 \beginboxedexample
  Compare the matrix and lists data structures for checking whether arc $(i,j)$ exists.
  
 Adjacency matrix representation: we need to check whether element $(i,j)$ is 1. This requires accessing
-an array element twice (the $j$th element of the $i$th array). Each array access is a $\Theta(1)$ operation so overall it is $\Theta(1)$.
+an array element twice, to first find the $i$th array then its $j$th element. Each array access is in $\Theta(1)$ so overall it is in $\Theta(1)$.
 
-Adjacency lists representation: we need to search for $j$ in list $i$. The complexity then depends on the length of list $i$. List $i$ is length $d$ where $d$ is the out-degree of node $i$ so searching for $j$ is $\Theta(d)$. But how large is $d$? Even when the graph is sparse, it could still be the case that $d$ is $O(n)$, though typically in a sparse graph $d$ is $O(1)$.  In a dense graph $d$ is $O(n)$.
+Adjacency lists representation: we need to search for $j$ in list $i$. The complexity then depends on the length of list $i$. List $i$ is length $d$ where $d$ is the out-degree of node $i$ so searching for $j$ is in $\Theta(d)$. But how large is $d$? Even when the graph is sparse, it could still be the case that $d$ is $O(n)$, though typically in a sparse graph $d$ is $O(1)$.  In a dense graph $d$ is $O(n)$.
 \endboxedexample{0cm}
 
 \beginboxedexample
-Deleting a node (which perhaps necessitates
-deleting some arcs) is trickier. In the matrix case, we must delete
+ Compare the matrix and lists data structures for deleitng a node.
+
+Adjacency matrix representation: In the matrix case, we must delete
 a row and column, and move up some elements so there are no gaps
-in the matrix. In the lists case, we must remove a list and also
+in the matrix. In the worst case, we need to move all remaining elements in the matrix and since there are now $(n-1)$s rows and columns, it takes time $\Theta(n^2)$.
+
+Adjacency lists representation: we must remove a list and also
 all references to the deleted node in other lists. This requires
-scanning each list for the offending entry and deleting it.
+scanning each list for the offending entry and deleting it. We thus need to visit $n$ lists and the combined length of all remaining lists which is (in the worst case) $m$, requiring $\Theta(n+m)$ work in total.
 \endboxedexample{0cm}
  
-Table~\ref{table:graphadt} summarizes how the basic graph operations can be described in terms of the
-adjacency matrix or lists representations while Table~\ref{table:list-vs-matrix} compares the performance of two
-different data structures. Performance for the adjaceny list representation is based on using doubly linked lists.
+This following two tables show the steps required (the first table) and the time required (the scond table) for basic graph operations when using 
+adjacency matrix or lists representations.  Performance for the adjaceny list representation is based on using doubly linked lists.
 
-\begin{table}
-\caption{Digraph operations in terms of data structures.}
-\label{table:graphadt}
-
+\begin{samepage}
+Steps required to perform basic digraph operations by data structure.
 \begin{center}
 \begin{tabular}{|l|l|l|l|l|}
 \hline
@@ -672,34 +676,20 @@ add node & create new row and column & add new list at end\\
 delete node $i$ & delete row/column $i$  & delete list $i$ \\
 & shuffle other entries & for $j\neq i$, delete  $i$ from list $j$ \\ 
 \hline
-
 \end{tabular}
 \end{center}
-\end{table}
+\end{samepage}
 
 
 
-Finding outdegree with the lists representation merely requires accessing
-the correct list (constant time) plus finding the size of  that list
-(constant time). Finding indegree with the  lists representation requires
-scanning all lists except one, and this requires us to look at every arc in
-the worst case, taking time $\Theta(n+m)$ (the $n$ is because we must
-consider every node's list even if it is empty). If we wish to compute just
-one indegree, this might be acceptable, but if all indegrees are required,
-this will be inefficient. It is better to compute the reverse digraph once
-and then read off the outdegrees, this last step taking time $\Theta(n)$ 
-(see Exercise~\ref{exr:compute-reverse}).
+%\begin{table}
+%\caption{Comparative worst-case performance of adjacency lists and matrices.}
+%\label{table:list-vs-matrix}
 
-One way around all this work is to use in
-our definition of adjacency lists representation, instead of just the
-out-neighbours, a list of in-neighbours also. This may be useful in some
-contexts but in general requires more space than is needed.
-
-\begin{table}
-\caption{Comparative worst-case performance of adjacency lists and matrices.}
-\label{table:list-vs-matrix}
 
 \begin{center}
+Comparative worst-case performance of adjacency lists and matrices.
+
 \begin{tabular}{|l|c|c|}
 \hline
 
@@ -722,7 +712,30 @@ delete node $i$ & $\Theta(n^2)$  & $\Theta(n+m)$  \\
 \hline
 \end{tabular}
 \end{center}
-\end{table}
+%\end{table}
+
+Notice that apparently similar problems like finding the out-degree and in-degree have very different time complexity in the lists representation but not in the matrix representation. 
+
+Finding outdegree with the lists representation merely requires accessing
+the correct list (constant time) plus finding the size of  that list
+(constant time). 
+
+Finding indegree with the  lists representation requires
+scanning all lists except one ($n-1$ of them), and looking at every arc in
+them, ($m$ arcs in the worst case), so taking time $\Theta(n+m)$. 
+
+
+
+If we wish to compute just one indegree, this might be acceptable, but if all indegrees are required,
+this will be inefficient. It is better to compute the reverse digraph once
+and then read off the outdegrees, this last step taking time $\Theta(n)$ 
+(see Exercise~\ref{exr:compute-reverse}).
+
+One way around all this work is to use in
+our definition of adjacency lists representation, instead of just the
+out-neighbours, a list of in-neighbours also. This may be useful in some
+contexts but in general requires more space than is needed.
+
 
 
 \section{Space requirements}
