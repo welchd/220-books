@@ -260,3 +260,4 @@ coursebook/tmp
 coursebook/.project
 coursebook/.texlipse
 coursebook/.gitignore
+.DS_Store
