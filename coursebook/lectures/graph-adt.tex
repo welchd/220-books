@@ -40,9 +40,10 @@ For the digraph shown in \cref{fig:graphExample}, write down the set $V$ and the
 
 
 \begin{figure}
-\centerline{\Ipe{./figs/graphEx.ipe}}
-\caption{A graph $G_1$ and a digraph $G_2$.}
-\label{fig:graphExample}
+  \centering
+  \includegraphics{graphEx}
+  \caption{A graph $G_1$ and a digraph $G_2$.}
+  \label{fig:graphExample}
 \end{figure}
 
 
@@ -69,10 +70,9 @@ Graphs vs Digraphs
 
 
 \begin{Definition}\label{def:adjacent}  
-If $(u, v)\in E$ (that is, if there is an arc going from $u$ to $v$ we say that $v$ is \defnfont{adjacent} 
-to $u$, that $v$ is an \defnfont{out-neighbour} of $u$, and that $u$ is an 
-\defnfont{in-neighbour} of $v$.
-If an (undirected) graph $G$, if $\{u, v\} \in E$, then $u$ is a \defnfont{neighbour} of $v$ and $v$ is a neighbour of $u$. 
+If $(u, v)\in E$ (that is, if there is an arc going from $u$ to $v$) we say that $v$ is \defnfont{adjacent} 
+to $u$, that $v$ is an \defnfont{out-neighbour} of $u$, and that $u$ is an \defnfont{in-neighbour} of $v$.
+In an (undirected) graph $G$, if $\{u, v\} \in E$, then $u$ is a \defnfont{neighbour} of $v$ and $v$ is a neighbour of $u$. 
 \end{Definition}
 
 \begin{Boxample}[2]
@@ -89,33 +89,28 @@ In the digraph $G_2$ in \cref{fig:graphExample}, find all in-neighbours of node 
 
 
 \begin{Definition} 
-The \defnfont{order} of a digraph $G=(V,E)$ is $|V|$, the number of nodes. 
-The \defnfont{size} of $G$ is $|E|$, the number of arcs. We usually use $n$ to denote $|V|$ and $m$ to denote
-$|E|$.
-
+The \defnfont{order} of a digraph $G = (V, E)$ is $\abs{V}$, the number of nodes. 
+The \defnfont{size} of $G$ is $\abs{E}$, the number of arcs. 
+We usually use $n$ to denote $\abs{V}$ and $m$ to denote $\abs{E}$.
 \end{Definition}
  
 
-For a given order $n$, the size $m$ can be as low as $0$ (a digraph
-consisting of $n$ nodes and no arcs)  and as high as
-$n(n-1)$ (each node can point to each other node; recall that we do
-not allow loops).
+For a given order $n$, the size $m$ can be as low as $0$ (a digraph consisting of $n$ nodes and no arcs)  
+and as high as $n(n-1)$ (each node can point to each other node; recall that we do not allow loops).
 
-\begin{Definition}  If $m$ is toward the low end, the digraph is called
-\defnfont{sparse}, and if $m$ is toward the high end, then the digraph
-is called \defnfont{dense}. These terms are obviously very informal. For
-our purposes we will call a class of digraphs sparse if $m$ is $O(n)$
-and dense if $m$ is $\Omega(n^2)$.
+\begin{Definition}  
+If $m$ is toward the low end, the digraph is called \defnfont{sparse}, 
+and if $m$ is toward the high end, then the digraph is called \defnfont{dense}. 
+These terms are obviously very informal. 
+For our purposes we will call a class of digraphs sparse if $m$ is $O(n)$ and dense if $m$ is $\Omega(n^2)$.
 \end{Definition}
 
 
 \begin{Definition} 
-A \defnfont{walk} in a digraph $G$ is a sequence of nodes $v_0\, v_1\,
-\ldots\, v_l$ such that, for each $i$ with $0 \leq i < l$, $(v_i,
-v_{i+1})$ is an arc in $G$. 
+A \defnfont{walk} in a digraph $G$ is a sequence of nodes $v_0\, v_1\, \ldots\, v_l$ 
+such that, for each $i$ with $0 \leq i < l$, $(v_i, v_{i+1})$ is an arc in $G$. 
 
-The \defnfont{length} of the walk $v_0\, v_1\,
-\ldots \,v_l$ is the number $l$ (that is, the number of arcs involved).
+The \defnfont{length} of the walk $v_0\, v_1\, \ldots \,v_l$ is the number $l$ (that is, the number of arcs involved).
 
 A \defnfont{path} is a walk in which no node is repeated. 
 
@@ -123,8 +118,9 @@ A \defnfont{cycle} is a walk in which $v_0 = v_l$ and no other nodes
 are repeated.
 \end{Definition}
 
-Note: in a graph, a walk of the form $u\, v\, u$ is not considered a cycle (going back and forth along the same edge should not count as a
-cycle). A cycle in a graph must be of length at least $3$.
+Note: In a graph, a walk of the form $u\, v\, u$ is not considered a cycle 
+(going back and forth along the same edge should not count as a cycle). 
+A cycle in a graph must be of length at least $3$.
 
 
 \begin{Example}
@@ -136,11 +132,11 @@ sequences of vertices are classified as being walks, paths, or cycles.
 \begin{center}
 \begin{tabular}{|l|c|c|c|}\hline
 \textbf{vertex sequence} & \textbf{walk?} & \textbf{path?} & \textbf{cycle?} \\ \hline
-$0\, 3\, 2$ & no & no & no  \\
-$0\, 1\, 2\, 3\, 4$ & yes & yes & no  \\
-$0\, 1\,  2\,  0$ & yes & no & yes  \\
+$0\, 3\, 2$                  & no & no & no  \\
+$0\, 1\, 2\, 3\, 4$          & yes & yes & no  \\
+$0\, 1\,  2\,  0$            & yes & no & yes  \\
 $1\,  2\,  3\,  4\,  2\,  0$ & yes & no & no \\
-$0 \, 1\,  0$ & yes & no & no \\
+$0 \, 1\,  0$                & yes & no & no \\
 \hline
 \end{tabular}
 \end{center}
@@ -175,11 +171,11 @@ all possibilities that $d(0, 1) = 1$, $d(0, 2) = 1$, $d(0, 3) = 2$,
 $d(0, 4) = 2$, $d(1, 2) = 1$, $d(1, 3) = 2$, $d(1, 4) = 2$, $d(2, 3) =
 1$, $d(2, 4) = 1$ and $d(3, 4) = 1$.
 
-In digraph $G_2$, we have, for example, $d(0, 2) = 1, 
-d(3, 2) = 2$. Since node $2$ is a sink, $d(2, v)$ is not defined 
-unless $v = 2$, in which case the value is $0$.
-
+In digraph $G_2$, we have, for example, $d(0, 2) = 1, d(3, 2) = 2$. 
+Since node $2$ is a sink, $d(2, v)$ is not defined unless $v = 2$, in which case the value is $0$.
 \end{Example}
+
+
 
 \section{Creating new digraphs from old ones}
 
@@ -192,7 +188,7 @@ endpoints!).
 \begin{Definition}
 A \defnfont{subdigraph} of a digraph $G = (V, E)$ is a digraph $G' = (V', E')$ 
 where $V'\subseteq V$ and $E'\subseteq E$. 
-A \defnfont{spanning} subdigraph is one with $V'=V$; that is, it contains all nodes.
+A \defnfont{spanning} subdigraph is one with $V' = V$; that is, it contains all nodes.
 \end{Definition}
 
 \begin{Example}
@@ -201,9 +197,8 @@ a spanning subdigraph of the digraph $G_2$ of \cref{fig:graphExample}.
 \end{Example}
 
 \begin{figure}[h]
-\begin{center}
-\includegraphics[width=4in]{figs/wSub+Span.eps}
-\end{center}
+\centering
+\includegraphics{graphExSubSpan} 
 \caption{A subdigraph and a spanning subdigraph of $G_2$.}
 \label{fig:sub+span}
 \end{figure}
@@ -219,9 +214,8 @@ $G' = (V', E')$ where $E' = \set{(u, v) \in E \mid u \in V' \mbox{ and } v\in V'
 \end{Example}
 
 \begin{figure}[h]
-\begin{center}
-\includegraphics{figs/wInduced.eps}
-\end{center}
+\centering
+\includegraphics{graphExInduced}
 \caption{The subdigraph of $G_2$ induced by \set{1, 2, 3}.}
 \label{fig:induced}
 \end{figure}
@@ -237,9 +231,8 @@ The \defnfont{reverse digraph} of the digraph $G = (V, E)$, is the digraph $G_r 
 \end{Example}
 
 \begin{figure}[h]
-\begin{center}
-\includegraphics{figs/wReverse.eps}
-\end{center}
+\centering
+\includegraphics{graphExReverse}
 \caption{The reverse of digraph $G_2$.}
 \label{fig:reverse}
 \end{figure}
@@ -252,20 +245,17 @@ $G' = (V, E')$ where $E' = \set{\{u, v\} \mid (u, v)\in E}$.
 \end{Definition}
 
 
-Note: the underlying graph does not have multiple
-edges even when there are arcs $(u, v)$ and $(v, u)$. In that case,  only
-one edge joins $u$ and $v$ in the underlying graph $G'$.  This is because $\{u, v\}$ and
-$\{v, u\}$ are equal as sets, so appear only once in the set $E'$.
+Note: The underlying graph does not have multiple edges even when there are arcs $(u, v)$ and $(v, u)$. 
+In that case, only one edge joins $u$ and $v$ in the underlying graph $G'$.  
+This is because $\{u, v\}$ and $\{v, u\}$ are equal as sets, so appear only once in the set $E'$.
 
 \begin{Example}
-\Cref{fig:underly} shows the underlying graph of the digraph 
-$G_2$ of \cref{fig:graphExample}.
+\Cref{fig:underly} shows the underlying graph of the digraph $G_2$ of \cref{fig:graphExample}.
 \end{Example}
 
 \begin{figure}
-\begin{center}
-\includegraphics{figs/wUnderly.eps}
-\end{center}
+\centering
+\includegraphics{graphExUnderlying}
 \caption{The underlying graph of $G_2$. Note that there is only a single edge between vertices 1 and 3.}
 \label{fig:underly}
 \end{figure}
@@ -278,11 +268,6 @@ graph $G$ is called the \defnfont{graph union}, where $V(G) = V(G_1) \cup
 V(G_2) \cup \ldots \cup V(G_k)$ and $E(G) = E(G_1) \cup E(G_2) \cup \ldots
 \cup E(G_k)$.
 \end{Definition}
-
-
-
-
-
 
 
 
@@ -309,6 +294,9 @@ V(G_2) \cup \ldots \cup V(G_k)$ and $E(G) = E(G_1) \cup E(G_2) \cup \ldots
 %$\Omega(n)$.
 %\end{Exercise}
 
+
+
+
  
 
 \chapter{Lecture: Graph data structures} \label{sec:graph-reps}
@@ -319,24 +307,24 @@ that the digraph has nodes given in a fixed order with the
 
 \begin{Definition}
 Let $G$ be a digraph of order $n$. The \defnfont{adjacency matrix} of $G$
-is the $n\times n$ boolean matrix (often encoded with $0$'s and $1$'s)
-such that entry $(i,j)$ is true if and only if there is an arc from the
+is the $n\times n$ Boolean matrix (often encoded with $0$'s and $1$'s)
+such that entry $(i, j)$ is true if and only if there is an arc from the
 node $i$ to node $j$.
 \end{Definition}
 
 \begin{Definition}
 For a digraph $G$ of order $n$, an \defnfont{adjacency lists}
 representation is a sequence of $n$ sequences, $L_0, \dots, L_{n-1}$. 
-Sequence $L_i$  contains all nodes of $G$ that are adjacent to node $i$.
+Sequence $L_i$ contains all nodes of $G$ that are adjacent to node $i$.
 \end{Definition}
 
-In the adjacency lists representation, only the out-neighbours of node $i$ are listed in the sequence $L_i$. $L_i$ may or may not be sorted in order of increasing node number. 
-Our \boldfont{convention} is to sort them whenever it is convenient. Many implementations do \emph{not} enforce this convention.
-
+In the adjacency lists representation, only the out-neighbours of node $i$ are listed in the sequence $L_i$. 
+$L_i$ may or may not be sorted in order of increasing node number. 
+Our \boldfont{convention} is to sort them whenever it is convenient. 
+Many implementations do \emph{not} enforce this convention.
 
 \begin{Example}
-For the graph $G_1$ and digraph $G_2$ of \cref{fig:graphExample}, 
-the adjacency matrices are
+For the graph $G_1$ and digraph $G_2$ of \cref{fig:graphExample}, the adjacency matrices are
 $$
 G_1: 
 \left[
@@ -361,8 +349,8 @@ G_2:
 \right]
 $$
 
-Notice that the number of $1$'s in a row is the out-degree
- of the corresponding node, while the number of $1$'s in a column is the in-degree.
+Notice that the number of $1$'s in a row is the out-degree of the corresponding node, 
+while the number of $1$'s in a column is the indegree.
 \end{Example}
  
 \begin{Example}
@@ -406,11 +394,10 @@ G_2:
 1 & 0 & 2 & 3  \\
 2  \\
 3 & 1 & 4  \\
-4& 2 \\
+4 & 2 \\
 \end{array}
 }
 $$
-
 \end{Example}
 
 
@@ -425,29 +412,65 @@ adjacency matrix or adjacency lists representation of the digraph.
 The end of the file is marked with a line denoting a digraph of order
 $0$.
 
-\begin{Boxample}[3]
-Here is a file with multiple digraphs in the adjacency lists format.  Draw the corresponding digraphs.
+\begin{Boxample}[1]
+Here are two digraphs in the adjacency lists format.  Draw the corresponding digraphs.
 
-\begin{tabular}{lll}
-4 \\
-1 & 2  \\
-3 & \\
-&  \\
-0 & 1 & 2 \\
-3 \\
-2 \\
-0 \\
-1 \\
-0\\
-\end{tabular}
+% alternative:
+\vspace{1cm}
+$\begin{array}{c|c}
+0 & 2  \\
+1 & 0  \\
+2 & 1 \\
+\end{array}$
+
+
+\vspace{1.5cm}
+$\begin{array}{c|ccc}
+0 & 1 & 2  \\
+1 & 3  \\
+2  \\
+3 & 0 & 1 & 2 \\
+\end{array}$
+
+% \begin{tabular}{lll}
+% 4 \\
+% 1 & 2  \\
+% 3 & \\
+% &  \\
+% 0 & 1 & 2 \\
+% 3 \\
+% 2 \\
+% 0 \\
+% 1 \\
+% 0\\
+% \end{tabular}
 \end{Boxample}
 
 
-\begin{Boxample}[3]
+\begin{Boxample}[2]
+Here are two digraphs in the adjacency matrix format. Draw the corresponding digraphs.
 
-Here is a file with multiple digraphs in the adjacency matrix format.  Draw the corresponding digraphs.
+\vspace{1.5cm}
+$\left[
+\begin{matrix}
+0 & 0 & 0 & 0  \\
+0 & 0 & 0 & 3  \\
+1 & 1 & 0 & 0  \\
+0 & 0 & 1 & 0  \\
+\end{matrix}
+\right]$
 
-TODO
+\vspace{2.5cm}
+$\left[
+\begin{matrix}
+0 & 1 & 0 & 1 & 0 \\
+1 & 0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0 & 1 \\
+1 & 0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 1 & 0 
+\end{matrix}
+\right]$
+
 \end{Boxample}
 
 
@@ -469,7 +492,7 @@ node $i$. The root is a special case and can be given value $-1$
 to $n-1$ in the usual way. This of course is a form of adjacency lists
 representation, where we use in-neighbours instead of out-neighbours.
 
-\begin{Boxample}[2]
+\begin{Boxample}[4]
 Draw the tree represented by the array $pred = [-,0,0,1,2,2,2,3]$
 \end{Boxample}
 %We will sometimes need to represent $\infty$ when processing graphs. For
@@ -577,26 +600,23 @@ Draw the tree represented by the array $pred = [-,0,0,1,2,2,2,3]$
 
 In this section we discuss implementing basic operations on digraphs such as checking the existence of an arc or deleting a node and compare the performance of different data structures.
 
-
-
 An adjacency matrix is simply a matrix which is an array of arrays. 
 
 Adjacency lists are a list of lists, and there are several ways in which a list can be implemented. For
-example by an array or singly- or doubly-linked list using pointers which
-have different properties: e.g., accessing the middle element is $\Theta(1)$ for an array but
-$\Theta(n)$ for a linked list. 
+example by an array or singly- or doubly-linked list using pointers which have different properties:
+e.g., accessing the middle element is $\Theta(1)$ for an array but $\Theta(n)$ for a linked list. 
 
-Searching for  a value that may or may not be in the list requires sequential search
+Searching for a value that may or may not be in the list requires sequential search
 and takes $\Theta(n)$ time in the worst case. 
 
-More complex data structures such as binary trees or heaps can be used to represent lists often with some benefits  but we do not consider them here. 
+More complex data structures such as binary trees or heaps can be used to represent lists often with some benefits but we do not consider them here. 
 
 \section{Complexity of basic digraph operations}
-The basic operations we consider are checking for the existence of an arc between two nodes, finding the outdegree of a node, finding the in-degree of  a nodes, adding an arc between two nodes, deleing an arc between two nodes, adding a node, and deleting a node. 
+The basic operations we consider are checking for the existence of an arc between two nodes, finding the outdegree of a node, 
+finding the indegree of a nodes, adding an arc between two nodes, deleting an arc between two nodes, adding a node, and deleting a node. 
 
 For the two data structures, we'll look at the steps we need to carry out various basic operations and the the total cost of all steps. 
 
-<<<<<<< HEAD
 \begin{Boxample}[0]
 Compare the matrix and lists data structures for checking whether arc $(i,j)$ exists.
  
@@ -604,7 +624,7 @@ Adjacency matrix representation: we need to check whether element $(i,j)$ is 1. 
 an array element twice, to first find the $i$th array then its $j$th element. Each array access is in $\Theta(1)$ so overall it is in $\Theta(1)$.
 
 Adjacency lists representation: we need to search for $j$ in list $i$. The complexity then depends on the length of list $i$. 
-List $i$ is length $d$ where $d$ is the out-degree of node $i$ so searching for $j$ is in $\Theta(d)$. 
+List $i$ is length $d$ where $d$ is the outdegree of node $i$ so searching for $j$ is in $\Theta(d)$. 
 But how large is $d$? Even when the graph is sparse, it could still be the case that $d$ is $O(n)$, though typically in a sparse graph $d$ is $O(1)$.  
 In a dense graph $d$ is $O(n)$.
 \end{Boxample}
@@ -663,28 +683,28 @@ Comparative worst-case performance of adjacency lists and matrices.
 \begin{tabular}{|l|c|c|}
 \hline
 
-\textbf{Operation} & \textbf{matrix} & \textbf{lists} \\
+\textbf{Operation} 	& \textbf{matrix} & \textbf{lists} \\
 \hline
 
 arc $(i, j)$ exists? & $\Theta(1)$  & $\Theta(d)$ \\
 \hline
-outdegree  of $i$ & $\Theta(n)$ & $\Theta(1)$ \\
+outdegree  of $i$ 	& $\Theta(n)$ & $\Theta(1)$ \\
 \hline
-indegree of $i$ & $\Theta(n)$ &  $\Theta(n+m)$ \\
+indegree of $i$ 	& $\Theta(n)$ &  $\Theta(n+m)$ \\
 \hline
-add arc $(i, j)$ & $\Theta(1)$ & $\Theta(1)$  \\
+add arc $(i, j)$ 	& $\Theta(1)$ & $\Theta(1)$  \\
 \hline
 delete arc $(i, j)$ & $\Theta(1)$  & $\Theta(d)$  \\
 \hline
-add node & $\Theta(n)$ & $\Theta(1)$  \\
+add node 			& $\Theta(n)$ & $\Theta(1)$  \\
 \hline
-delete node $i$ & $\Theta(n^2)$  & $\Theta(n+m)$  \\
+delete node $i$ 	& $\Theta(n^2)$  & $\Theta(n+m)$  \\
 \hline
 \end{tabular}
 \end{center}
 %\end{table}
 
-Notice that apparently similar problems like finding the out-degree and in-degree have very different time complexity in the lists representation but not in the matrix representation. 
+Notice that apparently similar problems like finding the outdegree and indegree have very different time complexity in the lists representation but not in the matrix representation. 
 
 Finding outdegree with the lists representation merely requires accessing
 the correct list (constant time) plus finding the size of  that list
