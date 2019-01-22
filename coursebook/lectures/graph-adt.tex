@@ -356,28 +356,30 @@ while the number of $1$'s in a column is the indegree.
 \begin{Example}
 For the graph $G_1$ and digraph $G_2$ of \cref{fig:graphExample}, 
 the adjacency lists are
+
+
 $$
 G_1: \quad
-\AdjLists{
-\begin{array}{cccc}
-1 & 2  \\
-0 & 2 \\
-0 & 1 & 3 & 4  \\
-2 & 4  \\
-2 & 3  \\
-\end{array}
+\lightgraybox{
+	\begin{array}{cccc}
+	1 & 2 &   &   \\
+	0 & 2 &   &   \\
+	0 & 1 & 3 & 4 \\
+	2 & 4 &   &   \\
+	2 & 3 &   &   \\
+	\end{array}
 }
  \qquad
 G_2: 
 \quad 
-\AdjLists{
-\begin{array}{ccc}
-2  \\
-0 & 2 & 3  \\
-\\
-1 & 4  \\
-2 \\
-\end{array}
+\lightgraybox{
+	\begin{array}{ccc}
+	2 &   &   \\
+	0 & 2 & 3 \\
+	  &   &   \\
+	1 & 4 &   \\
+	2 &   &   \\
+	\end{array}
 }
 $$
 
@@ -388,7 +390,7 @@ We may include node labels in the adjacency lists for clarity or where nodes are
 $$
 G_2: 
 \quad 
-\AdjLists{
+\lightgraybox{
 \begin{array}{c|ccc}
 0 & 2  \\
 1 & 0 & 2 & 3  \\
@@ -417,20 +419,21 @@ Here are two digraphs in the adjacency lists format.  Draw the corresponding dig
 
 % alternative:
 \vspace{1cm}
-$\begin{array}{c|c}
+
+$\lightgraybox{\begin{array}{c|c}
 0 & 2  \\
 1 & 0  \\
 2 & 1 \\
-\end{array}$
+\end{array}}$
 
 
 \vspace{1.5cm}
-$\begin{array}{c|ccc}
+$\lightgraybox{\begin{array}{c|ccc}
 0 & 1 & 2  \\
 1 & 3  \\
 2  \\
 3 & 0 & 1 & 2 \\
-\end{array}$
+\end{array}}$
 
 % \begin{tabular}{lll}
 % 4 \\
