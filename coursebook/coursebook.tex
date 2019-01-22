@@ -162,7 +162,7 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 % ## refs ## ----------------------------------------------
 \usepackage[colorlinks,linkcolor=blue,urlcolor=blue,citecolor=blue,
  bookmarksopen=true,
- pdfauthor={David Welch}, 
+ pdfauthor={David Welch, Mark C. Wilson, Jonathan Klawitter}, 
  pdfsubject={Coursebook},
  pdftitle={CS220 Algorithms and Data Structures},
  pdfcreator={LaTeX with hyperref package},
@@ -238,7 +238,7 @@ lectures/traversal,
 % # title page
 %\input{titlepageOld} % <- coursebook version
 
-\author{Michael Dinneen, Mark Wilson, Georgy Gimel'farb, David Welch, Jo Klawitter}
+\author{David Welch, Mark C. Wilson, Jonathan Klawitter}
 \title{CS220 Algorithms and Data Structures}
 \date{\today}
 \maketitle
@@ -260,16 +260,12 @@ lectures/traversal,
 %\mainmatter
 \chapterstyle{ger}
 
-%\include{intro/intro4}
-%\include{intro/intro3}
-%\include{intro/intro2}
-%\include{intro/intro}
 
 %\part{Introduction to Algorithm Analysis}
 
-%\include{algorithm-analysis/alg-anal}
-%\include{algorithm-analysis/sort}
-%\include{algorithm-analysis/search}
+\include{algorithm-analysis/alg-anal}
+\include{algorithm-analysis/sort}
+\include{algorithm-analysis/search}
 
 %\part{Introduction to Graph Algorithms}
 \renewcommand{\rm}{} % quick fix for ignoring \rm in ipe figures 
@@ -277,14 +273,6 @@ lectures/traversal,
 \include{lectures/graph-adt}
 \include{lectures/traversal}
 \include{lectures/optimization}
-
-\if 01 % not used in CS220 any more  <<[then remove it?]>>
-%\part{Introduction to Formal Languages}
-
-%\include{automata-grammars/automata}
-
-%\include{automata-grammars/grammars}
-\fi
 
 
 %\part*{Appendices}
