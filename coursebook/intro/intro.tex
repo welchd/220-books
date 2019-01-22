@@ -1,0 +1,151 @@
+%\setcounter{chapter}{-1}
+\chapter*{Introduction to the First Edition}
+\markboth{Introduction to the First Edition}{From Introduction to the First Edition}
+%\pagestyle{myheadings}
+
+This book is an expanded, and, we hope, improved version of the coursebook
+for the course COMPSCI 220 which we have taught several times in recent
+years at the University of Auckland.
+
+We have taken the step of producing this book because there is no single
+text available that covers the syllabus of the above course at the level
+required. Indeed, we are not aware of any other book that covers all
+the topics presented here. Our aim has been to produce a book that is
+straightforward, concise, and inexpensive, and suitable for self-study
+(although a teacher will definitely add value, particularly where the
+exercises are concerned). It is an introduction to some key areas at
+the theoretical end of computer science, which nevertheless have many
+practical applications and are an essential part of any computer science
+student's education.
+
+The material in the book is all rather standard. The novelty is in the
+combination of topics and some of the presentation. Part I deals with
+the basics of algorithm analysis, tools that predict the performance of
+programs without wasting time implementing them. Part II covers many
+of the standard fast graph algorithms that have applications in many
+different areas of computer science and science in general. Part III
+introduces the theory of formal languages, shifting the focus from what can
+be computed quickly to what families of strings can be recognized
+easily by a particular type of machine.
+
+The book is designed to be read cover-to-cover. In particular Part I
+should come first. However, one can read Part III before Part II with 
+little chance of confusion.
+
+To make best use of the book, one must do the exercises. They vary in
+difficulty from routine to tricky. No solutions are provided. This policy
+may be changed in a later edition.
+
+The  prerequisites for this book are similar to those of the above course,
+namely two semesters of programming in a structured language such as Java
+(currently used at Auckland). The book contains several appendices which
+may fill in any gaps in the reader's background.
+
+A limited bibliography is given. There are so many texts covering some
+of the topics here that to list all of them is pointless. Since we are
+not claiming novelty of material, references to research literature are
+mostly unnecessary and we have omitted them. More advanced books (some
+listed in our bibliography) can provide more references as a student's
+knowledge increases.
+
+A few explanatory notes to the reader about this textbook are in order. 
+
+We describe algorithms using a pseudocode similar to, but not exactly
+like, many structured languages such as Java or C++. Loops and control
+structures are indented in fairly traditional fashion. We do not formally
+define our pseudocode of comment style (this might make an interesting 
+exercise for a reader who has mastered Part III).
+
+We make considerable use of the idea of ADT (abstract data type). An
+\defnfont{abstract data type} is a mathematically specified collection of
+objects together with operations that can be performed on them, subject
+to certain rules. An ADT is completely independent of any computer
+programming implementation and is a mathematical structure similar to
+those studied in pure mathematics. Examples in this book include digraphs
+and graphs, along with queues, priority queues, stacks, and lists. A
+\defnfont{data structure} is simply a higher level entity composed of the
+elementary memory addresses related in some way. Examples include arrays,
+arrays of arrays (matrices), linked lists, doubly linked lists, etc.
+
+The difference between a data structure and an abstract data type is
+exemplified by the difference between a standard linear array and what we
+call a list. An array is a basic data structure common to most programming
+languages, consisting of contiguous memory addresses. To find an element
+in an array, or insert an element, or delete an element, we directly
+use the address of the element. There are no secrets in an array. By
+contrast, a list is an ADT. A list is specified by a set S of elements
+from some universal set $U$, together with operations \algfont{insert},
+\algfont{delete}, \algfont{size}, \algfont{isEmpty} and so on (the
+exact definition depends on who is doing the defining). We denote
+the result of the operation as S.\algfont{isEmpty}(), for example. The
+operations must satisfy certain rules, for example: S.\algfont{isEmpty}()
+returns a boolean value TRUE or FALSE; S.\algfont{insert}($x, r$)
+requires that $x$ belong to $U$ and $r$ be an integer between $0$
+and S.\algfont{size}(), and returns a list; for any admissible $x$ and
+$r$ we have S.\algfont{isEmpty}(S.\algfont{insert}($x, r$)) = FALSE,
+etc. We are not interested in how the operations are to be carried out,
+only in what they do. Readers familiar with languages that facilitate
+object-based and object-oriented programming will recognize ADTs as,
+essentially, what are called classes in Java or C++.
+
+A list can be implemented using an array (to be more efficient, we
+would also have an extra integer variable recording the array size). The
+\algfont{insert} operation, for example, can be achieved by accessing
+the correct memory address of the $r$-th element of the array, allocating
+more space at the end of the array, shifting along some elements by one,
+and assigning the element to be inserted to the address vacated by the
+shifting. We would also update the size variable by $1$. These details
+are unimportant in many programming applications. However they are
+somewhat important when discussing complexity as we do in Part I. While
+ADTs allow us to concentrate on algorithms without worrying about details
+of programming implementation, we cannot ignore data structures forever,
+simply because some implementations of ADT operations are more efficient
+than others.
+
+In summary, we use ADTs to sweep programming details under the carpet
+as long as we can, but we must face them eventually.
+
+A book of this type, written by three authors with different
+writing styles under some time pressure, will inevitably
+contain mistakes. We have been helped to minimize the number of
+errors by the student participants in the COMPSCI 220 coursebook
+error-finding competition, and our colleagues Joshua Arulanandham 
+and Andre Nies, to whom we are very grateful. 
+%Readers finding more errors are encouraged to contact us after viewing the errata page at
+%\begin{verbatim}
+%http://www.cs.auckland.ac.nz/~mcw/Teaching/220/errors.html
+%\end{verbatim}
+
+Our presentation has benefitted from the input of 
+our colleagues who have taught COMPSCI 220 
+in the recent and past years, with special acknowledgement 
+due to John Hamer and the late Michael Lennon.
+
+%Finally, the authors thank:
+
+%\begin{description}
+%\item [MJD] Anna Guo 
+%for being ``Anna'' and also for encouraging me to continue with this academic endeavor;
+
+%\item [GLG] my wife Natasha and all the family for their permanent help and support;
+
+%\item[MCW] my wife Golbon and son Yusef, for their sacrifices during the 
+%writing of this book, and the joy they bring to my life even in the toughest times.
+%\end{description}
+
+\bigskip
+
+\begin{flushright}
+%Michael J. Dinneen\\
+%Georgy Gimel'farb\\
+%Mark Wilson\\[2ex]
+
+%Department of Computer Science\\ 
+%University of Auckland\\
+%Auckland, New Zealand\\[2ex]
+
+%\verb|{mjd,georgy,mcw}@cs.auckland.ac.nz|\\[2ex]
+
+10 February 2004
+\end{flushright}
+
