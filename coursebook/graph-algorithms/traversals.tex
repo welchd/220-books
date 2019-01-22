@@ -1,21 +1,20 @@
-\part{Graph Traversals and Applications}
+\chapter{Graph Traversals and Applications}
 \label{ch:traversal}
 
-
-\chapter{Lecture: Graph traversal algorithms}
-
-
-Traversals involve visiting each node of a digraph in a 
-systematic way using only the structure of the digraph. This is a very common task when dealing with graphs and 
-
-The important requirements are that we must be
+Many graph problems require us to visit each node of a digraph in a 
+systematic way. For example, we may want to print out the labels of the
+nodes in some order, or perhaps we are in a maze and we have
+no idea where to find the door. More interesting examples will be
+described below. The important requirements are that we must be
 systematic (otherwise an algorithm is hard to implement), we must be
 complete (visit each node at least once), and we must be efficient
 (visit each node at most once). 
 
-There are several ways to perform a traversal.  We start with a genral framework for traversals then present the
-two most common techniques: breadth-first search and depth-first search.
-We also discuss a more general algorithm, priority-first search. 
+There are several ways to perform such a traversal.  Here we present the
+two most common, namely breadth-first search and depth-first search.
+We also discuss a more general but also more complicated and slower 
+algorithm, priority-first search. First we start with general remarks 
+applicable to all graph traversals.
 
 \section{Generalities on graph traversal}
 \label{sec:trav}
@@ -161,7 +160,7 @@ or the entering arc will contradict the first part.
 
 
 \begin{figure}[htbp]
-%\input{figs/wDecomp1.pstex_t}
+\input{figs/wDecomp1.pstex_t}
 \caption{Decomposition of a digraph in terms of search trees.}
 \label{fig:travdecomp}
 \end{figure}
@@ -243,7 +242,6 @@ tree.
 \end{itemize}
 \end{Exercise}
 
-\chapter{Lecture: Depth First Seach(DFS)}
 
 \section{DFS and BFS}
 \label{sec:BFSDFS}
@@ -638,9 +636,6 @@ $done$. What is the exact relationship between the two?
 Prove Theorem~\ref{thm:white-path} by using induction.
 \end{Exercise}
 
-
-\chapter{Lecture: Breadth First Search (BFS) and Priority First Search (PFS)}
-
 \section{Additional properties of breadth-first search}
 \label{sec:bfs}
 
@@ -651,7 +646,6 @@ it is more useful to record the number of steps from the root in the
 array $d$.
 
 \begin{figure}[hbtp]
-
 
 \Algorithm{BFS}{digraph $G$}{}
 {
@@ -926,8 +920,6 @@ sections. Applications of PFS will be discussed in
 Chapter~\ref{ch:weighted}.
 
 %\subsection*{Exercises}
-\chapter{Lecture: Cycles, Girth and Topological Sort}
-
 
 \section{Acyclic digraphs and topological ordering}
 \label{sec:dag}
@@ -1116,8 +1108,6 @@ Give a simple way to check whether a graph $G$ is acyclic. Does the method
 for finding a DAG given above work for acyclic graphs also?
 \end{Exercise}
 
-\chapter{Lecture: connectivity/components, strong components}
-
 \section{Connectivity}
 \label{sec:connectivity}
 
@@ -1271,7 +1261,7 @@ components of the resulting digraph are exactly those digraphs that
 we inserted.
 
 \begin{figure}[htbp]
-%\input{figs/wDecomp2.pstex_t}
+\input{figs/wDecomp2.pstex_t}
 \caption{Structure of a digraph in terms of its strong components.}
 \label{fig:sccdecomp}
 \end{figure}
@@ -1467,9 +1457,6 @@ though a $4$-cycle exists using two of the back edges).
 
 To compute the girth of a graph, we can simply run the above algorithm
 from each vertex in turn, and take the minimum cycle length achieved.
-
-\chapter{Lecture: bipartite graphs and matchings}
-
 
 \subsection{Bipartite graphs}
 \label{subsec:bipartite}

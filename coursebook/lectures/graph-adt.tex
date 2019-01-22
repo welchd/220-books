@@ -646,8 +646,9 @@ and the time required (the second table) for basic graph operations when using a
 Performance for the adjacency list representation is based on using doubly linked lists.
 
 \begin{samepage}
-Steps required to perform basic digraph operations by data structure.
 \begin{center}
+Steps required to perform basic digraph operations by data structure.
+
 \begin{tabular}{|l|l|l|l|l|}
 \hline
 
@@ -677,6 +678,7 @@ delete node $i$ & delete row/column $i$  & delete list $i$ \\
 %\caption{Comparative worst-case performance of adjacency lists and matrices.}
 %\label{table:list-vs-matrix}
 
+\begin{samepage}
 \begin{center}
 Comparative worst-case performance of adjacency lists and matrices.
 
@@ -702,7 +704,7 @@ delete node $i$ 	& $\Theta(n^2)$  & $\Theta(n+m)$  \\
 \hline
 \end{tabular}
 \end{center}
-%\end{table}
+\end{samepage}
 
 Notice that apparently similar problems like finding the outdegree and indegree have very different time complexity in the lists representation but not in the matrix representation. 
 
@@ -732,12 +734,12 @@ contexts but in general requires more space than is needed.
 We also need to consider the space requirements for each implementation. 
 
 The adjacency matrix
-representation requires $\Theta(n^2)$ storage: we simply need $n^2$
-bits. 
+representation requires $\Theta(n^2)$ storage as we simply need a matrix of $n^2$
+bits 
 
 At first guess we might say adjacency lists representation requires
 $\Theta(n+m)$ storage, since we need $n$ lists and the combined length of all the lists is $m$ (each arc appears exactly once).
-However this is not strictly true as node numbers require more than one bit of storage each. The number $k$ requires on average  $\Theta(\log k)$ bits so the space requirement is more like $\Theta(n+m \log(n))$ 
+However this is not strictly true as node numbers require more than one bit of storage each. The number $k$ requires  $\Theta(\log k)$ bits, with the average entry in a list being $\frac n 2$ and  so the space requirement for lists is more like $\Theta(n+m \log(n))$ 
 
 
 \begin{Boxample}[2]
@@ -750,9 +752,13 @@ it is true that lists use less space than a matrix, whereas for small
 dense digraphs the space requirements are comparable. For large sparse
 digraphs, a matrix can still be more efficient, but this happens rarely.
 
-As with most implementation considerations, the representation that is best will depend on the context and we cannot make general rules.  We will mostly use adjacency lists, which are
+\begin{Boxample}[2]
+Find a large sparse digraph where the matrix representation uses less space than the lists representation.
+\end{Boxample}
+
+As with most implementation considerations, the representation that is best will depend on the application and we cannot make general rules.  We will mostly use adjacency lists, which are
 clearly superior for many common tasks (such as graph traversals, covered
-in \cref{ch:traversal}) and generally better for sparse digraphs.
+in the next lectures) and generally better for sparse digraphs.
 
 %Any implementation of an abstract data type (for example as a Java class)
 %must include objects and ``methods".  While most people would include
