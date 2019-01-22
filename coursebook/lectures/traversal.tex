@@ -4,25 +4,24 @@
 
 \chapter{Lecture: Graph traversal algorithms}
 
+Traversals involve visiting each node of a digraph in a systematic way using only the structure of the digraph. 
+This is a very common task when dealing with graphs.
 
-Traversals involve visiting each node of a digraph in a 
-systematic way using only the structure of the digraph. This is a very common task when dealing with graphs and 
+The important requirements are that we must be systematic (otherwise an algorithm is hard to implement), 
+we must be complete (visit each node at least once), 
+and we must be efficient (visit each node at most once). 
 
-The important requirements are that we must be
-systematic (otherwise an algorithm is hard to implement), we must be
-complete (visit each node at least once), and we must be efficient
-(visit each node at most once). 
-
-There are several ways to perform a traversal.  We start with a genral framework for traversals then present the
+There are several ways to perform a traversal.  
+We start with a general framework for traversals then present the
 two most common techniques: breadth-first search and depth-first search.
 We also discuss a more general algorithm, priority-first search. 
 
 \section{Generalities on graph traversal}
 \label{sec:trav}
 
-We first discuss a general skeleton common to all graph traversals. In
-Figure~\ref{fig:travcode}, this general skeleton is presented in
-pseudocode. We first describe it less formally.
+We first discuss a general skeleton common to all graph traversals. 
+In \cref{fig:travcode}, this general skeleton is presented in pseudocode. 
+We first describe it less formally.
 
 \begin{figure}[htbp]
 \hspace*{1in}\begin{minipage}{5in}
@@ -70,17 +69,15 @@ visited, along with all their adjacent nodes. This is shown pictorially
 in Figure~\ref{fig:travcols}.
 
 \begin{figure}
-%\centerline{\includegraphics[width=4in]{figs/wNodeStates.eps}}
-%\centerline{\includegraphics[width=3.6in]{figs/wNodeStatesBW.eps}}
-\centerline{\includegraphics[width=3.6in]{figs/wNodeStatesBW2.eps}}
-
-\caption{Node states in the middle of a digraph traversal.}
-\label{fig:travcols}
+  \centering
+  \includegraphics{graphTraversalNodeStateBW}
+  \caption{Node states in the middle of a digraph traversal.}
+  \label{fig:travcols}
 \end{figure}
 
 Initially, all nodes are white. The traversal algorithm first colours
 $v$ grey. At each subsequent step, it chooses a grey node $w$ and then a
-white node $x$  adjacent to $w$ (thereby changing the colour of $x$ to
+white node $x$ adjacent to $w$ (thereby changing the colour of $x$ to
 grey). This possibly causes some grey nodes to become black. When all
 nodes are black, there can be no white nodes reachable from the current
 set of visited nodes. We have reached every node that can be reached
@@ -96,7 +93,7 @@ choose another white node as root and continue. Eventually, we obtain a
 set of disjoint trees spanning the digraph, which we call the
 \defnfont{search forest}. 
 
-The above is formalized in Figure~\ref{fig:travcode}. Here
+The above is formalized in \cref{fig:travcode}. Here
 \algfont{traverse} simply chooses a new root $s$ when required. The main
 work is done by \algfont{visit}. In this procedure, the array $pred$
 stores the parent of each node; each root gets the value NULL, since it
@@ -161,9 +158,10 @@ or the entering arc will contradict the first part.
 
 
 \begin{figure}[htbp]
-%\input{figs/wDecomp1.pstex_t}
-\caption{Decomposition of a digraph in terms of search trees.}
-\label{fig:travdecomp}
+  \centering
+  \includegraphics{decomposition}
+  \caption{Decomposition of a digraph in terms of search trees.}
+  \label{fig:travdecomp}
 \end{figure}
 
 We now turn to the analysis of \algfont{traverse}. The generality
@@ -278,10 +276,10 @@ These search concepts are best illustrated with some examples.
 \label{eg:graphExample2}
 
 A graph $G_1$ and a digraph $G_2$ are displayed in
-Figure~\ref{fig:graphExample2}.
+\cref{fig:graphExample2}.
 
 Breadth-first search trees (originating from node $0$) of the graph $G_1$
-and digraph $G_2$  are displayed in Figure~\ref{fig:graphEx2-BFS}. The
+and digraph $G_2$  are displayed in \cref{fig:graphEx2-BFS}. The
 dashed arcs indicate the original arcs that are not part of the BFS trees.
 
 Note that even with DFS or BFS specified there still remains the choice
@@ -298,7 +296,7 @@ edges: for example $\{1, 2\}$ is a cross edge, $\{2, 8\}$ a tree edge,
 and so on.
 
 We also display depth-first search trees (originating from node $0$) of
-the graph $G_1$ and digraph $G_2$ in Figure~\ref{fig:graphEx2-DFS}.
+the graph $G_1$ and digraph $G_2$ in \cref{fig:graphEx2-DFS}.
 Again, the dashed arcs indicate the original arcs that are not part of
 the DFS trees.
 
@@ -308,30 +306,24 @@ cross arc, there are no forward arcs, etc.
 
 \end{Example}
 \begin{figure}[hbtp]
-\medskip
-\centerline{\Ipe{./figs/graphEx2.ipe}}
-
-\caption{A graph $G_1$ and a digraph $G_2$.}
-\label{fig:graphExample2}
+	\centering
+	\includegraphics{graphEx2}
+	\caption{A graph $G_1$ and a digraph $G_2$.}
+	\label{fig:graphExample2}
 \end{figure}
 
 \begin{figure}[hbtp]
-\medskip
-\centerline{\Ipe{./figs/graphEx2BFS.ipe}}
-
-\caption{BFS trees for $G_1$ and $G_2$, rooted at $0$.}
-\label{fig:graphEx2-BFS}
+	\centering
+	\includegraphics{graphEx2BFS}
+	\caption{BFS trees for $G_1$ and $G_2$, rooted at $0$.}
+	\label{fig:graphEx2-BFS}
 \end{figure}
 
-%\centerline{\Ipe{./figs/graphEx2DFS.ipe}}
-
 \begin{figure}[hbtp]
-\medskip
-
-\centerline{\includegraphics{./figs/graphEx2DFS.eps}}
-
-\caption{DFS trees for $G_1$ and $G_2$, rooted at $0$.}
-\label{fig:graphEx2-DFS}
+	\centering 
+	\includegraphics{graphEx2DFS}
+	\caption{DFS trees for $G_1$ and $G_2$, rooted at $0$.}
+	\label{fig:graphEx2-DFS}
 \end{figure}
 
 In the examples above, all nodes were reachable from the root, and so
@@ -524,14 +516,14 @@ representation  given below. Classify each arc as tree, forward, back or cross.
 \newline
 $$
 \lightgraybox{
-\begin{tabular}{ccccc}
-0: & 2 &  & \\
-1: & 0 & &\\
-2: & 0 & 1&\\
-3: & 4 & 5 & 6\\
-4: & 5 & &\\
-5: & 3 & 4 & 6 \\
-6: & 1 & 2 & \\
+\begin{tabular}{c|cccc}
+0 & 2 &  & \\
+1 & 0 & &\\
+2 & 0 & 1&\\
+3 & 4 & 5 & 6\\
+4 & 5 & &\\
+5 & 3 & 4 & 6 \\
+6 & 1 & 2 & \\
 \end{tabular}
 }
 $$
