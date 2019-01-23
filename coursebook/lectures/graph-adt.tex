@@ -457,7 +457,7 @@ Here are two digraphs in the adjacency matrix format. Draw the corresponding dig
 $\left[
 \begin{matrix}
 0 & 0 & 0 & 0  \\
-0 & 0 & 0 & 3  \\
+0 & 0 & 0 & 1  \\
 1 & 1 & 0 & 0  \\
 0 & 0 & 1 & 0  \\
 \end{matrix}
@@ -489,14 +489,14 @@ representations.
 For example, trees can be stored more efficiently. We have already
 seen in \cref{sec:heapsort} how a complete binary tree can be
 stored in an array. A general rooted tree of $n$ nodes can be stored in
-an array $pred$ of size $n$. The value $pred[i]$ gives the parent of
+an array $\pred$ of size $n$. The value $\pred[i]$ gives the parent of
 node $i$. The root is a special case and can be given value $-1$
 (representing a NULL pointer), for example, if we number nodes from $0$
 to $n-1$ in the usual way. This of course is a form of adjacency lists
 representation, where we use in-neighbours instead of out-neighbours.
 
 \begin{Boxample}[4]
-Draw the tree represented by the array $pred = [-,0,0,1,2,2,2,3]$
+Draw the tree represented by the array $\pred = [-,0,0,1,2,2,2,3]$
 \end{Boxample}
 %We will sometimes need to represent $\infty$ when processing graphs. For
 %example, it may be more convenient to define $d(u, v) = \infty$ than to

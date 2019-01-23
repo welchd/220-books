@@ -35,18 +35,10 @@ keepaspectratio]{figs/wNodeStatesBW.eps}%
 %%%%%%%%%%%%%%%%%%%%%%%
 
 % ## packages for graphics, etc ## ----------------------------------------------
-%\usepackage[svgnames,pdf]{pstricks}
-%\usepackage{pst-node}
-%\usepackage{pst-tree}
-\usepackage{ipe}
-% following has problems with older ipe
-% \usepackage{auto-pst-pdf} % pdflatex -shell-escape 
-% need to use dvipdf and possibly trim margins manually
+\usepackage{ipe} % remove when figures replaced
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.pdf,.png,.eps}
 \graphicspath{{figs/}} 
-%\usepackage{epsfig} % <- outdated, use something else   
-
 
 % ## fonts ## ----------------------------------------------
 \usepackage{amsmath}
@@ -58,11 +50,6 @@ keepaspectratio]{figs/wNodeStatesBW.eps}%
 \newcommand{\defnfont}[1]{\textbf{\textit{#1}}\index{#1}}
 \newcommand{\boldfont}[1]{\emph{#1}}
 \newcommand{\algfont}[1]{\texttt{#1}\index{algorithm!#1}}
-
-%\input Sanremo.fd
-%\newcommand{\CAP}[1]{\mbox{\usefont{U}{Sanremo}{xl}{n}\selectfont #1}}
-\input Starburst.fd      % weird star font
-\newcommand{\CAP}[1]{\mbox{\usefont{U}{Starburst}{xl}{n}\selectfont #1}}
 
 
 % ## style ## ----------------------------------------------
@@ -135,8 +122,16 @@ keepaspectratio]{figs/wNodeStatesBW.eps}%
 {\medskip \noindent{\textsc{\textbf{Solution to \cref{#1} on
 page~\pageref{#1}}}}:\newline }
 
+% or just \DeclareMathOperator{\pred}{\text{pred}}
+\DeclareMathOperator{\pred}{\text{\textit{pred}}}
+\DeclareMathOperator{\colour}{\text{\textit{colour}}}
+\DeclareMathOperator{\done}{\text{\textit{done}}}
+\DeclareMathOperator{\seen}{\text{\textit{seen}}}
+\DeclareMathOperator{\timeVar}{\text{\textit{time}}}
+
 \usepackage{mathtools}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
 
 % ## Algos ## ----------------------------------------------
 \newcommand{\AlgCmt}[1]{\psframebox[linecolor=lightgray]{\ #1\ }}

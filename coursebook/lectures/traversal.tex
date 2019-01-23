@@ -27,27 +27,27 @@ We first describe it less formally.
 \hspace*{1in}\begin{minipage}{5in}
 \Algorithm{traverse}{digraph $G$}{}
 {
-\> array $colour[0..n-1]$, $pred[0..n-1]$ \\
+\> array $\colour[0..n-1]$, $\pred[0..n-1]$ \\
 \> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $colour[u] \gets $ WHITE \\
+\> \> $\colour[u] \gets $ WHITE \\
 \> \textbf{end for}\\
 \> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $colour[s] = $ WHITE \textbf{then} \\
+\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
 \> \> \> \texttt{visit}($s$) \\
 \> \> \textbf{end if}\\
 \> \textbf{end for}\\
-\> \textbf{return} $pred$ \\
+\> \textbf{return} $\pred$ \\
 }
 
 \Algorithm{visit}{node $s$ of digraph $G$}{}
 {
-\> $colour[s] \gets $ GREY; $pred[s] \gets $ NULL \\
+\> $\colour[s] \gets $ GREY; $\pred[s] \gets $ NULL \\
 \> \textbf{while} there is a grey node \textbf{do} \\
 \> \> choose a grey node $u$ \\
 \> \> \textbf{if} there is a white neighbour of $u$  \\
 \> \> \> choose such a neighbour $v$ \\
-\> \> \> $colour[v] \gets $ GREY; $pred[v] \gets u$ \\
-\> \> \textbf{else} $colour[u] \gets $ BLACK \\
+\> \> \> $\colour[v] \gets $ GREY; $\pred[v] \gets u$ \\
+\> \> \textbf{else} $\colour[u] \gets $ BLACK \\
 \> \> \textbf{end if} \\
 \> \textbf{end while}\\
 }
@@ -66,7 +66,7 @@ nodes are those that have not yet been visited. \emph{Grey} nodes
 adjacent nodes that are white.
 Finally, \emph{black} nodes are those  nodes that have been
 visited, along with all their adjacent nodes. This is shown pictorially
-in Figure~\ref{fig:travcols}.
+in \cref{fig:travcols}.
 
 \begin{figure}
   \centering
@@ -95,7 +95,7 @@ set of disjoint trees spanning the digraph, which we call the
 
 The above is formalized in \cref{fig:travcode}. Here
 \algfont{traverse} simply chooses a new root $s$ when required. The main
-work is done by \algfont{visit}. In this procedure, the array $pred$
+work is done by \algfont{visit}. In this procedure, the array $\pred$
 stores the parent of each node; each root gets the value NULL, since it
 has no parent. Each time through the while-loop, a white node is turned
 grey or a grey node is turned black. Thus eventually there are no white
@@ -122,7 +122,7 @@ $u$ and $v$ must belong to the same tree of $F$. However, a cross arc may
 join two nodes in the same tree or point from one tree to another. 
 
 The following theorem collects all the basic facts we need for proofs
-in later sections. Figure~\ref{fig:travdecomp} illustrates the first part.
+in later sections. \cref{fig:travdecomp} illustrates the first part.
 
 \begin{Theorem}
 \label{thm:trav}
@@ -174,7 +174,7 @@ of either type of node should simply return false if there is no such
 node, and take no more time in this case than if it does find one. Thus
 we do not need to take account of the checking in our analysis.
 
-Since the initialization of the array $colour$ takes time 
+Since the initialization of the array $\colour$ takes time 
 $\Theta(n)$, the amount of time taken by \algfont{traverse} 
 is clearly $\Theta(n + t)$, where $t$ is the total time taken by all 
 the calls to \algfont{visit}.
@@ -368,11 +368,11 @@ out" order is therefore a stack (see Section~\ref{sec:app:adt-informal} if
 necessary for the basic facts about stacks). We may store the nodes in a
 stack as they are discovered. So the general \algfont{traverse} and
 \algfont{visit} procedures can be replaced by those in
-Figure~\ref{fig:DFScode}. Note how the algorithm for \algfont{visit} has
+\cref{fig:DFScode}. Note how the algorithm for \algfont{visit} has
 been altered. We loop through the nodes adjacent to the chosen grey node
 $u$, and as soon as we find a white one, we add it to the stack. We also
-introduce a variable $time$ and keep track of the time a node was turned
-grey, and the time it was turned black, in the arrays $seen, done$.
+introduce a variable $\timeVar$ and keep track of the time a node was turned
+grey, and the time it was turned black, in the arrays $\seen, \done$.
 These will be useful later.
 
 \begin{figure}[htbp]
@@ -380,34 +380,34 @@ These will be useful later.
 \Algorithm{DFS}{digraph $G$}{}
 {
 \> stack $S$ \\ 
-\> array $colour[0..n-1], pred[0..n-1], seen[0..n-1], done[0..n-1]$ \\
+\> array $\colour[0..n-1], \pred[0..n-1], \seen[0..n-1], \done[0..n-1]$ \\
 \> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $colour[u] \gets $ WHITE; $pred[u] \gets $ NULL \\
+\> \> $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
 \> \textbf{end for}\\
-\> $time \gets 0$ \\
+\> $\timeVar \gets 0$ \\
 \> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $colour[s] = $ WHITE \textbf{then} \\
+\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
 \> \> \> \algfont{DFSvisit}($s$) \\
 \> \> \textbf{end if}\\
 \> \textbf{end for}\\
-\> \textbf{return} $pred, seen, done$ \\
+\> \textbf{return} $\pred, \seen, \done$ \\
 }
 
 \Algorithm{DFSvisit}{node $s$}{}
 {
-\> $colour[s] \gets $ GREY \\
-\> $seen[s] \gets time$; $time \gets time + 1$ \\
+\> $\colour[s] \gets $ GREY \\
+\> $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$ \\
 \> S.\algfont{insert}($s$) \\
 \> \textbf{while not} S.\algfont{isEmpty}() \textbf{do} \\
 \> \> $u \gets $ S.\algfont{peek}() \\
-\> \>  \textbf{if} there is a neighbour $v$ with $colour[v] = $ WHITE \textbf{then} \\
-\> \> \> $colour[v] \gets $ GREY; $pred[v] \gets u$ \\ 
-\> \> \> $seen[v] \gets time$; $time \gets time + 1$ \\
+\> \>  \textbf{if} there is a neighbour $v$ with $\colour[v] = $ WHITE \textbf{then} \\
+\> \> \> $\colour[v] \gets $ GREY; $\pred[v] \gets u$ \\ 
+\> \> \> $\seen[v] \gets \timeVar$; $\timeVar \gets \timeVar + 1$ \\
 \> \> \> S.\algfont{insert}($v$) \\
 \> \> \textbf{else} \\
 \> \> \> S.\algfont{delete}() \\
-\> \> \> $colour[u] \gets $ BLACK \\
-\> \> \> $done[u] \gets time$; $time \gets time + 1$ \\
+\> \> \> $\colour[u] \gets $ BLACK \\
+\> \> \> $\done[u] \gets \timeVar$; $\timeVar \gets \timeVar + 1$ \\
 \> \> \textbf{end if} \\
 \> \textbf{end while} \\
 }
@@ -427,22 +427,22 @@ In summary, \algfont{DFS} is a linear-time traversal algorithm.
 One nice feature of depth-first search is its recursive nature.  The
 relationship between stacks and recursion is, we hope, well known to the
 reader. We can replace the \algfont{DFSvisit} procedure in this case by
-the recursive version in Figure~\ref{fig:DFSreccode}.
+the recursive version in \cref{fig:DFSreccode}.
 
 \begin{figure}[htbp]
 \hspace*{1.3in}\begin{minipage}{5in}
 \Algorithm{recursiveDFSvisit}{node $s$}{}
 {
-\> $colour[s] \gets $ GREY \\
-\> $seen[s] \gets time$; $time \gets time + 1$ \\
+\> $\colour[s] \gets $ GREY \\
+\> $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$ \\
 \> \textbf{for} each $v$ adjacent to $s$ \textbf{do} \\
-\> \> \textbf{if} $colour[v] = $ WHITE \textbf{then} \\
-\> \> \> $pred[v] \gets s$ \\
+\> \> \textbf{if} $\colour[v] = $ WHITE \textbf{then} \\
+\> \> \> $\pred[v] \gets s$ \\
 \> \> \> \algfont{recursiveDFSvisit}($v$) \\
 \> \> \textbf{end if} \\
 \> \textbf{end for} \\
-\> $colour[s] \gets $ BLACK \\
-\> $done[s] \gets time $; $time \gets time + 1$ \\
+\> $\colour[s] \gets $ BLACK \\
+\> $\done[s] \gets \timeVar $; $\timeVar \gets \timeVar + 1$ \\
 }
 \end{minipage}
 \caption{Recursive DFS visit algorithm.}
@@ -465,21 +465,21 @@ See Exercise~\ref{ex:white-path}.
 
 There are not as many possibilities for interleaving of the timestamps
 as there appear at first sight. In particular, we \boldfont{cannot}
-have $seen[v] < seen[w] < done[v] < done[w]$. The following theorem
+have $\seen[v] < \seen[w] < \done[v] < \done[w]$. The following theorem
 explains why.
 
 \begin{Theorem}
 \label{thm:DFS-seen-done}
 Suppose that we have performed DFS on a digraph $G$, resulting in a 
-search forest $F$. Let $v, w\in V(G)$ and suppose that $seen[v] < seen[w]$. 
+search forest $F$. Let $v, w \in V(G)$ and suppose that $\seen[v] < \seen[w]$. 
 
 \begin{itemize}
 \item
 If $v$ is an ancestor of $w$ in $F$, then 
-$$seen[v] < seen[w] < done[w] < done[v] \quad .$$
+$$\seen[v] < \seen[w] < \done[w] < \done[v] \quad .$$
 \item
 If $v$ is not an ancestor of $w$ in $F$, then
-$$seen[v] < done[v]  < seen[w] < done[w] \quad .$$
+$$\seen[v] < \done[v]  < \seen[w] < \done[w] \quad .$$
 \end{itemize}
 \end{Theorem}
 
@@ -498,7 +498,7 @@ $(u, v)$ is explored and $v$ is found to be white, then the arc is a
 tree arc; if $v$ is grey then the arc is a back arc, and so on (see
 Exercise~\ref{ex:DFS-cross-vs-forward}). We can also perform the classification 
 after the algorithm has terminated, just by looking at the timestamps 
-$seen$ and $done$ (see Exercise~\ref{ex:DFS-arc-class}).
+$\seen$ and $\done$ (see Exercise~\ref{ex:DFS-arc-class}).
 
 \subsection*{Exercises}
 
@@ -542,13 +542,13 @@ E(G)$. Show that the following statements are true.
 \begin{itemize}
 \item
 $(v, w)$ is a tree or forward arc if and only if  
-$$seen[v] < seen[w] < done[w] < done[v];$$
+$$\seen[v] < \seen[w] < \done[w] < \done[v];$$
 \item
 $(v, w)$ is a back arc if and only if
-$$seen[w] <  seen[v] < done[v] < done[w];$$ 
+$$\seen[w] <  \seen[v] < \done[v] < \done[w];$$ 
 \item
 $(v, w)$ is a cross arc if and only if 
-$$seen[w] < done[w]  < seen[v] < done[v].$$
+$$\seen[w] < \done[w]  < \seen[v] < \done[v].$$
 \end{itemize}
 \end{Exercise}
 
@@ -563,9 +563,9 @@ timestamps obtained.
 \hline 
 $v$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\
 \hline
-$seen[v]$ & 0 & 1 & 2 & 11 & 4 & 3 & 6 \\
+$\seen[v]$ & 0 & 1 & 2 & 11 & 4 & 3 & 6 \\
 \hline
-$done[v]$ & 13 & 10 & 9 & 12 & 5 & 8 & 7 \\
+$\done[v]$ & 13 & 10 & 9 & 12 & 5 & 8 & 7 \\
 \hline
 \end{tabular}
 
@@ -603,7 +603,7 @@ Suppose that DFS is run on a graph $G$. Prove that cross edges do not occur.
 \begin{Exercise}
 \label{ex:DFS-false-conj}
 Give an example to show that the following conjecture is \boldfont{not
-true}: if $w$ is reachable from $v$ and $seen[v] < seen[w]$ then $w$ is
+true}: if $w$ is reachable from $v$ and $\seen[v] < \seen[w]$ then $w$ is
 a descendant of $v$ in the DFS forest.
 \end{Exercise}
 
@@ -622,8 +622,8 @@ layout.
 
 \centerline{\Ipe{./figs/pre+post.ipe}}
 
-This is obviously strongly related to the values in the arrays $seen$ and 
-$done$. What is the exact relationship between the two?
+This is obviously strongly related to the values in the arrays $\seen$ and 
+$\done$. What is the exact relationship between the two?
 \end{Exercise}
 
 \begin{Exercise}\label{ex:white-path}
@@ -637,8 +637,8 @@ Prove Theorem~\ref{thm:white-path} by using induction.
 \label{sec:bfs}
 
 The first-in first-out processing of the grey nodes in BFS is ideally
-handled by a queue. In Figure~\ref{fig:BFScode} we present the algorithm.
-The timestamps $seen, done$ of DFS are of less use here;
+handled by a queue. In \cref{fig:BFScode} we present the algorithm.
+The timestamps $\seen, \done$ of DFS are of less use here;
 it is more useful to record the number of steps from the root in the
 array $d$.
 
@@ -648,16 +648,16 @@ array $d$.
 \Algorithm{BFS}{digraph $G$}{}
 {
 \> queue $Q$ \\
-\> array $colour[0..n-1], pred[0..n-1], d[0..n-1]$ \\
+\> array $\colour[0..n-1], \pred[0..n-1], d[0..n-1]$ \\
 \> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $colour[u] \gets $ WHITE; $pred[u] \gets $ NULL \\
+\> \> $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
 \> \textbf{end for}\\
 \> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $colour[s] = $ WHITE \textbf{then} \\
+\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
 \> \> \> \algfont{BFSvisit}($s$) \\
 \> \> \textbf{end if}\\
 \> \textbf{end for}\\
-\> \textbf{return} $pred, d$\\
+\> \textbf{return} $\pred, d$\\
 }
 
 \Algorithm{BFSvisit}{node $s$}{}
@@ -667,13 +667,13 @@ array $d$.
 \> \textbf{while not} Q.\algfont{isEmpty}() \textbf{do} \\
 \> \> $u \gets $ Q.\algfont{peek}() \\
 \> \> \textbf{for} each $v$ adjacent to $u$ \textbf{do} \\
-\> \> \> \textbf{if} $colour[v] = $ WHITE \textbf{then} \\
-\> \> \> \> $colour[v] \gets $ GREY; $pred[v] \gets u$; $d[v] \gets d[u]+1$\\
+\> \> \> \textbf{if} $\colour[v] = $ WHITE \textbf{then} \\
+\> \> \> \> $\colour[v] \gets $ GREY; $\pred[v] \gets u$; $d[v] \gets d[u]+1$\\
 \> \> \> \> Q.\algfont{insert}($v$) \\
 \> \> \> \textbf{end if} \\
 \> \> \textbf{end for} \\
 \> \> Q.\algfont{delete}() \\
-\> \> $colour[u] \gets $ BLACK \\
+\> \> $\colour[u] \gets $ BLACK \\
 \> \textbf{end while} \\
 }
 
@@ -722,19 +722,19 @@ w)\in E(G)$ and suppose that we have just chosen the grey node $v$.
 Then
 \begin{itemize}
 \item
-if $(v, w)$ is a tree arc then $colour[w] = $ WHITE, $d[w] = d[v] + 1$
+if $(v, w)$ is a tree arc then $\colour[w] = $ WHITE, $d[w] = d[v] + 1$
 \item
-if $(v, w)$ is a back arc, then $colour[w] = $ BLACK, $d[w] \leq d[v] - 1$  
+if $(v, w)$ is a back arc, then $\colour[w] = $ BLACK, $d[w] \leq d[v] - 1$  
 \item
 There are no forward arcs.
 \item
 if $(v, w)$ is a cross arc then one of the following holds:
 \begin{itemize}
-\item $d[w] < d[v] - 1$, and $colour[w] = $ BLACK;
-\item $d[w] = d[v]$, and $colour[w] = $ GREY;
-\item $d[w] = d[v]$, and $colour[w] = $ BLACK;
-\item $d[w] = d[v] - 1$, and $colour[w] = $ GREY;
-\item $d[w] = d[v] - 1$, and $colour[w] = $ BLACK.
+\item $d[w] < d[v] - 1$, and $\colour[w] = $ BLACK;
+\item $d[w] = d[v]$, and $\colour[w] = $ GREY;
+\item $d[w] = d[v]$, and $\colour[w] = $ BLACK;
+\item $d[w] = d[v] - 1$, and $\colour[w] = $ GREY;
+\item $d[w] = d[v] - 1$, and $\colour[w] = $ BLACK.
 \end{itemize}
 \end{itemize}
 \end{Theorem}
@@ -785,10 +785,10 @@ impossible by Theorem~\ref{thm:BFSdist}.
 
 For a given BFS tree, we can uniquely label the vertices of
 a digraph based on the time they were first seen. For the graph
-$G_1$ of Figure~\ref{fig:graphExample2}, we label vertex 0 with 1,
+$G_1$ of \cref{fig:graphExample2}, we label vertex 0 with 1,
 vertices \set{1,2} with labels \set{2,3}, vertices \set{3,4,8} with
 labels \set{4,5,6}, and the last vertex level \set{5,6,7} with labels
-\set{7,8,9}. These are indicated in Figure~\ref{fig:graphEx2-BFS}.
+\set{7,8,9}. These are indicated in \cref{fig:graphEx2-BFS}.
 
 \subsection*{Exercises}
 
@@ -853,7 +853,7 @@ value of $v$ can be taken as the time $v$ was first coloured grey.
 Note that this means that a given grey node can be selected many
 times---until it becomes black, in fact, it will always have minimum
 key among the grey nodes. By contrast, in DFS we can take the key
-value to be $-seen[v]$. Then the last node seen always has minimum
+value to be $-\seen[v]$. Then the last node seen always has minimum
 key. It cannot be chosen again until the nodes seen after it have
 become black.
 
@@ -871,7 +871,7 @@ book---the binary heap. In fact PFS is best described via the priority
 queue ADT (see Section~\ref{sec:app:adt-informal}).
 
 Pseudocode demonstrating the first type of PFS is presented in
-Figure~\ref{fig:PFScode}. The subroutine \algfont{setKey} there is the
+\cref{fig:PFScode}. The subroutine \algfont{setKey} there is the
 rule for giving the key value when a node is inserted. We do not include
 any code for \algfont{setKey}.
 
@@ -880,30 +880,30 @@ any code for \algfont{setKey}.
 \Algorithm{PFS}{digraph $G$}{}
 {
 \> priority queue $Q$\\
-\> array $colour[0..n-1], pred[0..n-1]$ \\
+\> array $\colour[0..n-1], \pred[0..n-1]$ \\
 \> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $colour[u] \gets $ WHITE; $pred[u] \gets $ NULL \\
+\> \> $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
 \> \textbf{end for}\\
 \> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $colour[s] = $ WHITE \textbf{then} \\
+\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
 \> \> \> \algfont{PFSvisit}($s$) \\
 \> \> \textbf{end if}\\
 \> \textbf{end for}\\
-\> \textbf{return} $pred$\\
+\> \textbf{return} $\pred$\\
 }
 
 \Algorithm{PFSvisit}{node $s$}{}
 {
-\> $colour[s] \gets $ GREY \\
+\> $\colour[s] \gets $ GREY \\
 \> Q.\algfont{insert}($s$, \algfont{setKey} $(s)$) \\
 \> \textbf{while not} Q.\algfont{isEmpty}() \textbf{do} \\
 \> \> $u \gets $ Q.\algfont{peek}() \\
-\> \>  \textbf{if} $u$ has a neighbour $v$ with $colour[v] = $ WHITE \textbf{then} \\
-\> \> \> $colour[v] \gets $ GREY \\
+\> \>  \textbf{if} $u$ has a neighbour $v$ with $\colour[v] = $ WHITE \textbf{then} \\
+\> \> \> $\colour[v] \gets $ GREY \\
 \> \> \> Q.\algfont{insert}($v$, \algfont{setKey} $(v)$) \\
 \> \> \textbf{else} \\
 \> \> \> Q.\algfont{delete}() \\
-\> \> \> $colour[u] \gets $ BLACK \\
+\> \> \> $\colour[u] \gets $ BLACK \\
 \> \> \textbf{end if} \\
 \> \textbf{end while}
 }
@@ -928,7 +928,7 @@ In this section we show how to arrange, when possible, the nodes
 of a digraph into a topological or precedence order.  Many computer
 science applications require us to find precedences (or dependencies)
 among events, such as a compiler evaluating sub-expressions of an
-expression like that shown in Figure~\ref{fig:prec}.
+expression like that shown in \cref{fig:prec}.
 
 \begin{figure}[hbtp]
 \centerline{\Ipe{./figs/precedence.ipe}}
@@ -967,7 +967,7 @@ precedences given, and no scheduling of the tasks is possible.
 
 \begin{Example}
 \label{eg:toporder}
-In Figure~\ref{fig:toporder} we list three DAGs and possible topological
+In \cref{fig:toporder} we list three DAGs and possible topological
 orders for each. Note that adding more arcs to a DAG  reduces the number
 of topological orders it has.  This is because each arc $(u,v)$ forces
 $u$ to occur before $v$, which restricts the number of valid permutations
@@ -1052,7 +1052,7 @@ finishing times yields a topological order of $G$.
 \begin{proof} 
 Consider any arc $(u,v)\in E(G)$. Since $G$ is a DAG,
 the arc is not a back arc by Theorem~\ref{thm:findDAG}. In the other three
-cases, Exercise~\ref{ex:DFS-arc-class} shows that $done[u] > done[v]$,
+cases, Exercise~\ref{ex:DFS-arc-class} shows that $\done[u] > \done[v]$,
 which means $u$ comes before $v$ in the alleged topological order.
 \end{proof}
 
@@ -1122,7 +1122,7 @@ A graph is \defnfont{connected} if for each pair of
 vertices $u, v\in V(G)$, there is a path between them.
 \end{Definition}
 
-In Example~\ref{eg:graphExample} the graph $G_1$ is connected, as is the
+In \cref{eg:graphExample} the graph $G_1$ is connected, as is the
 underlying graph of $G_2$. 
 
 If a graph is not connected, then it must have more than one ``piece".
@@ -1184,7 +1184,7 @@ So far it may seem that we have been too detailed in our treatment of
 connectedness. After all the above results are all rather obvious.
 However, now consider the situation for digraphs. The intuition of ``being all 
 in one piece" is not as useful here. In
-Example~\ref{eg:graphExample} the graph $G_1$ is connected, as is the
+\cref{eg:graphExample} the graph $G_1$ is connected, as is the
 underlying graph of $G_2$. They are ``all in one piece", but not the
 same from the point of view of reachability. For example, in digraph
 $G_2$, node $2$ is a sink. This motivates the following definition.
@@ -1234,7 +1234,7 @@ subdigraph $G_i$ is strongly connected and of maximal order.
 
 \begin{Example}\label{eg:scc}
 A digraph and its three (uniquely determined) strongly connected
-components are displayed in Figure~\ref{fig:scc}. Note that there are
+components are displayed in \cref{fig:scc}. Note that there are
 arcs of the digraph not included in the strongly connected components.
 \end{Example}
 
@@ -1256,7 +1256,7 @@ internal structure of each component, but keep the arcs between
 components). Then in the digraph resulting, if $v\neq w$ and we can
 get from $v$ to $w$ then we cannot get from $w$ to $v$. In other
 words, no pair of nodes can belong to a cycle, and hence the digraph
-is acyclic. See Figure~\ref{fig:sccdecomp}. Note that the converse
+is acyclic. See \cref{fig:sccdecomp}. Note that the converse
 is also true: if we have an acyclic digraph $G$ and replace each
 node by a strongly connected digraph, the strongly connected
 components of the resulting digraph are exactly those digraphs that
@@ -1269,7 +1269,7 @@ we inserted.
 \end{figure}
 
 Note the similarity between this and the search forest decomposition
-in Figure~\ref{fig:travdecomp}. In that case, if we shrink each
+in \cref{fig:travdecomp}. In that case, if we shrink each
 search tree to a point, the resulting digraph is also acyclic.
 
 How to determine the strongly connected components? First we observe
@@ -1341,10 +1341,10 @@ the rule for choosing nodes $r$ was the first node of $S_1$ seen in $F$
 of the first one seen, which therefore has latest finishing time). The
 analogous statement holds for $s$ and $S_2$.
 
-By the rule for choosing roots, we have $done[r] > done[s]$ in $F$. We
-cannot have $seen[s] > seen[r]$ in $F$, for then $s$ would be a descendant
+By the rule for choosing roots, we have $\done[r] > \done[s]$ in $F$. We
+cannot have $\seen[s] > \seen[r]$ in $F$, for then $s$ would be a descendant
 of $r$ in $F$ and in $G_r$, so they would belong to the same strong
-component. Thus $seen[r] > seen[s]$ in $F$. Hence $S_2$ was explored
+component. Thus $\seen[r] > \seen[s]$ in $F$. Hence $S_2$ was explored
 in $F$ before $r$ (and hence any node of $S_1$) was seen. But then $r$
 would have been reachable from $s$ in $G$ via a path of white nodes,
 so Theorem~\ref{thm:white-path} shows that $r$ and $s$ are in the same
@@ -1367,7 +1367,7 @@ find the strongly connected components of a digraph.
 \begin{Exercise}
 \label{ex:dolinscc}
 Carry out the above  algorithm by hand on the digraph of
-Example~\ref{eg:scc} and verify that the components given there are
+\cref{eg:scc} and verify that the components given there are
 correct. Then run it again on the reverse digraph and verify that the
 answers are the same.
 \end{Exercise}
@@ -1400,7 +1400,7 @@ the length of the smallest directed cycle.
 
 \begin{Example}
 \label{eg:cycles}
-In Figure~\ref{fig:cycle} are three (di)graphs.  The first has no cycles 
+In \cref{fig:cycle} are three (di)graphs.  The first has no cycles 
 (it is a free tree), the second is a DAG of girth 3, and the third has girth 4.
 \end{Example}
 
@@ -1453,7 +1453,7 @@ current level $k$ is explored.
 \begin{note}
 An easy-to-implement DFS idea may not work properly. For example,
 the DFS tree originating from vertex $0$ of the third graph of
-Figure~\ref{fig:cycle} finds only $6$-cycles with the back edges (even
+\cref{fig:cycle} finds only $6$-cycles with the back edges (even
 though a $4$-cycle exists using two of the back edges).
 \end{note}
 
@@ -1477,7 +1477,7 @@ has one endpoint in $V_0$ and one in $V_1$.
 \end{Definition}
 
 \begin{Example}
-The graph in Figure~\ref{fig:bipartite} is bipartite.  The isolated
+The graph in \cref{fig:bipartite} is bipartite.  The isolated
 vertex could be placed on either side.
 \end{Example}
 
@@ -1502,7 +1502,7 @@ that each edge of $G$ joins two vertices in different subsets.
 \end{Definition}
 
 \begin{Example}
-The graph in Figure~\ref{fig:bipartite} has a 2-colouring as indicated.
+The graph in \cref{fig:bipartite} has a 2-colouring as indicated.
 \end{Example}
 
 It is not just a coincidence that our example of a bipartite graph
@@ -1601,8 +1601,8 @@ relationship graph.  If there are no homosexual interests then we have a
 bipartite graph problem.
 \end{Example}
 
-In Figure~\ref{fig:matchbipartite} we illustrate the difference between
-a maximal and maximum matching in the setting of Example~\ref{ex:mp}.
+In \cref{fig:matchbipartite} we illustrate the difference between
+a maximal and maximum matching in the setting of \cref{ex:mp}.
 The matchings consist of bold-dashed edges (between females on the left
 and males on the right) in the drawings.
 
@@ -1617,7 +1617,7 @@ It is easy to find a maximal matching $M$ in a graph. For example,
 a simple greedy approach of
 iterating over all edges and adding each edge to $M$ if it is
 non-adjacent to anything already in $M$ will work.  As illustrated in
-Figure~\ref{fig:matchbipartite}, a maximal matching may have fewer
+\cref{fig:matchbipartite}, a maximal matching may have fewer
 edges than a more desirable maximum matching.
 
 Our algorithm to compute a maximum matching will be based on
@@ -1633,7 +1633,7 @@ on unmatched vertices.
 \end{Definition}
 
 For example, consider the augmenting path Eve--Doug--Cher--Fred of
-Figure~\ref{fig:matchbipartite}.  It contains three edges but only the
+\cref{fig:matchbipartite}.  It contains three edges but only the
 middle edge is part of a matching on the left case.  We can get the
 better matching on the right if we add Eve-Doug, remove Doug--Cher, and add 
 Cher--Fred to the existing matching.  Thus, in general, we see that we can 
@@ -1648,16 +1648,16 @@ and build a tree (via a graph traversal algorithm such as BFS)
 of alternating paths away from $v$.  If we reach another unmatched vertex 
 then we have found an augmenting path.  Otherwise, if we visit all vertices
 (in the same component as $v$) then we conclude that no augmenting 
-path exists starting at $v$.  This algorithm is given in Figure~\ref{fig:augpath}.
+path exists starting at $v$.  This algorithm is given in \cref{fig:augpath}.
 
 \begin{figure}
 \Algorithm{findAugmentingPath}{bipartite graph $G$; matching $M$;
 unmatched vertex $x$}{}
 {
 \> queue $Q$\\
-\> array $status[0..n-1]$, $pred[0..n-1]$ \\
+\> array $status[0..n-1]$, $\pred[0..n-1]$ \\
 \> \textbf{for each} $u \in V(G)$ \textbf{do} \\
-\> \> $status[u] \gets $ WHITE; $pred[u] \gets $ NULL \\
+\> \> $status[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
 \> \textbf{end for}\\
 \> $status[x] \gets $ EVEN\\
 \> $Q$.\algfont{insert}($x)$ \\
@@ -1668,9 +1668,9 @@ unmatched vertex $x$}{}
 %
 \> \> \> \textbf{for} each $v$ adjacent to $u$ \textbf{do} \\
 \> \> \> \> \textbf{if} $status[v]$ = WHITE \textbf{then} \\
-\> \> \> \> \> $status[v] \gets$ ODD; $pred[v] \gets$ u \\
+\> \> \> \> \> $status[v] \gets$ ODD; $\pred[v] \gets$ u \\
 \> \> \> \> \> \textbf{if} $v$ is unmatched in $M$ \textbf{then} \\
-\> \> \> \> \> \> \textbf{return} path $x,\ldots, pred[pred[u]], pred[u], u, v$\\
+\> \> \> \> \> \> \textbf{return} path $x,\ldots, \pred[\pred[u]], \pred[u], u, v$\\
 \> \> \> \> \> \textbf{else}\\
 \> \> \> \> \> \> $Q$.\algfont{insert}($v$) \\
 \> \> \> \> \> \textbf{end if}\\
@@ -1681,7 +1681,7 @@ unmatched vertex $x$}{}
 %
 \> \> \> $v \gets$ matched vertex of $u$ from $M$ \\
 \> \> \> \textbf{if} $status[v]$ = WHITE \textbf{then} \\
-\> \> \> \> $status[v] \gets$ EVEN; $pred[v] \gets u$ \\
+\> \> \> \> $status[v] \gets$ EVEN; $\pred[v] \gets u$ \\
 \> \> \> \> $Q$.insert($v$) \\
 \> \> \> \textbf{end if}\\
 
@@ -1701,7 +1701,7 @@ in a bipartite graph.
 \end{Theorem}
 \begin{proof}
 We first need to show that the algorithm \algfont{findAugmentingPath}, given in
-Figure~\ref{fig:augpath}, does find an augmenting path if one exists.
+\cref{fig:augpath}, does find an augmenting path if one exists.
 It is sufficient to show that if there exists at least one augmenting path 
 from vertex $x$ to some other unmatched vertex that we find any one of them 
 (in our case, by imitating BFS, it will be one of shortest length).  
@@ -1716,7 +1716,7 @@ be set to ODD if it is matched) then we know that there is
 an alternating path with the last edge including $v$ is not in the matching.
 \end{itemize}
 This process produces a tree with alternating paths rooted at $x$ as 
-illustrated in Figure~\ref{fig:augtree}.  The status of the nodes are ODD 
+illustrated in \cref{fig:augtree}.  The status of the nodes are ODD 
 or EVEN depending if they are an even or odd distance from $x$.  If a vertex 
 (first seen) is at an odd distance then we have seen an alternating path 
 where the last edge is not in the matching.  If this last vertex is unmatched 
