@@ -127,6 +127,7 @@ page~\pageref{#1}}}}:\newline }
 \DeclareMathOperator{\colour}{\text{\textit{colour}}}
 \DeclareMathOperator{\done}{\text{\textit{done}}}
 \DeclareMathOperator{\seen}{\text{\textit{seen}}}
+\DeclareMathOperator{\status}{\text{\textit{status}}}
 \DeclareMathOperator{\timeVar}{\text{\textit{time}}}
 
 \usepackage{mathtools}
@@ -134,8 +135,8 @@ page~\pageref{#1}}}}:\newline }
 
 
 % ## Algos ## ----------------------------------------------
-\newcommand{\AlgCmt}[1]{\psframebox[linecolor=lightgray]{\ #1\ }}
-\newcommand{\AdjLists}[1]{\psframebox[linecolor=lightgray]{\ #1\ }}
+\newcommand{\AlgCmt}[1]{\fcolorbox{lightgray}{white}{#1}}
+\newcommand{\AdjLists}[1]{\lightgraybox{#1}}
 
 \newcommand{\Algorbody}[1]{
 \begin{tabbing}
@@ -212,11 +213,32 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 
 % # title page
 %\input{titlepageOld} % <- coursebook version
-
-\author{David Welch, Mark C. Wilson, Jonathan Klawitter}
 \title{CS220 Algorithms and Data Structures}
+\author{David Welch $\quad$ Mark C. Wilson $\quad$ Jonathan Klawitter}
 \date{\today}
-\maketitle
+
+\begin{titlingpage}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\aliaspagestyle{titlingpage}{plain}
+\setlength{\droptitle}{30pt} 
+\begin{adjustwidth*}{1cm}{-2cm}
+\centering
+
+\vspace*{0.4cm}
+\textsc{\LARGE The University of Auckland}\\[3cm]
+
+\textsc{\Large Coursebook for}\\[0.4cm]
+
+\HRule\\[0.5cm]
+\Huge{\bfseries CS220\\ 
+Algorithms and Data Structures}\\[0.1cm]
+\HRule\\[2.6cm]
+
+\LARGE{\theauthor}
+
+\end{adjustwidth*}
+\end{titlingpage}
+
 
 
 % - ### front matter ### -
