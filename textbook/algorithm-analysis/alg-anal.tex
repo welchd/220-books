@@ -473,7 +473,7 @@ read $O()$ as ``Big Oh'' rather than ``Big Omicron''.
 The algorithms are analysed under the following assumption: \emph{if
 the running time of an algorithm as a function of $n$ differs only by a
 constant factor from the  running time for another algorithm, then the
-two algorithms have essentially the same time complexity.} Functions that
+two algorithms have essentially the same running time.} Functions that
 measure running time, $T(n)$, have nonnegative values because time is
 nonnegative, $T(n) \ge 0$. The integer argument $n$ (data size) is also
 nonnegative.
@@ -807,19 +807,19 @@ Reformulate and prove Lemmas~\ref{l:bigoh:1}--\ref{l:bigoh:4}
 for ``Big Omega'' notation. 
 \end{Exercise}
 
-\section{Time complexity of algorithms} 
+\section{running time of algorithms} 
 \label{time-compl}
 
 \begin{Definition} [Informal]
 A function $f(n)$ such that the running time $T(n)$ of a given 
-algorithm is $\Theta(f(n))$ measures the \defnfont{time complexity} 
+algorithm is $\Theta(f(n))$ measures the \defnfont{running time} 
 of the algorithm.
 \end{Definition}
 
 An algorithm is called \defnfont{polynomial time} if its running time $T(n)$
 is $O(n^{k})$ where $k$ is some fixed positive integer. A computational
 problem is considered \defnfont{intractable} iff no deterministic
-algorithm with polynomial time complexity exists for it. But many problems
+algorithm with polynomial running time exists for it. But many problems
 are classed as intractable only because a polynomial solution is unknown,
 and it is a very challenging task to find such a solution for one of them.
  
@@ -830,7 +830,7 @@ and it is a very challenging task to find such a solution for one of them.
   the input size increases from $n=8$ to $n=1024$ provided that $T(8)=1$.} 
   \centerline{
    \begin{tabular}{|c|c|cccc|c|} \hline 
-   \multicolumn{2}{|c|}{\textbf{Time complexity}} &  
+   \multicolumn{2}{|c|}{\textbf{running time}} &  
    \multicolumn{4}{|c|}{\textbf{Input size $n$}} & \textbf{Time} $T(n)$
 \\ \cline{1-6} 
    \emph{Function} & \emph{Notation} & \emph{8} & \emph{32} & \emph{128} & \emph{1024} &
@@ -855,8 +855,8 @@ and it is a very challenging task to find such a solution for one of them.
  \end{table} 
 
 Table~\ref{t:growth} shows how the running time \(T(n)\) of algorithms
-having different time complexity, $f(n)$, grows relatively with the
-increasing input size $n$.  Time complexity functions are listed in
+having different running time, $f(n)$, grows relatively with the
+increasing input size $n$.  running time functions are listed in
 order such that $g$ is $O(f)$ if $g$ is above $f$: for example, the
 linear function \(n\) is \(O(n\log n) \) and \(O(n^2 )\), etc. The 
 asymptotic growth rate does not depend on the base of the logarithm, but the 
@@ -866,7 +866,7 @@ exact numbers in the table do --- we use $\log_{2} = \lg$ for simplicity.
 \caption[The largest data sizes $n$ that can be
 processed by an algorithm.]%
 {\label{t:data-size} The largest data sizes $n$ that can be
-processed by an algorithm with time complexity $f(n)$
+processed by an algorithm with running time $f(n)$
 provided that $T(10)= 1$ minute.} 
 \begin{center}
    \begin{tabular}{|c|r|r|r|r|r|r|} \hline
@@ -891,7 +891,7 @@ $5.26\times  10^{7}$  \\ \hline
  \end{table} 
  
 Table~\ref{t:data-size} is even more expressive in showing
-how the time complexity of an algorithm affects the size of problems the
+how the running time of an algorithm affects the size of problems the
 algorithm can solve (we again use $\log_{2} = \lg$). A linear algorithm solving 
 a problem of size $n=10$ in exactly one minute will process about $5.26$ million  
 data items per year and 10 times more if we can wait a decade. 
@@ -905,14 +905,14 @@ respectively. But for exponential algorithms, our progress is much worse:
 we can add only $13$ more input values if $T(n)$ is $\Theta(2^n)$.
 
 Therefore, if our algorithm has a constant, logarithmic, log-square, linear, 
-or even ``$n \log n$'' time complexity we may be happy and start writing a 
+or even ``$n \log n$'' running time we may be happy and start writing a 
 program with no doubt that it will meet at least some practical demands. 
 Of course, before taking the plunge, it is better to check whether the hidden 
 constant $c$, giving the computation volume per data item, is sufficiently small
 in our case. Unfortunately, order relations can be drastically
 misleading: for instance, two linear functions $10^{-4}n$ and $10^{10}n$
 are of the same order $O(n)$, but we should not claim an
-algorithm with the latter time complexity as a big success.
+algorithm with the latter running time as a big success.
 
 Therefore, we should follow a simple rule: \emph{roughly estimate 
 the computation volume per data item for the algorithms after comparing
@@ -1023,7 +1023,7 @@ one century (10 decades) and one millennium (10 centuries).
 
 \begin{Exercise}\label{exr:aa:time-cmplx}
 Add rows to Table~\ref{t:growth} for 
-algorithms with time complexity \(f(n)=\lg\lg n\)
+algorithms with running time \(f(n)=\lg\lg n\)
 and \(f(n)=n^{2}\lg n\).
 \end{Exercise}
 

@@ -2,43 +2,303 @@
 
 \chapter{Lecture: What is an algorithm and why analyse it?}
 
-\chapter{Lecture: How to measure running time?}
+
+An \emph{algorithm} is a sequence of clearly stated rules that
+specify a step-by-step method for solving a given problem.
+The rules should be unambiguous and
+sufficiently detailed that they can be carried out without creativity.
+
+Examples of algorithms: a (sufficiently detailed) cake recipe,
+primary school method for multiplication of decimal integers; quicksort.
+
+Algorithms predate electronic computers by thousands of years (example:
+Euclid's greatest common divisor algorithm).
+
+A \emph{program} is a sequence of computer instructions implementing the 
+algorithm.
+
+Experience shows that enormously more performance gains can be achieved 
+by optimizing the algorithm than by optimizing other factors such as:
+processor, language, compiler, human programmer.
+The analysis process often results in us discovering simpler algorithms.
+Many algorithms have parameters that must be set before implementation. 
+Analysis allows us to set the optimal values.
+Algorithms that have not been analysed for correctness often lead to 
+major bugs in programs.
+
+
+\begin{example}
+The Fibonacci sequence is recursively defined by 
+$$
+F(n) = 
+\begin{cases}
+n & \quad \text{if $n = 0$ or $n = 1$;} \\
+F(n - 1) + F(n - 2) & \quad \text{if $n \geq 2$.} 
+\end{cases}
+$$
+This immediately suggests a recursive algorithm.
+\end{example}
+
+\if01
+\begin{algorithm}[H]
+  \caption{Slow method for computing Fibonacci numbers
+    \label{alg:slowfib}}
+\begin{algorithmic}[1]
+\Function{slowfib}{integer $n$}
+\If{$n < 0$} 
+\Return{$0$}
+\ElsIf{$n = 0$} 
+\Return{$0$}
+\ElsIf{$n = 1$} 
+\Return{$1$}
+\Else{ \Return{\Call{slowfib}{$n-1$} + \Call{slowfib}{$n-2$}}}
+\EndIf
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+\fi
+
+The algorithm \texttt{slowfib} is obviously correct, but does a lot of 
+repeated computation. With a small (fixed) amount of extra space, we can do better, by 
+working from the bottom up instead of from the top down.
+
+\if01
+\begin{algorithm}[H]
+  \caption{Fast method for computing Fibonacci numbers
+    \label{alg:fastfib}}
+\begin{algorithmic}[1]
+\Function{fastfib}{integer $n$}
+\If{$n < 0$} 
+\Return{$0$}
+\ElsIf{$n = 0$} 
+\Return{$0$}
+\ElsIf{$n = 1$} 
+\Return{$1$}
+\Else
+\Let{$a$}{$1$} \Comment{stores $F(i)$ at bottom of loop}
+\Let{$b$}{$0$}  \Comment{stores $F(i-1)$ at bottom of loop}
+\For{$i \gets 2$ \text{to} $n$}
+\Let{$t$}{$a$}
+\Let{$a$}{$a+b$}
+\Let{$b$}{$t$}
+\EndFor
+\EndIf
+\State \Return{$a$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+\fi
+. 
+Proving correctness of \texttt{fastfib} is done by induction on $n$.  We omit the proof here.
+%\item In fact even a bad implementation in a slow interpreted language on an 
+%ancient machine of \texttt{fastfib} will beat the best implementation of 
+%\texttt{slowfib}, once $n$ becomes big enough.
+It is easy to see that the number of additions, function calls, etc needed by 
+\texttt{fastfib} to compute $F(n)$ has the form $An+B$ for some constants 
+$A, B$.
+
+\chapter{Lecture: how to measure running time}
+
+
+There are three main characteristics of an algorithm designed to solve a given 
+problem.
+\begin{itemize}
+\item Domain of definition: the set of legal inputs. 
+\item Correctness: it gives correct output for each legal input. 
+This depends on the problem we are trying to solve, and can be tricky to 
+prove. 
+\item Resource use: usually computing time and memory space. 
+\begin{itemize} 
+\item This depends on the input, and on the implementation 
+(hardware, programmer skill, compiler, language, ...). 
+\item It usually grows as the input size grows. 
+\item There is a tradeoff between resources (for example, time vs space). 
+\item Running time is usually more important than space use. 
+\end{itemize}
+\end{itemize}
+
+In this course we mainly consider how to estimate resource use of an algorithm, 
+ignoring implementation as much as possible.  
+
+
+
+Given an algorithm $\algo$, the actual running time on a given
+input $\inp$ depends on many implementation details. This is not desirable
+because it does not allow direct comparison of algorithms. 
+The running time usually grows with the size of the input.
+Running time for very small inputs is not usually important; it is large
+inputs that cause problems if the algorithm is inefficient. 
+%\item We usually don't want to have to consider the distribution of
+%running time over all possible inputs of a given size. There may be (infinitely)
+% many inputs of a given size, and running time may vary widely on these. 
+
+
+We use a clean mathematical model of the problem. Example: sorting 
+distinct records is really the same problem as computing the inverse of a 
+permutation. We define a notion of  \emph{input size} on the data. This is a positive integer. 
+Example: number of records in a database to be sorted.
+
+We use the concept of \emph{elementary operation} as our basic measuring 
+unit of running time. This is any operation whose execution time does not depend on the size of the input.
+The running time $T(\inp)$ of algorithm $\algo$ on input $\inp$ is the 
+number of elementary operations used when $\inp$ is fed into $\algo$.
+%\item We usually don't want to have to consider the distribution of
+%running time over all possible inputs of a given size. There may be (infinitely)
+% many inputs of a given size, and running time may vary widely on these. 
+%\item We consider statistics of $T(\inp)$ such as \emph{worst-case} $W(n)$ or 
+%\emph{average-case} $A(n)$ running time for instances $\inp$ of size $n$.
+%\item We consider only \emph{asymptotic} (large-$n$) comparison of running 
+%time.
+
+
+
+
+
+%\frametitle{How running time scales with problem size}
+\begin{table}[htb] 
+ % \caption{\label{t:growth} Growth in running time as problem size grows} 
+   \begin{tabular}{|c|c|cccc|} \hline 
+   \multicolumn{2}{|c|}{\textbf{Running time}} &  
+   \multicolumn{4}{|c|}{\textbf{Input size}} 
+\\ \cline{1-6} 
+   \emph{Function}     & \emph{Notation} & $10$ & $100$ & $1000$ & $10^7$
+\\ \hline 
+   Constant     & $1$      & 1  & 1  &   1 &   1 \\ \hline 
+   Logarithmic  & $\lg n$ & 1  & 2& 3 & 7  \\ \hline 
+   Linear       & $n$ & 1 & 10 & 100 & $10^6$   \\ \hline 
+``Linearithmic" & $n  \lg n$ & 1 & 20 & 300 & $7\times 10^6$ \\ \hline 
+   Quadratic    & $n^{2}$ & 1 & 100 & 10000 & $10^{12}$ \\ \hline 
+   Cubic        & $n^{3}$ & 1 & 1000 & $10^6$ &  $10^{18}$ \\ \hline 
+   Exponential  & $2^{n}$ & 1 & $10^{27}$ & $10^{298} $ & $10^{3010296}$  \\ \hline 
+   \end{tabular}
+ \end{table} 
+ 
+  Note: there are about $3\times 10^{18}$ nanoseconds in a century.
+
+
+
+
+
+\begin{Boxample}[4]
+\label{exr:time-compl:2}
+A quadratic algorithm with processing time \(T(n)=cn^2 \)
+uses 500 elementary operations for processing $10$ data items. How many will it 
+use for processing $1000$ data items? 
+\end{Boxample}
+
+\begin{Boxample}[4]
+Algorithm $A$ takes $n^2$ elementary operations to sort a file of $n$ lines, while Algorithm $B$ takes $50n\lg n$. 
+Which algorithm is better when $n = 10$? when $n=10^6$? How do we decide which algorithm to use?
+\end{Boxample}
+
+\begin{Boxample}[4]
+\label{exr:time-compl:7A}
+Algorithms \textbf{A} and 
+\textbf{B} use
+exactly \(T_\mathrm{A}(n) = c_\mathrm{A} n \lg n\)
+and \(T_\mathrm{B}(n) = c_\mathrm{B} n^{2}\) elementary operations, 
+respectively, for a problem of size \(n\).
+Find the fastest algorithm for processing \(n=2^{20}\) data items if
+\textbf{A} and \textbf{B} spend 10 and 1 operations,
+respectively, to process \(2^{10}\equiv 1024\) items.
+\end{Boxample}
+
+
+
+\chapter{Lecture: Techniques for estimating running time}
+
+
+The above examples show that running time depends considerably on how
+deeply the loops are nested and how the loop control variables are
+changing. Suppose the control variables change linearly in $n$, that
+is, increase or decrease by constant steps. If the number of elementary
+operations in the innermost loop is constant, the nested loops result
+in polynomial running time $T(n) = c  n^{k}$ where $k$ is
+the highest level of nesting and $c$ is some constant. The first three
+values of $k$ have special names: \defnfont{linear time}, 
+\defnfont{quadratic time},
+and \defnfont{cubic time} for $k=1$ (a single loop), $k=2$ (two nested
+loops), and $k=3$ (three nested loops), respectively.
+
+When loop control variables change non-linearly,
+the running time also varies non-linearly with $n$.
+
+\begin{Example} 
+An exponential change \(i=1,k,k^2 ,\ldots, k^{m-1}\) of
+the control variable  in the
+range \(1 \le i \le n\) results in \defnfont{logarithmic time}
+for a simple loop. The loop executes $m$ 
+iterations where $m$ is the unique integer such that $k^{m-1} \le  n  < k^{m}$. Thus, $m-1 \le \log_{k} n
+< m$, and $T(n) = c  \lceil \log_{k} n \rceil$.
+\end{Example}
+ 
+Additional conditions for executing inner loops only for special values of 
+the outer variables also decrease running time. 
+
+\begin{Boxample}[6]
+\label{exm:nest2}
+Let us roughly estimate the running time of the following nested loops:
+ 
+\hspace*{.3in}\begin{minipage}{5in}
+\Algorbody
+{
+\(m \leftarrow 2\) \\
+\textbf{for} \(j \leftarrow 1\) \textbf{to} \(n\) \textbf{do}\\
+\>\textbf{if} \(j = m \) \textbf{then} \\
+\>\> \(m \leftarrow 2m\) \\
+\>\>\textbf{for} \(i \leftarrow  1\) \textbf{to} \(n\) \textbf{do}\\
+\>\>\>$\ldots$ \AlgCmt{constant number of elementary operations} \\
+\>\>\textbf{end for} \\
+\>\textbf{end if}\\
+\textbf{end for}\\
+}
+\end{minipage}
+
+The inner loop is executed $k$ times for $j=2, 4, \ldots, 2^{k}$
+where $k < \lg n \le k+1$. The total time for the elementary operations is 
+proportional to $kn$, that is, $T(n)=  n  \lfloor \lg n \rfloor$.    
+\end{Boxample}
+
+\begin{Boxample}[6]
+\label{exm:nest1}
+Is the running time quadratic or linear for the nested loops below?\\
+
+\begin{minipage}{5in}
+\Algorbody
+{
+\(m \leftarrow 1\) \\
+\textbf{for} \(j \leftarrow 1\) \textbf{step} \(j \leftarrow j+1\) 
+                                    \textbf{until} \(n\) \textbf{do}\\
+\>\textbf{if} \(j = m \) \textbf{then} \(m \leftarrow m \cdot (n-1)\) \\
+\>\>\textbf{for} \(i \leftarrow  0\) \textbf{step} \(i \leftarrow i+1\) 
+                                       \textbf{until} \(n-1\) \textbf{do}\\
+\>\>\>$\ldots$ \AlgCmt{constant number of elementary operations} \\
+\>\>\textbf{end for} \\
+\>\textbf{end if}\\
+\textbf{end for} \\
+}
+\end{minipage}
+
+\end{Boxample}
+
+
+Conditional and switch operations like \textbf{if}
+\{\emph{condition}\} \textbf{then} \{\emph{constant running time}
+$T_1$\} \textbf{else} \{\emph{constant running time} $T_2$\} involve
+relative frequencies of the groups of computations.  The running time
+$T$ satisfies $T = f_\mathrm{true} T_1 + (1 - f_\mathrm{true}) T_2 <
+\max \{ T_1, T_2 \}$ where $f_\mathrm{true}$ is the relative frequency
+of the true condition value in the if-statement.
+
+The running time of a function or method call is $T = \sum_{i=1}^{k}T_i$
+where $T_i$ is the running time of statement \(i\) of the function
+and $k$ is the number of statements.
+
 
 \chapter{Lecture: Asymptotic notation}
 
 % ------vvv inserted from book vvv---------
-Two simple concepts separate properties of an algorithm itself from
-properties of a particular computer, operating system, programming
-language, and compiler used for its implementation. The concepts,
-briefly outlined earlier, are as follows: 
-\begin{itemize}
- \item The \defnfont{input data size}, or
-the number $n$ of individual data items in a single data instance to be
-processed when solving a given problem. Obviously, how to measure the data
-size depends on the problem: \(n\) means the number of items to sort (in sorting
-applications),
-number of nodes (vertices) or arcs (edges) in graph algorithms, number
-of picture elements (pixels) in image processing, length of a character
-string in text processing, and so on.  
-\item The number of elementary operations taken by a particular algorithm, or its
-running time. We assume it is a function $f(n)$ of the input data size
-$n$. The function depends on the elementary operations chosen to build the
-algorithm. 
-\end{itemize} 
 
-The running time of a program which implements
-the algorithm is $c  f(n)$ where $c$ is a constant factor depending
-on a computer, language, operating system, and compiler. Even if we don't know 
-the value of the factor \(c\), we are able to answer the important question:
-\emph{if the input size increases from $n=n_{1}$ to $n=n_{2}$, how does
-the relative running time of the program change, all other things being equal?}
-The answer is obvious: the 
-running time increases by a factor of 
-\( 
-\frac{T(n_{2})}{T(n_{1})} = 
-\frac{c  f(n_{2})}{c  f(n_{1})} =  
-\frac{f(n_{2})}{f(n_{1})}
-\). 
 
 As we have already seen, the approximate running time for large input
 sizes gives enough information to distinguish between a good and a bad
