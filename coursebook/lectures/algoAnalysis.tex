@@ -173,9 +173,7 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
    \end{tabular}
  \end{table} 
  
-  Note: there are about $3\times 10^{18}$ nanoseconds in a century.
-
-
+ Note: there are about $3\times 10^{18}$ nanoseconds in a century.
 
 
 
@@ -204,36 +202,124 @@ respectively, to process \(2^{10}\equiv 1024\) items.
 \end{Boxample}
 
 
-
 \chapter{Lecture: Techniques for estimating running time}
 
+Here are some easy basic rules.
+\begin{itemize}
+\item Running time of disjoint blocks adds.
+\item Running time of nested  loops with non-interacting variables multiplies.
+%\item An algorithm consisting of a fixed number $k$ of nested loops going from $1$ to $n$,
+%with a constant number of elementary operations each time, has running
+%time of the form $C n^k$ for some constant $C$; if $k = 2$ or $k=3$, this is a 
+%\alert{quadratic} or \alert{cubic} time algorithm. 
+\item Example: single, double, triple loops with fixed number of elementary operations inside the inner loop yields linear, quadratic, cubic running time.
+\end{itemize}
 
-The above examples show that running time depends considerably on how
-deeply the loops are nested and how the loop control variables are
-changing. Suppose the control variables change linearly in $n$, that
-is, increase or decrease by constant steps. If the number of elementary
-operations in the innermost loop is constant, the nested loops result
-in polynomial running time $T(n) = c  n^{k}$ where $k$ is
-the highest level of nesting and $c$ is some constant. The first three
-values of $k$ have special names: \defnfont{linear time}, 
-\defnfont{quadratic time},
-and \defnfont{cubic time} for $k=1$ (a single loop), $k=2$ (two nested
-loops), and $k=3$ (three nested loops), respectively.
 
-When loop control variables change non-linearly,
-the running time also varies non-linearly with $n$.
+\begin{Example}
+\begin{algorithm}[H]
+  \caption{Swapping two elements in an array
+    \label{alg:swap}}
+\begin{algorithmic}[0]
+\Require{$0 \leq i \leq j \leq n-1$}
+\Function{swap}{array $a[0..n-1]$, integer $i$, integer $j$}
+\State $t \gets a[i]$
+\State $a[i] \gets a[j]$
+\State $a[j] \gets t$
+\State \Return{$a$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
-\begin{Example} 
-An exponential change \(i=1,k,k^2 ,\ldots, k^{m-1}\) of
-the control variable  in the
-range \(1 \le i \le n\) results in \defnfont{logarithmic time}
-for a simple loop. The loop executes $m$ 
-iterations where $m$ is the unique integer such that $k^{m-1} \le  n  < k^{m}$. Thus, $m-1 \le \log_{k} n
-< m$, and $T(n) = c  \lceil \log_{k} n \rceil$.
+This is a constant time algorithm.
 \end{Example}
- 
-Additional conditions for executing inner loops only for special values of 
-the outer variables also decrease running time. 
+
+
+\begin{Example}
+\begin{algorithm}[H]
+  \caption{Finding the maximum in an array
+    \label{alg:findmax}}
+\begin{algorithmic}[0]
+\Function{findmax}{array $a[0..n-1]$}
+\State $k \gets 0$ \Comment{location of maximum so far}
+\For {$j \gets 1$ \text{to} $n-1$} 
+\If {$a[k] < a[j]$}
+\State{$k = j$} 
+\EndIf
+\EndFor
+\State \Return{$k$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+This is a linear time algorithm, since it makes one pass through the array and does a constant amount of work each time.
+\end{Example}
+
+
+
+\begin{Example}
+\frametitle{Snippet: other loop increments}
+\begin{algorithm}[H]
+  \caption{Example: exponential change of variable in loop
+    \label{alg:runtime1}}
+\begin{algorithmic}[0]
+\State \Let{$i$}{1}
+\While{$i < n$}
+\State $i \gets 2*i$
+\State \text{print} $i$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+This runs in logarithmic time because $i$ doubles about $\lg n$ times until reaching $n$.
+\end{Example}
+
+\begin{Example}
+\begin{algorithm}[H]
+  \caption{Snippet: Nested loops
+    \label{alg:nestloop}}
+\begin{algorithmic}[0]
+\For {$i \gets 1$ \text{to} $n$} 
+\For {$j \gets i$ \text{to} $n$} 
+\State \text{print} $i+j$
+\EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+\end{Example}
+
+What do we do if the control flow of the algorithm is more complicated? For example, how do we handle \textbf{if} statements?
+
+\begin{frame}
+\frametitle{Estimating running time: harder example}
+\begin{tabbing}
+xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
+\textbf{for} ($i = 1; i < n; i\gets 2*i$) \\
+\> \textbf{for} ($j = 1; j < n; j \gets 2*j$) \\
+\> \> \textbf{if} ($j = 2*i$) \\
+\> \> \> \textbf{for} ($k = 0; k < n; k\gets k+1$) \\
+\> \> \> \> \{ constant number of operations \} \\
+\> \> \textbf{else} \\
+\> \> \> \textbf{for} ($k = 1; k < n; k\gets 3*k$) \\
+\> \> \> \> \{ constant number of operations \}
+\end{tabbing}
+\pause
+The $i$-loop has $l:=\lfloor \lg n \rfloor$ iterations, as does the $j$-loop. 
+For each $i$ (except the last value, $i = 2^l$) the if-statement executes for 
+exactly one value of $j$. The number of elementary operations is roughly 
+proportional to $\lg n (n + (\lg n - 1)\log_3 n)$. 
+\end{frame}
+
+
+
+\begin{frame}
+\begin{itemize}[<+->]
+\item \texttt{slowfib} makes $F(n)$ function calls each of which involves a
+constant number of elementary operations. It turns out that $F(n)$ grows
+exponentially in $n$, so this is an \alert{exponential time algorithm}.
+\end{itemize}
+\end{frame}
+
 
 \begin{Boxample}[6]
 \label{exm:nest2}
