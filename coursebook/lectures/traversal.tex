@@ -2,7 +2,7 @@
 \label{ch:traversal}
 
 
-\chapter{Lecture: Graph traversal algorithms}
+\chapter{Graph traversal algorithms}
 
 Traversals involve visiting each node of a digraph in a systematic way using only the structure of the digraph. 
 This is a very common task when dealing with graphs.
@@ -241,7 +241,7 @@ tree.
 \end{itemize}
 \end{Exercise}
 
-\chapter{Lecture: Depth First Seach(DFS)}
+\chapter{Depth First Seach (DFS)}
 
 \section{DFS and BFS}
 \label{sec:BFSDFS}
@@ -631,7 +631,7 @@ Prove Theorem~\ref{thm:white-path} by using induction.
 \end{Exercise}
 
 
-\chapter{Lecture: Breadth First Search (BFS) and Priority First Search (PFS)}
+\chapter{Breadth First Search (BFS) and Priority First Search (PFS)}
 
 \section{Additional properties of breadth-first search}
 \label{sec:bfs}
@@ -918,7 +918,7 @@ sections. Applications of PFS will be discussed in
 Chapter~\ref{ch:weighted}.
 
 %\subsection*{Exercises}
-\chapter{Lecture: Cycles, Girth and Topological Sort}
+\chapter{Cycles, Girth and Topological Sort}
 
 
 \section{Acyclic digraphs and topological ordering}
@@ -976,7 +976,7 @@ of the vertices.
 
 \begin{figure}
 % \centerline{\IpeScale{80}\Ipe{./figs/graphEx4.ipe}}
-
+Jo-TODO
 \caption{Topological orders of some DAGs.}
 \label{fig:toporder}
 \end{figure}
@@ -1108,7 +1108,7 @@ Give a simple way to check whether a graph $G$ is acyclic. Does the method
 for finding a DAG given above work for acyclic graphs also?
 \end{Exercise}
 
-\chapter{Lecture: connectivity/components, strong components}
+\chapter{Connectivity, components, strong components}
 
 \section{Connectivity}
 \label{sec:connectivity}
@@ -1239,8 +1239,8 @@ arcs of the digraph not included in the strongly connected components.
 \end{Example}
 
 \begin{figure}[htbp]
-% \centerline{\Ipe{./figs/SCC.ipe}}
-
+\centering
+\includegraphics{SCC}
 \caption{A digraph and its strongly connected components.}
 \label{fig:scc}
 \end{figure}
@@ -1263,7 +1263,8 @@ components of the resulting digraph are exactly those digraphs that
 we inserted.
 
 \begin{figure}[htbp]
-%\input{figs/wDecomp2.pstex_t}
+\centering
+\includegraphics{decomposition2}
 \caption{Structure of a digraph in terms of its strong components.}
 \label{fig:sccdecomp}
 \end{figure}
@@ -1317,7 +1318,7 @@ from among white nodes that finished latest in $F$}.
 Then each DFS tree in the search of $G_r$ definitely contains the strong
 component $S$ of the root $r$. To see this, note that no node in that
 strong component could have been visited before in $G_r$, otherwise $r$
-would have already been visited. By Theorem~\ref{thm:white-path}, every
+would have already been visited. By \cref{thm:white-path}, every
 node in the strong component of $r$ is a descendant of $r$.
 
 The only thing that could go wrong is that a search tree in $G_r$
@@ -1405,8 +1406,8 @@ In \cref{fig:cycle} are three (di)graphs.  The first has no cycles
 \end{Example}
 
 \begin{figure}
-
-% \centerline{\IpeScale{80}\Ipe{./figs/graphEx3.ipe}}
+\centering
+\includegraphics{graphEx3}
 \caption{Some (di)graphs with different cycle behaviour.}
 \label{fig:cycle}
 \end{figure}
@@ -1460,7 +1461,7 @@ though a $4$-cycle exists using two of the back edges).
 To compute the girth of a graph, we can simply run the above algorithm
 from each vertex in turn, and take the minimum cycle length achieved.
 
-\chapter{Lecture: bipartite graphs and matchings}
+\chapter{Bipartite graphs and matchings}
 
 
 \subsection{Bipartite graphs}
@@ -1482,8 +1483,8 @@ vertex could be placed on either side.
 \end{Example}
 
 \begin{figure}
-\centerline{\includegraphics[width=3cm]{figs/wBipartite.eps}}
-
+\centering
+\includegraphics{bipartiteEx} 
 \caption{A bipartite graph.}
 \label{fig:bipartite}
 \end{figure}
@@ -1607,8 +1608,8 @@ The matchings consist of bold-dashed edges (between females on the left
 and males on the right) in the drawings.
 
 \begin{figure}
-\centerline{\includegraphics[width=4.4in]{figs/bipartitematching}}
-
+\centering
+\includegraphics{bipartiteMatching}
 \caption{A maximal and maximum matching in a bipartite graph.}
 \label{fig:matchbipartite}
 \end{figure}
@@ -1727,8 +1728,8 @@ where the last edge is in the matching.  Since the graph is bipartite the
 status of being ODD or EVEN is unambiguous.
 
 \begin{figure}
-\centerline{\includegraphics[width=3.8in]{figs/augtree}}
-
+\centering
+\includegraphics{augtree} 
 \caption{Structure of the graph traversal tree for finding augmenting paths.}
 \label{fig:augtree}
 \end{figure}
