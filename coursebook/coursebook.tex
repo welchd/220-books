@@ -3,39 +3,16 @@
 \checkandfixthelayout
 
 
-% ## customizing section titles ## ----------------------------------------------
-\usepackage{titlesec}      
-\titleformat{\section}{\bfseries\large}{\thesection}{3pt}{}
-\titlespacing{\section}{0pt}{8pt}{4pt}
-\titleformat{\subsection}{\itshape}{\thesubsection}{2pt}{}
-\titlespacing{\subsection}{0pt}{4pt}{2pt}
-\titleformat{\subsubsection}[runin]{\scshape}{}{0em}{}
-\titlespacing{\subsubsection}{0pt}{5pt}{5pt}
-% ## customizing captions ## ----------------------------------------------
-\usepackage[font=small,labelformat=simple]{caption}
-
-
 % ## pagestyle ## ----------------------------------------------
 %\usepackage[papersize={5.4in,7.2in},hmargin=0.1in,vmargin={0.1in,0.1in}]{geometry}  % page geometry
 %\special{papersize=5.4in,7.2in}
 \usepackage{geometry}
 \geometry{a4paper, top=4cm, bottom=4cm, outer=5cm, inner=2cm, marginparwidth=2.5cm, marginparsep=2cm}
-
-\usepackage{eso-pic}
-\newcommand\BackgroundPic{%
-\put(-220,3){%
-\parbox[b][\paperheight]{\paperwidth}{%
-\vfill
-\centering
-\includegraphics[width=\paperwidth,height=\paperheight,%
-keepaspectratio]{figs/wNodeStatesBW.eps}%
-\vfill
-}}} 
-
-%%%%%%%%%%%%%%%%%%%%%%%
+ 
 
 % ## packages for graphics, etc ## ----------------------------------------------
 \usepackage{ipe} % remove when figures replaced
+\usepackage[usenames,dvipsnames,table]{xcolor}
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.pdf,.png,.eps}
 \graphicspath{{figs/}} 
@@ -64,6 +41,30 @@ keepaspectratio]{figs/wNodeStatesBW.eps}%
 
 % boxes
 \newcommand{\lightgraybox}[1]{\fcolorbox{lightgray}{white}{$\displaystyle #1$}}
+
+% ## customizing section titles ## ----------------------------------------------
+\usepackage{titlesec}      
+\titleformat{\section}{\bfseries\large}{\thesection}{3pt}{}
+\titlespacing{\section}{0pt}{8pt}{4pt}
+\titleformat{\subsection}{\itshape}{\thesubsection}{2pt}{}
+\titlespacing{\subsection}{0pt}{4pt}{2pt}
+\titleformat{\subsubsection}[runin]{\scshape}{}{0em}{}
+\titlespacing{\subsubsection}{0pt}{5pt}{5pt}
+\titleformat{\chapter}[display]{\bfseries\Huge}{}{0.5ex} 
+{    
+	\rule{\textwidth}{1pt}
+    \vspace{1ex}
+	\LARGE
+	Lecture \thechapter\\
+	\huge
+}[
+	\vspace{-0.5ex}%
+	\rule{\textwidth}{1pt}
+]
+\titlespacing*{\chapter}{0pt}{-120pt}{30pt}
+ 
+% ## customizing captions ## ----------------------------------------------
+\usepackage[font=small,labelformat=simple]{caption}
 
 
 % ## math theorems ----------------------------------------------
@@ -122,13 +123,14 @@ keepaspectratio]{figs/wNodeStatesBW.eps}%
 {\medskip \noindent{\textsc{\textbf{Solution to \cref{#1} on
 page~\pageref{#1}}}}:\newline }
 
-% or just \DeclareMathOperator{\pred}{\text{pred}}
 \DeclareMathOperator{\pred}{\text{\textit{pred}}}
 \DeclareMathOperator{\colour}{\text{\textit{colour}}}
 \DeclareMathOperator{\done}{\text{\textit{done}}}
 \DeclareMathOperator{\seen}{\text{\textit{seen}}}
 \DeclareMathOperator{\status}{\text{\textit{status}}}
 \DeclareMathOperator{\timeVar}{\text{\textit{time}}}
+\DeclareMathOperator{\algo}{\text{\texttt{algo}}}
+\DeclareMathOperator{\inp}{\text{\texttt{inp}}}
 
 \usepackage{mathtools}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
@@ -138,6 +140,11 @@ page~\pageref{#1}}}}:\newline }
 \newcommand{\AlgCmt}[1]{\fcolorbox{lightgray}{white}{#1}}
 \newcommand{\AdjLists}[1]{\lightgraybox{#1}}
 
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\newcommand*\Let[2]{\State #1 $\gets$ #2}
+
+% below obsolete, remove when algos converted
 \newcommand{\Algorbody}[1]{
 \begin{tabbing}
 xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
@@ -265,7 +272,6 @@ Algorithms and Data Structures}\\[0.1cm]
 \include{lectures/searching}
 
 %\part{Introduction to Graph Algorithms}
-\renewcommand{\rm}{} % quick fix for ignoring \rm in ipe figures 
 
 \include{lectures/graph-adt}
 \include{lectures/traversal}

@@ -1,1185 +1,489 @@
 \part{Efficiency of Searching}  
 \label{ch:effsearch}
 
-\chapter{Lecture: Binary search trees}
+\chapter{Searching, binary search trees} %------------------------------------
 
-\chapter{Lecture: Self-balancing binary search trees} \label{sec:balanced}
-% ------vvv inserted from book vvv---------
-Because balanced binary search trees are more complex than the standard
-ones, the insertion and removal operations usually take
-longer time on the average. But because of the resulting balanced structure,
-the worst-case complexity is $O(\log n)$. In
-other words, the total internal path lengths of the trees are fairly close to
-the optimal value.
+\paragraph{Table ADT.}
+\begin{Defintion}
+A \defnfont{table} is an ADT that supports operations to insert, retrieve and delete an element
+with given search key.  Another name is \alert{dictionary}.
+\end{Defintion}
+Tables are used in databases. There are  many ways in which a table could be implemented;
+with an unsorted lists, with a sorted list, with a (balanced) binary search tree, with a hash table.
 
-\subsection{AVL, red-black, and AA-trees}
-\label{ss:avl}
+\paragraph{Sequential search}
+\begin{itemize}
+\item In a list with no other structure, the only way to find an element is to 
+check each element. 
+\item This takes time in $\Theta(n)$ for any reasonable implementation (such as 
+array or linked list).
+\item We only need to be able to iterate through the elements in linear time, so
+ even more general structures than lists also allow for this type of search.
+\end{itemize}
 
+\paragraph{Binary search}
+\begin{itemize}
+\item In a sorted list where constant time access is possible 
+(such as an array implementation), we can find a key $K$ as follows. 
+Start at the middle element $y$, and recursively go left (right) if $y>K$ (if $y<K$);
+ stop if we hit  $K$ or search subinterval is empty.
+\item Note: binary search is conceptually easy but surprisingly hard to program
+ correctly even for professionals (see J. Bentley, \emph{Programming Pearls}).
+\item The (worst-case) recurrence is $T(n) = 1 +  T(\lfloor n/2 \rfloor)$, with 
+solution in $\Theta(\log n)$.
+\item The execution of this algorithm (looking for all possible keys) can be 
+described by a decision tree called a (static) \alert{binary search tree}. The 
+number of comparisons required to find the key is the depth of the leaf 
+containing that key.
+\end{itemize}
+
+\begin{algorithm}[H]
+  \caption{Binary search
+    \label{alg:binsearch}}
+\begin{algorithmic}[1]
+%\Require{$0 \leq i \leq j \leq n-1$}
+\Function{binsearch}{sorted list $a[0..n-1]$, key $K$}
+	\State $L \gets 0$
+	\State $R \gets n-1$
+	\While{$L \leq R$}
+		\State $m \gets \lfloor (L+R)/2\rfloor$ \Comment{median index}
+		\If{$A[m] < K$}
+			\State $L\gets m+1$
+		\ElsIf{$A[m] > K$} 
+			\State $R\gets m-1$
+		\Else 
+			\State \Return $m$ \Comment{key present at index $m$}
+		\EndIf
+	\EndWhile
+	\Return $-1$ \Comment{key not present in list}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Binary search trees.}
 \begin{Definition}
-An \defnfont{AVL tree} is a binary search tree 
-with the additional
-balance property that, for any node in the tree, the heights of
-the left and right subtrees can differ by at most $1$. 
+A \alert{binary search tree} (BST) is a binary tree with keys stored in nodes, 
+such that the key of each node is $\geq$ the key of every node in the left subtree and $\leq$ 
+the key of  every node in the right subtree.
 \end{Definition}
 
-This balance condition ensures height $\Theta(\log n)$
-for an AVL tree despite being less restrictive than requiring the tree to be 
-complete. Complete binary trees have too rigid  a balance condition 
-which is difficult to maintain when new nodes are inserted.
+\begin{itemize}
+\item A BST implements the Table ADT. To find/insert a key, use binary search as 
+described above.
+\item To remove a node, we need more work.
+\begin{itemize}
+\item A node with no children: simply delete.
+\item A node with only one child: delete the node, connect the child 
+to the parent.
+\item A node $n$ with two children: find the minimum key $K$ in the 
+right subtree, delete that node, and replace the key of $n$ by $K$.
+\end{itemize}
+%\item BSTs are very versatile. They are good for sorting. An inorder traversal 
+%of the tree yields the keys in sorted order. Also, BSTs model the behaviour of 
+%quicksort.
+%\item Main problem with BSTs: they can become unbalanced by insertions and 
+%deletions.
+\end{itemize}
 
-\begin{Lemma}
-The height of an AVL tree with $n$ nodes is $\Theta(\log n)$.
-\end{Lemma}
-\begin{proof}
 
-Due to the possibly different heights of its subtrees, an
-AVL tree of height $h$ may contain fewer than $2^{h+1}-1$ nodes.
-We will show that it contains at least $c^{h}$ nodes for some constant $c>1$, 
-so that the maximum height of a tree with $n$ items is $\log_{c}n$.
+\paragraph{Analysis of BST operations.}
+\begin{itemize}
+\item The running time of all basic operations is proportional to the number of 
+nodes visited.
+\item In the worst case, finding/removing/inserting take time in $\Theta(h)$ 
+where $h$ is the height of the tree. Unfortunately the height can be as large 
+as $n-1$ in the worst case.
+%\item A BST built by $n$ insertions of random keys has height in 
+%$\Theta(\log n)$ (see next slide). So randomly grown trees are not too 
+%unbalanced.
+%\item However deletions can mess this up, and are hard to analyse.
+\item Conclusion: we need another idea to guarantee good worst-case 
+performance. We need to \emph{rebalance} BSTs.
+\end{itemize}
 
-Let $S_{h}$ be the size of the smallest AVL tree of height $h$. It is
-obvious that $S_{0}=1$ (the root only) and $S_{1}=2$ (the root and one
-child). The smallest AVL tree of height $h$ has subtrees of height $h-1$
-and $h-2$, because at least one subtree is of height $h-1$ and the second
-height can differ at most by $1$ due to the AVL balance condition. These
-subtrees must also be the smallest AVL trees for their height, so that $S_{h}=
-S_{h-1}+S_{h-2}+1$. 
 
-By mathematical induction, we show easily that
-$S_{h}=F_{h+3}-1$  where $F_{i}$ is the $i$-th Fibonacci number
-(see Example~\ref{ex:fibonacci:formula})
-because $S_{0} = F_{3}-1$, $S_{1} = F_{4}-1$, and $S_{i+1}=
-(F_{i+3}-1)+(F_{i+2}-1)+1 \equiv F_{i+4}-1$. Therefore, 
-for each AVL tree with $n$ nodes
-\(
-n \ge S_{h} \approx \frac{\phi^{h+3}}{\sqrt{5}} - 1
-\)
-where $\phi \approx 1.618$. Thus, 
-the height of an AVL tree with $n$ nodes satisfies
-the following condition:
-\(
-h \le 1.44 \cdot \lg (n+1) - 1.33
-\),
-and the worst-case height is at most 44\% more than the minimum height for
-binary trees. 
-\end{proof}
+\begin{itemize}
+\item When deleting a node  in a BST, what if we use the maximum key in the left subtree instead?
+\item What is the average case search cost in a BST?
+\item What is the relation between BSTs and sorting?
+\end{itemize}
 
-Note that AVL trees need in the worst case only about 44\% more comparisons than
-complete binary trees. They behave even better in the average case. 
-Although theoretical estimates are unknown, the average-case height of a
-randomly constructed AVL tree is close to $\lg n$. 
+\paragraph{Alternative deletion method.}
+\begin{itemize}
+\item If we choose the maximum key in the left subtree, everything proceeds as expected. 
+\item However always using the same side can lead to unbalance.
+\item Alternating sides, or choosing a side randomly, will more likely  result in a more balanced tree.
+\end{itemize}
 
-All basic operations in an AVL tree have logarithmic worst-case running time. 
-The difficulty is, of course, that simple BST insertions and deletions can 
-destroy the AVL balance condition. We need an efficient way to restore the 
-balance condition when necessary. All self-balancing binary search trees use 
-the idea of \defnfont{rotation} to do this.
+\paragraph{Treesort.}
+\begin{itemize}
+\item As we did with heapsort, we can build a binary search tree from our initial list, by inserting 
+elements one at a time.
+\item We can recover the sorted list by reading the keys according to an inorder traversal.
+\item This takes time in $\Theta(n\log n)$.
+\item As with heapsort, we can do this in place in an array. This is basically quicksort!
+\end{itemize}
 
-\begin{Example}\label{ex:rotation}
-Figure~\ref{fig:treerotation} shows a left rotation at the node labelled $p$ and 
-a right rotation at the node labelled $q$ (the labels are not related to the 
-keys stored in the BST, which are not shown here). These rotations are mutually 
-inverse operations. Each rotation involves only local changes to the tree, 
-and only a constant number of pointers must be updated, independent of the tree 
-size. If, for example, there is a subtree of large height below $a$, then the 
-right rotation will decrease the overall tree height.
+jo-TODO: add inorder figure?
 
-\begin{figure}[htb]
-\begin{center}
-\includegraphics[width=6cm]{figs/treerotation}
-\caption{\label{fig:treerotation}Left and right rotations of a BST.}
-\end{center}
-\end{figure}
 
-\end{Example}
+\paragraph{Relation between Quicksort and BSTs.}
+\begin{itemize}
+\item After choosing the pivot and partitioning, we can represent the array as a 
+binary tree: pivot at the root, left subfile on the left, right subfile on the 
+right. It has the BST property with respect to the sort keys.
+\item Given the above BST describing the execution of quicksort on the array, 
+note that the cost of constructing the tree (measured by key comparisons) is 
+the same as the number of comparisons used by quicksort in sorting the file.
+\item This is equal to the \alert{internal path length}, the sum of all depths 
+of nodes. 
+\item Thus the average search cost in a BST built by random insertions is $\Theta(\log n)$ .
+\end{itemize}
 
-The precise details of exactly when a rotation is required, and which kind, 
-differ depending on the type of balanced BST. In each case the programming of
-the insertion and removal operations is quite complex, as is the analysis. 
-We will not go into more details here---the reader should consult the  
-recommended references.
 
-Balancing of AVL trees requires extra memory and heavy
-computations. This is why even more relaxed efficient balanced search
-trees such as red-black trees are more often used in practice.
 
-\begin{Definition}
-A \defnfont{red-black tree} is a binary search tree such that 
-every node is coloured either red or black, and every non-leaf node 
-has two children. In addition, it satisfies the following properties: 
+
+
+
+\chapter{Self-balancing binary search trees} %--------------------------------
+\label{sec:balanced}
+
+There are several classes of BSTs (such as AVL, red-black, AA) that 
+perform rebalancing operations at crucial times in order to keep the height 
+close to $\lg n$.
+These operations are based on local \alert{rotations} of the tree.
+Analysis of performance is fairly difficult.
+It is not too hard to show that AVL trees maintain the right height (see textbook). 
+Average-case height is not really known.
+
+\paragraph{AVL trees}
+\begin{itemize}
+\item These were the first self-balancing BSTs, introduced in 1962 by 
+Adelson-Velskii and Landis.
+\item The \alert{balance of a node} is the difference between heights of its 
+right subtree and left subtree. AVL trees adjust themselves after each insertion 
+or deletion so that each node has balance $0, 1$ or $-1$.
+\item An AVL tree with $n$ nodes has height at most $1.44 \lg n$, about $44\%$ more 
+than optimal (proof uses a simple recurrence relation for the number of nodes in 
+a smallest tree of height $h$).
+\end{itemize}
+
+\paragraph{Extra: height of a balanced (AVL) tree}
+\begin{itemize}
+\item Let $A_h$ be the minimum number of nodes in a tree of height $h$. Clearly 
+$A_0 = 1, A_1 = 2$.
+\item The subtrees at the root are also AVL trees of height $h-1$ or $h-2$, 
+because of the balance property.
+\item Thus $A_h \geq A_{h-1} + A_{h-2} + 1$ (in fact we have equality here 
+(can you see why?))
+\item This is similar to the Fibonacci recurrence, and we know that 
+$A_h \sim C \phi^h$ for some $C>0$, where $\phi = (1+\sqrt{5})/2$. 
+\item Taking logarithms gives $h \sim \lg n / \lg \phi \approx 1.44 \lg n$. 
+\end{itemize}
+
+\begin{Boxample}[2]
+\begin{itemize}
+\item How many types of self-balancing search trees can you find (e.g. Wikipedia)?
+\item Which type of balanced trees does your favourite programming language use?
+\end{itemize}
+\end{Boxample}
+
+\paragraph{Red-black trees}
+\begin{itemize}
+\item Introduced in 1978.
+\item These have a balance condition that ensures (via tricky rotations) that the maximum depth of a leaf is no more than twice the minimum depth.
+\item They do this by colouring each node red or black (note that we are explicitly using external nodes), with the rules:
 \begin{itemize}
 \item the root is black;
-\item all children of a red node must be black;
-\item every path from the root node to a leaf must contain the same number of 
-black nodes.
+\item all leaves (external nodes) are black, even when the parent is black;
+\item both children of every red node are black;
+\item every path from a node to a leaf contains the same number of black nodes.
 \end{itemize}
+\item Worst case height is at most $2 \lg n$.
+\end{itemize}
+
+\paragraph{Balanced search trees in practice (Dec 2018)}
+\begin{itemize}
+\item Java Collections Framework uses red-black trees to implement \texttt{TreeMap}.
+\item C++  uses red-black trees to implement \texttt{map}.
+\item C\# uses self-balancing trees to implement \texttt{Sorted Dictionary}
+\item Python uses doubly-linked lists to implement \texttt{OrderedDIct}
+\end{itemize}
+
+
+% \subsection{Balanced B-trees: efficiency of external search} %----------------
+% \label{ss:B-tree}
+
+
+\chapter{Hashing} %-----------------------------------------------------------
+
+\begin{Definition}
+A \alert{hash function} is a function $h$ that outputs an integer
+value for each key. A \alert{hash table} is an array implementation of
+the table ADT, where each key is mapped via a hash function to an array
+index. 
+\item The number of possible keys is usually enormously more than
+the actual number of keys. Thus allocating an array with enough size to
+fit all possible keys would be very inefficient. So hash functions are
+not $1$-to-$1$; that is, two keys may be mapped to the same index (a
+\alert{collision}). 
 \end{Definition}
+We need a collision resolution policy to prescribe what to do when 
+collisions occur. 
+We assume the first-come-first served (FCFS) model for resolving
+collisions.
 
-\begin{Theorem}
-If every path from the root to a leaf contains $b$ black 
-nodes, then the tree contains at least $2^{b}-1$ black nodes.
-\end{Theorem}
-\begin{proof}
+There are several desirable properties of a hash function:
+\begin{itemize}
+\item it should be computable quickly (constant time).
+\item if keys are drawn uniformly at random, then the hashed values
+should be uniformly distributed. 
+\item keys that are ``close" should have their hash values ``spread out". 
+\end{itemize}
+A hash function should be deterministic, but appear ``random" - in other 
+words it should pass some statistical tests (similar to pseudorandom number generators). 
 
-The statement holds for $b=1$ (in this case
-the tree contains either the black root only or the black
-root and one or two red children). In line with the induction hypothesis, 
-let the statement hold for all red-black trees with $b$ black nodes  in every 
-path. If a tree contains $b+1$ black nodes in every path and has two black 
-children of the root, then the tree contains two subtrees with $b$ black nodes 
-just under the root and has in total at least 1+$2 \cdot(2^{b}-1) = 2^{b+1}-1$ 
-black nodes. If the root has a red child, the latter has only black children, 
-so that the total number of the black nodes can become even larger. 
-\end{proof}
+\paragraph{Collision resolution policies}
+\begin{itemize}
+\item \defnfont{Open addressing} uses no extra space - every element is stored in 
+the hash table. If it gets overfull, we can reallocate space and 
+\alert{rehash}.
+\item  \defnfont{Chaining} uses an ``overflow" list for each element in 
+the hash table.
+\item When a collision occurs, we can evict the occupant (LCFS), 
+evict the latecomer (FCFS) or evict the element furthest from its home location
+ (\defnfont{Robin Hood} hashing).
+\item When a collision occurs in open addressing, we can 
+	\begin{itemize}
+		\item probe nearby for a free position 
+		(\defnfont{linear probing, quadratic probing});
+		\item go to a ``random" position by using a second-level hash function 
+		(\defnfont{double hashing});
+		\item try a position given by a second, third, \dots hash function (this plus 
+		LCFS gives \emph{cuckoo hashing}). 
+	\end{itemize}
+\end{itemize}
 
-Each path cannot contain two consecutive red nodes and increase more
-than twice after all the red nodes are inserted. Therefore, the height
-of a red-black tree is at most $2\lceil \lg n \rceil$, and the
-search in it is logarithmic, $O(\log n)$.
+\paragraph{Collision resolution via chaining.}
+\begin{itemize}
+\item Elements that hash to the same slot are placed in a list. The slot
+contains a pointer to the head of this list. 
+\item Insertion can then be done in constant time. 
+\item Deletion can be done in constant time with a doubly linked list, for 
+example. 
+\item A drawback is the additional space overhead. Also, the distribution of 
+sizes of lists turns out to be very uneven.
+\end{itemize}
 
-Red-black trees allow for a very fast search. This data structure has
-still no precise analysis of its average-case performance. Its
-properties are found either experimentally or by analysing red-black
-trees containing random $n$ keys. There are about $\lg n$ comparisons per search 
-on the average and fewer than $2\lg n + 2$ comparisons in the
-worst case. Restoring the tree after insertion or deletion of single node 
-requires $O(1)$ rotations and $O(\log n)$ colour changes in the worst case.
+\paragraph{Collision resolution via open addressing.}
+\begin{itemize}
+\item Every key is stored somewhere in the array; no extra space is used.
+\item If a key  $k$ hashes to a value $h(k)$ that is already occupied, 
+we \defnfont{probe} (look for an empty space). 
+	\begin{itemize}
+		\item The most common probing method is \defnfont{linear} probing, which moves left
+		 one index at a time, wrapping around if necessary, until it finds an empty 
+		 address. This is easy to implement but leads to \emph{clustering}.
+		\item Another method is \defnfont{double hashing}. Move to the left by a
+		fixed step size $t$, wrapping around if necessary, until we find an
+		empty address. The difference is that $t$ is not fixed in advance, but
+		is given by a second hashing function $p(k)$.
+	\end{itemize}
+\end{itemize}
 
-Another variety of balanced tree, the \defnfont{AA-tree}, becomes more efficient 
-than a red-black tree when node deletions are frequent. An AA-tree has 
-only one extra condition with respect to a red-black tree, namely that 
-the left child may not be red. This property simplifies the removal 
-operation considerably.
+\begin{itemize}
+\item Why might double hashing be better than linear probing?
+\item How do we analyse hashing?
+\item How often do collisions occur in practice?
+\end{itemize}
 
-\subsection{Balanced B-trees: efficiency of external search}
-\label{ss:B-tree}
+\paragraph{Linear probing.}
+\begin{itemize}
+\item Linear probing is easy to implement, easier than double hashing.
+\item However it is prone to \emph{clustering} --- large clusters of filled entries form, and this makes search times longer on average.
+\end{itemize}
 
-The B-tree is a popular
-structure for ordered databases in external memory such as magnetic or
-optical disks. The previous ``Big-Oh'' analysis is invalid here because
-it assumes all elementary operations have equal time complexity. This
-does not hold for disk input / output where one disk access corresponds
-to hundreds of thousands of computer instructions and the number of
-accesses dominates running time. For a large database of many millions
-of records, even logarithmic worst-case performance of red-black or
-AA-trees is unacceptable. Each search should involve a very small number
-of disk accesses, say, 3--4, even at the expense of reasonably
-complex computations (which will still take only a small fraction of a disk access time).
 
-Binary tree search cannot solve the problem because even 
-an optimal tree has height $\lg n$. To decrease the
-height, each node must have more branches. The height of an
-optimal $m$-ary search tree ($m$-way branching) is roughly
-$\log_{m} n$ (see Table~\ref{tbl:m-ary:branch}), or  
-$\lg m$ times smaller than with an optimal binary tree 
-(for example, $6.6$ times for $m=100$).
+\paragraph{Analysis of hashing.}
+\begin{itemize}
+\item We count cost by number of key comparisons/probes.
+\item Insertion has the same cost as an unsuccessful search, provided the table 
+is not full.
+\item The average cost of a successful search is the average of all insertions
+ needed to construct the table from empty.
+\item We often use the \defnfont{simple uniform hashing} model. That is, each of 
+the $n$ keys is equally likely to hash into any of the $m$ slots. So we are 
+considering a ``balls in bins" model.
+\item If $n$ is much smaller than $m$, collisions will be few and most slots 
+will be empty. If $n$ is much larger than $m$, collisions will be many and no 
+slots will be empty. The most interesting behaviour is when $m$ and $n$ are 
+of comparable size.
+\item Define the \defnfont{load factor} to be $\lambda := n/m$.
+\end{itemize}
 
-\begin{table}[htb!]
-\caption{\label{tbl:m-ary:branch}Height of the optimal $m$-ary 
-search tree with $n$ nodes.}
+\chapter{Analysis of hashing} %-------------------------------------------------
+
+\paragraph{Analysis of balls in bins}
+\begin{itemize}
+\item Define 
+$$Q(m, n) = \frac{m!}{(m-n)! m^n} = \frac{m}{m} \frac{m-1}{m} \dots 
+\frac{m - n + 1}{m}.$$
+Note that $Q(m,0) = 1, Q(m, n) = 0$ unless $0 \leq n \leq m$.
+\item The probability of no collisions when $n$ balls are thrown into $m$ boxes 
+uniformly at random is $Q(m, n)$. For example, $Q(366, 180) \approx 0.4487
+ \times 10^{-23}$, $Q(366, 24) \approx  0.4627$. 
+\item The expected number of balls until the first collision is equal to 
+$E(m):=\sum_{n \leq m} Q(m, n)$. Note $E(365) \approx 25$.
+\end{itemize}
+
+% \paragraph{Plots of $Q(m, n)$ against $n$, $m=25,100,400,1600$}
+% \includegraphics[width=4cm]{pictures/birthday25.jpg}
+% \includegraphics[width=4cm]{pictures/birthday100.jpg}
+% 
+% \includegraphics[width=4cm]{pictures/birthday400.jpg}
+% \includegraphics[width=4cm]{pictures/birthday1600.jpg}
+
+
+\paragraph{Results for chaining}
+\begin{itemize}
+\item The worst case for searching is $\Theta(n)$, since there may be only one 
+chain with all the keys.
+\item The average cost for unsuccessful search is the average list length, 
+namely $\lambda$.
+\item The average cost for successful search is then 
+$$
+\frac{1}{n} \sum_{k=1}^n \frac{k}{m} = \frac{n+1}{2m} \approx \lambda/2.
+$$
+\item Thus provided the load factor is kept bounded, basic operations run in 
+constant time on average. 
+\end{itemize}
+
+\paragraph{Results for open addressing}
+\begin{itemize}
+\item We assume \alert{uniform hashing}: each configuration of 
+$n$ keys in a table of size $m$ is equally likely to occur. In other words, the 
+hash function produces a random permutation of the keys, and the slots are 
+probed in random order for each key.
+\item Uniform hashing can't be implemented practically but seems to be a good 
+model when double hashing is used.
+\item It can be shown that the average cost for insertion under this 
+hypothesis is $\Theta(1/(1-\lambda))$ as $m \to \infty$. 
+\item Linear probing is not well described by the uniform hashing model 
+(because of the clustering). A more detailed analysis can be done. 
+The average insertion cost is $\Theta(1 + 1/(1 - \lambda)^2)$.
+\item If the load factor is bounded away from $1$, basic operations 
+run in constant time; otherwise performance will be very bad. We should resize!
+\end{itemize}
+
+\paragraph{Questions}
+\begin{itemize}
+\item What are the details of the analysis of uniform hashing?
+\item Are there formulas for how long we expect to wait for a collision, etc?
+\item What hashing methods are used by major programming language libraries?
+\end{itemize}
+
+
+\paragraph{Extra: unsuccessful search under uniform hashing hypothesis.}
+\begin{itemize}
+\item Let $X$ be the number of probes taken for an unsuccessful search. 
+Let $p_i$ be the probability that we need to make $i+1$ probes 
+(exactly $i$ probes hit an occupied cell) and let $q_i$ be the probability 
+that we make at least $i+1$ probes. 
+\item Then 
+$E[X] = \sum_i (i+1) p_i = \sum_i q_i$.
+\item For $i \geq 1$, we have
+$$ q_i = \binom{n}{i}/\binom{m}{i} = \frac{n}{m} \frac{n-1}{m-1} 
+\dots \frac{n - i + 1}{m - i + 1}  \leq \lambda^i.
+$$
+The exact value is then
+$$
+E[X] = \frac{1}{\binom{m}{n}} \sum_{j=0}^n \binom{(m-n)+j}{m-n} = 
+\dots = \frac{1+m}{1+(1-\lambda)m}
+$$
+which is $\Theta(1/(1 - \lambda))$ as $\lambda \to 1$. This agrees with 
+intuition.
+\end{itemize}
+
+\paragraph{Statistics for balls in bins: some facts.}
+\begin{itemize}
+\item When do we expect the first collision? This is the 
+\alert{birthday problem}. Answer: $E(m) \approx \sqrt{\pi m/2} + 2/3$.
+So collisions happen even in fairly sparse tables.
+\item When do we expect all boxes to be nonempty? This is the 
+\alert{coupon collector problem}. Answer: after about $m \log m$ balls. 
+It takes a long time to use all lists when chaining.
+\item What proportion of boxes are expected to be empty when $n$ is $\Theta(m)$? 
+Answer: $e^{-\lambda}$. Many of the lists are just wasted space even for 
+pretty full tables.
+\item When $m$ is $\Theta(n)$, what is the expected maximum number of balls in a box? 
+Answer: about $(\log n)/(\log \log n)$. Some of the lists may be fairly long. 
+\item The analysis that gives these results is beyond this course. See me for 
+references.
+\end{itemize}
+
+\paragraph{Hashing in practice (Dec 2018).}
+\begin{itemize}
+\item Java Collections Framework uses chaining to implement \texttt{HashMap}, resizing when $\lambda > 0.75$, and table size a power of $2$.
+\item C++  uses chaining to implement \texttt{unordered\_map}, resizing when $\lambda >1$, and prime table size.
+\item C\# uses chaining, resizing when $\lambda >1$, and prime table size.
+\item Python uses open addressing, resizing when $\lambda>0.66$, and table size a power of $2$.
+\end{itemize}
+
+
+
+
+
+\chapter{Universal Hashing} %-------------------------------------------------
+
+\begin{itemize}
+\item Hash functions must be deterministic, but we don't want  to let users know what they are. 
+However, they can often guess.
+\item A nice way to use randomization is to choose the hash function at runtime randomly from a family of hash functions.
+\item Ideally,   the probability of a collision between two elements is only $1/m$, which is what a random guess would yield, so malicious users cannot 
+force collisions.
+\item More formally, if $F$ is a family of hash functions then for any keys $k\neq k'$, we have
+$$
+\frac{1}{|F|} \left| h\in F : h(k) = h(k') \right| \leq \frac{1}{m}
+$$
+\item One way of constructing such an $F$ is to take a prime $p\geq m$  and for $0<a <p, 0\leq b < p$ define 
+$$h_{ab}(x) = ak+b \mod p \mod m.$$
+\end{itemize}
+
+\paragraph{Efficiency of various implementations of Table ADT.}
+\begin{table}[htb] 
+\caption{Worst case running time (asymptotic order)} 
 \centerline{
-\begin{tabular}{|c|r|r|r|r|r|} \hline 
-$n$ & $10^{5}$ & $10^{6}$ & $10^{7}$ & $10^{8}$  & $10^{9}$ \\ \hline
-$\lceil \log_{2}n \rceil$  & 17  & 20  & 24  & 27  & 30 \\ \hline 
-$\lceil \log_{10}n \rceil$ & 5   & 6   & 7   & 8   & 9 \\ \hline 
-$\lceil \log_{100}n \rceil$ & 3   & 3   & 4   & 4   & 5 \\ \hline
-$\lceil \log_{1000}n \rceil$ & 2   & 2   & 3   & 3   & 3 \\ \hline
+\begin{tabular}{|c|c|c|c|c|} \hline 
+Data structure & Insert & Delete & Find & Traverse \\
+\hline
+Unsorted list (array) & $1$ & $n$ & $n$  & $n$  \\
+Unsorted list (pointer) & $1$ & $n$ & $n$ &  $n$ \\
+Sorted list (array)& $n$  & $n$  & $\log n$ & $n$\\
+Sorted list (pointer)& $n$ & $n$ & $n$ & $n$ \\
+Binary search tree & $n$ & $n$ & $n$ & $n$  \\
+Balanced BST & $\log n$ & $\log n$ & $\log n$ & $n$ \\
+Hash table & $n$ & $n$ & $n$ & $n$ \\
+\hline
 \end{tabular}}
-\end{table}
+\end{table} 
 
-\begin{figure}[htb]
-\begin{center}
-\illustr{mtr-ex.ps}{90mm}
-\caption{\label{mtr-ex} Multiway search tree of order $m=4$.}
-\end{center}
-\end{figure}
-
-Figure~\ref{mtr-ex} shows that the search and the traversal of a
-multiway search tree generalize in a straightforward way the binary
-search tree operations. If in the latter case the search key is compared
-to a single key in a node in order to choose one of two branches or stop
-in the node, in an $m$-ary tree, the search key is compared to at most
-$m-1$ keys in a node to choose one of $m$ branches. The major difference
-is that multiple data records are now associated only with leaves
-although some multiway trees do not strictly follow this condition. Thus
-the worst-case and the average-case search involve the tree height and
-the average leaf height, respectively.
-
-\begin{Example}
-Search for a desired key $k$ in Figure~\ref{mtr-ex} is guided by
-thresholds, for example at the root it goes left if $k<4$, down if $4
-\le k < 10$, and right if $k \ge 10$. The analogous comparisons are
-repeated at every node until the record with the key $k$ is found at a
-leaf or its absence is detected. Let $k=17$. First, the search goes
-right from the root (as $17 > 10$), then goes to the third child of the
-right internal node (as $17 \le 17 < 20$), and finally finds the desired
-record in that leaf.
-\end{Example}
-
-\begin{Definition}
-A \defnfont{B-tree} of order $m$ is an $m$-ary tree such that:
-\begin{itemize} 
-\item the root is either a leaf or it has between $2$ and
-$m$ children inclusive; 
-\item each nonleaf node (except possibly the root) has
-between $\lceil m/2 \rceil$ and $m$ children inclusive;
-\item each nonleaf node with $\mu$ children has $\mu-1$
-keys, $(\theta[i]: i=1,\ldots,\mu-1)$, to guide the search where $\theta[i]$ is the smallest key in subtree $i+1$;
-\item all leaves are at the same depth;
-\item data items are stored in leaves, each storing between $\lceil l/2 \rceil$ and $l$ items, for some $l$.
-\end{itemize} 
-\end{Definition}
-
-Other definitions of B-trees (mostly with minor changes) also exist, but
-the above one is most popular. The first three conditions specify the
-memory space each node needs (first of all, for $m$ links and $m-1$
-keys) and ensure that more than half of it, except possibly in the root,
-will be used. The last two conditions form a well-balanced tree.
-
-\begin{figure}[htb]
-\begin{center}
-\illustr{mtr-b4.ps}{90mm}
-\caption[2--4 B-tree with the leaf storage size 7.]%
-{2--4 B-tree with the leaf storage size 7
-($2..4$ children per node and $4..7$ data items per leaf).}
-\label{mtr-b4} 
-\end{center}
-\end{figure}
-
-\begin{note}
-B-trees are usually named by their \defnfont{branching limits}, 
-that is, $\lceil m/2 \rceil$--$m$, so that $2$--$3$ and $6$--$11$ 
-trees are B-trees with
-$m=3$ and $m=11$, respectively.
-\end{note}
-
-\begin{Example} In a
-$2-4$ B-tree in Figure~\ref{mtr-b4} 
-all nonleaf nodes have between 
-$\lceil 4/2 \rceil = 2$ and $4$ children and thus from
-$1$ to $3$ keys. The number $l$ of 
-data records associated with a leaf depends on 
-the capacity of external memory and the record size. 
-In Figure~\ref{mtr-b4}, $l=7$ and each leaf stores between 
-$\lceil 7/2 \rceil = 4$ and $7$  data items.
-\end{Example}
-
-Because the nodes are at least half full, a  B-tree with $m \ge 8$
-cannot be a simple binary or ternary tree. Simple ternary $2$--$3$ B-trees
-with only two or three children per node are sometimes in use for
-storing ordered symbol tables in internal computer RAM. But branching
-limits for B-trees on external disks are considerably greater to make
-one node fit in a unit data block on the disk. Then the number of nodes
-examined (and hence the number of disk accesses) decreases $\lg m$
-times or more compared with a binary tree search.
-
-In each particular case, the tree order $m$ and the leaf capacity $l$ 
-depend on the disk block size and the size of records to
-store. Let one disk block hold $d$ bytes, each key be of
-$\kappa$ bytes, each branch address be of \(b\) bytes, 
-and the database contain $s$ records, each of size $r$ bytes.
-In a B-tree of order $m$, each nonleaf node stores at most $m-1$ keys 
-and $m$ branch addresses, that is,
-in total, $\kappa(m-1)+bm = (\kappa + b) m -\kappa$ bytes. 
-The largest order $m$
-such that one node fits in one disk block,
-$(\kappa+b)m -\kappa \le d$, is 
-$m=\left\lfloor \frac{d+\kappa}{b+\kappa}\right\rfloor$.
-Each internal node, except the root,
-has at least $\left\lceil \frac{m}{2} \right\rceil$ branches.
-At most $l=\frac{d}{r}$ records fit in one block, and
-each leaf addresses from $\frac{l}{2}$ to $l$ records. 
-Assuming each leaf is full, the total number of the
-leaves is $n = \left\lceil \frac{s}{l} \right\rceil$, so that
-in the worst case the leaves are at level 
-$\lceil \log_{m/2} n\rceil +1$.
-
-\begin{Example}\label{exm:btree}
-Suppose the disk block is $d=2^{15}\equiv 32768$ bytes, 
-the key size is $\kappa=2^{6}\equiv 64$ bytes, the branch 
-address has \(b=8\) bytes, and the
-database contains $s=2^{30}\cong 1.07\cdot 10^9$ records
-of size $r=2^{10}\equiv 1024$ bytes each. Then
-the B-tree order is 
-$m=\lfloor \frac{32768+64}{8+64} \rfloor =
-\lfloor \frac{32832}{72} \rfloor = 456$ so that each internal node, 
-except the root, has at least 228 branches.
-One block contains at most $l=\frac{32768}{1024}=32$ records,
-and the number of leaves is at least 
-$n = \left\lceil 2^{30}/32 \right\rceil = 2^{25}$. The
-worst-case level of the leaves in this B-tree is 
-$\lceil \log_{228} 2^{25}\rceil +1 = \lceil 3.19 \rceil +1 = 5$.
-\end{Example}
-
-Generally, a search in or an insertion into a B-tree of order $m$ with $n$
-data records requires fewer than $\lceil \log_{m/2}n \rceil$ disk
-accesses, and this number is practically constant if $m$ is sufficiently
-big as shown in Table~\ref{tbl:m-ary:branch}. The running time becomes
-even smaller if the root and the upper two tree levels are stored in
-internal RAM and the slow disk accesses occur only for level 3 or
-higher. The three-level B-tree with $m=456$ can handle up to $456^{3}$,
-or $94,818,816$ entries. If in Example~\ref{exm:btree} each key uses
-only \(\kappa=24\) bytes, then $m = 1024$, and the three-level tree can
-handle over $10^9$ entries.
-
-Data insertion into a B-tree is simple if the corresponding leaf is not
-already full. A full leaf has to be split into two leaves, both having
-the minimum number of data items, and the parent node should be updated.
-If necessary, the splitting propagates up until it finds a parent that
-need not be split or reaches the root. Only in the extremely rare case
-that the root has to be split, the tree height increases and a new root
-with two children (halves of the previous root) is created. Data
-deletion is also simple until the leaf is empty and its neighbours must
-be combined to form a full leaf. Although the programming is not simple, all
-changes are well defined. Algorithm analysis, beyond the scope of this
-book, shows that both data insertion,
-deletion, and retrieval have only about $\log_{\frac{m}{2}} n$ disk
-accesses in the worst case.
-
-\subsection*{Exercises}
-
-\begin{Exercise}\label{exr:redblack:example}
-Draw two different red-black trees containing at most two black nodes 
-along every path from the root to a leaf.
-\end{Exercise}
-
-
-\begin{Exercise}\label{exr:avl:example}
-Draw two different AVL trees of size $n=7$ and compare
-them to the complete binary tree of the same size. Is
-the latter also an AVL tree?
-\end{Exercise}
-
-
-
-\begin{Exercise}\label{exr:aa:example}
-Draw an AA-tree containing at most 2 black nodes 
-along every path from a node to a leaf and differing from
-the complete binary tree of order \(n=7\).
-\end{Exercise}
-
-\begin{Exercise}\label{exr:rotation}
-Draw a binary search tree of minimum size such that a left rotation 
-reduces the height of the tree.
-\end{Exercise}
-% ------^^^ inserted from book ^^^---------
-
-
-\chapter{Lecture: Hashing}
-% ------vvv inserted from book vvv---------
-There are numerous ways to implement the table ADT. We have already seen 
-that various search trees will do everything required, provided the keys are 
-from some totally ordered set. If, say, the keys are dictionary words with the 
-usual ordering, then it is not necessary to use any integer encoding---keys can 
-be compared directly.
-
-Suppose now that we have a very simple situation where the number of 
-possible keys is small. Then  we can just store the values in an array. 
-One array entry can be reserved in advance for each possible key, and the 
-key-to-value mapping ends up as a conventional array address. Searching then 
-has worst-case constant time, as does insertion and deletion. This 
-implementation of a table works well provided the number of possible keys is 
-sufficiently small.
-
-However, that nice state of affairs does not occur often (we could use it 
-for the airport codes in  Example~\ref{exm:adt:airports}). Usually there exists 
-a very large number of possible keys although only a tiny fraction of them are
-actually put into use. For example, suppose that we have a database where each 
-customer is identified by an 8-digit telephone number. If we have 10 000 customers, 
-only $0.01\%$ of the array addresses are filled.
-
-There is another technique to store and search for
-values in symbol tables, called {\defnfont{hashing}}, that uses less space and 
-retains many (not all) of the benefits of direct array addressing. 
-
-\begin{Definition}
-Hashing computes an integer \defnfont{hash code} for each object using a 
-\defnfont{hash function} that maps objects (for example, keys) to indices of 
-a given linear array (the \defnfont{hash table}). 
-\end{Definition}
-
-Hash functions are designed in such a manner that hash codes are
-computed quickly. The computation  of an array index with 
-a hash function, or ``hashing a key to an index'',
-depends only on the key to hash and is independent of other keys in the table.
- If \(h(k)\) is the value of a hash function for $k$, then the
- key \(k\) should be placed at location \(h(k)\).
-
-The hash function is chosen so as to always return a valid index 
-for the array. A \defnfont{perfect hash function} maps each key to a different 
-index. Unfortunately, it is difficult to find such a function in most cases. 
-
-\begin{Example} \label{exm:hashing}
-Let us map two-digit integer keys onto the ten array indices 
-[0, 1, \ldots, 9] by a
-simple hash function \(h(k) = \lfloor k/10 \rfloor\). Then the keys \(21\) and
-\(27\) both have the hash code \(2\) pointing to
-the same position in the array. Such a situation in which two different keys, 
-\(k_{1} \ne k_{2}\), hash to the same index (table address), 
-\(h(k_{1}) = h(k_{2})\), is called a \defnfont{collision}. Because both
-table entries \((k_{1},v_{1})\) and \((k_{2},v_{2})\) cannot
-be at the same address, we need a  definite {\defnfont{collision resolution policy}}. 
-\end{Example}
-
-Different keys hashed to the same hash address are  called \defnfont{synonyms}, 
-and data items with synonymic keys are frequently also referred to as 
-synonyms. 
-
-\subsection{Collision resolution: OALP, OADH, and SC hash tables}
-
-There are many collision resolution policies. The main issues are:
-
+\paragraph{Questions}
 \begin{itemize}
-\item Do we use extra storage, or not?
-\item Which element moves when a collision occurs: the incumbent element or the 
-newcomer (or both)?
-\item How do we decide where to move the evicted element to?
+\item Java String \texttt{hashcode} computes the address of a string 
+$s=s[0]\cdots s[n-1]$ using integer arithmetic via the formula 
+$s[0]*31^{n-1} + s[1]*31^{n-2} + ... + s[n-1]$. Can you find two 2-character strings with the same hashcode? 
+Why might this cause a security problem in practice?
+\item If we want to print out all items of a table in sorted order, what is the best data structure?
+\item If we don't mind an occasional long wait and mostly do lookups, which is best?
+\item If we do a lot of insertions and deletions and few lookups, and are risk-averse, which is best?
 \end{itemize}
 
-\subsubsection{Chaining}
 
-In \defnfont{separate chaining} synonyms with the same hash address are stored 
-in a linked list connected to that address.  We still hash the key of 
-each item to obtain an array index. But if there is a collision, 
-the new item is simply placed in this hash address, along with all other
-synonyms. Each array element is a head reference for the associated linked 
-list, and each node of this list stores not only the key and data
-values for a particular table entry but also a link to the
-next node. The head node of the list referenced by the array
-element always contains the last inserted item.
 
-\subsubsection{Open addressing}
 
-Open addressing uses no extra space for collision resolution. Instead, 
-we move one of the colliding elements to another slot in the array. We may use
-LIFO (last-in, first out --- the new element must move), FIFO (first in, first out 
---- the old element must move), or more complicated methods such as Robin Hood 
-or cuckoo hashing (see Notes). For our purposes here, we use LIFO.
 
-Each collision resolution policy \defnfont{probes} another array slot, and if 
-empty inserts the currently homeless element. If the probed slot is not empty, we probe 
-again to find a slot in which to insert the currently homeless element, and so on 
-until we finish insertion. The \defnfont{probe sequence} used can be a simple 
-fixed sequence, or given by a more complicated rule (but is always deterministic).
-They all have the property that they ``wrap around" the array when they reach the 
-end. The two most common probing methods are:
-\begin{itemize}
-\item (Linear probing) always probe the element to the left;
-\item (Double hashing) probe to the left by an amount determined by the value of 
-a secondary hash function.
-\end{itemize}
 
-\begin{note}
-The choice of probing to the left versus probing to the right is clearly a 
-matter of convention; the reader should note that other books may use rightward
-probing in their definitions.
-\end{note}
 
-\begin{table}[hbt]
-\begin{center}
-\caption{Open addressing with linear probing (OALP).}\label{hash-lin} 
-\begin{tabular}{|c|c|c|l|} \hline 
-\textbf{Data} [key,value] & \textbf{Hash}: key/10 & \textbf{Table address} & \textbf{Comments} \\ \hline
-~[20,A] & 2 & 2 & \\
-~[15,B] & 1 & 1 & \\
-~[45,C] & 4 & 4 & \\
-~[87,D] & 8 & 8 & \\
-~[39,E] & 3 & 3 & \\
-~[31,F] & 3 & 0 & try 3, 2, 1, 0 \\
-~[24,G] & 2 & 9 & try 2, 1, 0, 9 \\ \hline
-\end{tabular}
-\end{center}
-\end{table}
 
-\begin{Example}\label{exm:lin:probing}
-Table~\ref{hash-lin} shows how OALP fills the hash table 
-of size 10 using the two-digit keys and the hash function
-of Example~\ref{exm:hashing}. The first five insertions have found
-empty addresses. However, the key--value 
-pair [31, F] has a collision because the address 
-\(h(31) = 3\) is already occupied by the pair [39, E] with the same
-hash address, \(h(39) = 3\). Thus, the 
-next lower table address, location 2, is probed to see if
-it is empty, and in the same way the next locations 1
-and 0 are checked. The address 0 is empty so that the pair [31, F]
-can be placed there. 
 
-A similar collision occurs when we try to insert the next
-pair, [24, G], because the hash address \(h(24)=2\) for
-the key 24 is already occupied by the previous pair [20, A]. 
-Consequently,  we probe successive lower locations 1 and 0, and 
-since they both are already
-occupied, we wrap around and continue the search at the highest
-location 9. Because it is empty, the pair [24, G] is inserted in this location 
-yielding the final configuration given in Table~\ref{hash-lin}.
-\end{Example}
 
-OALP is simple to implement but the hash table may degenerate due to
-\defnfont{clustering}. A \defnfont{cluster} is a
-sequence of adjacent occupied table entries. OALP tends to form clusters 
-around the locations
-where one or more collisions have occurred. Each
-collision is resolved using the next empty location 
-available for sequential probing. Therefore, other collisions 
-become more probable in that neighbourhood, and the larger the
-clusters, the faster they grow. As a result,
-a search for an empty address to place a collided key may
-turn into a very long sequential search. 
-
-Another probing scheme, \defnfont{double hashing}, reduces the 
-likelihood of clustering. In double hashing, when a collision occurs, the key
-is moved by an amount determined by a secondary hash function \(\Delta\).  Let \(h\) denote
-the primary hash function. Then for each key \(k\) we have the starting probe 
-address \(i_{0} = h(k)\) and the probe decrement \(\Delta(k)\). Each
-next successive probe position is 
-\(i_{t} = ( i_{t-1} - \Delta(k) ) \bmod m\); \
-\(t=1,2,\ldots\) where $m$ is the table size.
-
-\begin{Example}\label{exm:double:hashing}
-Table~\ref{hash-dbl} shows how OADH fills the same hash table as in
-Example~\ref{exm:lin:probing} if the 
-hash function is given by \(\Delta(k) = (h(k) + k) \bmod 10\).
-
-\begin{table}[hbt]
-\begin{center}
-\caption{\label{hash-dbl} Open addressing with double hashing (OADH).}
-\begin{tabular}{|c|c|c|l|} \hline 
-\textbf{Data} [key,value] & \textbf{Hash}: key/10 & \textbf{Table address} & \textbf{Comments} \\ \hline
-~[20,A] & 2 & 2 & \\
-~[15,B] & 1 & 1 & \\
-~[45,C] & 4 & 4 & \\
-~[87,D] & 8 & 8 & \\
-~[39,E] & 3 & 3 & \\
-~[31,F] & 3 & 9 & using $\Delta(31)=4$ \\
-~[24,G] & 2 & 6 & using $\Delta(24)=6$ \\ \hline
-\end{tabular}
-\end{center}
-\end{table}
-
-Now when we try to place the key--value 
-pair [31, F] into position \(h(31) = 3\), the collision 
-is resolved by probing the table locations with decrement
-\(\Delta(31) = 4\). The first position, \((3-4)\mod 10 = 9\) is
-empty so that the pair [31, F] can be placed there. 
-For the collision of the pair, [24, G], at location 2 
-the decrement \(\Delta(24) = 6\) immediately leads to
-the empty location $6$. The final table
-in Figure~\ref{hash-dbl} contains three small clusters 
-instead of one large
-cluster in Figure~\ref{hash-lin}. 
-\end{Example}
-
-Generally, OADH results in more uniform hashing that
-forms more clusters than OALP but of smaller sizes.
-Linear probing extends each cluster from its end with
-the lower table address, and nearby clusters join into
-larger clusters growing even faster. Double hashing does
-not extend clusters only at one end and does not tend
-to join nearby clusters.
-
-% ------^^^ inserted from book ^^^---------
-
-\chapter{Lecture: Analysis of Hashing}
-% ------vvv inserted from book vvv---------
-The time complexity of searching in and inserting items in a
-hash table of size \(m\) with
-\(n\) already occupied entries is determined by the \defnfont{load factor},
-  \(\lambda := \frac{n}{m}\). In open addressing, \(0 \le \lambda < 1\): $\lambda$
-  equals the fraction of occupied
-slots in the array, and cannot be exactly equal to 1 because a hash table 
-should have at least one empty entry in order to efficiently terminate the search 
-for a key or the insertion of a new key.
-
-Open addressing and separate chaining require $n$ probes in the worst case, 
-since all elements of the hash table may be synonyms. However the basic intuition
-is that provided the table is not too full, collisions should be rare enough that
-searching for an element requires only a constant number of probes on average.
-
-Thus we want a result such as: ``\emph{Provided the load factor is kept bounded 
-(and away from 1 in the case of open addressing), all operations in a hash table 
-take $\Theta(1)$ time in the average case.}"
-
-In order to have confidence in this result, we need to describe our mathematical model of 
-hashing. Since a good hash function should scatter keys randomly, and we have no
-knowledge of the input data, it is natural to use the ``random balls in bins" 
-model. We assume that we have thrown $n$ balls one at a time into $m$ bins, 
-each ball independently and uniformly at random. 
-
-For our analysis, it will be useful to use the function $Q$ defined below.
- 
-\begin{Definition}
-For each integer $m, n$ with $1 \leq n \leq m$, we define 
-$$
-Q(m,n) = \frac{m!}{(m-n)! m^n} = \frac{m}{m} \frac{m-1}{m} \dots 
-\frac{m - n + 1}{m}.
-$$
-Note that $Q(m,1) = 1$.
-\end{Definition}
-
-\subsubsection{Basic analysis of collisions}
-
-It is obvious that if we have more items than the size of the hash table, at least 
-one collision must occur. But the distinctive feature of collisions is that they 
-are relatively frequent even in almost empty hash tables. 
-
-The \defnfont{birthday paradox} refers to the following surprising fact:
-\emph{if there are 23 or more people in a room, the chance is greater than 50\%
-that two or more of them have the same birthday.} Note: this is not a paradox 
-in the sense of a logical contradiction, but just a ``counter-intuitive" 
-fact that violates ``common sense".
-
-More precisely, if each of 365 bins
-is selected with the same chance \(\frac{1}{365}\), then after
-23 entries have been inserted, the probability that at least one collision has 
-occurred (at least one bin has at least two balls) is more than 50\%. 
-Although the table is only $23/365$ ($\cong 6.3\%$) full,
-more than half of our attempts to insert one more entry will result in a collision!
-
-Let us see how the birthday paradox occurs. Let \(m\) and \(n\) denote the 
-size of a table and the number of items to insert, respectively. 
-Let $\Pr_{m}(n)$ be the probability of at least one collision when 
-$n$ balls are randomly placed into  $m$ bins.
-
-\begin{Lemma}
-The probability of no collisions when $n$ balls are thrown independently 
-into $m$ boxes uniformly at random is $Q(m, n)$. Thus 
-${\Pr_m}(n) =  1 - Q(m,n)$
-and the expected number of balls thrown until the first collision is 
-$\sum_{n\leq m} Q(m,n)$. 
-\end{Lemma}
-
-\begin{proof} Let $\pi_{m}(n)$ be the probability of no collisions.
- The ``no collision'' event after
-inserting \(\nu\) items; \(\nu=2,\ldots,n\), is a joint event of
-``no collision'' after inserting the preceding \(\nu-1\) items and 
-``no collision'' after inserting one more item, given \(\nu-1\)
-positions are already occupied. Thus 
-\(\Pr_m(\nu)=\Pr_m(\nu-1)P_{m}(\mathrm{no~collision} \mid \nu-1)\)
-where \(P_{m}(\mathrm{no~collision} \mid \nu)\) denotes the conditional
-probability of no collision for a single item inserted into the
-table with \(m-\nu\) unoccupied positions. This latter
-probability is simply \(\frac{m-\nu}{m}\).
-
-This then yields immediately
-\[
-\pi_{m}(n) = \frac{m}{m}\frac{m-1}{m} \dots \frac{m-n+1}{m} = 
-\frac{m(m-1)\cdots(m-n+1)}{m^{n}} =  \frac{m!}{m^{n}(m-n)!}
-\]
-Therefore,
-\(
-\Pr_{m}(n) = 1 - \frac{m!}{m^{n}(m-n)!} = 1 - Q(m,n)
-\)
-which gives the first result.
-
-The number of balls is at least $n+1$ with probability $Q(m,n)$. Since the 
-expected value of a random variable $T$ taking on nonegative integer values 
- can always be computed by $E[T] = \sum_{n\geq 1} i \Pr(T=i) = 
- \sum_{j\geq 0} \Pr(T>j)$, and these latter probabilities are zero when $j>m$,
- the second result follows.
-\end{proof}
-
-Table~\ref{adt-tbl2} presents (to 4 decimal places)
-some values of \(\Pr_{m}(n)\) for \(m=365\) and \(n=5\ldots100\). 
-As soon as $m=47$ (the table with 365 positions is only 12.9\% full),
-the probability of collision is greater than 0.95.
-Thus collisions are frequent even in sparsely occupied tables.
-
-\begin{table}[hbt!]
-  \caption{\label{adt-tbl2} Birthday paradox: $\Pr_{365}(n)$.}
- \centerline{
-  \begin{tabular}{|c|r|r|r|r|r|r|r|} \hline
-    \(n\)          & 5 & 10 & 15 & 20 & 22  \\ \hline 
-    \(\Pr_{365}(n)\) & 
-       0.0271 & 0.1169 & 0.2529 & 0.4114 & 0.4757 \\
-    \hline\hline 
-    \(n\)          & 23 & 25 & 30 & 35 & 40  \\ \hline 
-    \(\Pr_{365}(n)\) & 
-       0.5073 & 0.5687 & 0.7063 & 0.8144 & 0.8912 \\
-    \hline\hline 
-    \(n\)          & 45 & 50 & 55 & 60 & 65  \\ \hline 
-    \(\Pr_{365}(n)\) & 
-       0.9410 & 0.9704 & 0.9863 & 0.9941 & 0.9977 \\
-    \hline\hline 
-    \(n\)          & 70 & 75 & 80 & 90 & 100  \\ \hline 
-    \(\Pr_{365}(n)\) & 
-       0.9992 & 0.9997 & 0.9999 & 1.0000 & 1.0000 \\
-    \hline
-  \end{tabular}}
-\end{table}
-
-Figure~\ref{fig:birthday} shows the graph of $\Pr_{365}(n)$ as a function of $n$.
-The median of this distribution occurs around $n=23$, as we have said above, and
-so 23 or more balls suffice for the probability of a collision to exceed 1/2. 
-Also, the expected number of balls before the first collision is easily computed
-to be 25. 
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=6cm]{figs/birthday365.eps}
-\end{center}
-\caption{\label{fig:birthday} Birthday paradox: $\Pr_{365}(n)$.}
-\end{figure}
-
-When the load factor is much less than $1$, the average number of balls per bin
-is small. If the load factor exceeds $1$ then the average number is large. In 
-each case analysis is not too difficult. For hashing to be practical, we need 
-to be able to fill a hash table as much as possible before we spend valuable 
-time \defnfont{rehashing} --- that is, allocating more space for the table
- and reassigning hash codes via a new hash function. Thus we need to analyse 
- what happens when the load factor is comparable to $1$, that is, when the 
- number of balls is comparable to the number of bins. This also turns out to be
- the most interesting case mathematically.
-
-\subsubsection{Theoretical analysis of hashing}
-
-In addition to the basic operations for arrays, we also 
-consider the computation of the hash address of an item to be an elementary 
-operation.
-
-Chaining is relatively simple to analyse. 
-
-\begin{Lemma}\label{lem:sc}
-The expected running time for unsuccessful search
-in a hash table with load factor \(\lambda\) using
-separate chaining is given by 
-$$T_{\mathrm{us}}(\lambda)= 1+\lambda. $$
-The expected running time for successful search is $O(1 + \lambda/2)$.
-
-Update, retrieval, insertion and deletion all take time that is $O(1+\lambda)$.
-\end{Lemma}
-\begin{proof}
-In an unsuccessful search for a key \(k\), the computation of
-the hash address, \(h(k)\), takes one elementary
-operation. The average running time to unsuccessfully search for the
-key at that address is equal to the average length of the
-associated chain, \(\lambda=\frac{n}{m}\). Thus in total
-$T_{\mathrm{us}}(\lambda) = 1 + \lambda = 1 + n/m$.
-
-The result for successful search and other operations 
-now follows from Lemma~\ref{lem:ss-us}, since update, retrieval and deletion from a 
-linked list take constant time.
-\end{proof}
-
-To analyse open addressing, we must make some extra assumptions. We use the 
-\defnfont{uniform hashing hypothesis}: each configuration of $n$ keys in a 
-hash table of size $m$ is equally likely to occur. This is what we would expect 
-of a truly ``random" hash function, and it seems experimentally 
-to be a good model for double hashing. Note that this is stronger than just 
-requiring that each key is independently and uniformly likely to hash initially 
-to each slot before collision resolution (``random balls in bins").
-It also implies that all probe sequences are equally likely.
-
-\begin{Lemma}\label{lem:oadh}
-Assuming the uniform hashing hypothesis holds, 
-the expected number of probes for search in a hash table satisfy
-$$
-T_{\mathrm{us}}(\lambda) \leq \frac{1}{1-\lambda} 
-$$
-and
-$$ 
-T_{\mathrm{ss}}(\lambda) \leq \frac{1}{\lambda} \ln \frac{1}{1-\lambda}.
-$$
-\end{Lemma}
-
-\begin{proof} 
-The average number of probes for an
-unsuccessful search is
-\(
-T_{\mathrm{us}}(\lambda) = \sum_{i=1}^{n}i p_{m,n}(i)
-\)
-where \(p_{m,n}(i)\) denotes the probability of exactly \(i\)
-probes during the search. Obviously, 
-\(p_{m,n}(i) = \Pr (m,n,i) - \Pr (m,n,i+1)\) where 
-\(\Pr (m,n,i)\) is the probability of \(i\) or more probes
-in the search. By a similar argument to that used in the
-birthday problem analysis we have for $i\geq 2$
-$$
-\Pr (m,n,i) = \frac{n}{m}\cdot \frac{n-1}{m-1} \cdots \frac{n-i+2}{m-i+2}
-$$
-while $\Pr (m,n,1) = 1$.
-Note that clearly $\Pr (m,n,i) \leq (n/m)^{i-1} = \lambda^{i-1}.$
-Thus
-\begin{eqnarray*}
-T_{\mathrm{us}}(\lambda) & = &
-\sum\limits_{i=1}^{n}i\left ( 
-{\textstyle \Pr (n,m,i) - \Pr (n,m,i+1) }\right ) \\
-& \le &
-\sum\limits_{i=1}^{\infty}i\left ( 
-{\textstyle \Pr (n,m,i) - \Pr (n,m,i+1)}\right ) 
-= \sum\limits_{i=1}^{\infty} \Pr (n,m,i) 
-\le  
-\sum\limits_{i=1}^{\infty} \lambda^{i-1} = \frac{1}{1-\lambda} = \frac{m}{m-n}.
-\end{eqnarray*}
-
-The result for successful search now follows by averaging. We have
-\begin{align*}
-T_{\mathrm{ss}}(\lambda) & \leq \frac{1}{n} \sum_{i=0}^{n-1} \frac{m}{m-i} \\
-& = \frac{1}{\lambda} \sum_{j=m-n+1}^m \frac{1}{j}\\
-& \leq \frac{1}{\lambda} \int_{n-m}^n dx/x = \frac{1}{\lambda} \ln\left(\frac{m}{m-n}\right) = \frac{1}{\lambda}
-\ln\left(\frac{1}{1-\lambda}\right).
-\end{align*}
-\end{proof}
-
-\begin{note}
-It can be shown that the exact values are
-\begin{align*}
-T_{\mathrm{us}}(\lambda) & = \frac{m+1}{m-n+1} \approx \frac{1}{1-\lambda}\\
-T_{\mathrm{ss}}(\lambda) & = \frac{m+1}{n} \left( H_{m+1} - H_{m-n+1} \right) 
-\approx \frac{1}{\lambda} \ln\left(\frac{1}{1-\lambda}\right)
-\end{align*}
-so that the upper bounds in the theorem are asymptotically precise as $m\to \infty$.
-\end{note}
-
-Good implementations of OADH have been shown in theory and practice to be well 
-described by the simple uniform hashing model above, so we may safely use the above
-results. 
-
-However, OALP is not well 
-described by the uniform hashing model, because of its clustering 
-behaviour. It can be analysed, however, in a similar but more complicated manner.
-
-\begin{Lemma}\label{lem:oalp}Assuming uniformly hashed random input,
-the expected number of probes for successful, $T_{\mathrm{ss}}(\lambda)$,
-and unsuccessful, $T_{\mathrm{us}}(\lambda)$, search in a hash table using 
-OALP are, respectively, 
-\[
-T_{\mathrm{ss}}(\lambda)\approx
-0.5 \left ( 1 + \frac{1}{1-\lambda}\right ) 
-\; \;\;\; 
-\mathrm{and}
-\; \;\;\; 
-T_{\mathrm{us}}(\lambda)\approx
-0.5 \left ( 1 + \left ( \frac{1}{1-\lambda} \right )^2 \right )
-\]
-\end{Lemma}
-\begin{proof}
-The proof is beyond the scope of this book (see Notes).
-\end{proof}
-
-The relationships in Lemma~\ref{lem:oalp} and Lemma~\ref{lem:oadh}
-completely fail when \(\lambda=1\). But the latter situation indicates a full 
-hash table, and we should avoid getting close to it anyway. 
-
-Unlike OALP and OADH, the time estimates for separate chaining (SC) remain
-valid with data removals. Because each chain may keep several 
-table elements, the load factor may be more than $1$.
-
-\begin{table}[htb!]
-  \caption{\label{tbl-hash}Average search time bounds in hash tables with
-           load factor $\lambda$.} 
- \centerline{
-  \begin{tabular}{|c|ccc|ccc|} \hline
-   \(\lambda\) & 
-   \multicolumn{3}{c|}{Successful search: $T_{\mathrm{ss}}(\lambda)$} &
-   \multicolumn{3}{c|}{Unsuccessful search: $T_{\mathrm{us}}(\lambda)$} 
-   \\ \cline{2-7}
-               & \textbf{SC} & \textbf{OALP} & \textbf{OADH} 
-               & \textbf{SC} & \textbf{OALP} & \textbf{OADH}\\ \hline
-0.10 & 1.05 & 1.06 & 1.05 & 1.10 & 1.12 & 1.11 \\
-0.25 & 1.12 & 1.17 & 1.15 & 1.25 & 1.39 & 1.33 \\
-0.50 & 1.25 & 1.50 & 1.39 & 1.50 & 2.50 & 2.0 \\
-0.75 & 1.37 & 2.50 & 1.85 & 1.75 & 8.50 & 4.0 \\
-0.90 & 1.45 & 5.50 & 2.56 & 1.90 & 50.5 & 10.0 \\
-0.99 & 1.49 & 50.5 & 4.65 & 1.99 & 5000.0 & 100.0 \\ \hline
-  \end{tabular}}
-\end{table}
-
-Table~\ref{tbl-hash} presents the above theoretical 
-estimates of the search time in the OALP, OADH, and SC hash tables under 
-different load factors. Average time measurements for actual hash
-tables~\cite{standish} are close to the estimates for SC tables in  the whole
-range \(\lambda \le 0.99\) and seem to be valid for larger
-values of \(\lambda\), too. The measurements for OADH tables
-remain also close to the estimates up to  \(\lambda = 0.99\).
-But for OALP tables, the measured time is considerably
-less than the estimates if \( \lambda > 0.90\) for a successful search and 
-\( \lambda > 0.75\) for an unsuccessful search.
-
-\begin{Example}
-The expected performance of hashing depends only on the load factor.
-If \(\lambda = 0.9\), OADH 
-double hashing takes on the average 2.56 and 10 probes for 
-successful and unsuccessful search, respectively. But 
-if \(\lambda = 0.5\), that is, the same keys are stored 
-in a roughly twice larger table, the same numbers decrease
-to 1.39 and 2 probes.
-\end{Example}
-
-
-\subsection{Implementation of hashing}
-
-\subsubsection{Resizing} 
-One problem with open addressing is that successive insertions may cause the table
-to become almost full, which degrades performance. Eventually we will need to 
-increase the table size. Doing this each time an element is inserted is very 
-inefficient. It is better to use an upper bound, say $0.75$, on the load factor, 
-and to double the array size when this threshold is exceeded. This will then require 
-recomputing the addresses of each element using a new hash function.
-
-The total time required to resize, when growing a table from $0$ to $m=2^k$ elements,
-is of order $1 + 2 + 4 + 8 + \dots + 2^{k-1} = 2^k - 1 = m - 1$. Since the $m$ 
-insertions take time of order $m$ (recall the table always has load factor 
-bounded away from $1$), the average insertion time is still $\Theta(1)$.
-
-\subsubsection{Deletion}
-
-It is quite easy to delete a table entry from a hash table with separate 
-chaining (by mere node deletion from a linked list). However, open addressing 
-encounters difficulties. If a particular table entry is physically removed
-from a OA-hash table leaving an empty entry in that place, the search for 
-subsequent keys becomes invalid. This is because the OA-search terminates when 
-the probe sequence encounters an empty table entry. Thus if a previously occupied 
-entry is emptied, all probe sequences that 
-previously travelled through that entry will
-now terminate before reaching the right location. 
-
-To avoid this problem, the deleted entry is normally marked in such a way that
-insertion and search operations can treat it as an empty and 
-nonempty location, respectively. Unfortunately, such a policy results in hash 
-tables packed with entries which are marked as deleted. But in this case the 
-table entries can be rehashed to preserve only actual data and really delete all
-marked entries. In any case, the time to delete a table entry remains \(O(1)\) 
-both for SC  and OA hash tables.
-
-\subsubsection{Choosing a hash function}
-\label{sec:choice:hash:fun} 
-
-Ideally, the hash 
-function, \(h(k)\), has to map keys uniformly and randomly onto 
-the entire range of hash table addresses. Therefore, the
-choice of this function has much in common with the choice of
-a generator of uniformly distributed pseudorandom numbers. 
-A randomly chosen key \(k\) has to equiprobably hash to each
-address so that uniformly distributed keys produce uniformly
-distributed indices \(h(k)\). A poorly designed hash function
-distributes table addresses nonuniformly and tends to
-cluster indices for contiguous clusters of keys. 
-A well designed function scatters the keys as to avoid
-their clustering as much as possible.
-
-If a set of keys is fixed, there always exists a \defnfont{perfect hash function}
-that maps the set one-to-one onto a set of table indices and thus entirely 
-excludes collisions. However, the problem is how to design such a function as
-it should be computed quickly but without using large tables.
-There exist techniques to design perfect hash functions for given sets of keys. 
-But perfect hashing is of very limited interest because in most applications 
-data sets are not static and the sets of keys cannot be pre-determined.
-
-Four basic methods for choosing a hash function
-are \defnfont{division}, \defnfont{folding}, \defnfont{middle-squaring}, and 
-\defnfont{truncation}.
-\begin{description}
-\item[Division] assuming the table size is a prime number \(m\) 
-and keys, \(k\), are integers,
-the quotient, \(q(k,m)=\left \lfloor \frac{k}{m} \right \rfloor \), 
-and the remainder, \(r(k,m)=k \mod m\), of the integer division of
-\(k\) by \(m\) specify the
-probe decrement for double hashing and the value
-of the hash function \(h(k)\), respectively:
-$$
-h(k) = r(k,m) \mbox{ and }
-\Delta(k) = \max \left \{
-1, \ q(k,m) \bmod m \right\} \quad . 
-$$
-The probe decrement is put to the range \([1,\ldots,m-1]\) because all
-decrements should be nonzero and point to the indices
-\([0,1,\ldots,m-1]\) of the table. The reason that $m$ should be prime is that 
-otherwise some slots may be unreachable by a probe sequence: for example if 
-$m=12$ and $\Delta(k) = 16$, only $3$ slots will be probed before the sequence
-returns to the starting position.
-
-\item[Folding] an integer key \(k\) is divided into sections and 
-the value \(h(k)\) combines sums, differences, and products of
-the sections (for example, a 9-digit decimal key, such as 
-\(k=013402122\), can be split into three sections:
-013, 402, and 122, to be added together for getting 
-the value \(h(k)=537\) in the range \([0,\ldots,2997]\)).
-
-\item[Middle-squaring] a middle section of an integer key
-\(k\), is selected and squared, then a middle section of 
-the result is the value \(h(k)\) (for example, the squared middle section, 402, of 
-the above 9-digit key, \(k=013402122\), results in 161604, and
-the middle four digits give the value \(h(k)=6160\) in the range
-\([0,\ldots,9999]\)).
-
-\item[Truncation] parts of a key are simply cut out and 
-the remaining digits, or bits, or characters are used
-as the value \(h(k)\)  
-(for example, deletion of all but last three digits 
-in the above 9-digit key, \(k=013402122\),
-gives  
-the value \(h(k)=122\) in the range \([0,\ldots,999]\)).
-While truncation is extremely fast, the keys do not scatter
-randomly and uniformly over the hash table indices. This is
-why truncation is used together with other methods, but 
-rarely by itself.
-\end{description}
-
-Many real-world hash functions combine some of the above methods.
-                                            
-We conclude by discussing the idea of \emph{universal hashing}. We have seen 
-(in the section on quicksort) the idea of using randomization to 
-protect against bad worst-case behaviour. An analogous idea works for hashing.
-                                           
-If a hash table is dynamically changing and its elements 
-are not known in advance, any fixed hash function can result in 
-very poor performance on certain inputs, because of collisions. 
-Universal hashing allows us to reduce the probability of this occurrence
-by randomly selecting the hash function at run time from a large set
-of such functions. Each selected function still may be bad for a
-particular input, but with a low probability
-which remains equally low if the same input is met once again.
-Due to its internal randomisation, universal hashing behaves well even for
-totally nonrandom inputs. 
-
-\begin{Definition}
-Let \(K\), \(m\), and \(F\) denote
-a set of keys, a size of a hash table (the range of indices),
-and a set of hash functions mapping \(K\) to \(\{0,\ldots,m-1\}\),
-respectively. Then \(F\) is a \defnfont{universal class} if any
-distinct pair of keys \(k,\kappa \in {K}\)  collide
-for no more than \(\frac{1}{m}\) of the functions in the class \({F}\),
-that is,
-\[
-\frac{1}{|{F}|}
-\left| \raisebox{10pt}{} \left\{ h \in {F} \mid \ h(k) = h(\kappa)\right\}\right|
-\le \frac{1}{m} \quad .
-\]
-%where \(|Z|\) denotes cardinality of a finite
-%set \({Z}\).
-
-\end{Definition}
-Thus in the universal class all key pairs behave well and the
-random selection of a function from the class results in a probability of at most
-\(\frac{1}{m}\) that any pair collide.
-
-One popular universal class of hashing functions is produced by
-a simple division method. It assumes the keys are integers and
-cardinality of
-the set of keys \({K}\) is a prime number larger 
-than the largest actual key. The size \(m\) of the hash
-table can be arbitrary. This universal class is described by
-the next theorem.
-
-\begin{Theorem}[Universal Class of Hash Functions] 
-\label{the:ucf}
-Let \({K}=\{0,\ldots,p-1\}\) and \(|{K}| = p\) be
-a prime number. 
-For any pair of integers \(a \in \{1, \ldots, p-1\}\)
-and \(b \in \{0, \ldots, p-1\}\), let
-\(
-h_{a,b}(k) = \left ( (ak + b) \bmod p \right ) \bmod m
-\).
-Then
-\[
-{F} = \{h_{a,b} \mid \ 1 \le a < p \;\; \mathrm{and} \;\; 0 \le b < p \}
-\]
-is a universal class.
-\end{Theorem}
-\begin{proof}
-It is easily shown that the number of collisions in the
-class \({F}\), 
-\[
-\left| \raisebox{10pt}{} \{h\in {F} \mid  h(k)= h(\kappa); \ k,\kappa\in {K}\}\right|,
-\]
-is the number of distinct numbers \((x,y)\);
-\(0 \le x,y < p\) such that 
-\(x \bmod m = y \bmod m\). Let us denote the latter property: 
-\(x \equiv y \pmod m\). %; (\hspace*{-3mm}\mod n)\).
-It is evident that \(h_{a,b}(k) = h_{a,b}(\kappa)\) iff 
-\[
-(ak + b ) \bmod p  \equiv 
-(a\kappa + b ) \bmod p  \pmod m \quad .
-\]
-
-Then for any fixed \(k, \kappa < p\), there is one-to-one
-correspondence between the pairs \((a,b)\) such that
-\(0 < a < p\) and \(0 < b < p\) and \(h_{a,b}(k) = h_{a,b}(\kappa)\),
-and the pairs of distinct numbers \((x,y)\) with the
-property that \(0 \le x,y < p\) and \(x \equiv y \pmod n\).
-The correspondence is given in one direction by
-\[
-x = (ak + b) \bmod p; \;\; y = (a\kappa + b) \bmod p
-\]
-where \(x \ne y\) since 
-\[
-\{ az + b \mid \ z = 0, \ldots, p-1\} = \{0, \ldots, p-1\}
-\]
-when \(p\) is prime and \(a \ne 0\). In the other direction
-the correspondence is given by the condition that \(a\) and
-\(b\) are the unique integers in \(\{0, \ldots, p-1\}\) such
-that
-\[
-ak + b \equiv x \pmod p \; \;\;\mathrm{and}\;\;\;
-a\kappa + b \equiv y \pmod p \quad .
-\]
-These equations have a unique solution for \(a\) and \(b\)
-since \(p\) is prime, and \(a \ne 0\) since \(x \ne y\).
-
-Clearly \(|{F}| = p(p-1)\). Now let us find out how many 
-pairs of distinct numbers
-\((x,y)\) exist such that \(0 \le x,y < p\) and 
-\(x \equiv y \pmod m\). For any fixed \(s < m\) there are
-at most \( \left \lceil \frac{p}{m} \right \rceil \) numbers
-\(x < p\) such that \(x \equiv s \pmod m\). Since \(p\) and
-\(m\) are integers,
-\(
-\left \lceil \frac{p}{m} \right \rceil \le \frac{p-1}{m} +1
-\).
-Therefore for each \(x < p\) there are no more than
-\(\frac{p}{m} -1 \le \frac{p-1}{m}\) numbers \(y < p\)
-distinct from \(x\) such that \(x \equiv y \pmod m\), and
-the total number of such pairs \((x,y)\) is at most 
-\(\frac{p(p-1)}{m}\). Hence for any fixed distinct
-pair of keys \((k,\kappa)\) the fraction of \({F}\)
-that cause \(k\) and \(\kappa\) to collide is at
-most \(\frac{1}{m}\), so the class \({F}\) is universal.
-\end{proof}
-
-This suggests the following strategy for 
-choosing a hash function at run time: (i) find 
-the current size of the set of keys to hash; 
-(ii) select the next 
-prime number \(p\) larger than the size of the key set found;
-({iii}) randomly choose integers \(a\) and \(b\)
-such that \(0 < a < p\) and \(0 \le b < p\), and 
-({iv}) use the function \(h_{a,b}\) 
-defined in Theorem~\ref{the:ucf}.
-
-
-\subsection*{Exercises}
-
-\begin{Exercise}\label{exr:java:hash}
-The Java programming language (as of time of writing)
-uses the following hash function $h$ for character strings. 
-Each character has a Unicode value represented by an integer (for example, the 
-upper case letters $A, B, \dots, Z$ correspond to $65, 66, \dots, 90$ and the 
-lower case $a, b, \dots, z$ correspond to $97, 98, \dots, 122$). Then 
-$h$ is computed using 32-bit integer addition via
-$$h(s) = s[0]*31^{n-1} + s[1]*31^{n-2} + \dots + s[n-1]*31 + s[n].$$
-
-Find two 2-letter strings that have the same hash value. How could you use this 
-to make $2^{100}$ different strings all of which have the same hash code?
-\end{Exercise}
-
-\begin{Exercise}\label{exr:hash:oalp}
-Place the sequence of keys \(k=10, 26, 52, 76, 13, 8, 3, 33, 60, 42\) 
-into a hash table of size 13 using the modulo-based hash address \(i = k \mod 13\) 
-and linear probing to resolve collisions.
-\end{Exercise}
-
-\begin{Exercise}\label{exr:hash:oadh}
-
-Place the sequence of keys \(k=10, 26, 52, 76, 13, 8, 3, 33, 60, 42\) 
-into a hash table of size 13 using the modulo-based hash address \(i = k \mod 13\) 
-and double hashing with the secondary hash function 
-\(\Delta(k)=\max\{1, k/13 \}\) to resolve collisions.
-\end{Exercise}
-
-\begin{Exercise}\label{exr:hash:sc}
-Place the sequence of keys \(k=10, 26, 52, 76, 13, 8, 3, 33, 60, 42\) 
-into a hash table of size 13 using separate chaining to resolve collisions.
-\end{Exercise}
-% ------^^^ inserted from book ^^^---------
-
-\chapter{Lecture: Universal Hashing}

@@ -1,25 +1,24 @@
 \part{What is Algorithm Analysis?} \label{ch:alganal}
 
-\chapter{Lecture: What is an algorithm and why analyse it?}
 
+\chapter{What is an algorithm and why analyse it?} %--------------------------
 
 An \emph{algorithm} is a sequence of clearly stated rules that
 specify a step-by-step method for solving a given problem.
 The rules should be unambiguous and
 sufficiently detailed that they can be carried out without creativity.
 
-Examples of algorithms: a (sufficiently detailed) cake recipe,
-primary school method for multiplication of decimal integers; quicksort.
+Examples of algorithms are a (sufficiently detailed) cake recipe,
+primary school method for multiplication of decimal integers, quicksort.
 
-Algorithms predate electronic computers by thousands of years (example:
-Euclid's greatest common divisor algorithm).
+Algorithms predate electronic computers by thousands of years, for example
+Euclid's greatest common divisor algorithm.
 
-A \emph{program} is a sequence of computer instructions implementing the 
-algorithm.
+A \emph{program} is a sequence of computer instructions implementing the algorithm.
 
 Experience shows that enormously more performance gains can be achieved 
-by optimizing the algorithm than by optimizing other factors such as:
-processor, language, compiler, human programmer.
+by optimizing the algorithm than by optimizing other factors such as
+processors, languages, compilers, or human programmers.
 The analysis process often results in us discovering simpler algorithms.
 Many algorithms have parameters that must be set before implementation. 
 Analysis allows us to set the optimal values.
@@ -27,22 +26,22 @@ Algorithms that have not been analysed for correctness often lead to
 major bugs in programs.
 
 
-\begin{example}
+\begin{Example}
 The Fibonacci sequence is recursively defined by 
 $$
 F(n) = 
-\begin{cases}
-n & \quad \text{if $n = 0$ or $n = 1$;} \\
-F(n - 1) + F(n - 2) & \quad \text{if $n \geq 2$.} 
-\end{cases}
+  \left\{\begin{array}{ll}
+	n & \quad \text{if } n = 0 \text{ or } n = 1; \\ 
+    F(n - 1) + F(n - 2) & \quad \text{if } n \geq 2 \text{.}
+  \end{array}
+  \right.
 $$
 This immediately suggests a recursive algorithm.
-\end{example}
+\end{Example}
 
-\if01
 \begin{algorithm}[H]
-  \caption{Slow method for computing Fibonacci numbers
-    \label{alg:slowfib}}
+  \caption{Slow method for computing Fibonacci numbers} 
+  \label{alg:slowfib}
 \begin{algorithmic}[1]
 \Function{slowfib}{integer $n$}
 \If{$n < 0$} 
@@ -56,13 +55,12 @@ This immediately suggests a recursive algorithm.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-\fi
 
-The algorithm \texttt{slowfib} is obviously correct, but does a lot of 
-repeated computation. With a small (fixed) amount of extra space, we can do better, by 
+The algorithm \texttt{slowfib} %(\cref{alg:slowfib}) 
+is obviously correct, but does a lot of repeated computation. 
+With a small (fixed) amount of extra space, we can do better, by 
 working from the bottom up instead of from the top down.
 
-\if01
 \begin{algorithm}[H]
   \caption{Fast method for computing Fibonacci numbers
     \label{alg:fastfib}}
@@ -87,26 +85,26 @@ working from the bottom up instead of from the top down.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-\fi
-. 
+ 
 Proving correctness of \texttt{fastfib} is done by induction on $n$.  We omit the proof here.
 %\item In fact even a bad implementation in a slow interpreted language on an 
 %ancient machine of \texttt{fastfib} will beat the best implementation of 
 %\texttt{slowfib}, once $n$ becomes big enough.
 It is easy to see that the number of additions, function calls, etc needed by 
-\texttt{fastfib} to compute $F(n)$ has the form $An+B$ for some constants 
-$A, B$.
+\texttt{fastfib} to compute $F(n)$ has the form $An+B$ for some constants $A, B$.
 
-\chapter{Lecture: how to measure running time}
+TODO? add extra questions from slides?
 
+
+
+\chapter{How to measure running time} %---------------------------------------
 
 There are three main characteristics of an algorithm designed to solve a given 
 problem.
 \begin{itemize}
 \item Domain of definition: the set of legal inputs. 
 \item Correctness: it gives correct output for each legal input. 
-This depends on the problem we are trying to solve, and can be tricky to 
-prove. 
+This depends on the problem we are trying to solve, and can be tricky to prove. 
 \item Resource use: usually computing time and memory space. 
 \begin{itemize} 
 \item This depends on the input, and on the implementation 
@@ -120,8 +118,6 @@ prove.
 In this course we mainly consider how to estimate resource use of an algorithm, 
 ignoring implementation as much as possible.  
 
-
-
 Given an algorithm $\algo$, the actual running time on a given
 input $\inp$ depends on many implementation details. This is not desirable
 because it does not allow direct comparison of algorithms. 
@@ -131,7 +127,6 @@ inputs that cause problems if the algorithm is inefficient.
 %\item We usually don't want to have to consider the distribution of
 %running time over all possible inputs of a given size. There may be (infinitely)
 % many inputs of a given size, and running time may vary widely on these. 
-
 
 We use a clean mathematical model of the problem. Example: sorting 
 distinct records is really the same problem as computing the inverse of a 
@@ -152,14 +147,13 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
 
 
 
-
-
 %\frametitle{How running time scales with problem size}
 \begin{table}[htb] 
+   \centering
  % \caption{\label{t:growth} Growth in running time as problem size grows} 
    \begin{tabular}{|c|c|cccc|} \hline 
    \multicolumn{2}{|c|}{\textbf{Running time}} &  
-   \multicolumn{4}{|c|}{\textbf{Input size}} 
+   \multicolumn{4}{c|}{\textbf{Input size}} 
 \\ \cline{1-6} 
    \emph{Function}     & \emph{Notation} & $10$ & $100$ & $1000$ & $10^7$
 \\ \hline 
@@ -171,13 +165,9 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
    Cubic        & $n^{3}$ & 1 & 1000 & $10^6$ &  $10^{18}$ \\ \hline 
    Exponential  & $2^{n}$ & 1 & $10^{27}$ & $10^{298} $ & $10^{3010296}$  \\ \hline 
    \end{tabular}
- \end{table} 
+\end{table} 
  
-  Note: there are about $3\times 10^{18}$ nanoseconds in a century.
-
-
-
-
+Note: there are about $3 \times 10^{18}$ nanoseconds in a century.
 
 \begin{Boxample}[4]
 \label{exr:time-compl:2}
@@ -193,9 +183,7 @@ Which algorithm is better when $n = 10$? when $n=10^6$? How do we decide which a
 
 \begin{Boxample}[4]
 \label{exr:time-compl:7A}
-Algorithms \textbf{A} and 
-\textbf{B} use
-exactly \(T_\mathrm{A}(n) = c_\mathrm{A} n \lg n\)
+Algorithms \textbf{A} and \textbf{B} use exactly \(T_\mathrm{A}(n) = c_\mathrm{A} n \lg n\)
 and \(T_\mathrm{B}(n) = c_\mathrm{B} n^{2}\) elementary operations, 
 respectively, for a problem of size \(n\).
 Find the fastest algorithm for processing \(n=2^{20}\) data items if
@@ -205,8 +193,7 @@ respectively, to process \(2^{10}\equiv 1024\) items.
 
 
 
-\chapter{Lecture: Techniques for estimating running time}
-
+\chapter{Techniques for estimating running time} %----------------------------
 
 The above examples show that running time depends considerably on how
 deeply the loops are nested and how the loop control variables are
@@ -295,7 +282,7 @@ where $T_i$ is the running time of statement \(i\) of the function
 and $k$ is the number of statements.
 
 
-\chapter{Lecture: Asymptotic notation}
+\chapter{Asymptotic notation} %-----------------------------------------------
 
 % ------vvv inserted from book vvv---------
 
