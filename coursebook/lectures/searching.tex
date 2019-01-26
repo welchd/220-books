@@ -4,10 +4,10 @@
 \chapter{Searching, binary search trees} %------------------------------------
 
 \paragraph{Table ADT.}
-\begin{Defintion}
+\begin{Definition}
 A \defnfont{table} is an ADT that supports operations to insert, retrieve and delete an element
-with given search key.  Another name is \alert{dictionary}.
-\end{Defintion}
+with given search key.  Another name is \defnfont{dictionary}.
+\end{Definition}
 Tables are used in databases. There are  many ways in which a table could be implemented;
 with an unsorted lists, with a sorted list, with a (balanced) binary search tree, with a hash table.
 
@@ -32,7 +32,7 @@ Start at the middle element $y$, and recursively go left (right) if $y>K$ (if $y
 \item The (worst-case) recurrence is $T(n) = 1 +  T(\lfloor n/2 \rfloor)$, with 
 solution in $\Theta(\log n)$.
 \item The execution of this algorithm (looking for all possible keys) can be 
-described by a decision tree called a (static) \alert{binary search tree}. The 
+described by a decision tree called a (static) \defnfont{binary search tree}. The 
 number of comparisons required to find the key is the depth of the leaf 
 containing that key.
 \end{itemize}

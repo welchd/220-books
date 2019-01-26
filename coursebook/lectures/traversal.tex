@@ -60,9 +60,9 @@ We first describe it less formally.
 Suppose that $G$ is a digraph. Choose a node $v$ as a starting point. We
 shall visit all nodes reachable from $v$ in $G$ using an obvious method.
 
-At each stage, there are three possible types of nodes. \emph{White}
-nodes are those that have not yet been visited. \emph{Grey} nodes 
-(or \defnfont{frontier nodes}) are those that have been visited but may have 
+At each stage, there are three possible types of nodes. 
+\emph{White} nodes are those that have not yet been visited. 
+\emph{Grey} nodes (or \defnfont{frontier nodes}) are those that have been visited but may have 
 adjacent nodes that are white.
 Finally, \emph{black} nodes are those  nodes that have been
 visited, along with all their adjacent nodes. This is shown pictorially
@@ -974,12 +974,16 @@ $u$ to occur before $v$, which restricts the number of valid permutations
 of the vertices.
 \end{Example}
 
-\begin{figure}
+\begin{Boxample}[1]
+Perform a topological sort on the graph on the left\ldots\\ 
 % \centerline{\IpeScale{80}\Ipe{./figs/graphEx4.ipe}}
 Jo-TODO
-\caption{Topological orders of some DAGs.}
-\label{fig:toporder}
-\end{figure}
+\end{Boxample}
+% \begin{figure}
+% \centerline{\IpeScale{80}\Ipe{./figs/graphEx4.ipe}}
+% \caption{Topological orders of some DAGs.}
+% \label{fig:toporder}
+% \end{figure}
 
 The algorithms for computing \boldfont{all} topological orders are
 more advanced than what we have time or space for here. We show how to

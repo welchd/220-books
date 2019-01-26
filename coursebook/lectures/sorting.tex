@@ -71,10 +71,10 @@ jo-TODO
   \caption{Selection sort
     \label{alg:selsort}}
 \begin{algorithmic}[1]
-\Function{SelectionSort}{list $a[0..n-1]$}
+\Function{Selsort}{list $a[0..n-1]$}
 %\State $n \gets \texttt{a.size()}$ 
-\For{$i \gets 0$ \text{to} $n-1$} 
-	\State $k \gets $ \texttt{findMax}($a[i..n-1]$)
+\For{$i \gets n-1$ \text{to} $0$} 
+	\State $k \gets $ \texttt{findmax}($a[0..i]$)
 	\If{$k \neq i$} 
 		\State \texttt{swap}($a,i,k$)
 	\EndIf
@@ -123,7 +123,7 @@ But if we change the data structure \dots (see lecture on heapsort).
 The sorting algorithm \defnfont{insertion sort} works as follows.
 \begin{itemize}
 	\item  For each element in the unsorted part of the input list, scan backward 
-	until we find a preceding element which it exceeds, and then swap these 
+	until we find a preceding element which exceeds it, and then swap these 
 	elements (or insert). Iterate.
 \end{itemize}
 This is the sorting method used by cardplayers to arrange cards in a hand.
@@ -297,16 +297,17 @@ place.
 \end{itemize}
 
 \begin{algorithm}[H]
-  \caption{Merge
-    \label{alg:merge}}
+  \caption{Merge}
+    \label{alg:merge}
 \begin{algorithmic}[0]
 %\Require{$0 \leq i \leq j \leq n-1$}
 \Function{merge}{list $a[1..m]$, list $b[1..n]$}
-\State list $c[]$
-\While{$a$ is not empty and $b$ is not empty}
-\If{$a < b$}
-\State \Return{$c$}
-\End{While}
+	\State list $c[]$
+	\While{$a$ is not empty and $b$ is not empty}
+		\If{$a < b$}
+			\State \Return $c$
+		\EndIf
+ 	\EndWhile
 \EndFunction  
 \end{algorithmic}
 \end{algorithm}
