@@ -4,122 +4,135 @@
 
 \chapter{Graph traversal algorithms}
 
-Traversals involve visiting each node of a digraph in a systematic way using only the structure of the digraph. 
-This is a very common task when dealing with graphs.
+Traversals involve visiting each node of a digraph in a systematic way using only the structure of the digraph, that is, following only the arcs in the digraph. 
+This is a very common task when dealing with digraphs and we'll cover several applications in later lectures.
 
-The important requirements are that we must be systematic (otherwise an algorithm is hard to implement), 
-we must be complete (visit each node at least once), 
-and we must be efficient (visit each node at most once). 
-
-There are several ways to perform a traversal.  
-We start with a general framework for traversals then present the
+There are several ways to perform a systematic and efficient traversal.  
+We start with a basic framework for traversals then present the
 two most common techniques: breadth-first search and depth-first search.
 We also discuss a more general algorithm, priority-first search. 
 
-\section{Generalities on graph traversal}
+\section{The general graph traversal algorithm}
 \label{sec:trav}
 
-We first discuss a general skeleton common to all graph traversals. 
-In \cref{fig:travcode}, this general skeleton is presented in pseudocode. 
-We first describe it less formally.
-
-\begin{figure}[htbp]
-\hspace*{1in}\begin{minipage}{5in}
-\Algorithm{traverse}{digraph $G$}{}
-{
-\> array $\colour[0..n-1]$, $\pred[0..n-1]$ \\
-\> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $\colour[u] \gets $ WHITE \\
-\> \textbf{end for}\\
-\> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
-\> \> \> \texttt{visit}($s$) \\
-\> \> \textbf{end if}\\
-\> \textbf{end for}\\
-\> \textbf{return} $\pred$ \\
-}
-
-\Algorithm{visit}{node $s$ of digraph $G$}{}
-{
-\> $\colour[s] \gets $ GREY; $\pred[s] \gets $ NULL \\
-\> \textbf{while} there is a grey node \textbf{do} \\
-\> \> choose a grey node $u$ \\
-\> \> \textbf{if} there is a white neighbour of $u$  \\
-\> \> \> choose such a neighbour $v$ \\
-\> \> \> $\colour[v] \gets $ GREY; $\pred[v] \gets u$ \\
-\> \> \textbf{else} $\colour[u] \gets $ BLACK \\
-\> \> \textbf{end if} \\
-\> \textbf{end while}\\
-}
-\end{minipage}
-\caption{Graph traversal schema.}
-\label{fig:travcode}
-\end{figure}
-
-
-Suppose that $G$ is a digraph. Choose a node $v$ as a starting point. We
-shall visit all nodes reachable from $v$ in $G$ using an obvious method.
-
-At each stage, there are three possible types of nodes. 
-\emph{White} nodes are those that have not yet been visited. 
-\emph{Grey} nodes (or \defnfont{frontier nodes}) are those that have been visited but may have 
-adjacent nodes that are white.
-Finally, \emph{black} nodes are those  nodes that have been
-visited, along with all their adjacent nodes. This is shown pictorially
-in \cref{fig:travcols}.
-
+All graph traversal algorithms  have the same basic structure  that relies on keeping track of which nodes have been visited and whether they may be adjacent to nodes that have not yet been visited. We use a system of three colours to to describe these states (see  \cref{fig:travcols}):
+\begin{itemize} 
+\item \defnfont{White nodes} have not yet been visited;
+\item \defnfont{Grey nodes} (or \defnfont{frontier nodes}) have been visited but may have 
+ out-neighbours that are white;
+\item \defnfont{Black nodes} have been visited and all their out-neighbours have been visited too (so are not white). 
+\end{itemize}
 \begin{figure}
   \centering
   \includegraphics{graphTraversalNodeStateBW}
-  \caption{Node states in the middle of a digraph traversal.}
+  \caption{Node states during a digraph traversal.}
   \label{fig:travcols}
 \end{figure}
 
-Initially, all nodes are white. The traversal algorithm first colours
-$v$ grey. At each subsequent step, it chooses a grey node $w$ and then a
-white node $x$ adjacent to $w$ (thereby changing the colour of $x$ to
-grey). This possibly causes some grey nodes to become black. When all
-nodes are black, there can be no white nodes reachable from the current
-set of visited nodes. We have reached every node that can be reached
-from the root, and the traversal from $v$ terminates. 
 
-At this stage we have created a subdigraph of $G$ that is a tree: the
-nodes are precisely the black nodes, and the arcs are those arcs
-connecting a grey node to its white neighbour at the instant before the
-white node turns grey.
+The traversal algorithm which visits all nodes in a digraph is loosely described as follows: 
+\begin{itemize}
+\item all nodes are white to begin with
+\item a starting white node is chosen and turned grey
+\item a grey node is chosen and its out-neighbours explored. 
+\item If any out-neighbour is white, it is visited and turned grey. If no out-neighbours are white, the grey node is turned black. 
+\item the process of choosing grey nodes and exploring neighbours is continued until all nodes reachable from the initial node are black.
+\item if any white nodes remain in the digraph, a new  starting node is chosen and the process continues until all nodes are black.
+\end{itemize}
 
-There may remain unvisited nodes in the digraph. In this case, we may
-choose another white node as root and continue. Eventually, we obtain a
-set of disjoint trees spanning the digraph, which we call the
-\defnfont{search forest}. 
+We keep track of the order in which nodes are visited by recording which arc was followed when a node first turned from white to grey. As we will see, this creates a sub-digraph of the original digraph which has a tree structure.
 
-The above is formalized in \cref{fig:travcode}. Here
-\algfont{traverse} simply chooses a new root $s$ when required. The main
-work is done by \algfont{visit}. In this procedure, the array $\pred$
-stores the parent of each node; each root gets the value NULL, since it
-has no parent. Each time through the while-loop, a white node is turned
-grey or a grey node is turned black. Thus eventually there are no white
-nodes reachable from $s$ and the procedure terminates. If a node $u$ is
-reachable from $s$ then it is visited during the call to \algfont{visit}
-with input $s$, unless it had already been visited in a previous tree.
+This algorithm is formalised in the pseudocode  of \cref{alg:traverse,alg:visit}. \cref{alg:traverse} (\algfont{traverse}) initialises the process and is tasked with finding white nodes to start from. Most of the work is done in \cref{alg:visit} (\algfont{visit}) which takes a starting node and explores the portion of the subgraph reachable from that node.
 
-Now once a traversal has been completed and a search forest obtained,
-we may classify the arcs into four distinct types. This classification
-will be  useful later.
+\begin{algorithm}[H]
+  \caption{Basic graph traversal main routine: traverse
+    \label{alg:traverse}}
+\begin{algorithmic}[1]
+\Function{traverse}{digraph $G$}
+	\State  array $\colour[0..n-1]$ \Comment{records node colour}
+	\State array $\pred[0..n-1]$ \Comment{records path of traversal as a tree}
+	\For{$u \in V(G)$} \Comment{make all nodes white}
+	\State $\colour[u] \gets $ WHITE 
+	\EndFor
+	\For{$s \in V(G)$}  \Comment{find a white node}
+	\If {$\colour[s] ==$ WHITE} 
+	\State \texttt{visit}$[s]$ \Comment{start traversal from $s$}
+	\EndIf
+	\EndFor
+	\Return $\pred$ 
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \caption{Basic graph traversal subroutine: visit
+    \label{alg:visit}}
+\begin{algorithmic}[1]
+\Function{visit}{node $s$ of digraph $G$}
+	\State  $\colour[s] \gets$ GREY 
+	\State $\pred[s] \gets$ NULL \Comment{make start node the root of the tree}
+	\While{there is a GREY node} \Comment{continues until all nodes are black}
+	\State choose a GREY node $u$ 
+	\If{$u$ has a WHITE neighbour}
+	\State choose a WHITE neighbour, $v$ 
+	\State $\colour[v] \gets $ GREY \Comment{$v$ is visited for first time, so turns grey }
+	\State $pred[v] \gets u$ \Comment{make $u$ the parent of $v$ in the traversal tree}
+	\Else
+	\State $\colour[u] \gets $ BLACK \Comment{$u$ has no white neighbours so done with $u$ }
+	\EndIf
+	\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+After the first call to \algfont{visit} we have created a subdigraph of $G$ that is a tree: the
+nodes are precisely the black nodes (all nodes reachable from the initial node), and the arcs are those arcs followed when we found a white neighbour of a grey node. 
+
+Each white node chosen in \algfont{traverse} becomes the root of a tree in the call to \algfont{visit}. Eventually, we obtain a
+set of disjoint trees spanning the digraph (that is, it includes all the nodes of the digraph), which we call the
+\defnfont{search forest}. The search forest  is returned by \algfont{traverse} in the array $pred$.
+
+\input{figs/generalTraversal}
+
+\section{Classifying arcs after a traversal}
+
+For the analysis of the traversal algorithm, it is useful to classify the arcs of $G$ based on their relationships in the search forest.  
 
 \begin{Definition}\label{defn:arc-types}
 Suppose we have performed a traversal of a digraph $G$, resulting in a
-search forest $F$.  Let $(u, v)\in E(G)$ be an arc. It is called a
-\defnfont{tree arc} if it belongs to one of the trees of $F$. If the arc
-is not a tree arc, there are three possibilities.  A non-tree arc is
-called a \defnfont{forward arc} if $u$ is an ancestor of $v$ in $F$, a
-\defnfont{back arc} if $u$ is a descendant of $v$ in $F$, and a
-\defnfont{cross arc} if neither $u$ nor $v$ is an ancestor of the other in $F$.
+search forest $F$.  Let $(u, v)\in E(G)$ be an arc. Then $(u, v)$ is a:
+\begin{itemize} 
+\item \defnfont{tree arc} if it belongs to one of the trees of $F$. 
+\item Or, if it is not a tree arc, it is a
+\begin{itemize}
+\item \defnfont{forward arc} if $u$ is an ancestor of $v$ in $F$
+\item \defnfont{back arc} if $u$ is a descendant of $v$ in $F$
+\item \defnfont{cross arc} if neither $u$ nor $v$ is an ancestor of the other in $F$.
+\end{itemize}
+\end{itemize}
 \end{Definition} 
 
-In the first three cases in Definition~\ref{defn:arc-types}, 
-$u$ and $v$ must belong to the same tree of $F$. However, a cross arc may 
-join two nodes in the same tree or point from one tree to another. 
+A cross arc may 
+join two nodes in the same tree or point from one tree to another. Tree, forward and back arcs require that $u$ and $v$ be in the same tree.
+
+
+\tikz{
+\foreach \x/\y/\c in {3/2/c,0/0/a,1/2/b,2/-2/d,4/0/e} {
+     \draw[blue,thick] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\draw[blue,very thick,-latex] (0.135,0.27) -- (0.865,1.73); %b->c
+\draw[thick,dashed,-latex] (0.25,0.167) -- (2.75,1.833); %b->a
+\draw[blue,very thick,-latex] (3.135,1.73) -- (3.865,0.27); %a->e
+\draw[thick,dashed,-latex] (1.3,2) -- (2.7,2);  %c->a
+\draw[blue,very thick,-latex] (1.073,1.708) -- (1.927,-1.708); %c->d   
+\draw[magenta,thick,dashed,-latex] (1.788,-1.788) -- (0.212,-0.212); %d->b  
+\draw[thick,dashed,-latex] (2.212,-1.788) -- (3.788,-0.212); %d->e
+\foreach \x/\y/\c/\d in {3/2/a/very thick,4/0/e/ultra thick,0/0/b/very thick,1/2/c/very thick,2/-2/d/ultra thick} {
+     \filldraw[black] (\x,\y) circle (3mm);
+     \draw[blue,\d] (\x,\y) circle(3mm) node[yellow] {\footnotesize\c};
+}
+}
+
 
 The following theorem collects all the basic facts we need for proofs
 in later sections. \cref{fig:travdecomp} illustrates the first part.
@@ -164,19 +177,22 @@ or the entering arc will contradict the first part.
   \label{fig:travdecomp}
 \end{figure}
 
-We now turn to the analysis of \algfont{traverse}. The generality
-of our traversal procedure makes its complexity hard to determine.  Its
-running time is very dependent on how one chooses the next grey node $u$
-and its white neighbour $v$. It also apparently depends on how long it
+\section{Running time for the general traversal algorithm}
+
+The generality
+of our traversal algorithm makes it exact running time impossible to determine.  It depends on how one chooses the next grey node $u$
+and its white neighbour $v$. 
+
+It also apparently depends on how long it
 takes to determine whether there exist any grey nodes or whether $u$ has
 any white neighbours. However, any sensible rule for checking existence
 of either type of node should simply return false if there is no such
 node, and take no more time in this case than if it does find one. Thus
 we do not need to take account of the checking in our analysis.
 
-Since the initialization of the array $\colour$ takes time 
-$\Theta(n)$, the amount of time taken by \algfont{traverse} 
-is clearly $\Theta(n + t)$, where $t$ is the total time taken by all 
+The initialization of the array $\colour$ takes time 
+$\Theta(n)$ so \algfont{traverse} 
+is in $\Theta(n + t)$, where $t$ is the total time taken by all 
 the calls to \algfont{visit}.
 
 Each time through the while-loop of \algfont{visit} a grey node is
@@ -210,36 +226,36 @@ asymptotically both representations take time $\Omega(n^2)$, so using
 the adjacency matrix is not clearly ruled out (it may even be preferable
 if it makes programming easier).
 
-\subsection*{Exercises}
-
-\begin{Exercise}
-\label{ex:trav-maze}
-Draw a moderately complicated graph representing a maze (corridors are
-edges and intersections are nodes). Label one node as the start and
-another as the end.  One rule for getting through a maze is to  try to
-go forward, always make a right turn when faced with a choice of
-direction, and back up as little as possible when faced with a dead end.
-Apply this method to your example. Interpret what you do in terms of the
-procedure \algfont{traverse}.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:trav-maze-random}
-Suppose that in \algfont{traverse}, the grey node is chosen at random and
-so is the white node. Find your way through your maze of the previous
-exercise using this method.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:trav-cross}
-Give an example for each of the following items.
-\begin{itemize}
-\item A search forest in which a cross arc points from one tree to 
-another.
-\item A  search forest in which a cross arc joins two nodes in the same
-tree.
-\end{itemize}
-\end{Exercise}
+%\subsection*{Exercises}
+%
+%\begin{Exercise}
+%\label{ex:trav-maze}
+%Draw a moderately complicated graph representing a maze (corridors are
+%edges and intersections are nodes). Label one node as the start and
+%another as the end.  One rule for getting through a maze is to  try to
+%go forward, always make a right turn when faced with a choice of
+%direction, and back up as little as possible when faced with a dead end.
+%Apply this method to your example. Interpret what you do in terms of the
+%procedure \algfont{traverse}.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:trav-maze-random}
+%Suppose that in \algfont{traverse}, the grey node is chosen at random and
+%so is the white node. Find your way through your maze of the previous
+%exercise using this method.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:trav-cross}
+%Give an example for each of the following items.
+%\begin{itemize}
+%\item A search forest in which a cross arc points from one tree to 
+%another.
+%\item A  search forest in which a cross arc joins two nodes in the same
+%tree.
+%\end{itemize}
+%\end{Exercise}
 
 \chapter{Depth First Seach (DFS)}
 

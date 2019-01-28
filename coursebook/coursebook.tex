@@ -10,6 +10,13 @@
 \geometry{a4paper, top=4cm, bottom=4cm, outer=5cm, inner=2cm, marginparwidth=2.5cm, marginparsep=2cm}
  
 
+% ## paragraph style ## ----------------------------------------------
+%TODO fix this up
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+
 % ## packages for graphics, etc ## ----------------------------------------------
 \usepackage{ipe} % remove when figures replaced
 \usepackage[usenames,dvipsnames,table]{xcolor}
@@ -27,6 +34,10 @@
 \newcommand{\defnfont}[1]{\textbf{\textit{#1}}\index{#1}}
 \newcommand{\boldfont}[1]{\emph{#1}}
 \newcommand{\algfont}[1]{\texttt{#1}\index{algorithm!#1}}
+
+% ## tikz ## ----------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit}
 
 
 % ## style ## ----------------------------------------------

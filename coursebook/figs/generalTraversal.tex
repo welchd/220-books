@@ -1,0 +1,174 @@
+\tikz{
+\foreach \x/\y/\c in {3/2/a,0/0/b,1/2/c,2/-2/d,4/0/e} {
+     \draw[blue,thick] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\draw[blue,thick,-latex] (0.135,0.27) -- (0.865,1.73); %b->c
+\draw[blue,thick,-latex] (0.25,0.167) -- (2.75,1.833); %b->a
+\draw[blue,thick,-latex] (3.135,1.73) -- (3.865,0.27); %a->e
+\draw[blue,thick,-latex] (1.3,2) -- (2.7,2);  %c->a
+\draw[blue,thick,-latex] (1.073,1.708) -- (1.927,-1.708); %c->d   
+\draw[blue,thick,-latex] (1.788,-1.788) -- (0.212,-0.212); %d->b  
+\draw[blue,thick,-latex] (2.212,-1.788) -- (3.788,-0.212); %d->e
+\node[below] at (8,2) {\begin{minipage}{60mm} \footnotesize
+initialising all nodes WHITE\\
+\end{minipage}};
+}
+
+
+\tikz{
+\foreach \x/\y/\c in {3/2/a,0/0/b,1/2/c,2/-2/d,4/0/e} {
+     \draw[blue,thick] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\draw[blue,thick,-latex] (0.135,0.27) -- (0.865,1.73); %b->c
+\draw[blue,thick,-latex] (0.25,0.167) -- (2.75,1.833); %b->a
+\draw[blue,thick,-latex] (3.135,1.73) -- (3.865,0.27); %a->e
+\draw[blue,thick,-latex] (1.3,2) -- (2.7,2);  %c->a
+\draw[blue,thick,-latex] (1.073,1.708) -- (1.927,-1.708); %c->d   
+\draw[blue,thick,-latex] (1.788,-1.788) -- (0.212,-0.212); %d->b  
+\draw[blue,thick,-latex] (2.212,-1.788) -- (3.788,-0.212); %d->e
+\foreach \x/\y/\c/\d in {3/2/a/very thick,4/0/e/ultra thick} {
+     \filldraw[black!25] (\x,\y) circle (3mm);
+     \draw[blue,\d] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\node[below] at (8,2) {\begin{minipage}{60mm} \footnotesize
+\texttt{visit}(a); $colour[\textsf{a}]\leftarrow\textsf{GREY}$\\
+e is  WHITE neighbour of a:\\
+\hspace*{4mm} $colour[\textsf{e}]\leftarrow\textsf{GREY}$; $pred[\textsf{e}]\leftarrow\textsf{a}$\\
+\end{minipage}};
+}
+
+\tikz{
+\foreach \x/\y/\c in {3/2/a,0/0/b,1/2/c,2/-2/d,4/0/e} {
+     \draw[blue,thick] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\draw[blue,thick,-latex] (0.135,0.27) -- (0.865,1.73); %b->c
+\draw[blue,thick,-latex] (0.25,0.167) -- (2.75,1.833); %b->a
+\draw[blue,thick,-latex] (3.135,1.73) -- (3.865,0.27); %a->e
+\draw[blue,thick,-latex] (1.3,2) -- (2.7,2);  %c->a
+\draw[blue,thick,-latex] (1.073,1.708) -- (1.927,-1.708); %c->d   
+\draw[blue,thick,-latex] (1.788,-1.788) -- (0.212,-0.212); %d->b 
+\draw[blue,thick,-latex] (2.212,-1.788) -- (3.788,-0.212); %d->e
+\foreach \x/\y/\c/\d in {3/2/a/very thick,4/0/e/ultra thick} {
+     \filldraw[black!25] (\x,\y) circle (3mm);
+     \draw[blue,\d] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\filldraw[black] (3,2) circle (2.9mm) node[yellow] {\footnotesize a};
+\node[below] at (8,2) {\begin{minipage}{60mm} \footnotesize
+\texttt{visit}(a); $colour[\textsf{a}]\leftarrow\textsf{GREY}$\\
+e is  WHITE neighbour of a\\
+\hspace*{4mm} $colour[\textsf{e}]\leftarrow\textsf{GREY}$; $pred[e]\leftarrow\textsf{a}$\\
+choose GREY a: {\footnotesize no WHITE neighbour:} \\
+\hspace*{4mm}$colour[\textsf{a}]\leftarrow\textsf{BLACK}$\\
+\end{minipage}};
+}
+
+
+
+\tikz{
+\foreach \x/\y/\c in {3/2/a,0/0/b,1/2/c,2/-2/d,4/0/e} {
+     \draw[blue,thick] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\draw[blue,thick,-latex] (0.135,0.27) -- (0.865,1.73); %b->c
+\draw[blue,thick,-latex] (0.25,0.167) -- (2.75,1.833); %b->a
+\draw[blue,thick,-latex] (3.135,1.73) -- (3.865,0.27); %a->e
+\draw[blue,thick,-latex] (1.3,2) -- (2.7,2);  %c->a
+\draw[blue,thick,-latex] (1.073,1.708) -- (1.927,-1.708); %c->d   
+\draw[blue,thick,-latex] (1.788,-1.788) -- (0.212,-0.212); %d->b 
+\draw[blue,thick,-latex] (2.212,-1.788) -- (3.788,-0.212); %d->e
+\foreach \x/\y/\c/\d in {3/2/a/very thick,4/0/e/ultra thick} {
+     \filldraw[black!25] (\x,\y) circle (3mm);
+     \draw[blue,\d] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\filldraw[black] (3,2) circle (2.9mm) node[yellow] {\footnotesize a};
+\filldraw[black] (4,0) circle (2.9mm) node[yellow] {\footnotesize e};
+\node[below] at (8,2) {\begin{minipage}{60mm} \footnotesize
+\texttt{visit}(a); $colour[\textsf{a}]\leftarrow\textsf{GREY}$\\
+e is  WHITE neighbour of a\\
+\hspace*{4mm} $colour[\textsf{e}]\leftarrow\textsf{GREY}$; $pred[e]\leftarrow\textsf{a}$\\
+choose GREY a: {\footnotesize no WHITE neighbour:} \\
+\hspace*{4mm}$colour[\textsf{a}]\leftarrow\textsf{BLACK}$\\
+choose GREY e: {\footnotesize no WHITE neighbour:} \\
+\hspace*{4mm}$colour[\textsf{e}]\leftarrow\textsf{BLACK}$\\
+\end{minipage}};
+}
+
+
+\tikz{
+\foreach \x/\y/\c in {3/2/c,0/0/a,1/2/b,2/-2/d,4/0/e} {
+     \draw[blue,thick] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\draw[blue,thick,-latex] (0.135,0.27) -- (0.865,1.73); %b->c
+\draw[blue,thick,-latex] (0.25,0.167) -- (2.75,1.833); %b->a
+\draw[blue,thick,-latex] (3.135,1.73) -- (3.865,0.27); %a->e
+\draw[blue,thick,-latex] (1.3,2) -- (2.7,2);  %c->a
+\draw[blue,thick,-latex] (1.073,1.708) -- (1.927,-1.708); %c->d   
+\draw[blue,thick,-latex] (1.788,-1.788) -- (0.212,-0.212); %d->b  
+\draw[blue,thick,-latex] (2.212,-1.788) -- (3.788,-0.212); %d->e
+\foreach \x/\y/\c/\d in {3/2/a/very thick,4/0/e/ultra thick,0/0/b/very thick,1/2/c/ultra thick} {
+     \filldraw[black!25] (\x,\y) circle (3mm);
+     \draw[blue,\d] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\filldraw[black] (3,2) circle (2.9mm) node[yellow] {\footnotesize a};
+\filldraw[black] (4,0) circle (2.9mm) node[yellow] {\footnotesize e};
+\node[below] at (8,2) {\begin{minipage}{60mm} \footnotesize
+\texttt{visit}(b); $colour[\textsf{b}]\leftarrow\textsf{GREY}$\\
+c is  WHITE neighbour of b\\
+\hspace*{4mm} $colour[\textsf{c}]\leftarrow\textsf{GREY}$; $pred[c]\leftarrow\textsf{b}$\\
+\end{minipage}};
+}
+
+
+
+\tikz{
+\foreach \x/\y/\c in {3/2/c,0/0/a,1/2/b,2/-2/d,4/0/e} {
+     \draw[blue,thick] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\draw[blue,thick,-latex] (0.135,0.27) -- (0.865,1.73); %b->c
+\draw[blue,thick,-latex] (0.25,0.167) -- (2.75,1.833); %b->a
+\draw[blue,thick,-latex] (3.135,1.73) -- (3.865,0.27); %a->e
+\draw[blue,thick,-latex] (1.3,2) -- (2.7,2);  %c->a
+\draw[blue,thick,-latex] (1.073,1.708) -- (1.927,-1.708); %c->d   
+\draw[blue,thick,-latex] (1.788,-1.788) -- (0.212,-0.212); %d->b  
+\draw[blue,thick,-latex] (2.212,-1.788) -- (3.788,-0.212); %d->e
+\foreach \x/\y/\c/\d in {3/2/a/very thick,4/0/e/ultra thick,0/0/b/very thick,1/2/c/very thick,2/-2/d/ultra thick} {
+     \filldraw[black!25] (\x,\y) circle (3mm);
+     \draw[blue,\d] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\filldraw[black] (3,2) circle (2.9mm) node[yellow] {\footnotesize a};
+\filldraw[black] (4,0) circle (2.9mm) node[yellow] {\footnotesize e};
+\node[below] at (8,2) {\begin{minipage}{60mm} \footnotesize
+\texttt{visit}(b); $colour[\textsf{b}]\leftarrow\textsf{GREY}$\\
+c is  WHITE neighbour of b\\
+\hspace*{4mm} $colour[\textsf{c}]\leftarrow\textsf{GREY}$; $pred[c]\leftarrow\textsf{b}$\\
+d is WHITE neighbour of c\\
+\hspace*{4mm} $colour[\textsf{d}]\leftarrow\textsf{GREY}$; $pred[d]\leftarrow\textsf{c}$\\
+\end{minipage}};
+}
+
+\tikz{
+\foreach \x/\y/\c in {3/2/c,0/0/a,1/2/b,2/-2/d,4/0/e} {
+     \draw[blue,thick] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\draw[blue,very thick,-latex] (0.135,0.27) -- (0.865,1.73); %b->c
+\draw[blue,thick,dashed,-latex] (0.25,0.167) -- (2.75,1.833); %b->a
+\draw[blue,very thick,-latex] (3.135,1.73) -- (3.865,0.27); %a->e
+\draw[blue,thick,dashed,-latex] (1.3,2) -- (2.7,2);  %c->a
+\draw[blue,very thick,-latex] (1.073,1.708) -- (1.927,-1.708); %c->d   
+\draw[blue,thick,dashed,-latex] (1.788,-1.788) -- (0.212,-0.212); %d->b  
+\draw[blue,thick,dashed,-latex] (2.212,-1.788) -- (3.788,-0.212); %d->e
+\foreach \x/\y/\c/\d in {3/2/a/very thick,4/0/e/ultra thick,0/0/b/very thick,1/2/c/very thick,2/-2/d/ultra thick} {
+     \filldraw[black] (\x,\y) circle (3mm);
+     \draw[blue,\d] (\x,\y) circle(3mm) node[yellow] {\footnotesize\c};
+}
+\node[below] at (8,2) {\begin{minipage}{60mm} \footnotesize
+\texttt{visit}(b); $colour[\textsf{b}]\leftarrow\textsf{GREY}$\\
+c is  WHITE neighbour of b\\
+\hspace*{4mm} $colour[\textsf{c}]\leftarrow\textsf{GREY}$; $pred[c]\leftarrow\textsf{b}$\\
+d is WHITE neighbour of c\\
+\hspace*{4mm} $colour[\textsf{d}]\leftarrow\textsf{GREY}$; $pred[d]\leftarrow\textsf{c}$\\
+no more WHITE nodes:\\
+\hspace*{4mm} $colour[\textsf{d}]\leftarrow\textsf{BLACK}$\\
+\hspace*{4mm} $colour[\textsf{c}]\leftarrow\textsf{BLACK}$\\
+\hspace*{4mm} $colour[\textsf{b}]\leftarrow\textsf{BLACK}$\\
+\end{minipage}};
+}
