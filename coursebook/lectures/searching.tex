@@ -4,10 +4,10 @@
 \chapter{Searching, binary search trees} %------------------------------------
 
 \paragraph{Table ADT.}
-\begin{Defintion}
+\begin{Definition}
 A \defnfont{table} is an ADT that supports operations to insert, retrieve and delete an element
-with given search key.  Another name is \alert{dictionary}.
-\end{Defintion}
+with given search key.  Another name is \defnfont{dictionary}.
+\end{Definition}
 Tables are used in databases. There are  many ways in which a table could be implemented;
 with an unsorted lists, with a sorted list, with a (balanced) binary search tree, with a hash table.
 
@@ -32,7 +32,7 @@ Start at the middle element $y$, and recursively go left (right) if $y>K$ (if $y
 \item The (worst-case) recurrence is $T(n) = 1 +  T(\lfloor n/2 \rfloor)$, with 
 solution in $\Theta(\log n)$.
 \item The execution of this algorithm (looking for all possible keys) can be 
-described by a decision tree called a (static) \alert{binary search tree}. The 
+described by a decision tree called a (static) \defnfont{binary search tree}. The 
 number of comparisons required to find the key is the depth of the leaf 
 containing that key.
 \end{itemize}
@@ -62,7 +62,7 @@ containing that key.
 
 \paragraph{Binary search trees.}
 \begin{Definition}
-A \alert{binary search tree} (BST) is a binary tree with keys stored in nodes, 
+A {binary search tree} (BST) is a binary tree with keys stored in nodes, 
 such that the key of each node is $\geq$ the key of every node in the left subtree and $\leq$ 
 the key of  every node in the right subtree.
 \end{Definition}
@@ -135,7 +135,7 @@ right. It has the BST property with respect to the sort keys.
 \item Given the above BST describing the execution of quicksort on the array, 
 note that the cost of constructing the tree (measured by key comparisons) is 
 the same as the number of comparisons used by quicksort in sorting the file.
-\item This is equal to the \alert{internal path length}, the sum of all depths 
+\item This is equal to the {internal path length}, the sum of all depths 
 of nodes. 
 \item Thus the average search cost in a BST built by random insertions is $\Theta(\log n)$ .
 \end{itemize}
@@ -151,7 +151,7 @@ of nodes.
 There are several classes of BSTs (such as AVL, red-black, AA) that 
 perform rebalancing operations at crucial times in order to keep the height 
 close to $\lg n$.
-These operations are based on local \alert{rotations} of the tree.
+These operations are based on local {rotations} of the tree.
 Analysis of performance is fairly difficult.
 It is not too hard to show that AVL trees maintain the right height (see textbook). 
 Average-case height is not really known.
@@ -160,7 +160,7 @@ Average-case height is not really known.
 \begin{itemize}
 \item These were the first self-balancing BSTs, introduced in 1962 by 
 Adelson-Velskii and Landis.
-\item The \alert{balance of a node} is the difference between heights of its 
+\item The {balance of a node} is the difference between heights of its 
 right subtree and left subtree. AVL trees adjust themselves after each insertion 
 or deletion so that each node has balance $0, 1$ or $-1$.
 \item An AVL tree with $n$ nodes has height at most $1.44 \lg n$, about $44\%$ more 
@@ -218,15 +218,15 @@ $A_h \sim C \phi^h$ for some $C>0$, where $\phi = (1+\sqrt{5})/2$.
 \chapter{Hashing} %-----------------------------------------------------------
 
 \begin{Definition}
-A \alert{hash function} is a function $h$ that outputs an integer
-value for each key. A \alert{hash table} is an array implementation of
+A {hash function} is a function $h$ that outputs an integer
+value for each key. A {hash table} is an array implementation of
 the table ADT, where each key is mapped via a hash function to an array
 index. 
 \item The number of possible keys is usually enormously more than
 the actual number of keys. Thus allocating an array with enough size to
 fit all possible keys would be very inefficient. So hash functions are
 not $1$-to-$1$; that is, two keys may be mapped to the same index (a
-\alert{collision}). 
+{collision}). 
 \end{Definition}
 We need a collision resolution policy to prescribe what to do when 
 collisions occur. 
@@ -247,7 +247,7 @@ words it should pass some statistical tests (similar to pseudorandom number gene
 \begin{itemize}
 \item \defnfont{Open addressing} uses no extra space - every element is stored in 
 the hash table. If it gets overfull, we can reallocate space and 
-\alert{rehash}.
+{rehash}.
 \item  \defnfont{Chaining} uses an ``overflow" list for each element in 
 the hash table.
 \item When a collision occurs, we can evict the occupant (LCFS), 
@@ -360,7 +360,7 @@ constant time on average.
 
 \paragraph{Results for open addressing}
 \begin{itemize}
-\item We assume \alert{uniform hashing}: each configuration of 
+\item We assume {uniform hashing}: each configuration of 
 $n$ keys in a table of size $m$ is equally likely to occur. In other words, the 
 hash function produces a random permutation of the keys, and the slots are 
 probed in random order for each key.
@@ -407,10 +407,10 @@ intuition.
 \paragraph{Statistics for balls in bins: some facts.}
 \begin{itemize}
 \item When do we expect the first collision? This is the 
-\alert{birthday problem}. Answer: $E(m) \approx \sqrt{\pi m/2} + 2/3$.
+{birthday problem}. Answer: $E(m) \approx \sqrt{\pi m/2} + 2/3$.
 So collisions happen even in fairly sparse tables.
 \item When do we expect all boxes to be nonempty? This is the 
-\alert{coupon collector problem}. Answer: after about $m \log m$ balls. 
+{coupon collector problem}. Answer: after about $m \log m$ balls. 
 It takes a long time to use all lists when chaining.
 \item What proportion of boxes are expected to be empty when $n$ is $\Theta(m)$? 
 Answer: $e^{-\lambda}$. Many of the lists are just wasted space even for 

@@ -2,124 +2,137 @@
 \label{ch:traversal}
 
 
-\chapter{Lecture: Graph traversal algorithms}
+\chapter{Graph traversal algorithms}
 
-Traversals involve visiting each node of a digraph in a systematic way using only the structure of the digraph. 
-This is a very common task when dealing with graphs.
+Traversals involve visiting each node of a digraph in a systematic way using only the structure of the digraph, that is, following only the arcs in the digraph. 
+This is a very common task when dealing with digraphs and we'll cover several applications in later lectures.
 
-The important requirements are that we must be systematic (otherwise an algorithm is hard to implement), 
-we must be complete (visit each node at least once), 
-and we must be efficient (visit each node at most once). 
-
-There are several ways to perform a traversal.  
-We start with a general framework for traversals then present the
+There are several ways to perform a systematic and efficient traversal.  
+We start with a basic framework for traversals then present the
 two most common techniques: breadth-first search and depth-first search.
 We also discuss a more general algorithm, priority-first search. 
 
-\section{Generalities on graph traversal}
+\section{The general graph traversal algorithm}
 \label{sec:trav}
 
-We first discuss a general skeleton common to all graph traversals. 
-In \cref{fig:travcode}, this general skeleton is presented in pseudocode. 
-We first describe it less formally.
-
-\begin{figure}[htbp]
-\hspace*{1in}\begin{minipage}{5in}
-\Algorithm{traverse}{digraph $G$}{}
-{
-\> array $\colour[0..n-1]$, $\pred[0..n-1]$ \\
-\> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $\colour[u] \gets $ WHITE \\
-\> \textbf{end for}\\
-\> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
-\> \> \> \texttt{visit}($s$) \\
-\> \> \textbf{end if}\\
-\> \textbf{end for}\\
-\> \textbf{return} $\pred$ \\
-}
-
-\Algorithm{visit}{node $s$ of digraph $G$}{}
-{
-\> $\colour[s] \gets $ GREY; $\pred[s] \gets $ NULL \\
-\> \textbf{while} there is a grey node \textbf{do} \\
-\> \> choose a grey node $u$ \\
-\> \> \textbf{if} there is a white neighbour of $u$  \\
-\> \> \> choose such a neighbour $v$ \\
-\> \> \> $\colour[v] \gets $ GREY; $\pred[v] \gets u$ \\
-\> \> \textbf{else} $\colour[u] \gets $ BLACK \\
-\> \> \textbf{end if} \\
-\> \textbf{end while}\\
-}
-\end{minipage}
-\caption{Graph traversal schema.}
-\label{fig:travcode}
-\end{figure}
-
-
-Suppose that $G$ is a digraph. Choose a node $v$ as a starting point. We
-shall visit all nodes reachable from $v$ in $G$ using an obvious method.
-
-At each stage, there are three possible types of nodes. \emph{White}
-nodes are those that have not yet been visited. \emph{Grey} nodes 
-(or \defnfont{frontier nodes}) are those that have been visited but may have 
-adjacent nodes that are white.
-Finally, \emph{black} nodes are those  nodes that have been
-visited, along with all their adjacent nodes. This is shown pictorially
-in \cref{fig:travcols}.
-
+All graph traversal algorithms  have the same basic structure  that relies on keeping track of which nodes have been visited and whether they may be adjacent to nodes that have not yet been visited. We use a system of three colours to to describe these states (see  \cref{fig:travcols}):
+\begin{itemize} 
+\item \defnfont{White nodes} have not yet been visited;
+\item \defnfont{Grey nodes} (or \defnfont{frontier nodes}) have been visited but may have 
+ out-neighbours that are white;
+\item \defnfont{Black nodes} have been visited and all their out-neighbours have been visited too (so are not white). 
+\end{itemize}
 \begin{figure}
   \centering
   \includegraphics{graphTraversalNodeStateBW}
-  \caption{Node states in the middle of a digraph traversal.}
+  \caption{Node states during a digraph traversal.}
   \label{fig:travcols}
 \end{figure}
 
-Initially, all nodes are white. The traversal algorithm first colours
-$v$ grey. At each subsequent step, it chooses a grey node $w$ and then a
-white node $x$ adjacent to $w$ (thereby changing the colour of $x$ to
-grey). This possibly causes some grey nodes to become black. When all
-nodes are black, there can be no white nodes reachable from the current
-set of visited nodes. We have reached every node that can be reached
-from the root, and the traversal from $v$ terminates. 
 
-At this stage we have created a subdigraph of $G$ that is a tree: the
-nodes are precisely the black nodes, and the arcs are those arcs
-connecting a grey node to its white neighbour at the instant before the
-white node turns grey.
+The traversal algorithm which visits all nodes in a digraph is loosely described as follows: 
+\begin{itemize}
+\item all nodes are white to begin with
+\item a starting white node is chosen and turned grey
+\item a grey node is chosen and its out-neighbours explored. 
+\item If any out-neighbour is white, it is visited and turned grey. If no out-neighbours are white, the grey node is turned black. 
+\item the process of choosing grey nodes and exploring neighbours is continued until all nodes reachable from the initial node are black.
+\item if any white nodes remain in the digraph, a new  starting node is chosen and the process continues until all nodes are black.
+\end{itemize}
 
-There may remain unvisited nodes in the digraph. In this case, we may
-choose another white node as root and continue. Eventually, we obtain a
-set of disjoint trees spanning the digraph, which we call the
-\defnfont{search forest}. 
+We keep track of the order in which nodes are visited by recording which arc was followed when a node first turned from white to grey. As we will see, this creates a sub-digraph of the original digraph which has a tree structure.
 
-The above is formalized in \cref{fig:travcode}. Here
-\algfont{traverse} simply chooses a new root $s$ when required. The main
-work is done by \algfont{visit}. In this procedure, the array $\pred$
-stores the parent of each node; each root gets the value NULL, since it
-has no parent. Each time through the while-loop, a white node is turned
-grey or a grey node is turned black. Thus eventually there are no white
-nodes reachable from $s$ and the procedure terminates. If a node $u$ is
-reachable from $s$ then it is visited during the call to \algfont{visit}
-with input $s$, unless it had already been visited in a previous tree.
+This algorithm is formalised in the pseudocode  of \cref{alg:traverse,alg:visit}. \cref{alg:traverse} (\algfont{traverse}) initialises the process and is tasked with finding white nodes to start from. Most of the work is done in \cref{alg:visit} (\algfont{visit}) which takes a starting node and explores the portion of the subgraph reachable from that node.
 
-Now once a traversal has been completed and a search forest obtained,
-we may classify the arcs into four distinct types. This classification
-will be  useful later.
+\begin{algorithm}[H]
+  \caption{Basic graph traversal main routine: traverse
+    \label{alg:traverse}}
+\begin{algorithmic}[1]
+\Function{traverse}{digraph $G$}
+	\State  array $\colour[0..n-1]$ \Comment{records node colour}
+	\State array $\pred[0..n-1]$ \Comment{records path of traversal as a tree}
+	\For{$u \in V(G)$} \Comment{make all nodes white}
+	\State $\colour[u] \gets $ WHITE 
+	\EndFor
+	\For{$s \in V(G)$}  \Comment{find a white node}
+	\If {$\colour[s] ==$ WHITE} 
+	\State \texttt{visit}$[s]$ \Comment{start traversal from $s$}
+	\EndIf
+	\EndFor
+	\Return $\pred$ 
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \caption{Basic graph traversal subroutine: visit
+    \label{alg:visit}}
+\begin{algorithmic}[1]
+\Function{visit}{node $s$ of digraph $G$}
+	\State  $\colour[s] \gets$ GREY 
+	\State $\pred[s] \gets$ NULL \Comment{make start node the root of the tree}
+	\While{there is a GREY node} \Comment{continues until all nodes are black}
+	\State choose a GREY node $u$ 
+	\If{$u$ has a WHITE neighbour}
+	\State choose a WHITE neighbour, $v$ 
+	\State $\colour[v] \gets $ GREY \Comment{$v$ is visited for first time, so turns grey }
+	\State $pred[v] \gets u$ \Comment{make $u$ the parent of $v$ in the traversal tree}
+	\Else
+	\State $\colour[u] \gets $ BLACK \Comment{$u$ has no white neighbours so done with $u$ }
+	\EndIf
+	\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+After the first call to \algfont{visit} we have created a subdigraph of $G$ that is a tree: the
+nodes are precisely the black nodes (all nodes reachable from the initial node), and the arcs are those arcs followed when we found a white neighbour of a grey node. 
+
+Each white node chosen in \algfont{traverse} becomes the root of a tree in the call to \algfont{visit}. Eventually, we obtain a
+set of disjoint trees spanning the digraph (that is, it includes all the nodes of the digraph), which we call the
+\defnfont{search forest}. The search forest  is returned by \algfont{traverse} in the array $pred$.
+
+\input{figs/generalTraversal} 
+
+\section{Classifying arcs after a traversal}
+
+For the analysis of the traversal algorithm, it is useful to classify the arcs of $G$ based on their relationships in the search forest.  
 
 \begin{Definition}\label{defn:arc-types}
 Suppose we have performed a traversal of a digraph $G$, resulting in a
-search forest $F$.  Let $(u, v)\in E(G)$ be an arc. It is called a
-\defnfont{tree arc} if it belongs to one of the trees of $F$. If the arc
-is not a tree arc, there are three possibilities.  A non-tree arc is
-called a \defnfont{forward arc} if $u$ is an ancestor of $v$ in $F$, a
-\defnfont{back arc} if $u$ is a descendant of $v$ in $F$, and a
-\defnfont{cross arc} if neither $u$ nor $v$ is an ancestor of the other in $F$.
+search forest $F$.  Let $(u, v)\in E(G)$ be an arc. Then $(u, v)$ is a:
+\begin{itemize} 
+\item \defnfont{tree arc} if it belongs to one of the trees of $F$. 
+\item Or, if it is not a tree arc, it is a
+\begin{itemize}
+\item \defnfont{forward arc} if $u$ is an ancestor of $v$ in $F$
+\item \defnfont{back arc} if $u$ is a descendant of $v$ in $F$
+\item \defnfont{cross arc} if neither $u$ nor $v$ is an ancestor of the other in $F$.
+\end{itemize}
+\end{itemize}
 \end{Definition} 
 
-In the first three cases in Definition~\ref{defn:arc-types}, 
-$u$ and $v$ must belong to the same tree of $F$. However, a cross arc may 
-join two nodes in the same tree or point from one tree to another. 
+A cross arc may 
+join two nodes in the same tree or point from one tree to another. Tree, forward and back arcs require that $u$ and $v$ be in the same tree.
+
+
+\tikz{
+\foreach \x/\y/\c in {3/2/c,0/0/a,1/2/b,2/-2/d,4/0/e} {
+     \draw[blue,thick] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+}
+\draw[blue,very thick,-latex] (0.135,0.27) -- (0.865,1.73); %b->c
+\draw[thick,dashed,-latex] (0.25,0.167) -- (2.75,1.833); %b->a
+\draw[blue,very thick,-latex] (3.135,1.73) -- (3.865,0.27); %a->e
+\draw[thick,dashed,-latex] (1.3,2) -- (2.7,2);  %c->a
+\draw[blue,very thick,-latex] (1.073,1.708) -- (1.927,-1.708); %c->d   
+\draw[magenta,thick,dashed,-latex] (1.788,-1.788) -- (0.212,-0.212); %d->b  
+\draw[thick,dashed,-latex] (2.212,-1.788) -- (3.788,-0.212); %d->e
+\foreach \x/\y/\c/\d in {3/2/a/very thick,4/0/e/ultra thick,0/0/b/very thick,1/2/c/very thick,2/-2/d/ultra thick} {
+     \filldraw[black] (\x,\y) circle (3mm);
+     \draw[blue,\d] (\x,\y) circle(3mm) node[yellow] {\footnotesize\c};
+}
+}
+
 
 The following theorem collects all the basic facts we need for proofs
 in later sections. \cref{fig:travdecomp} illustrates the first part.
@@ -164,19 +177,22 @@ or the entering arc will contradict the first part.
   \label{fig:travdecomp}
 \end{figure}
 
-We now turn to the analysis of \algfont{traverse}. The generality
-of our traversal procedure makes its complexity hard to determine.  Its
-running time is very dependent on how one chooses the next grey node $u$
-and its white neighbour $v$. It also apparently depends on how long it
+\section{Running time for the general traversal algorithm}
+
+The generality
+of our traversal algorithm makes it exact running time impossible to determine.  It depends on how one chooses the next grey node $u$
+and its white neighbour $v$. 
+
+It also apparently depends on how long it
 takes to determine whether there exist any grey nodes or whether $u$ has
 any white neighbours. However, any sensible rule for checking existence
 of either type of node should simply return false if there is no such
 node, and take no more time in this case than if it does find one. Thus
 we do not need to take account of the checking in our analysis.
 
-Since the initialization of the array $\colour$ takes time 
-$\Theta(n)$, the amount of time taken by \algfont{traverse} 
-is clearly $\Theta(n + t)$, where $t$ is the total time taken by all 
+The initialization of the array $\colour$ takes time 
+$\Theta(n)$ so \algfont{traverse} 
+is in $\Theta(n + t)$, where $t$ is the total time taken by all 
 the calls to \algfont{visit}.
 
 Each time through the while-loop of \algfont{visit} a grey node is
@@ -210,38 +226,38 @@ asymptotically both representations take time $\Omega(n^2)$, so using
 the adjacency matrix is not clearly ruled out (it may even be preferable
 if it makes programming easier).
 
-\subsection*{Exercises}
+%\subsection*{Exercises}
+%
+%\begin{Exercise}
+%\label{ex:trav-maze}
+%Draw a moderately complicated graph representing a maze (corridors are
+%edges and intersections are nodes). Label one node as the start and
+%another as the end.  One rule for getting through a maze is to  try to
+%go forward, always make a right turn when faced with a choice of
+%direction, and back up as little as possible when faced with a dead end.
+%Apply this method to your example. Interpret what you do in terms of the
+%procedure \algfont{traverse}.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:trav-maze-random}
+%Suppose that in \algfont{traverse}, the grey node is chosen at random and
+%so is the white node. Find your way through your maze of the previous
+%exercise using this method.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:trav-cross}
+%Give an example for each of the following items.
+%\begin{itemize}
+%\item A search forest in which a cross arc points from one tree to 
+%another.
+%\item A  search forest in which a cross arc joins two nodes in the same
+%tree.
+%\end{itemize}
+%\end{Exercise}
 
-\begin{Exercise}
-\label{ex:trav-maze}
-Draw a moderately complicated graph representing a maze (corridors are
-edges and intersections are nodes). Label one node as the start and
-another as the end.  One rule for getting through a maze is to  try to
-go forward, always make a right turn when faced with a choice of
-direction, and back up as little as possible when faced with a dead end.
-Apply this method to your example. Interpret what you do in terms of the
-procedure \algfont{traverse}.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:trav-maze-random}
-Suppose that in \algfont{traverse}, the grey node is chosen at random and
-so is the white node. Find your way through your maze of the previous
-exercise using this method.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:trav-cross}
-Give an example for each of the following items.
-\begin{itemize}
-\item A search forest in which a cross arc points from one tree to 
-another.
-\item A  search forest in which a cross arc joins two nodes in the same
-tree.
-\end{itemize}
-\end{Exercise}
-
-\chapter{Lecture: Depth First Seach(DFS)}
+\chapter{Depth First Seach (DFS)}
 
 \section{DFS and BFS}
 \label{sec:BFSDFS}
@@ -375,46 +391,44 @@ introduce a variable $\timeVar$ and keep track of the time a node was turned
 grey, and the time it was turned black, in the arrays $\seen, \done$.
 These will be useful later.
 
-\begin{figure}[htbp]
-\hspace*{.3in}\begin{minipage}{5in}
-\Algorithm{DFS}{digraph $G$}{}
-{
-\> stack $S$ \\ 
-\> array $\colour[0..n-1], \pred[0..n-1], \seen[0..n-1], \done[0..n-1]$ \\
-\> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
-\> \textbf{end for}\\
-\> $\timeVar \gets 0$ \\
-\> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
-\> \> \> \algfont{DFSvisit}($s$) \\
-\> \> \textbf{end if}\\
-\> \textbf{end for}\\
-\> \textbf{return} $\pred, \seen, \done$ \\
-}
 
-\Algorithm{DFSvisit}{node $s$}{}
-{
-\> $\colour[s] \gets $ GREY \\
-\> $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$ \\
-\> S.\algfont{insert}($s$) \\
-\> \textbf{while not} S.\algfont{isEmpty}() \textbf{do} \\
-\> \> $u \gets $ S.\algfont{peek}() \\
-\> \>  \textbf{if} there is a neighbour $v$ with $\colour[v] = $ WHITE \textbf{then} \\
-\> \> \> $\colour[v] \gets $ GREY; $\pred[v] \gets u$ \\ 
-\> \> \> $\seen[v] \gets \timeVar$; $\timeVar \gets \timeVar + 1$ \\
-\> \> \> S.\algfont{insert}($v$) \\
-\> \> \textbf{else} \\
-\> \> \> S.\algfont{delete}() \\
-\> \> \> $\colour[u] \gets $ BLACK \\
-\> \> \> $\done[u] \gets \timeVar$; $\timeVar \gets \timeVar + 1$ \\
-\> \> \textbf{end if} \\
-\> \textbf{end while} \\
-}
-\end{minipage}
-\caption{Depth-first search algorithm.}
-\label{fig:DFScode}
-\end{figure}
+\begin{algorithm}[H]
+  \caption{Depth-first search algorithm.}
+    \label{alg:DFScode}
+\begin{algorithmic}[1]
+\Function{DFS}{digraph $G$}
+	\State stack $S$  
+	\State array $\colour[0..n-1], \pred[0..n-1], \seen[0..n-1], \done[0..n-1]$
+	\For{$u \in V(G)$} 
+		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL
+	\EndFor
+	\State $\timeVar \gets 0$
+	\For{$s \in V(G)$} 
+		\If{$\colour[s] = $ WHITE} 
+			\State \algfont{DFSvisit}$(s)$
+		\EndIf
+	\EndFor
+	\State \Return{$\pred, \seen, \done$}
+\EndFunction
+\Function{DFSvisit}{node $s$}
+	\State $\colour[s] \gets $ GREY
+	\State $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
+	\State $S$.\algfont{insert}$(s)$
+	\While{\textbf{not} $S$.\algfont{isEmpty}$()$}
+		\State $u \gets S$.\algfont{peek}$()$
+		\If{there is a neighbour $v$ with $\colour[v] = $ WHITE}
+			\State $\colour[v] \gets $ GREY; $\pred[v] \gets u$
+			\State $\seen[v] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
+			\State $S$.\algfont{insert}$(v)$
+		\Else
+			\State $S$.\algfont{delete}$()$
+			\State $\colour[u] \gets $ BLACK
+			\State $\done[u] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
+		\EndIf
+	\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 The complexity analysis of DFS is easy. Choosing a grey node $u$ takes
 constant time since only the stack pop operation is required. The time
@@ -631,7 +645,7 @@ Prove Theorem~\ref{thm:white-path} by using induction.
 \end{Exercise}
 
 
-\chapter{Lecture: Breadth First Search (BFS) and Priority First Search (PFS)}
+\chapter{Breadth First Search (BFS) and Priority First Search (PFS)}
 
 \section{Additional properties of breadth-first search}
 \label{sec:bfs}
@@ -642,45 +656,41 @@ The timestamps $\seen, \done$ of DFS are of less use here;
 it is more useful to record the number of steps from the root in the
 array $d$.
 
-\begin{figure}[hbtp]
 
-
-\Algorithm{BFS}{digraph $G$}{}
-{
-\> queue $Q$ \\
-\> array $\colour[0..n-1], \pred[0..n-1], d[0..n-1]$ \\
-\> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
-\> \textbf{end for}\\
-\> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
-\> \> \> \algfont{BFSvisit}($s$) \\
-\> \> \textbf{end if}\\
-\> \textbf{end for}\\
-\> \textbf{return} $\pred, d$\\
-}
-
-\Algorithm{BFSvisit}{node $s$}{}
-{
-\> $colour[s] \gets $ GREY; $d[s] \gets 0$ \\
-\> Q.\algfont{insert}($s$) \\
-\> \textbf{while not} Q.\algfont{isEmpty}() \textbf{do} \\
-\> \> $u \gets $ Q.\algfont{peek}() \\
-\> \> \textbf{for} each $v$ adjacent to $u$ \textbf{do} \\
-\> \> \> \textbf{if} $\colour[v] = $ WHITE \textbf{then} \\
-\> \> \> \> $\colour[v] \gets $ GREY; $\pred[v] \gets u$; $d[v] \gets d[u]+1$\\
-\> \> \> \> Q.\algfont{insert}($v$) \\
-\> \> \> \textbf{end if} \\
-\> \> \textbf{end for} \\
-\> \> Q.\algfont{delete}() \\
-\> \> $\colour[u] \gets $ BLACK \\
-\> \textbf{end while} \\
-}
-
-\caption{Breadth-first search algorithm.}
-\label{fig:BFScode}
-\end{figure}
-
+\begin{algorithm}[H]
+  \caption{Breadth-first search algorithm.}
+    \label{alg:BFScode}
+\begin{algorithmic}[1]
+\Function{BFS}{digraph $G$}
+	\State queue $Q$  
+	\State array $\colour[0..n-1], \pred[0..n-1], d[0..n-1]$
+	\For{$u \in V(G)$} 
+		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL
+	\EndFor
+	\For{$s \in V(G)$} 
+		\If{$\colour[s] = $ WHITE } 
+			\State \algfont{BFSvisit}$(s)$
+		\EndIf
+	\EndFor
+	\State \Return{$\pred, d$}
+\EndFunction
+\Function{BFSvisit}{node $s$}
+	\State $\colour[s] \gets $ GREY; $d[s] \gets 0$ 
+	\State $Q$.\algfont{insert}$(s)$
+	\While{\textbf{not} $Q$.\algfont{isEmpty}$()$}
+		\State $u \gets Q$.\algfont{peek}$()$
+		\For{each $v$ adjacent to $u$}
+			\If{$\colour[v] = $ WHITE}
+				\State $\colour[v] \gets $ GREY; $\pred[v] \gets u$; $d[v] \gets d[u]+1$
+				\State $Q$.\algfont{insert}$(v)$
+			\EndIf
+		\EndFor
+		\State $Q$.\algfont{delete}()
+		\State $\colour[u] \gets $ BLACK
+	\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 A similar analysis to what we did for DFS also holds for BFS: it is also
 a linear time traversal algorithm, because the next grey and white node 
@@ -875,50 +885,48 @@ Pseudocode demonstrating the first type of PFS is presented in
 rule for giving the key value when a node is inserted. We do not include
 any code for \algfont{setKey}.
 
-\begin{figure}
-\hspace*{.4in}\begin{minipage}{5in}
-\Algorithm{PFS}{digraph $G$}{}
-{
-\> priority queue $Q$\\
-\> array $\colour[0..n-1], \pred[0..n-1]$ \\
-\> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
-\> \textbf{end for}\\
-\> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
-\> \> \> \algfont{PFSvisit}($s$) \\
-\> \> \textbf{end if}\\
-\> \textbf{end for}\\
-\> \textbf{return} $\pred$\\
-}
+\begin{algorithm}[H]
+  \caption{Priority-first search algorithm (first kind)}
+  \label{fig:PFScode}
+\begin{algorithmic}[1]
+\Function{PFS}{digraph $G$}
+	\State priority queue $Q$  
+	\State array $\colour[0..n-1], \pred[0..n-1]$
+	\For{$u \in V(G)$} 
+		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL
+	\EndFor
+	
+	\For{$s \in V(G)$} 
+		\If{$\colour[s] = $ WHITE } 
+			\State \algfont{PFSvisit}$(s)$
+		\EndIf
+	\EndFor
+	\State \Return{$\pred$}
+\EndFunction
+\Function{PFSvisit}{node $s$}
+	\State $\colour[s] \gets $ GREY 
+	\State $Q$.\algfont{insert}($s$, \algfont{setKey}$(s)$)
+	\While{\textbf{not} $Q$.\algfont{isEmpty}$()$}
+		\State $u \gets Q$.\algfont{peek}$()$
+		\If{$u$ has a neighbour $v$ with $\colour[v] = $ WHITE}
+			\State $\colour[v] \gets $ GREY
+			\State $Q$.\algfont{insert}$(v$, \algfont{setKey} $(v))$
+		\Else
+			\State $Q$.\algfont{delete}
+			\State $\colour[u] \gets$ BLACK
+		\EndIf
+	\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
-\Algorithm{PFSvisit}{node $s$}{}
-{
-\> $\colour[s] \gets $ GREY \\
-\> Q.\algfont{insert}($s$, \algfont{setKey} $(s)$) \\
-\> \textbf{while not} Q.\algfont{isEmpty}() \textbf{do} \\
-\> \> $u \gets $ Q.\algfont{peek}() \\
-\> \>  \textbf{if} $u$ has a neighbour $v$ with $\colour[v] = $ WHITE \textbf{then} \\
-\> \> \> $\colour[v] \gets $ GREY \\
-\> \> \> Q.\algfont{insert}($v$, \algfont{setKey} $(v)$) \\
-\> \> \textbf{else} \\
-\> \> \> Q.\algfont{delete}() \\
-\> \> \> $\colour[u] \gets $ BLACK \\
-\> \> \textbf{end if} \\
-\> \textbf{end while}
-}
-\end{minipage}
-\caption{Priority-first search algorithm (first kind).}
-\label{fig:PFScode}
-\vspace*{-.2cm}
-\end{figure}
 
 We proceed to show some applications of BFS and DFS in the following
 sections. Applications of PFS will be discussed in
 Chapter~\ref{ch:weighted}.
 
 %\subsection*{Exercises}
-\chapter{Lecture: Cycles, Girth and Topological Sort}
+\chapter{Cycles, Girth and Topological Sort}
 
 
 \section{Acyclic digraphs and topological ordering}
@@ -930,10 +938,10 @@ science applications require us to find precedences (or dependencies)
 among events, such as a compiler evaluating sub-expressions of an
 expression like that shown in \cref{fig:prec}.
 
-\begin{figure}[hbtp] %% ! Jo says: But how do we know which side of the (-)node is substracted from the other?
+\begin{figure}[hbtp]
 	\centering
 	\includegraphics{precedence}
-	\caption{Digraph describing structure of an arithmetic expression.}
+	\caption{Digraph describing structure of an arithmetic expression. Jo-TODO improve example}
 	\label{fig:prec}
 \end{figure} 
 
@@ -974,12 +982,16 @@ $u$ to occur before $v$, which restricts the number of valid permutations
 of the vertices.
 \end{Example}
 
-\begin{figure}
+\begin{Boxample}[1]
+Perform a topological sort on the graph on the left\ldots\\ 
 % \centerline{\IpeScale{80}\Ipe{./figs/graphEx4.ipe}}
-
-\caption{Topological orders of some DAGs.}
-\label{fig:toporder}
-\end{figure}
+Jo-TODO
+\end{Boxample}
+% \begin{figure}
+% \centerline{\IpeScale{80}\Ipe{./figs/graphEx4.ipe}}
+% \caption{Topological orders of some DAGs.}
+% \label{fig:toporder}
+% \end{figure}
 
 The algorithms for computing \boldfont{all} topological orders are
 more advanced than what we have time or space for here. We show how to
@@ -1108,7 +1120,7 @@ Give a simple way to check whether a graph $G$ is acyclic. Does the method
 for finding a DAG given above work for acyclic graphs also?
 \end{Exercise}
 
-\chapter{Lecture: connectivity/components, strong components}
+\chapter{Connectivity, components, strong components}
 
 \section{Connectivity}
 \label{sec:connectivity}
@@ -1239,8 +1251,8 @@ arcs of the digraph not included in the strongly connected components.
 \end{Example}
 
 \begin{figure}[htbp]
-% \centerline{\Ipe{./figs/SCC.ipe}}
-
+\centering
+\includegraphics{SCC}
 \caption{A digraph and its strongly connected components.}
 \label{fig:scc}
 \end{figure}
@@ -1263,7 +1275,8 @@ components of the resulting digraph are exactly those digraphs that
 we inserted.
 
 \begin{figure}[htbp]
-%\input{figs/wDecomp2.pstex_t}
+\centering
+\includegraphics{decomposition2}
 \caption{Structure of a digraph in terms of its strong components.}
 \label{fig:sccdecomp}
 \end{figure}
@@ -1317,7 +1330,7 @@ from among white nodes that finished latest in $F$}.
 Then each DFS tree in the search of $G_r$ definitely contains the strong
 component $S$ of the root $r$. To see this, note that no node in that
 strong component could have been visited before in $G_r$, otherwise $r$
-would have already been visited. By Theorem~\ref{thm:white-path}, every
+would have already been visited. By \cref{thm:white-path}, every
 node in the strong component of $r$ is a descendant of $r$.
 
 The only thing that could go wrong is that a search tree in $G_r$
@@ -1405,8 +1418,8 @@ In \cref{fig:cycle} are three (di)graphs.  The first has no cycles
 \end{Example}
 
 \begin{figure}
-
-% \centerline{\IpeScale{80}\Ipe{./figs/graphEx3.ipe}}
+\centering
+\includegraphics{graphEx3}
 \caption{Some (di)graphs with different cycle behaviour.}
 \label{fig:cycle}
 \end{figure}
@@ -1460,7 +1473,7 @@ though a $4$-cycle exists using two of the back edges).
 To compute the girth of a graph, we can simply run the above algorithm
 from each vertex in turn, and take the minimum cycle length achieved.
 
-\chapter{Lecture: bipartite graphs and matchings}
+\chapter{Bipartite graphs and matchings}
 
 
 \subsection{Bipartite graphs}
@@ -1482,8 +1495,8 @@ vertex could be placed on either side.
 \end{Example}
 
 \begin{figure}
-\centerline{\includegraphics[width=3cm]{figs/wBipartite.eps}}
-
+\centering
+\includegraphics{bipartiteEx} 
 \caption{A bipartite graph.}
 \label{fig:bipartite}
 \end{figure}
@@ -1607,8 +1620,8 @@ The matchings consist of bold-dashed edges (between females on the left
 and males on the right) in the drawings.
 
 \begin{figure}
-\centerline{\includegraphics[width=4.4in]{figs/bipartitematching}}
-
+\centering
+\includegraphics{bipartiteMatching}
 \caption{A maximal and maximum matching in a bipartite graph.}
 \label{fig:matchbipartite}
 \end{figure}
@@ -1650,50 +1663,47 @@ then we have found an augmenting path.  Otherwise, if we visit all vertices
 (in the same component as $v$) then we conclude that no augmenting 
 path exists starting at $v$.  This algorithm is given in \cref{fig:augpath}.
 
-\begin{figure}
-\Algorithm{findAugmentingPath}{bipartite graph $G$; matching $M$;
-unmatched vertex $x$}{}
-{
- \> queue $Q$\\
- \> array $\status[0..n-1]$, $\pred[0..n-1]$ \\
- \> \textbf{for each} $u \in V(G)$ \textbf{do} \\
-  \> \> $\status[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
- \> \textbf{end for}\\
- \> $\status[x] \gets $ EVEN\\
- \> $Q$.\algfont{insert}($x)$ \\
- \> \textbf{while not} $Q$.\algfont{isEmpty}() \textbf{do}\\
- \> \> $u \gets Q$.\algfont{pop}()\\
- %
- \> \> \textbf{if} $\status[u] =$ EVEN \textbf{then} \\
- %
- \> \> \> \textbf{for} each $v$ adjacent to $u$ \textbf{do} \\
- \> \> \> \> \textbf{if} $\status[v]$ = WHITE \textbf{then} \\
- \> \> \> \> \> $\status[v] \gets$ ODD; $\pred[v] \gets$ u \\
- \> \> \> \> \> \textbf{if} $v$ is unmatched in $M$ \textbf{then} \\
- \> \> \> \> \> \> \textbf{return} path $x,\ldots, \pred[\pred[u]], \pred[u], u, v$\\
- \> \> \> \> \> \textbf{else}\\
- \> \> \> \> \> \> $Q$.\algfont{insert}($v$) \\
- \> \> \> \> \> \textbf{end if}\\
- \> \> \> \> \textbf{end if}\\
- \> \> \> \textbf{end for} \\
- %
-  \> \> \textbf{else}\hspace*{1.5cm} \AlgCmt{that is, $\status[u] =$ ODD} \\
- %
- \> \> \> $v \gets$ matched vertex of $u$ from $M$ \\
- \> \> \> \textbf{if} $status[v]$ = WHITE \textbf{then} \\
- \> \> \> \> $\status[v] \gets$ EVEN; $\pred[v] \gets u$ \\
- \> \> \> \> $Q$.insert($v$) \\
- \> \> \> \textbf{end if}\\
-% 
- \> \> \textbf{end if}\\
- \> \textbf{end while}\\
- \> \textbf{return} false\hspace*{1cm}\AlgCmt{no augmenting paths containing $x$}\\
-}
-\caption[An algorithm to find an augmenting path.]%
-{An algorithm to find an augmenting path, given a matching
+
+\begin{algorithm}[H]
+  \caption{An algorithm to find an augmenting path, given a matching
 and an unmatched starting vertex.}
-\label{fig:augpath}
-\end{figure}
+    \label{alg:augpath}
+\begin{algorithmic}[1]
+\Function{findAugmentingPath}{bipartite graph $G$; matching $M$; unmatched vertex $x$}
+	\State queue $Q$
+	\State array $\status[0..n-1]$, $\pred[0..n-1]$
+	\For{$u \in V(G)$}
+  		\State $\status[u] \gets $ WHITE; $\pred[u] \gets $ NULL 
+	\EndFor
+	\State $\status[x] \gets $ EVEN
+	\State $Q$.\algfont{insert}$(x)$
+	\While{\texbf{not}  $Q$.\algfont{isEmpty}$()$}
+		\State $u \gets Q$.\algfont{pop}$()$
+ 		\If{$\status[u] =$ EVEN}
+ 			\For{each $v$ adjacent to $u$}
+ 				\If{$\status[v]$ = WHITE}
+ 					\State $\status[v] \gets$ ODD; $\pred[v] \gets$ u
+ 					\If{$v$ is unmatched in $M$}
+ 						\State \Return{path $x,\ldots, \pred[\pred[u]], \pred[u], u, v$}
+ 					\Else
+	 					\State $Q$.\algfont{insert}$(v)$
+ 					\EndIf
+ 				\EndIf
+ 			\EndFor
+ 		\Else 			\Comment{that is, $\status[u] =$ ODD} 
+			\State $v \gets$ matched vertex of $u$ from $M$
+			\If{$status[v]$ = WHITE}
+				\State$\status[v] \gets$ EVEN; $\pred[v] \gets u$
+ 				\State$Q$.insert$(v)$
+	 		\EndIf
+ 		\EndIf
+	\EndWhile
+	\State \Return{false} \Comment{no augmenting paths containing $x$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
 
 \begin{Theorem}
 There exists a polynomial-time algorithm to find a maximum matching
@@ -1727,8 +1737,8 @@ where the last edge is in the matching.  Since the graph is bipartite the
 status of being ODD or EVEN is unambiguous.
 
 \begin{figure}
-\centerline{\includegraphics[width=3.8in]{figs/augtree}}
-
+\centering
+\includegraphics{augtree} 
 \caption{Structure of the graph traversal tree for finding augmenting paths.}
 \label{fig:augtree}
 \end{figure}
