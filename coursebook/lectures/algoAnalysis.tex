@@ -1,25 +1,24 @@
 \part{What is Algorithm Analysis?} \label{ch:alganal}
 
-\chapter{Lecture: What is an algorithm and why analyse it?}
 
+\chapter{What is an algorithm and why analyse it?} %--------------------------
 
 An \emph{algorithm} is a sequence of clearly stated rules that
 specify a step-by-step method for solving a given problem.
 The rules should be unambiguous and
 sufficiently detailed that they can be carried out without creativity.
 
-Examples of algorithms: a (sufficiently detailed) cake recipe,
-primary school method for multiplication of decimal integers; quicksort.
+Examples of algorithms are a (sufficiently detailed) cake recipe,
+primary school method for multiplication of decimal integers, quicksort.
 
-Algorithms predate electronic computers by thousands of years (example:
-Euclid's greatest common divisor algorithm).
+Algorithms predate electronic computers by thousands of years, for example
+Euclid's greatest common divisor algorithm.
 
-A \emph{program} is a sequence of computer instructions implementing the 
-algorithm.
+A \emph{program} is a sequence of computer instructions implementing the algorithm.
 
 Experience shows that enormously more performance gains can be achieved 
-by optimizing the algorithm than by optimizing other factors such as:
-processor, language, compiler, human programmer.
+by optimizing the algorithm than by optimizing other factors such as
+processors, languages, compilers, or human programmers.
 The analysis process often results in us discovering simpler algorithms.
 Many algorithms have parameters that must be set before implementation. 
 Analysis allows us to set the optimal values.
@@ -27,22 +26,22 @@ Algorithms that have not been analysed for correctness often lead to
 major bugs in programs.
 
 
-\begin{example}
+\begin{Example}
 The Fibonacci sequence is recursively defined by 
 $$
 F(n) = 
-\begin{cases}
-n & \quad \text{if $n = 0$ or $n = 1$;} \\
-F(n - 1) + F(n - 2) & \quad \text{if $n \geq 2$.} 
-\end{cases}
+  \left\{\begin{array}{ll}
+	n & \quad \text{if } n = 0 \text{ or } n = 1; \\ 
+    F(n - 1) + F(n - 2) & \quad \text{if } n \geq 2 \text{.}
+  \end{array}
+  \right.
 $$
 This immediately suggests a recursive algorithm.
-\end{example}
+\end{Example}
 
-\if01
 \begin{algorithm}[H]
-  \caption{Slow method for computing Fibonacci numbers
-    \label{alg:slowfib}}
+  \caption{Slow method for computing Fibonacci numbers} 
+  \label{alg:slowfib}
 \begin{algorithmic}[1]
 \Function{slowfib}{integer $n$}
 \If{$n < 0$} 
@@ -56,13 +55,12 @@ This immediately suggests a recursive algorithm.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-\fi
 
-The algorithm \texttt{slowfib} is obviously correct, but does a lot of 
-repeated computation. With a small (fixed) amount of extra space, we can do better, by 
+The algorithm \texttt{slowfib} %(\cref{alg:slowfib}) 
+is obviously correct, but does a lot of repeated computation. 
+With a small (fixed) amount of extra space, we can do better, by 
 working from the bottom up instead of from the top down.
 
-\if01
 \begin{algorithm}[H]
   \caption{Fast method for computing Fibonacci numbers
     \label{alg:fastfib}}
@@ -87,26 +85,26 @@ working from the bottom up instead of from the top down.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-\fi
-. 
+ 
 Proving correctness of \texttt{fastfib} is done by induction on $n$.  We omit the proof here.
 %\item In fact even a bad implementation in a slow interpreted language on an 
 %ancient machine of \texttt{fastfib} will beat the best implementation of 
 %\texttt{slowfib}, once $n$ becomes big enough.
 It is easy to see that the number of additions, function calls, etc needed by 
-\texttt{fastfib} to compute $F(n)$ has the form $An+B$ for some constants 
-$A, B$.
+\texttt{fastfib} to compute $F(n)$ has the form $An+B$ for some constants $A, B$.
 
-\chapter{Lecture: how to measure running time}
+TODO? add extra questions from slides?
 
+
+
+\chapter{How to measure running time} %---------------------------------------
 
 There are three main characteristics of an algorithm designed to solve a given 
 problem.
 \begin{itemize}
 \item Domain of definition: the set of legal inputs. 
 \item Correctness: it gives correct output for each legal input. 
-This depends on the problem we are trying to solve, and can be tricky to 
-prove. 
+This depends on the problem we are trying to solve, and can be tricky to prove. 
 \item Resource use: usually computing time and memory space. 
 \begin{itemize} 
 \item This depends on the input, and on the implementation 
@@ -120,8 +118,6 @@ prove.
 In this course we mainly consider how to estimate resource use of an algorithm, 
 ignoring implementation as much as possible.  
 
-
-
 Given an algorithm $\algo$, the actual running time on a given
 input $\inp$ depends on many implementation details. This is not desirable
 because it does not allow direct comparison of algorithms. 
@@ -131,7 +127,6 @@ inputs that cause problems if the algorithm is inefficient.
 %\item We usually don't want to have to consider the distribution of
 %running time over all possible inputs of a given size. There may be (infinitely)
 % many inputs of a given size, and running time may vary widely on these. 
-
 
 We use a clean mathematical model of the problem. Example: sorting 
 distinct records is really the same problem as computing the inverse of a 
@@ -152,14 +147,13 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
 
 
 
-
-
-%\frametitle{How running time scales with problem size}
+%\paragraph{How running time scales with problem size}
 \begin{table}[htb] 
+   \centering
  % \caption{\label{t:growth} Growth in running time as problem size grows} 
    \begin{tabular}{|c|c|cccc|} \hline 
    \multicolumn{2}{|c|}{\textbf{Running time}} &  
-   \multicolumn{4}{|c|}{\textbf{Input size}} 
+   \multicolumn{4}{c|}{\textbf{Input size}} 
 \\ \cline{1-6} 
    \emph{Function}     & \emph{Notation} & $10$ & $100$ & $1000$ & $10^7$
 \\ \hline 
@@ -171,10 +165,9 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
    Cubic        & $n^{3}$ & 1 & 1000 & $10^6$ &  $10^{18}$ \\ \hline 
    Exponential  & $2^{n}$ & 1 & $10^{27}$ & $10^{298} $ & $10^{3010296}$  \\ \hline 
    \end{tabular}
- \end{table} 
+\end{table} 
  
- Note: there are about $3\times 10^{18}$ nanoseconds in a century.
-
+Note: there are about $3\times 10^{18}$ nanoseconds in a century.
 
 
 \begin{Boxample}[4]
@@ -191,9 +184,7 @@ Which algorithm is better when $n = 10$? when $n=10^6$? How do we decide which a
 
 \begin{Boxample}[4]
 \label{exr:time-compl:7A}
-Algorithms \textbf{A} and 
-\textbf{B} use
-exactly \(T_\mathrm{A}(n) = c_\mathrm{A} n \lg n\)
+Algorithms \textbf{A} and \textbf{B} use exactly \(T_\mathrm{A}(n) = c_\mathrm{A} n \lg n\)
 and \(T_\mathrm{B}(n) = c_\mathrm{B} n^{2}\) elementary operations, 
 respectively, for a problem of size \(n\).
 Find the fastest algorithm for processing \(n=2^{20}\) data items if
@@ -214,6 +205,8 @@ Here are some easy basic rules.
 %\alert{quadratic} or \alert{cubic} time algorithm. 
 \item Example: single, double, triple loops with fixed number of elementary operations inside the inner loop yields linear, quadratic, cubic running time.
 \end{itemize}
+
+
 
 
 \begin{Example}
@@ -381,568 +374,233 @@ where $T_i$ is the running time of statement \(i\) of the function
 and $k$ is the number of statements.
 
 
-\chapter{Lecture: Asymptotic notation}
+\chapter{Asymptotic notation} %-----------------------------------------------
 
-% ------vvv inserted from book vvv---------
-
-
-As we have already seen, the approximate running time for large input
-sizes gives enough information to distinguish between a good and a bad
-algorithm. Also, the constant $c$ above can rarely be determined. We
-need some mathematical notation to avoid having to say ``\emph{of the
-order of} $\ldots$''  or ``\emph{roughly proportional to} $\ldots$'',
-and to make this intuition precise.
-
-The standard mathematical tools ``\emph{Big Oh}'' ($O$), ``\emph{Big
-Theta}'' ($\Theta$), and ``\emph{Big Omega}'' ($\Omega$) do 
-precisely this.
-
-\begin{note}
-Actually, the above letter $O$ is a capital ``omicron''  (all
-letters in this notation are Greek letters). However, since the Greek
-omicron and the English ``O'' are indistinguishable in most fonts, we
-read $O()$ as ``Big Oh'' rather than ``Big Omicron''. 
-\end{note}
-
-The algorithms are analysed under the following assumption: \emph{if
-the running time of an algorithm as a function of $n$ differs only by a
-constant factor from the  running time for another algorithm, then the
-two algorithms have essentially the same time complexity.} Functions that
-measure running time, $T(n)$, have nonnegative values because time is
-nonnegative, $T(n) \ge 0$. The integer argument $n$ (data size) is also
-nonnegative.
-
-\begin{Definition} [Big Oh]
-\label{def:oh}
-Let $f(n)$ and $g(n)$ be nonnegative-valued functions defined on
-nonnegative integers $n$. Then $g(n)$ is $O(f(n))$ (read ``\(g(n)\) is
-Big Oh of \(f(n)\)'') iff there exists 
-a positive real constant $c$ and
-a positive integer $n_{0}$ such that $g(n) \le c f(n)$ for all $n>n_{0}$.
-\end{Definition}
-\begin{note} 
-We use the notation ``\defnfont{iff}'' as an abbreviation of ``if and only if''.
-\end{note}
-In other words, if $g(n)$ is $O(f(n))$ then an algorithm with running time 
-$g(n)$ runs for large $n$ at least as fast, to within a
-constant factor, as an algorithm with running time  $f(n)$. Usually
-the term ``\defnfont{asymptotically}'' is used in this context to describe 
-behaviour of functions for sufficiently large values of $n$. This term 
-means that \(g(n)\) for large \(n\) may approach closer and closer to 
-\(c\cdot f(n)\). Thus, \(O(f(n))\) specifies
-an \defnfont{asymptotic upper bound}.
-\begin{note} 
-Sometimes the ``Big Oh'' property is denoted $g(n)=O(f(n))$, but
-we should not assume that the function $g(n)$ is equal to something 
-called ``Big Oh'' of $f(n)$. This notation really means $g(n) \in O(f(n))$, 
-that is, \(g(n)\) is a member of the set $O(f(n))$ 
-of functions which are increasing, in essence, with the same 
-or lesser rate as  \(n\) tends to infinity ($n \rightarrow \infty$). 
-In terms of graphs of these functions, $g(n)$ is $O(f(n))$ iff
-there exists a constant $c$ such that the graph of $g(n)$ is always
-below or at the graph of $cf(n)$ after a certain point, $n_{0}$. 
-\end{note}
-
-\begin{Example}
-Function \(g(n)=100\log_{10}n\) in Figure~\ref{f:aa-graphs} 
-is \(O(n)\) because the graph \(g(n)\) is always below
-the graph of \(f(n)=n\) if \(n > 238\) or of \(f(n)=0.3n\)
-if \(n > 1000\), etc. 
-\end{Example}
-
-\begin{figure}[htb!]
-\centerline{
-\illustr{aa-graphs.eps}{80mm}}
-\caption{``Big Oh'' property: $g(n)$ is $O(n)$.}
-\label{f:aa-graphs}
-\end{figure}
-\begin{Definition} [Big Omega]
-\label{def:omega}
-The function $g(n)$ is $\Omega(f(n))$ iff 
-there exists a positive real constant $c$ and a 
-positive integer $n_{0}$  
-such that $g(n) \ge c f(n)$ for all $n>n_{0}$.
-\end{Definition} 
-
-``Big Omega'' is complementary to ``Big Oh'' and generalises the
-concept of ``lower bound'' (\(\ge\)) in the same way as ``Big Oh''
-generalises the concept of ``upper bound'' (\(\le\)): if
-\(g(n)\) is \(O(f(n))\) then \(f(n)\) is \(\Omega(g(n))\), and vice versa. 
-
-\begin{Definition} [Big Theta]
-\label{def:theta}
-The function $g(n)$ is $\Theta(f(n))$ iff 
-there exist two positive real constants $c_1$ and $c_2$ and a 
-positive integer $n_{0}$  
-such that $c_1f(n) \le g(n) \le c_2 f(n)$ for all $n>n_{0}$.
-\end{Definition}
-
-Whenever two functions, \(f(n)\) and \(g(n)\), are actually of the same
-order, \(g(n)\) is \(\Theta(f(n))\), they are each ``Big Oh'' of the
-other: $f(n)$ is $O(g(n))$ and $g(n)$ is  $O(f(n))$. In other words,
-\(f(n)\) is both an asymptotic upper and lower bound for \(g(n)\). The
-``Big Theta'' property means \(f(n)\) and \(g(n)\) have asymptotically
-tight bounds and are in some sense equivalent for our purposes.
-
-In line with the above definitions,
-\(g(n)\) is \(O(f(n))\) iff \(g(n)\) grows \boldfont{at 
-most} as fast as \(f(n)\) to within a constant factor, \(g(n)\) is
-\(\Omega(f(n))\) iff \(g(n)\) grows \boldfont{at 
-least} as fast as \(f(n)\) to within a constant factor, and
-\(g(n)\) is \(\Theta(f(n))\) iff \(g(n)\) and \(f(n)\) grow
-\boldfont{at the same rate} to within a constant factor.
-
-
-``Big Oh'', ``Big Theta'', and ``Big Omega'' notation formally capture 
-two crucial ideas in comparing algorithms:
-the exact function, $g$, is not very
-important because it can be multiplied by any
-arbitrary positive constant, $c$, and
-the relative behaviour of two functions
-is compared only asymptotically, for large $n$, but not near the
-origin where it may make no sense.
-Of course, if the constants involved are very large, 
-the asymptotic behaviour loses practical interest. In most
-cases, however, the constants remain fairly small. 
-
-In analysing running time,
-``Big Oh'' $g(n) \in O(f(n))$, ``Big Omega'' $g(n) \in \Omega(f(n))$,
-and ``Big Theta'' $g(n) \in \Theta(f(n))$  
-definitions are mostly used with $g(n)$ equal to 
-``exact'' running time on inputs of size $n$ and 
-$f(n)$ equal to a rough approximation to
-running time (like \(\log n\), \(n\), \(n^2\), and so on).
- 
-To prove that some
-function \(g(n)\) is \(O(f(n))\), \(\Omega(f(n))\), or 
-\(\Theta(f(n))\) using the definitions we need to find the constants \(c\), \(n_0\) or \(c_1\), \(c_2\), \(n_0\) specified in 
-Definitions~\ref{def:oh}, \ref{def:omega}, \ref{def:theta}. 
-Sometimes the proof is given only by a chain of inequalities,
-starting with \(f(n)\). In other cases it
-may involve more intricate techniques, such as mathematical
-induction. Usually the manipulations
-are quite simple. To prove that \(g(n)\) is \boldfont{not} 
-\(O(f(n))\), \(\Omega(f(n))\), or \(\Theta(f(n))\) we have 
-to show the desired constants do not exist, that is,
-their assumed existence leads to a contradiction.
-
-\begin{Example}
-To prove that 
-linear function $g(n) = an + b$; $a > 0$, is $O(n)$, we
-form the following chain of inequalities:  
-\(g(n) \le an + |b| \le (a+|b|)n\) for all \(n \ge 1\).
-Thus, Definition~\ref{def:oh}
-with \(c=a+|b|\) and \(n_0 = 1\) shows 
-that \(an + b\) is \(O(n)\). 
-\end{Example} 
- 
-``Big Oh'' hides constant factors so that both $10^{-10}n$ and
-$10^{10}n$ are $O(n)$. It is pointless to write something like  $O(2 
-n)$ or $O(a  n + b)$ because this still means $O(n)$. Also, only 
-the dominant terms as  $n \rightarrow
-\infty$ need be shown as the argument of ``Big Oh'', ``Big Omega'', or
-``Big Theta''.
-
-\begin{Example} 
-    The polynomial $P_{5}(n) = a_{5}n^{5} + a_{4}n^{4}+a_{3}n^{3} 
-+a_{2}n^{2}+a_{1}n +a_{0}$; $a_{5}>0$, is $O(n^{5})$ 
-because  
-\(P_{5}(n) \leq (a_{5}+|a_{4}|+|a_{3}|+|a_{2}|+|a_{1}|+|a_{0}|)n^{5}\)
-for  all \(n \ge 1\). 
-\end{Example}
-
-
-\begin{Example} 
-\label{ex:expons}
-The exponential function $g(n) = 2^{n+k}$, where $k$ is a constant,
-is $O(2^{n})$ because 
-\(2^{n+k} = 2^{k}  2^{n}\) for all \(n\).
-Generally, $m^{n+k}$ is $O(l^{n})$; $l \ge m > 1$, because 
-$m^{n+k} \le l^{n+k} = l^{k}  l^{n}$ for any constant $k$. 
-\end{Example}
-
-\begin{Example} 
-\label{ex:logs}
-For each $m>1$, the logarithmic function $g(n) = \log_{m}(n)$ has the same rate of 
-increase as $\lg(n)$ because 
-\(\log_{m}(n) = \log_{m}(2)  \lg(n)\) for  all \(n > 0\).
-Therefore we may omit the logarithm base when using 
-the ``Big-Oh'' and ``Big Theta'' notation: \(\log_{m}n\) is \(\Theta(\log n)\).
-\end{Example}
-
-
-\subsection{Rules for asymptotic notation}
-\label{o-features}
- 
-Using the definition to prove asymptotic relationships between functions is hard
-work. As in calculus, where we soon learn to use various rules (product rule, 
-chain rule, \dots) rather than the definition of derivative, we can use some 
-simple rules to deduce new relationships from old ones.
-
-We present rules for ``Big Oh"---similar relationships hold for ``Big Omega'' 
-and ``Big Theta''.
-
-We will consider the features both informally and formally using the
-following notation. Let $x$ and $y$ be functions of a nonnegative
-integer $n$. Then $z=x+y$ and $z=xy$ denote the sum of the functions,
-$z(n) = x(n)+y(n)$, and the product function: $z(n) = x(n)y(n)$,
-respectively, for every value of $n$. The product function $(xy)(n)$
-returns the product of the values of the functions at $n$ and has
-nothing in common with the composition $x(y(n))$ of the two functions.
-
-Basic arithmetic relationships for ``Big Oh''
-follow from and can be easily proven with its definition. 
-
-\begin{Lemma}[Scaling] \label{l:bigoh:1}
-For all constants $c > 0$, $c  f$ is $O(f)$. In particular, $f$ is $O(f)$. 
-\end{Lemma}
-
-\begin{proof}
-The relationship \(cf(n) \leq c f(n)\) obviously holds for all \(n\geq 0\).
-\end{proof}
-
-Constant factors are ignored, and only the powers and functions are
-taken into account. It is this ignoring of constant factors that
-motivates such a notation.
-
-\begin{Lemma}[Transitivity] \label{l:bigoh:2}
-If $h$ is $O(g)$ and $g$ is $O(f)$, then $h$ is $O(f)$.
-\end{Lemma}
-\begin{proof}
-See Exercise~\ref{exr:bigoh:features}.
-\end{proof}
-
-Informally, if $h$ grows at most as quickly as $g$, which grows 
-at most as quickly as $f$, then $h$ grows at most as quickly as $f$. 
-
-\begin{Lemma}[Rule of sums] \label{l:bigoh:3}
-%{\textsc{Rule of sums.}} 
-If $g_{1}$ is $O(f_{1})$ and 
-$g_{2}$ is $O(f_{2})$, then 
-$g_{1}+g_{2}$ is $O(\max \{ f_{1},f_{2} \} )$. 
-\end{Lemma}
-\begin{proof}
-See Exercise~\ref{exr:bigoh:features}.
-\end{proof}
-
-If $g$ is $O(f)$ and $h$ is $O(f)$, then is $g+h$ is $O(f)$. In particular, 
-if $g$ is $O(f)$, then $g+f$ is $O(f)$. Informally, the growth rate of a sum 
-is the growth rate of its fastest-growing term.
- 
-%\newpage 
-
-\begin{Lemma}[Rule of products]\label{l:bigoh:4}
-%{\textsc{Rule of products.}}
- If $g_{1}$ is $O(f_{1})$ and 
-$g_{2}$ is $O(f_{2})$, then 
-$g_{1}  g_{2}$ is $O(f_{1}  f_{2})$. 
-\end{Lemma}
-\begin{proof}
-See Exercise~\ref{exr:bigoh:features}.
-\end{proof}
-
-In particular, if $g$ is $O(f)$, then $g  h$ is $O(f  h)$. Informally,
-the product of upper bounds of functions gives an upper bound for the
-product of the functions.
-
-Using calculus we can obtain a nice time-saving rule.
-
-\begin{Lemma}[Limit Rule] \label{l:bigoh:lim}
-Suppose $\lim_{n\to \infty} f(n)/g(n)$ exists (may be $\infty$), and denote 
-the limit by $L$. Then
+\paragraph{Asymptotic comparison of functions}
 \begin{itemize}
-\item if $L=0$, then $f$ is $O(g)$ and $f$ is not $\Omega(g)$;
+\item In order to compare running times of algorithms we want a way of comparing
+ the growth rates of functions. 
+\item We want to see what happens for large values of $n$ --- small ones are not
+ relevant.
+\item We are not usually interested in constant factors and only want to consider the 
+dominant term.
+\item The standard mathematical approach is to use asymptotic notation 
+$O, \Omega, \Theta$ which we will now describe.
+\end{itemize}
+
+
+\paragraph{Big-O notation}
+\begin{Definition}
+
+Suppose that $f$ and $g$ are functions from $\mathbb{N}$ to $\mathbb{R}$, 
+which take on nonnegative values. 
+\begin{itemize}
+\item Say \defnfont{$f$ is $O(g)$} (``$f$ is Big-Oh of $g$") if there is
+some $C > 0$ and some $n_0 \in \mathbb{N}$ such that for all $n \geq
+n_0$, $f(n) \leq C g(n)$. 
+
+Informally, $f/g$ is eventually bounded away from infinity, and $f$ grows at most as fast as $g$.
+
+\item Say \defnfont{$f$ is $\Omega(g)$} (``$f$ is big-Omega of $g$") if $g$ is
+$O(f)$. 
+
+Informally, $f/g$ is eventually bounded away from zero, and $f$ grows at least as fast as $g$.
+\item Say \defnfont{$f$ is $\Theta(g)$} (``$f$ is big-Theta of $g$") if $f$ is 
+$O(g)$ and $g$ is $O(f)$. 
+
+Informally, $f/g$ is bounded away from zero and infinity, and $f$ grows at the same rate as $g$.
+\end{itemize}
+\end{Definition}
+
+Note that we could always reduce $n_0$ at the expense of a bigger $C$ but 
+it is often easier not to. 
+
+\paragraph{Asymptotic comparison --- examples}
+\begin{itemize}
+\item Every linear function $f(n) = an + b$, $a > 0$, is $O(n)$. Proof: 
+$an + b \leq an + |b| \leq (a + |b|) n$ for $n \geq 1$. 
+\item If $f(n) = n, g(n) = n^2/2$, then $f$ is $O(g)$ and $g$ is not
+$O(f)$, so $g$ grows asymptotically faster than $f$. Proof: 
+$f(n) \leq 2 \cdot g(n)$ for $n\geq 0$ (or $f(n) \leq 1 \cdot g(n)$ for 
+$n \geq 2$); conversely, suppose 
+that eventually $n^2 \leq Cn$. Then $n \leq C$ for all sufficiently large $n$, 
+a contradiction.
+\item $n \lg n$ is $O(2^{-10} n^2)$ since $n \lg n \leq n^2$ for $n \geq 1$.
+\item We don't usually prove such results from the definition but you
+need to know how to, in case the rules (coming up) don't apply.
+\end{itemize}
+
+
+\paragraph{Questions}
+\begin{itemize}
+\item What is the relationship between $n_0$ and $C$?
+\item Do we have to keep proving statements of the form ``$f$ is $O(g)$" from the definition?
+\item I have seen $f = O(g)$ before. How is that notation related to this?
+\item What can we say about functions like $1+(-1)^n$ or $1+1/2+1/3+\dots + 1/n$?
+\end{itemize}
+
+
+\paragraph{Rules for asymptotic notation}
+\begin{itemize}
+\item (irrelevance of constant factors) if $c > 0$ is constant then $cf$ is $\Theta(f)$.
+\item (transitivity) If $f$ is $O(g)/\Omega(g)/\Theta(g)$ and $g$ is 
+$O(h)/\Omega(h)/\Theta(h)$, then $f$ is $O(h)/\Omega(h)/\Theta(h)$.
+\item (sum rule) If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 + f_2$ is 
+$O(\max\{g_1, g_2\})$.
+\item (product rule) If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 f_2$ 
+is $O(g_1 g_2)$.
+\item (limit rule) \emph{Suppose that $L:=\lim_{n\to\infty} f(n)/g(n)$ exists}. 
+Then
+\begin{itemize}
+\item if $L = 0$ then $f$ is $O(g)$ and $f$ is not $\Omega(g)$;
 \item if $0 < L < \infty$ then $f$ is $\Theta(g)$;
 \item if $L = \infty$ then $f$ is $\Omega(g)$ and $f$ is not $O(g)$.
 \end{itemize}
-\end{Lemma}
-
-\begin{proof}
-If $L = 0$ then from the definition of limit, in particular there is some 
-$n_0$ such that $f(n)/g(n) \leq 1$ for all $n \geq n_0$. Thus $f(n) \leq g(n)$ 
-for all such $n$, and $f(n)$ is $O(g(n))$ by definition. On the other 
-hand, for each $c > 0$, it is not the case that $f(n) \geq c g(n)$ for all
-$n$ past some threshold value $n_1$, so that $f(n)$ is not $\Omega(g(n))$.
-The other two parts are proved in the analogous way.
-\end{proof}
-
-To compute the limit if it exists, the standard \emph{L'H\^{o}pital's rule}
-of calculus is useful (see Section~\ref{sec:app:lhopital}).
-
-More specific relations follow directly from the basic ones.
-
-\begin{Example} 
-\label{ex:powers}
-Higher powers of $n$ grow more quickly than lower powers:
-$n^{k}$ is $O(n^{l})$ if $0 \le k \le l$. This follows directly from the limit rule
-since $n^k/n^l = n^{k-l}$ has limit $1$ if $k=l$ and $0$ if $k<l$.
-\end{Example}
-
-\begin{Example}  
-The growth rate of a polynomial is given by the growth rate of its leading 
-term (ignoring the leading coefficient by the scaling feature): 
-if $P_{k}(n)$ is a polynomial of exact degree $k$ then $P_{k}(n)$ is $\Theta(n^{k})$. 
-This follows easily from the limit rule as in the preceding example.
-\end{Example}
+\pause
+L'H\^{o}pital's rule is often useful for the application of the limit rule. Note that the 
+limit may not exist at all.
+\end{itemize}
 
 
-\begin{Example}  
-Exponential functions grow more quickly than powers: 
-$n^{k}$ is $O(b^{n})$, for all $b>1$, $n>1$, and $k \ge 0$. 
-The restrictions on $b$, $n$, and $k$ merely ensure that both 
-functions are increasing. This result can be proved by induction or by using the 
-limit-L'H\^{o}pital approach above.
-\end{Example}
+\paragraph{Asymptotic comparison --- more examples}
+\begin{itemize}
+\item $\log_a(n)$ is $\Theta(\lg n)$ for each $a > 1$, by limit rule;
+\item $n \lg n$ is $O(n^2)$ and $n \lg n$ is not $\Omega(n^2)$, by limit rule;
+\item $2^n$ is $\Omega(n^{100})$, by limit rule;
+\item $10^{-100} n^2 + 10^{100} n$ is not $O(n)$, by limit rule;
+\item $1 + (-1)^n$ is $O(1)$ but not $\Theta(1)$ since it takes on the value $0$
+ infinitely often. Limit rule does not apply either.
+\item Important for later: $\log (n!)$ is $\Theta(n \log n)$. 
+\end{itemize}
+Write $f \prec g$ if $f$ is $O(g)$ but $f$ is not $\Theta(g)$, so $g$ grows at a
+ faster rate than $f$. Then, for example, 
+\begin{align*}
+& \log n \prec (\log n)^2 \prec \sqrt{n} \prec n \prec n \log n 
+ \prec n (\log n)^2 \prec n^2 \\
+& \prec n^3 \prec \dots \prec (1.5)^n \prec 2^n \prec n! \prec n^n.
+\end{align*}
 
-\begin{Example}  
-Logarithmic functions grow more slowly than powers: 
-$\log_{b} n$ is $O(n^{k})$ for all $b>1$, $k > 0$. 
-This is the inverse of the preceding feature. Thus, 
-as a result, $\log n$ is $O(n)$ and $n \log n$ is $O(n^{2})$.  
-\end{Example} 
 
-\subsection*{Exercises}
+\paragraph{Asymptotics via integral approximation}
+\begin{itemize}
+\item We want the asymptotic behaviour of $\log (n!) = \sum_{k=1}^n \log k$.
+\item Clearly there is an upper bound $\log n! \leq n \log n$. For a lower bound, we 
+can approximate by an integral (``upper and lower rectangles") to get 
+$\log n! \geq \int_1^{n+1} \log x \, dx$. Integration by parts shows that 
+$\log n! \in \Omega(n \log n)$.
+\item Note that the base of the logarithm is not important. More precise estimates can 
+be obtained, and it turns out that $\lim_{n\to \infty} (\log n!)/(n \log n) = 1$.
+\item By the same method we can get $H_n \in \Theta(\log n)$ where 
+$H_n:=1+ 1/2 + 1/3 + \dots + 1/n$ is the \emph{$n$th harmonic number}. 
+\end{itemize}
 
-\begin{Exercise}\label{exr:aa:bigO:a}
-Prove that $10n^3 - 5n + 15$ is not $O(n^{2})$.
-\end{Exercise}
-\begin{Exercise}\label{exr:aa:bigO:b}
-Prove that $10n^3 - 5n + 15$ is $\Theta(n^{3})$.
-\end{Exercise}
-\begin{Exercise}\label{exr:aa:bigO:c}
-Prove that $10n^3 - 5n + 15$ is not $\Omega(n^{4})$.
-\end{Exercise}
 
-\begin{Exercise}\label{exr:bigtheta}
-Prove that $f(n)$ is $\Theta(g(n))$ if and only if both $f(n)$ is $O(g(n)$ and 
-$f(n)$ is $\Omega(g(n))$.
-\end{Exercise}
 
-\begin{Exercise}
-\label{exr:bigoh-order}
-Using the definition, show that each function \(f(n)\) in 
-Table~\ref{t:data-size} stands in ``Big-Oh'' relation to the preceding 
-one, that is, \(n\) is \(O(n\log n)\), \(n\log n\) is \(O(n^{1.5})\),
-and so forth. 
+\chapter{Q\&A} %--------------------------------------------------------------
 
-\end{Exercise}
+\paragraph{Is addition of integers an elementary operation?}
+\begin{itemize}
+\item If the integers (and their sum) can fit into a machine word (typically 64 bits, so not bigger than $9,223,372,036,854,775,807$) then 
+adding two of them can be done in constant time.
+\item If the integers are much longer, as occurs for example in symbolic algebra systems, cryptography, etc, then to avoid overflow they must be represented another way (``big integers"). Typically these are strings.
+\item In this case the addition is done componentwise and the running time grows linearly with the size of the integers.
+\item Assuming that $F(n)$ has the order of $n$ decimal digits (which is true), the amount of work 
+done by \texttt{fastfib} is of order $1+2+\dots + n$ which is order $n^2$, not $n$. 
+\item So \texttt{fastfib} is technically a quadratic time algorithm!
+\end{itemize}
 
-\begin{Exercise}\label{exr:bigoh:features}
-Prove Lemmas~\ref{l:bigoh:2}--\ref{l:bigoh:4}.
-\end{Exercise}
 
-\begin{Exercise}\label{exr:bigomega:sums}
-Decide on how to reformulate the Rule of Sums (Lemma~\ref{l:bigoh:3})
-for ``Big Omega'' and ``Big Theta'' notation.
-\end{Exercise}
 
-\begin{Exercise}\label{exr:bigomega:lem}
-Reformulate and prove Lemmas~\ref{l:bigoh:1}--\ref{l:bigoh:4}
-for ``Big Omega'' notation. 
-\end{Exercise}
+\paragraph{Have we been measuring input size correctly?}
+\begin{itemize}
+\item We used $n$ to measure the size of the integer $n$. 
+\item This seems wrong. In fact the number of bits needed to represent $n$ seems a much better 
+idea.
+\item If $m$ is the size of the positive integer $n$, then $m = 1+\lfloor\lg n\rfloor$, and $2^{m-1} \leq n < 2^m$.
+\item This turns \texttt{fastfib} from a polynomial time algorithm to an exponential time algorithm! The input size measure \emph{must} be specified.
+\end{itemize}
 
-\section{Time complexity of algorithms} 
-\label{time-compl}
 
-\begin{Definition} [Informal]
-A function $f(n)$ such that the running time $T(n)$ of a given 
-algorithm is $\Theta(f(n))$ measures the \defnfont{time complexity} 
-of the algorithm.
-\end{Definition}
 
-An algorithm is called \defnfont{polynomial time} if its running time $T(n)$
-is $O(n^{k})$ where $k$ is some fixed positive integer. A computational
-problem is considered \defnfont{intractable} iff no deterministic
-algorithm with polynomial time complexity exists for it. But many problems
-are classed as intractable only because a polynomial solution is unknown,
-and it is a very challenging task to find such a solution for one of them.
- 
-\begin{table}[htb] 
-\caption[Relative growth of running time $T(n)$ when 
-  the input size increases.]%
-{\label{t:growth} Relative growth of running time $T(n)$ when 
-  the input size increases from $n=8$ to $n=1024$ provided that $T(8)=1$.} 
-  \centerline{
-   \begin{tabular}{|c|c|cccc|c|} \hline 
-   \multicolumn{2}{|c|}{\textbf{Time complexity}} &  
-   \multicolumn{4}{|c|}{\textbf{Input size $n$}} & \textbf{Time} $T(n)$
-\\ \cline{1-6} 
-   \emph{Function} & \emph{Notation} & \emph{8} & \emph{32} & \emph{128} & \emph{1024} &
-\\ \hline 
-   Constant     & $1$      & 1  & 1  &   1 &   1 & 1 \\ 
-\hline 
-   Logarithmic  & $\lg n$ & 1  & 1.67  & 2.67  & 3.33 & \( \lg n / 3 \)\\ 
-\hline 
-   Log-squared  & $\lg^{2} n$ & 1 & 2.78  & 5.44 &  11.1 & \( \lg^{2} n / 9 \) 
-\\ \hline 
-   Linear       & $n$ & 1 & 4 & 16 & 128 & \( n / 8 \) \\ 
-\hline 
-   ``$n\log n$''& $n \lg n$ & 1 & 6.67 & 37.3 & 427 & \(n \lg n / 24\)
-\\ \hline 
-   Quadratic    & $n^{2}$ & 1 & 16 & 256 & 16384 & \(n^{2} / 64\)
-\\ \hline 
-   Cubic        & $n^{3}$ & 1 & 64 & 4096 & 2097152 & \(n^{3} / 512\)
-\\ \hline 
-   Exponential  & $2^{n}$ & 1 & $2^{24}$ & $2^{120}$ & $2^{1016}$ & \(2^{n-8}\)
-\\ \hline 
-   \end{tabular}} 
- \end{table} 
+\paragraph{What happens if there are many inputs of a given size?}
+\begin{itemize}
+\item We usually don't want to have to consider the distribution of
+running time over all possible inputs of a given size. There may be (infinitely)
+many inputs of a given size, and running time may vary widely on these. 
+\item For example, for sorting the integers $1, \dots, n$, there are $n!$ possible inputs, and this is large even for $n=10$.
+\item We consider statistics of $T(\inp)$ such as \defnfont{worst-case} $W(n)$ or 
+\defnfont{average-case} $A(n)$ running time for instances $\inp$ of size $n$.
+% Jo asks: Are W(n) and A(n) actually ever used?
+\end{itemize}
 
-Table~\ref{t:growth} shows how the running time \(T(n)\) of algorithms
-having different time complexity, $f(n)$, grows relatively with the
-increasing input size $n$.  Time complexity functions are listed in
-order such that $g$ is $O(f)$ if $g$ is above $f$: for example, the
-linear function \(n\) is \(O(n\log n) \) and \(O(n^2 )\), etc. The 
-asymptotic growth rate does not depend on the base of the logarithm, but the 
-exact numbers in the table do --- we use $\log_{2} = \lg$ for simplicity.
 
-\begin{table}[htbp] 
-\caption[The largest data sizes $n$ that can be
-processed by an algorithm.]%
-{\label{t:data-size} The largest data sizes $n$ that can be
-processed by an algorithm with time complexity $f(n)$
-provided that $T(10)= 1$ minute.} 
-\begin{center}
-   \begin{tabular}{|c|r|r|r|r|r|r|} \hline
-      & \multicolumn{6}{|c|}{\textbf{Length of time to run an algorithm}}\\
-                \cline{2-7}
-$f(n)$  & 1 minute & 1 hour & 1 day & 1 week & 1 year & 1 decade  \\
-\hline
-  $n$         & 10  & 600 & 14 400 & 100 800 & $5.26\times 10^{6}$  &
-$5.26\times  10^{7}$  \\ \hline 
-  $n\lg n$    & 10  & 250 & 3 997 & 23 100  & 883 895   & $7.64\times 10^6$
-  \\ \hline 
-  $n^{1.5}$    & 10  & 153 &  1 275 &   4 666 &    65 128 &
-   302,409   \\ \hline 
-  $n^{2}$      & 10  &  77 &    379 &   1 003 &     7 249 &
-    22,932   \\ \hline 
-  $n^{3}$      & 10  &  39 &    112 &     216 &       807 &
-     1,738  \\ \hline 
-  $2^{n}$      & 10  &  15 &     20 &      23 &        29 &
-        32   \\ \hline
-   \end{tabular}
-   \end{center} 
- \end{table} 
- 
-Table~\ref{t:data-size} is even more expressive in showing
-how the time complexity of an algorithm affects the size of problems the
-algorithm can solve (we again use $\log_{2} = \lg$). A linear algorithm solving 
-a problem of size $n=10$ in exactly one minute will process about $5.26$ million  
-data items per year and 10 times more if we can wait a decade. 
-But an exponential algorithm  with \(T(10)=1\) minute will deal
-only with $29$ data items after a year of running and add only $3$
-more items after a decade.  Suppose we have computers $10,000$ times
-faster (this is approximately the ratio of a week to a minute). Then 
-we can solve a problem $10,000$ times, $100$ times, or $21.5$ times 
-larger than before if our algorithm is linear, quadratic, or cubic, 
-respectively. But for exponential algorithms, our progress is much worse: 
-we can add only $13$ more input values if $T(n)$ is $\Theta(2^n)$.
+\paragraph{What are the pros and cons of worst and average case analysis?}
+\begin{itemize}
+\item Worst-case bounds are valid for all instances: 
+this is important for mission-critical applications.
+\item Worst-case bounds are often easier to derive mathematically.
+\item Worst-case bounds often hugely exceed typical running time and 
+have little predictive or comparative value. 
+\item Average-case running time is often more realistic. Quicksort is a classic 
+example.
+\item Average-case analysis requires a good understanding of the probability 
+distribution of the inputs.
+\item Conclusion: a good worst-case bound is always useful, but it is
+just a first step and we should aim to refine the analysis for important 
+algorithms. Average-case analysis is often more practically useful, provided the
+ algorithm will be run on ``random" data. 
+\end{itemize}
 
-Therefore, if our algorithm has a constant, logarithmic, log-square, linear, 
-or even ``$n \log n$'' time complexity we may be happy and start writing a 
-program with no doubt that it will meet at least some practical demands. 
-Of course, before taking the plunge, it is better to check whether the hidden 
-constant $c$, giving the computation volume per data item, is sufficiently small
-in our case. Unfortunately, order relations can be drastically
-misleading: for instance, two linear functions $10^{-4}n$ and $10^{10}n$
-are of the same order $O(n)$, but we should not claim an
-algorithm with the latter time complexity as a big success.
 
-Therefore, we should follow a simple rule: \emph{roughly estimate 
-the computation volume per data item for the algorithms after comparing
-their time complexities in a ``Big-Oh'' sense!} We may estimate the
-computation volume simply by counting the number of elementary
-operations per data item.
 
-In any case we should be \boldfont{very} careful even with simple
-quadratic or cubic algorithms, and especially with exponential
-algorithms. If the running time is speeded up in Table~\ref{t:data-size} so that
-it takes one \emph{second} per ten data items
-in all the cases, then we will still wait about 12 \emph{days}
-(\(2^{20}\equiv 1,048,576\) seconds) for processing only 30 items by the 
-exponential algorithm. Estimate yourself whether it is
-practical to wait until 40 items are processed.
- 
-In practice, quadratic and cubic algorithms cannot be used if the input
-size exceeds tens of thousands or thousands of items, respectively,
-and exponential algorithms should be avoided whenever possible unless we
-always have to process data of very small size. Because even the most
-ingenious programming cannot make an inefficient algorithm fast (we
-would merely change the value of the hidden constant $c$ slightly, but
-not the asymptotic order of the running time), it is better to spend
-more time to search for efficient algorithms, even at the expense of a
-less elegant software implementation, than to spend time writing a very
-elegant implementation of an inefficient algorithm. 
 
-\subsection{Worst-case and average-case performance}
-\label{ss:worst-vs-avg}
+\paragraph{Why can constants often be ignored?}
+\begin{itemize}
+\item A linear time algorithm when implemented will take at most $A
+n + B$ seconds to run on an instance of size $n$, for some
+implementation-specific constants $A, B$. 
+\item For large $n$, this is well approximated by $A n$. 
+Small $n$ are not usually of interest anyway, since almost any algorithm is good
+ enough for tiny instances.
+\item No matter what $A$ is, we can easily work out how the running time
+scales with increasing problem size (linearly!). 
+\item The difference between a linear and a quadratic time algorithm is
+usually huge, no matter what the constants are. For large enough $n$, a
+linear time algorithm will always beat a quadratic time one. 
+\item Conclusion: in practice we often need to make only crude
+distinctions. We only need to know whether the running time scales like 
+$n, n^2, n^3, n \log n, 2^n, \dots$. If we need finer distinctions, we 
+can do more analysis.
+\end{itemize}
 
-We have introduced asymptotic notation in order to measure the running time of 
-an algorithm. This is expressed in terms of elementary operations. ``Big Oh", 
-``Big Omega" and ``Big Theta" notations allow us to state upper, lower
- and tight asymptotic bounds on running time that are independent of inputs and
-implementation details. Thus we can classify algorithms by 
-performance, and search for the ``best'' algorithms for solving a particular problem.  
 
-However, we have so far neglected one important point. In general,
-\emph{the running time varies not only according to the size of the
-input, but the input itself}. The examples in Section~\ref{time-compl} 
-were unusual
-in that this was not the case. But later we shall see many examples
-where it does occur. For example, some sorting algorithms take almost
-no time if the input is already sorted in the desired order, but much
-longer if it is not.
 
-If we wish to compare two different algorithms for the same problem, it
-will be very complicated to consider their performance on all possible
-inputs. We need a simple measure of running time.
+\paragraph{Can we always ignore constants?}
+\begin{itemize}
+\item When we want to choose between two good algorithms for the same
+problem (``is my linear-time algorithm faster than your linear-time
+algorithm?"), we may need to know constants. These must be determined
+empirically. 
+\item For important algorithms that will be used many times, it is worth
+being more precise about the constants. Even small savings will be worth
+the trouble. 
+\item An algorithm with running time $10^{-10} n^2$ is probably better
+in practice than one with running time $10^{10} n$, since the latter
+will eventually beat the former, but only on instances of size at least $10^{20}$, 
+which is rarely met in practice. 
+\item Conclusion: we should have at least a rough feel for the constants
+of competing algorithms. However, in practice the constants are usually
+of moderate size. 
+\end{itemize}
 
-The two most common measures of an algorithm are the \defnfont{worst-case 
-running time}, and the \defnfont{average-case running time}. 
 
-The worst-case running time has several advantages.  If we can show,
-for example, that our algorithm runs in time $O(n\log n)$ no matter
-what input of size $n$ we consider, we can be confident that even if we
-have an ``unlucky" input given to our program, it will not fail to run
-fairly quickly. For so-called ``mission-critical" applications this is
-an essential requirement. In addition, an upper bound on the worst-case
-running time is usually fairly easy to find.
 
-The main drawback of the worst-case running time as a measure is that it may be 
-too pessimistic. The real running time might be much lower than
-an ``upper bound'', the input data causing  the worst case may be
-unlikely to be met in practice, and the constants $c$ and $n_{0}$ of the 
-asymptotic notation  are unknown and may not be small.
-There are many algorithms for which it is difficult to specify the worst-case 
-input. But even if it is known, the inputs actually encountered in practice may 
-lead to much lower running times. We
-shall see later that the most widely used fast sorting
-algorithm, quicksort, has worst-case quadratic
-running time, $\Theta(n^{2})$, but its running time
-for ``random" inputs encountered in practice is $\Theta(n \log n)$.
-
-By contrast, the average-case running time is not as easy to define. The use of 
-the word ``average" shows us that probability is involved. We need to specify a 
-probability distribution on the inputs. Sometimes this is not too difficult. 
-Often we can assume that every input of size $n$ is equally likely, and this 
-makes the mathematical analysis easier. But sometimes an assumption of this sort
- may not reflect the inputs encountered in practice. Even if it does, the
-average-case analysis may be a rather difficult mathematical challenge
-requiring intricate and detailed arguments. And of course the worst-case 
-complexity may be very bad even if the average case complexity is good, so there
- may be considerable risk involved in using the algorithm.
-
-Whichever measure we adopt for a given algorithm, our goal is  to show
-that its running time is $\Theta(f)$ for some function $f$ \boldfont{and}
-there is no algorithm with running time $\Theta(g)$ for any function $g$
-that grows more slowly than $f$ when $n \rightarrow \infty$. In this case
-our algorithm is \defnfont{asymptotically optimal} for the given problem.
-
-Proving that no other algorithm can be asymptotically better than
-ours is usually a difficult matter: we must carefully construct a
-formal mathematical model of a computer and derive a lower bound on the
-complexity of every algorithm to solve the given problem. In this book
-we will not pursue this topic much. If our analysis does show that an
-upper bound for our algorithm matches the lower one for the problem,
-then we need not try to invent a faster one.
-% ------^^^ inserted from book ^^^---------
+\paragraph{Summary}
+\begin{itemize}
+\item Our goal is to find an asymptotic approximation for the (worst or average 
+case) running time of a given algorithm. Ideally we can find a simple function 
+$f$ and prove that the running time is $\Theta(f(n))$.
+\item The main $f(n)$ occurring in applications are $\log n, n, n \log n, n^2, n^3, 2^n$, and 
+each grows considerably faster than the previous one. The gap between $n$ and 
+$n\log n$ is the smallest.
+\end{itemize}

@@ -516,15 +516,15 @@ representation  given below. Classify each arc as tree, forward, back or cross.
 \newline
 $$
 \lightgraybox{
-\begin{tabular}{c|cccc}
-0 & 2 &  & \\
-1 & 0 & &\\
-2 & 0 & 1&\\
-3 & 4 & 5 & 6\\
-4 & 5 & &\\
-5 & 3 & 4 & 6 \\
-6 & 1 & 2 & \\
-\end{tabular}
+	\begin{tabular}{c|cccc}
+		0 & 2 &   &   \\
+		1 & 0 &   &   \\
+		2 & 0 & 1 &   \\
+		3 & 4 & 5 & 6 \\
+		4 & 5 &   &   \\
+		5 & 3 & 4 & 6 \\
+		6 & 1 & 2 &   \\
+	\end{tabular}
 }
 $$
 \end{Exercise}
@@ -620,7 +620,7 @@ layout.
 
 \smallskip
 
-\centerline{\Ipe{./figs/pre+post.ipe}}
+% \centerline{\Ipe{./figs/pre+post.ipe}}
 
 This is obviously strongly related to the values in the arrays $\seen$ and 
 $\done$. What is the exact relationship between the two?
@@ -799,15 +799,15 @@ Show the state of the queue after each change in its state.
 \newline
 $$
 \lightgraybox{
-\begin{tabular}{ccccc}
-0: & 2 &   & \\
-1: & 0 &   &\\
-2: & 0 & 1 &\\
-3: & 4 & 5 & 6\\
-4: & 5 &   &\\
-5: & 3 & 4 & 6 \\
-6: & 1 & 2 & \\
-\end{tabular}
+	\begin{tabular}{c|cccc}
+		0 & 2 &   &   \\
+		1 & 0 &   &   \\
+		2 & 0 & 1 &   \\
+		3 & 4 & 5 & 6 \\
+		4 & 5 &   &   \\
+		5 & 3 & 4 & 6 \\
+		6 & 1 & 2 &   \\
+	\end{tabular}
 }
 $$
 \end{Exercise}
@@ -930,12 +930,12 @@ science applications require us to find precedences (or dependencies)
 among events, such as a compiler evaluating sub-expressions of an
 expression like that shown in \cref{fig:prec}.
 
-\begin{figure}[hbtp]
-\centerline{\Ipe{./figs/precedence.ipe}}
-
-\caption{Digraph describing structure of an arithmetic expression.}
-\label{fig:prec}
-\end{figure}
+\begin{figure}[hbtp] %% ! Jo says: But how do we know which side of the (-)node is substracted from the other?
+	\centering
+	\includegraphics{precedence}
+	\caption{Digraph describing structure of an arithmetic expression.}
+	\label{fig:prec}
+\end{figure} 
 
 Here the compiler would need to compute, for example, both $(a+b)$ and
 $c$ before it can compute $c-(a+b)$.
@@ -975,7 +975,7 @@ of the vertices.
 \end{Example}
 
 \begin{figure}
-\centerline{\IpeScale{80}\Ipe{./figs/graphEx4.ipe}}
+% \centerline{\IpeScale{80}\Ipe{./figs/graphEx4.ipe}}
 
 \caption{Topological orders of some DAGs.}
 \label{fig:toporder}
@@ -1239,7 +1239,7 @@ arcs of the digraph not included in the strongly connected components.
 \end{Example}
 
 \begin{figure}[htbp]
-\centerline{\Ipe{./figs/SCC.ipe}}
+% \centerline{\Ipe{./figs/SCC.ipe}}
 
 \caption{A digraph and its strongly connected components.}
 \label{fig:scc}
@@ -1406,7 +1406,7 @@ In \cref{fig:cycle} are three (di)graphs.  The first has no cycles
 
 \begin{figure}
 
-\centerline{\IpeScale{80}\Ipe{./figs/graphEx3.ipe}}
+% \centerline{\IpeScale{80}\Ipe{./figs/graphEx3.ipe}}
 \caption{Some (di)graphs with different cycle behaviour.}
 \label{fig:cycle}
 \end{figure}
@@ -1654,40 +1654,40 @@ path exists starting at $v$.  This algorithm is given in \cref{fig:augpath}.
 \Algorithm{findAugmentingPath}{bipartite graph $G$; matching $M$;
 unmatched vertex $x$}{}
 {
-\> queue $Q$\\
-\> array $status[0..n-1]$, $\pred[0..n-1]$ \\
-\> \textbf{for each} $u \in V(G)$ \textbf{do} \\
-\> \> $status[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
-\> \textbf{end for}\\
-\> $status[x] \gets $ EVEN\\
-\> $Q$.\algfont{insert}($x)$ \\
-\> \textbf{while not} $Q$.\algfont{isEmpty}() \textbf{do}\\
-\> \> $u \gets Q$.\algfont{pop}()\\
-%
-\> \> \textbf{if} $status[u] =$ EVEN \textbf{then} \\
-%
-\> \> \> \textbf{for} each $v$ adjacent to $u$ \textbf{do} \\
-\> \> \> \> \textbf{if} $status[v]$ = WHITE \textbf{then} \\
-\> \> \> \> \> $status[v] \gets$ ODD; $\pred[v] \gets$ u \\
-\> \> \> \> \> \textbf{if} $v$ is unmatched in $M$ \textbf{then} \\
-\> \> \> \> \> \> \textbf{return} path $x,\ldots, \pred[\pred[u]], \pred[u], u, v$\\
-\> \> \> \> \> \textbf{else}\\
-\> \> \> \> \> \> $Q$.\algfont{insert}($v$) \\
-\> \> \> \> \> \textbf{end if}\\
-\> \> \> \> \textbf{end if}\\
-\> \> \> \textbf{end for} \\
-%
-\> \> \textbf{else}\hspace*{1.5cm} \AlgCmt{that is, $status[u] =$ ODD} \\
-%
-\> \> \> $v \gets$ matched vertex of $u$ from $M$ \\
-\> \> \> \textbf{if} $status[v]$ = WHITE \textbf{then} \\
-\> \> \> \> $status[v] \gets$ EVEN; $\pred[v] \gets u$ \\
-\> \> \> \> $Q$.insert($v$) \\
-\> \> \> \textbf{end if}\\
-
-\> \> \textbf{end if}\\
-\> \textbf{end while}\\
-\> \textbf{return} false\hspace*{1cm}\AlgCmt{no augmenting paths containing $x$}\\
+ \> queue $Q$\\
+ \> array $\status[0..n-1]$, $\pred[0..n-1]$ \\
+ \> \textbf{for each} $u \in V(G)$ \textbf{do} \\
+  \> \> $\status[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
+ \> \textbf{end for}\\
+ \> $\status[x] \gets $ EVEN\\
+ \> $Q$.\algfont{insert}($x)$ \\
+ \> \textbf{while not} $Q$.\algfont{isEmpty}() \textbf{do}\\
+ \> \> $u \gets Q$.\algfont{pop}()\\
+ %
+ \> \> \textbf{if} $\status[u] =$ EVEN \textbf{then} \\
+ %
+ \> \> \> \textbf{for} each $v$ adjacent to $u$ \textbf{do} \\
+ \> \> \> \> \textbf{if} $\status[v]$ = WHITE \textbf{then} \\
+ \> \> \> \> \> $\status[v] \gets$ ODD; $\pred[v] \gets$ u \\
+ \> \> \> \> \> \textbf{if} $v$ is unmatched in $M$ \textbf{then} \\
+ \> \> \> \> \> \> \textbf{return} path $x,\ldots, \pred[\pred[u]], \pred[u], u, v$\\
+ \> \> \> \> \> \textbf{else}\\
+ \> \> \> \> \> \> $Q$.\algfont{insert}($v$) \\
+ \> \> \> \> \> \textbf{end if}\\
+ \> \> \> \> \textbf{end if}\\
+ \> \> \> \textbf{end for} \\
+ %
+  \> \> \textbf{else}\hspace*{1.5cm} \AlgCmt{that is, $\status[u] =$ ODD} \\
+ %
+ \> \> \> $v \gets$ matched vertex of $u$ from $M$ \\
+ \> \> \> \textbf{if} $status[v]$ = WHITE \textbf{then} \\
+ \> \> \> \> $\status[v] \gets$ EVEN; $\pred[v] \gets u$ \\
+ \> \> \> \> $Q$.insert($v$) \\
+ \> \> \> \textbf{end if}\\
+% 
+ \> \> \textbf{end if}\\
+ \> \textbf{end while}\\
+ \> \textbf{return} false\hspace*{1cm}\AlgCmt{no augmenting paths containing $x$}\\
 }
 \caption[An algorithm to find an augmenting path.]%
 {An algorithm to find an augmenting path, given a matching
