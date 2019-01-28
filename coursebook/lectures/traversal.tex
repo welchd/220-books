@@ -92,7 +92,7 @@ Each white node chosen in \algfont{traverse} becomes the root of a tree in the c
 set of disjoint trees spanning the digraph (that is, it includes all the nodes of the digraph), which we call the
 \defnfont{search forest}. The search forest  is returned by \algfont{traverse} in the array $pred$.
 
-\input{figs/generalTraversal}
+\input{figs/generalTraversal} 
 
 \section{Classifying arcs after a traversal}
 
@@ -391,46 +391,44 @@ introduce a variable $\timeVar$ and keep track of the time a node was turned
 grey, and the time it was turned black, in the arrays $\seen, \done$.
 These will be useful later.
 
-\begin{figure}[htbp]
-\hspace*{.3in}\begin{minipage}{5in}
-\Algorithm{DFS}{digraph $G$}{}
-{
-\> stack $S$ \\ 
-\> array $\colour[0..n-1], \pred[0..n-1], \seen[0..n-1], \done[0..n-1]$ \\
-\> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
-\> \textbf{end for}\\
-\> $\timeVar \gets 0$ \\
-\> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
-\> \> \> \algfont{DFSvisit}($s$) \\
-\> \> \textbf{end if}\\
-\> \textbf{end for}\\
-\> \textbf{return} $\pred, \seen, \done$ \\
-}
 
-\Algorithm{DFSvisit}{node $s$}{}
-{
-\> $\colour[s] \gets $ GREY \\
-\> $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$ \\
-\> S.\algfont{insert}($s$) \\
-\> \textbf{while not} S.\algfont{isEmpty}() \textbf{do} \\
-\> \> $u \gets $ S.\algfont{peek}() \\
-\> \>  \textbf{if} there is a neighbour $v$ with $\colour[v] = $ WHITE \textbf{then} \\
-\> \> \> $\colour[v] \gets $ GREY; $\pred[v] \gets u$ \\ 
-\> \> \> $\seen[v] \gets \timeVar$; $\timeVar \gets \timeVar + 1$ \\
-\> \> \> S.\algfont{insert}($v$) \\
-\> \> \textbf{else} \\
-\> \> \> S.\algfont{delete}() \\
-\> \> \> $\colour[u] \gets $ BLACK \\
-\> \> \> $\done[u] \gets \timeVar$; $\timeVar \gets \timeVar + 1$ \\
-\> \> \textbf{end if} \\
-\> \textbf{end while} \\
-}
-\end{minipage}
-\caption{Depth-first search algorithm.}
-\label{fig:DFScode}
-\end{figure}
+\begin{algorithm}[H]
+  \caption{Depth-first search algorithm.}
+    \label{alg:DFScode}
+\begin{algorithmic}[1]
+\Function{DFS}{digraph $G$}
+	\State stack $S$  
+	\State array $\colour[0..n-1], \pred[0..n-1], \seen[0..n-1], \done[0..n-1]$
+	\For{$u \in V(G)$} 
+		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL
+	\EndFor
+	\State $\timeVar \gets 0$
+	\For{$s \in V(G)$} 
+		\If{$\colour[s] = $ WHITE} 
+			\State \algfont{DFSvisit}$(s)$
+		\EndIf
+	\EndFor
+	\State \Return{$\pred, \seen, \done$}
+\EndFunction
+\Function{DFSvisit}{node $s$}
+	\State $\colour[s] \gets $ GREY
+	\State $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
+	\State $S$.\algfont{insert}$(s)$
+	\While{\textbf{not} $S$.\algfont{isEmpty}$()$}
+		\State $u \gets S$.\algfont{peek}$()$
+		\If{there is a neighbour $v$ with $\colour[v] = $ WHITE}
+			\State $\colour[v] \gets $ GREY; $\pred[v] \gets u$
+			\State $\seen[v] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
+			\State $S$.\algfont{insert}$(v)$
+		\Else
+			\State $S$.\algfont{delete}$()$
+			\State $\colour[u] \gets $ BLACK
+			\State $\done[u] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
+		\EndIf
+	\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 The complexity analysis of DFS is easy. Choosing a grey node $u$ takes
 constant time since only the stack pop operation is required. The time
@@ -658,45 +656,41 @@ The timestamps $\seen, \done$ of DFS are of less use here;
 it is more useful to record the number of steps from the root in the
 array $d$.
 
-\begin{figure}[hbtp]
 
-
-\Algorithm{BFS}{digraph $G$}{}
-{
-\> queue $Q$ \\
-\> array $\colour[0..n-1], \pred[0..n-1], d[0..n-1]$ \\
-\> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
-\> \textbf{end for}\\
-\> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
-\> \> \> \algfont{BFSvisit}($s$) \\
-\> \> \textbf{end if}\\
-\> \textbf{end for}\\
-\> \textbf{return} $\pred, d$\\
-}
-
-\Algorithm{BFSvisit}{node $s$}{}
-{
-\> $colour[s] \gets $ GREY; $d[s] \gets 0$ \\
-\> Q.\algfont{insert}($s$) \\
-\> \textbf{while not} Q.\algfont{isEmpty}() \textbf{do} \\
-\> \> $u \gets $ Q.\algfont{peek}() \\
-\> \> \textbf{for} each $v$ adjacent to $u$ \textbf{do} \\
-\> \> \> \textbf{if} $\colour[v] = $ WHITE \textbf{then} \\
-\> \> \> \> $\colour[v] \gets $ GREY; $\pred[v] \gets u$; $d[v] \gets d[u]+1$\\
-\> \> \> \> Q.\algfont{insert}($v$) \\
-\> \> \> \textbf{end if} \\
-\> \> \textbf{end for} \\
-\> \> Q.\algfont{delete}() \\
-\> \> $\colour[u] \gets $ BLACK \\
-\> \textbf{end while} \\
-}
-
-\caption{Breadth-first search algorithm.}
-\label{fig:BFScode}
-\end{figure}
-
+\begin{algorithm}[H]
+  \caption{Breadth-first search algorithm.}
+    \label{alg:BFScode}
+\begin{algorithmic}[1]
+\Function{BFS}{digraph $G$}
+	\State queue $Q$  
+	\State array $\colour[0..n-1], \pred[0..n-1], d[0..n-1]$
+	\For{$u \in V(G)$} 
+		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL
+	\EndFor
+	\For{$s \in V(G)$} 
+		\If{$\colour[s] = $ WHITE } 
+			\State \algfont{BFSvisit}$(s)$
+		\EndIf
+	\EndFor
+	\State \Return{$\pred, d$}
+\EndFunction
+\Function{BFSvisit}{node $s$}
+	\State $\colour[s] \gets $ GREY; $d[s] \gets 0$ 
+	\State $Q$.\algfont{insert}$(s)$
+	\While{\textbf{not} $Q$.\algfont{isEmpty}$()$}
+		\State $u \gets Q$.\algfont{peek}$()$
+		\For{each $v$ adjacent to $u$}
+			\If{$\colour[v] = $ WHITE}
+				\State $\colour[v] \gets $ GREY; $\pred[v] \gets u$; $d[v] \gets d[u]+1$
+				\State $Q$.\algfont{insert}$(v)$
+			\EndIf
+		\EndFor
+		\State $Q$.\algfont{delete}()
+		\State $\colour[u] \gets $ BLACK
+	\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 A similar analysis to what we did for DFS also holds for BFS: it is also
 a linear time traversal algorithm, because the next grey and white node 
@@ -891,43 +885,41 @@ Pseudocode demonstrating the first type of PFS is presented in
 rule for giving the key value when a node is inserted. We do not include
 any code for \algfont{setKey}.
 
-\begin{figure}
-\hspace*{.4in}\begin{minipage}{5in}
-\Algorithm{PFS}{digraph $G$}{}
-{
-\> priority queue $Q$\\
-\> array $\colour[0..n-1], \pred[0..n-1]$ \\
-\> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
-\> \textbf{end for}\\
-\> \textbf{for}  $s\in V(G)$ \textbf{do} \\
-\> \> \textbf{if} $\colour[s] = $ WHITE \textbf{then} \\
-\> \> \> \algfont{PFSvisit}($s$) \\
-\> \> \textbf{end if}\\
-\> \textbf{end for}\\
-\> \textbf{return} $\pred$\\
-}
+\begin{algorithm}[H]
+  \caption{Priority-first search algorithm (first kind)}
+  \label{fig:PFScode}
+\begin{algorithmic}[1]
+\Function{PFS}{digraph $G$}
+	\State priority queue $Q$  
+	\State array $\colour[0..n-1], \pred[0..n-1]$
+	\For{$u \in V(G)$} 
+		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL
+	\EndFor
+	
+	\For{$s \in V(G)$} 
+		\If{$\colour[s] = $ WHITE } 
+			\State \algfont{PFSvisit}$(s)$
+		\EndIf
+	\EndFor
+	\State \Return{$\pred$}
+\EndFunction
+\Function{PFSvisit}{node $s$}
+	\State $\colour[s] \gets $ GREY 
+	\State $Q$.\algfont{insert}($s$, \algfont{setKey}$(s)$)
+	\While{\textbf{not} $Q$.\algfont{isEmpty}$()$}
+		\State $u \gets Q$.\algfont{peek}$()$
+		\If{$u$ has a neighbour $v$ with $\colour[v] = $ WHITE}
+			\State $\colour[v] \gets $ GREY
+			\State $Q$.\algfont{insert}$(v$, \algfont{setKey} $(v))$
+		\Else
+			\State $Q$.\algfont{delete}
+			\State $\colour[u] \gets$ BLACK
+		\EndIf
+	\EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
-\Algorithm{PFSvisit}{node $s$}{}
-{
-\> $\colour[s] \gets $ GREY \\
-\> Q.\algfont{insert}($s$, \algfont{setKey} $(s)$) \\
-\> \textbf{while not} Q.\algfont{isEmpty}() \textbf{do} \\
-\> \> $u \gets $ Q.\algfont{peek}() \\
-\> \>  \textbf{if} $u$ has a neighbour $v$ with $\colour[v] = $ WHITE \textbf{then} \\
-\> \> \> $\colour[v] \gets $ GREY \\
-\> \> \> Q.\algfont{insert}($v$, \algfont{setKey} $(v)$) \\
-\> \> \textbf{else} \\
-\> \> \> Q.\algfont{delete}() \\
-\> \> \> $\colour[u] \gets $ BLACK \\
-\> \> \textbf{end if} \\
-\> \textbf{end while}
-}
-\end{minipage}
-\caption{Priority-first search algorithm (first kind).}
-\label{fig:PFScode}
-\vspace*{-.2cm}
-\end{figure}
 
 We proceed to show some applications of BFS and DFS in the following
 sections. Applications of PFS will be discussed in
@@ -1671,50 +1663,47 @@ then we have found an augmenting path.  Otherwise, if we visit all vertices
 (in the same component as $v$) then we conclude that no augmenting 
 path exists starting at $v$.  This algorithm is given in \cref{fig:augpath}.
 
-\begin{figure}
-\Algorithm{findAugmentingPath}{bipartite graph $G$; matching $M$;
-unmatched vertex $x$}{}
-{
- \> queue $Q$\\
- \> array $\status[0..n-1]$, $\pred[0..n-1]$ \\
- \> \textbf{for each} $u \in V(G)$ \textbf{do} \\
-  \> \> $\status[u] \gets $ WHITE; $\pred[u] \gets $ NULL \\
- \> \textbf{end for}\\
- \> $\status[x] \gets $ EVEN\\
- \> $Q$.\algfont{insert}($x)$ \\
- \> \textbf{while not} $Q$.\algfont{isEmpty}() \textbf{do}\\
- \> \> $u \gets Q$.\algfont{pop}()\\
- %
- \> \> \textbf{if} $\status[u] =$ EVEN \textbf{then} \\
- %
- \> \> \> \textbf{for} each $v$ adjacent to $u$ \textbf{do} \\
- \> \> \> \> \textbf{if} $\status[v]$ = WHITE \textbf{then} \\
- \> \> \> \> \> $\status[v] \gets$ ODD; $\pred[v] \gets$ u \\
- \> \> \> \> \> \textbf{if} $v$ is unmatched in $M$ \textbf{then} \\
- \> \> \> \> \> \> \textbf{return} path $x,\ldots, \pred[\pred[u]], \pred[u], u, v$\\
- \> \> \> \> \> \textbf{else}\\
- \> \> \> \> \> \> $Q$.\algfont{insert}($v$) \\
- \> \> \> \> \> \textbf{end if}\\
- \> \> \> \> \textbf{end if}\\
- \> \> \> \textbf{end for} \\
- %
-  \> \> \textbf{else}\hspace*{1.5cm} \AlgCmt{that is, $\status[u] =$ ODD} \\
- %
- \> \> \> $v \gets$ matched vertex of $u$ from $M$ \\
- \> \> \> \textbf{if} $status[v]$ = WHITE \textbf{then} \\
- \> \> \> \> $\status[v] \gets$ EVEN; $\pred[v] \gets u$ \\
- \> \> \> \> $Q$.insert($v$) \\
- \> \> \> \textbf{end if}\\
-% 
- \> \> \textbf{end if}\\
- \> \textbf{end while}\\
- \> \textbf{return} false\hspace*{1cm}\AlgCmt{no augmenting paths containing $x$}\\
-}
-\caption[An algorithm to find an augmenting path.]%
-{An algorithm to find an augmenting path, given a matching
+
+\begin{algorithm}[H]
+  \caption{An algorithm to find an augmenting path, given a matching
 and an unmatched starting vertex.}
-\label{fig:augpath}
-\end{figure}
+    \label{alg:augpath}
+\begin{algorithmic}[1]
+\Function{findAugmentingPath}{bipartite graph $G$; matching $M$; unmatched vertex $x$}
+	\State queue $Q$
+	\State array $\status[0..n-1]$, $\pred[0..n-1]$
+	\For{$u \in V(G)$}
+  		\State $\status[u] \gets $ WHITE; $\pred[u] \gets $ NULL 
+	\EndFor
+	\State $\status[x] \gets $ EVEN
+	\State $Q$.\algfont{insert}$(x)$
+	\While{\texbf{not}  $Q$.\algfont{isEmpty}$()$}
+		\State $u \gets Q$.\algfont{pop}$()$
+ 		\If{$\status[u] =$ EVEN}
+ 			\For{each $v$ adjacent to $u$}
+ 				\If{$\status[v]$ = WHITE}
+ 					\State $\status[v] \gets$ ODD; $\pred[v] \gets$ u
+ 					\If{$v$ is unmatched in $M$}
+ 						\State \Return{path $x,\ldots, \pred[\pred[u]], \pred[u], u, v$}
+ 					\Else
+	 					\State $Q$.\algfont{insert}$(v)$
+ 					\EndIf
+ 				\EndIf
+ 			\EndFor
+ 		\Else 			\Comment{that is, $\status[u] =$ ODD} 
+			\State $v \gets$ matched vertex of $u$ from $M$
+			\If{$status[v]$ = WHITE}
+				\State$\status[v] \gets$ EVEN; $\pred[v] \gets u$
+ 				\State$Q$.insert$(v)$
+	 		\EndIf
+ 		\EndIf
+	\EndWhile
+	\State \Return{false} \Comment{no augmenting paths containing $x$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
 
 \begin{Theorem}
 There exists a polynomial-time algorithm to find a maximum matching
