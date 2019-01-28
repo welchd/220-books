@@ -545,8 +545,8 @@ that $H_n$ is $\Theta(\log n)$.
 $a_n = n - 1 + \frac{1}{n} \sum_{1\leq p \leq n} (a_{p-1} + a_{n-p})$. 
 Collect common terms in the sums to obtain
 $$a_n = n - 1 + \frac{2}{n} \sum_{j=0}^{n-1} a_j.$$ 
-\item This \alert{full history} recurrence can be solved by 
-\alert{eliminating the history}, (a general form of \alert{telescoping}). 
+\item This {full history} recurrence can be solved by 
+{eliminating the history}, (a general form of {telescoping}). 
 \item The solution is 
 $a_n = 2 (n + 1) H_n - 4n \approx 2 n \ln n$, where 
 $$H_n:= \sum_{1\leq j \leq n} 1/j.$$ 
@@ -559,7 +559,7 @@ $$H_n:= \sum_{1\leq j \leq n} 1/j.$$
 \begin{align*}
 na_n - (n-1) a_{n-1} & = n(n-1) + 2 \sum_{0\leq j < n} a_j \\
 & - (n-1)(n-2) - 2\sum_{0 \leq j < n - 1} a_j \\
-\uncover<2->{& = 2(n - 1) + 2 a_{n-1}} 
+& = 2(n - 1) + 2 a_{n-1}
 \end{align*}
 \item
 Thus $na_n = 2(n - 1) + (n+1)a_{n-1}$, so that 
@@ -600,13 +600,13 @@ $O(n \log n)$.
 \begin{itemize}
 \item Let $\algo$ be a comparison-based sorting algorithm. The execution
 of $\algo$ on an input of $n$ distinct keys can be modelled by a
-\alert{decision tree}. 
+{decision tree}. 
 \item This is a binary tree whose leaves are the
 $n!$ possible permutations of the keys. At each step we can only ask a Yes/No 
 question of the form $(a_i < a_j)$?, and this determines the branching: left for
  Yes, right for No.
 \item The number of comparisons required to obtain the output at a leaf is the 
-length of the path from the root to that leaf (the \alert{depth} of the leaf 
+length of the path from the root to that leaf (the {depth} of the leaf 
 node).
 \item So, what can be said about the depth of the leaves in a binary tree with 
 $n$ nodes?
@@ -623,7 +623,7 @@ $n$ nodes?
 \begin{itemize}
 \item Suppose that $T$ is a binary tree with $n$ nodes. Going from the root, the
  number of nodes at each level at most doubles. So if the maximum depth (the 
- \alert{height} (!)) is $h$ then the number of leaves is at most $2^h$.
+ {height} (!)) is $h$ then the number of leaves is at most $2^h$.
 \item In our sorting decision tree we have $n!$ leaves. Thus we must have $2^h 
 \geq n!$ so that $h \geq \lg n!$. 
 \item We have already shown that $\log n!$ is $\Omega (n \lg n)$. Thus the 
@@ -683,7 +683,7 @@ Insertion takes $\Theta(1)$ time but deletion time is $\Theta(n)$. Total is quad
 \item If we use a sorted list to implement $Q$, we obtain insertion sort. 
 Insertion takes $\Theta(n)$ time but deletion is $\Theta(1)$. Total is quadratic.
 \item We can do better with an implementation in which insertion and deletion 
-each take time $O(\log n)$. The simplest is the \alert{binary heap}.
+each take time $O(\log n)$. The simplest is the {binary heap}.
 \end{itemize}
 \end{itemize}
 % Jo - how about the following Boxample, instead of writing down the idea? Analysis afterwards
@@ -694,7 +694,7 @@ each take time $O(\log n)$. The simplest is the \alert{binary heap}.
 
 \paragraph{Priority queue: binary heap implementation.}
 \begin{Definition}
-A \alert{binary heap} is a binary tree that 
+A {binary heap} is a binary tree that 
 \begin{itemize}
 \item is \defnfont{left-complete} (every level except perhaps the last is full and 
 the last level is left-filled);
