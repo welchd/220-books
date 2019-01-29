@@ -12,33 +12,35 @@ The keys may be just part of a larger data record.
 Sort the integers $\set{42, 7, 911, -2}$ with $\leq$ 
 and the words $\{$\textit{banana, computer, Auckland, bamboo}$\}$ with  alphabetical (lexicographic) order.
 \end{Boxample}
-More complicated examples can often be reduces to sorting integers or words.
+
+Sorting is ubiquitous in computing. More complicated examples can often be reduced to sorting integers or words.
 Sorting also makes many other problems easier, e.g., selection and finding duplicates.
-Sorting is ubiquitous in computing. 
 
 Note that the data structure used for sorting is important. 
 Sorting an array is a different problem from sorting a linked list. 
-However, implementations affect of course only efficiency, but not correctness.  
+However, these differences affect  only efficiency, not correctness.  
 
 \begin{Definition}
 A sorting algorithm is \defnfont{comparison-based} if it only uses the order relation to compare keys.
+\end{Definition}
+
 This is consistent with the ADT, object-oriented approach. 
 There are other algorithms like bucket sort, radix sort, etc. that do not do this. 
 They use properties of the data representation such as the decimal expansion of keys.
 We only analyse comparison-based algorithms, since they work for general data.
-\end{Definition}
+
 
 \begin{Definition}
 A sorting algorithm is \defnfont{in-place} if it only uses fixed additional space, independent of $n$.
 It is \defnfont{stable} if records with equal keys have their order unchanged by the algorithm.
 \end{Definition}
+
 % \begin{Example}
 % A stable sorting of the array of pairs $[(2, a), (1, b), (3, b), (1, a)]$ based on their integers is
 % $[(1, b), (1, a), (2, a), (3, b)]$ and based on their characters is $[(2, a), (1, a), (1, b), (3, b)]$.
 % \end{Example}
 
-We consider only two elementary operations: 
-	a \defnfont{comparison} of two items and a \defnfont{move} of an item.
+We consider only two elementary operations: a \defnfont{comparison} of two items and a \defnfont{move} of an item.
 We can swap the position of elements (at positions $i$ and $j$ say). 
 Each swap requires 3 data moves (updates of variables).
 Another way is to insert the element at position $i$ after position $j$ and remove it from its current position.
@@ -113,7 +115,7 @@ jo-TODO
 Performance on a linked list is not much different from an array. 
 The differences involve swap versus insertion, and comparisons dominate the running time.
 
-Lastly, note that there is no better way to find the maximum using a list. 
+Lastly, note that there is no better way to find the maximum using a list than what we have done above. 
 But if we change the data structure \dots (see lecture on heapsort).
 
 
@@ -127,7 +129,7 @@ The sorting algorithm \defnfont{insertion sort} works as follows.
 	elements (or insert). Iterate.
 \end{itemize}
 This is the sorting method used by cardplayers to arrange cards in a hand.
-It is in place. It is works well on small lists, or lists that are nearly sorted.
+It is works well on small lists, or lists that are nearly sorted.
 
 \begin{algorithm}[H]
   \caption{Insertion sort
@@ -200,12 +202,22 @@ In the worst case the number of inversions is $n(n-1)/2$
 (where input is in reverse sorted order) so it runs in quadratic time $\Theta(n^2)$.
 
 \paragraph{What is the average-case performance of insertion sort on random data?}
-The average number of inversions in a random permutation is $n(n-1)/4$.\\ 
+\begin{Boxample}[4]
+What is the average number of inversions in a random permutation of $\{1,\dots, n\}$?
+\end{Boxample}
+\if01
 \textit{Proof:} For every pair $(i,j)$ with $i\neq j$,  and every permutation $\pi$, 
 this pair is an inversion in exactly one of $\pi$ or the reverse of $\pi$.
+\fi
+
+\paragraph{Is insertion sort in place?}
+\begin{Boxample}[0]
+Complete the following insertion sort process to convince yourself that it is in place.\\
+jo-TODO
+\end{Boxample}
 
 
-\paragraph{Is selection sort stable?}
+\paragraph{Is insertion sort stable?}
 Yes, insertion sort is stable.
 \begin{Boxample}[0]
 Complete the following insertion sort process to convince yourself that it is stable.\\
@@ -296,6 +308,7 @@ place.
 \item In any case the number of comparisons is in $\Theta(n)$.
 \end{itemize}
 
+\if01
 \begin{algorithm}[H]
   \caption{Merge}
     \label{alg:merge}
@@ -311,7 +324,12 @@ place.
 \EndFunction  
 \end{algorithmic}
 \end{algorithm}
+\fi
+\begin{Boxample}[8]
+Execute mergesort on the following input, showing all details.
+ jo-TODO
 
+\end{Boxample}
 
 \paragraph{Mergesort analysis}
 The number of comparisons $C_n$ satisfies (approximately)
@@ -320,7 +338,32 @@ $$ C_n  = \left\{
 	C_{\lceil n/2 \rceil} + C_{\lfloor n/2 \rfloor} + n & \qquad \text{if }n > 1\text{;} \\
 														0 & \qquad \text{if }n = 1\text{.}
 \end{array}\right.$$
-Thus if $n$ is a power of 2 we have $C_n = 2C_{n/2} + n$. We need to solve this!
+Thus if $n$ is a power of 2 we have $C_n = 2C_{n/2} + n$. We need to develop tools to solve recurrences like this --- see the next lecture.
+
+\paragraph{Which inputs give the best and worst case?}
+Mergesort is not very sensitive to the input order. 
+MCW- TODO
+
+\paragraph{Is mergesort in-place?}
+\begin{Boxample}[4]
+Show by example that it is not.
+\end{Boxample}
+
+\paragraph{Is mergesort stable?}
+
+\begin{Boxample}[0]
+Complete the following mergesort process to convince yourself that it is stable.\\
+jo-TODO
+\end{Boxample}
+
+\paragraph{Analysis when implemented on a linked list.}
+Since finding the middle element of the list is time-consuming, in this case it makes more sense to ``unroll" the recursion and process all the instances at the bottom of the recursion tree (merging two size 1 lists) first, then merge all the resulting size 2 lists two-by-two, etc. This ``bottom-up mergesort" is not only equivalent to mergesort, it is in place!
+
+\begin{Boxample}[6]
+Execute  bottom-up mergesort  on the following input.\\
+jo-TODO
+\end{Boxample}
+
 
 \if01
 \begin{frame}
@@ -377,8 +420,8 @@ a power of $2$.
 \end{itemize}
 
 \paragraph{Top-down solution method example.}
-We are given $T(n) = 2 T(n - 1) + 1, T(1) = 0$.
-We can \emph{iterate} this to obtain 
+\begin{Example}
+We are given $T(n) = 2 T(n - 1) + 1, T(1) = 0$. We can \emph{iterate} this to obtain 
 \begin{align*}
 T(n) & = 2 T(n - 1) + 1  \\
 & = 2 [2 T(n - 2) + 1] + 1 = 2^2 T(n-2) + (2 + 1) \\
@@ -386,20 +429,25 @@ T(n) & = 2 T(n - 1) + 1  \\
 & = \dots = 2^{n-1} T(1) + (2^{n-2} + \dots + 2 + 1)  \text{ if $n \geq 1$} \\
 & = \sum_{0\leq i < n-1} 2^i = 2^{n-1} - 1.
 \end{align*}
+\end{Example}
 
 \paragraph{Bottom-up solution method example.}
-\begin{itemize}
-\item We are given $T(n) = 2 T(n - 1) + 1, T(1) = 0$. We compute values from the
- bottom up using the recurrence. 
-\item We have $T(1) = 0, T(2) = 2T(1) + 1 = 1, T(3) = 2T(2) + 1 = 3, T(4) = 7, 
-T(5) = 15$. We guess $T(n) = 2^{n-1} - 1$. 
-\item Guess is true when $n = 1$. Now assume that $n > 1$ and the formula holds 
+\begin{Example}
+We are given $T(n) = 2 T(n - 1) + 1, T(1) = 0$. We compute values from the
+ bottom up using the recurrence. We have $T(1) = 0, T(2) = 2T(1) + 1 = 1, T(3) = 2T(2) + 1 = 3, T(4) = 7, 
+T(5) = 15$. 
+
+We guess $T(n) = 2^{n-1} - 1$. The guess is correct when $n = 1$. 
+
+Now assume that $n > 1$ and the formula holds 
 for all smaller values than $n$. From the recurrence we then have 
 $T(n) = 2T(n-1) + 1 = 2(2^{n-2} - 1) + 1 = 2^{n-1} - 1$. 
-\item Thus the formula holds for all $n\geq 1$, by \defnfont{mathematical induction}.
-\end{itemize}
+Thus the formula holds for all $n\geq 1$, by \defnfont{mathematical induction}.
+\end{Example}
 
 \paragraph{Change of variable.}
+\begin{Example}
+\label{eg:recur-cov}
 Consider the divide-and-conquer recurrence $T(n) = T(n/2) + 1, T(1) = 0$. 
 This makes sense for $n$ a power of $2$.
 Changing variable by $n = 2^i$, $T(n) = U(i)$ 
@@ -408,50 +456,53 @@ By top-down or bottom-up guessing as above, we get
 $$T(n) = U(i) = U(0) + i = i = \lg n \qquad \text{when } n \text{ is a power of }2\text{.}$$
 Similarly the mergesort recurrence $T(n) = 2T(n/2) + n, T(1)  = 0$ 
 has solution $n \lg n$ for $n$ a power of $2$.
-%It turns out that for nice functions like these, knowing the answer for 
-%$n$ restricted to be a power of $2$ is enough (we can ignore floors and ceilings).
+\end{Example}
 
 
-How does the solution look if we don't do the change of variable?
+\begin{Boxample}[6]
+How does the solution to Example~\ref{eg:recur-cov} look if we don't do the change of variable?
+
+\end{Boxample}
+
 
 
 \paragraph{Mathematical extra: dealing with floors and ceilings, etc}
 The mergesort recurrence involves floor and ceiling functions. How do we deal with these?
-\begin{itemize}
-\item We can solve the mergesort recurrence 
-$T(n) = T(\lceil n/2 \rceil) + T(\lfloor n/2 \rfloor) + n$ asymptotically. 
-``Exact" solutions are hard. See COMPSCI 720 and beyond.
-\item Then we consider the recurrence $\hat{T}(n) =
+
+We can solve the mergesort recurrence $T(n) = T(\lceil n/2 \rceil) + T(\lfloor n/2 \rfloor) + n$ asymptotically. 
+``Exact" solutions are hard. See COMPSCI 720 and beyond. Then we consider the recurrence $\hat{T}(n) =
 2\hat{T}(\lceil(n/2)\rceil) + n$. It is easily shown that $T \leq \hat{T}$, and 
-as above $\hat{T}(n) = n \lg n$ for $n = 2^i$.
-\item We can then show that $T(n)
+as above $\hat{T}(n) = n \lg n$ for $n$ a power of $2$. We can then show that $T(n)
 \in O(n \lg n)$. A similar argument gives $T(n) \in \Omega(n \lg n)$.
-\item In real life we usually don't have exactly an additive term $n$
+
+In real life we usually don't have exactly an additive term $n$
 but just some $f(n)$ where $f(n)$ is $\Theta(n)$. Similar techniques show that 
 we get the same answer, asymptotically. 
-\item More details: Brassard and Bratley, Fundamentals of Algorithmics, 
-in library.
-\end{itemize}
+
 
 \paragraph{How do we solve the Fibonacci recurrence?}
-\begin{itemize}
-\item $F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2), \qquad n \geq 2$.
-\item Such linear homogeneous recurrences can be solved exactly with
+
+Recall $F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2), \qquad n \geq 2$.
+Such linear homogeneous recurrences can be solved exactly with
 more theory (see COMPSCI 225 for example).
 Top-down and bottom-up methods don't work easily. 
-\item To find an asymptotic solution for
+
+To find an asymptotic solution for
 $F(n)$, we conjecture, based on examples, that $F(n)$ grows
 exponentially in $n$. In other words, there is $C > 0, r > 1$ such that 
 $F(n) \geq C r^n$ for all sufficiently large $n$.
-\item Try to prove this by induction. The obvious method gives 
+
+Try to prove this by induction. The obvious method gives 
 $F(n+1) = F(n) + F(n-1) \geq C(r^n + r^{n-1})$, so that we easily obtain
 the conclusion we want if and only if $1 + r \geq r^2$, or $r \leq
 \phi:=(1 + \sqrt{5})/2 \approx 1.618$. 
-\item Now suppose $F(n) \leq D
+
+Now suppose $F(n) \leq D
 r^n$ for all sufficiently large $n$. Trying to prove this by induction,
 we require $1 + r \leq r^2$ or $r \geq \phi$. 
-\item Thus $F(n)$ is $\Theta(\phi^n)$.
-\end{itemize}
+
+Thus $F(n)$ is $\Theta(\phi^n)$.
+
 
 
 \chapter{Quicksort} %---------------------------------------------------------

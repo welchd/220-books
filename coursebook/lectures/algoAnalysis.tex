@@ -7,23 +7,22 @@ An \emph{algorithm} is a sequence of clearly stated rules that
 specify a step-by-step method for solving a given problem.
 The rules should be unambiguous and
 sufficiently detailed that they can be carried out without creativity.
+Some examples of algorithms are a (sufficiently detailed) cake recipe,
+the usual primary school method for multiplication of decimal integers, quicksort.
 
-Examples of algorithms are a (sufficiently detailed) cake recipe,
-primary school method for multiplication of decimal integers, quicksort.
+Algorithms predate electronic computers by thousands of years --- for example
+Euclid's greatest common divisor algorithm (seen in COMPSCI 225).
 
-Algorithms predate electronic computers by thousands of years, for example
-Euclid's greatest common divisor algorithm.
+Algorithms and programs are different --- \emph{program} is a sequence of computer instructions implementing 
+the algorithm. A program can implement more than one algorithm.
 
-A \emph{program} is a sequence of computer instructions implementing the algorithm.
-
-Experience shows that enormously more performance gains can be achieved 
+Experience in computing shows that enormously more performance gains can be achieved 
 by optimizing the algorithm than by optimizing other factors such as
 processors, languages, compilers, or human programmers.
-The analysis process often results in us discovering simpler algorithms.
-Many algorithms have parameters that must be set before implementation. 
-Analysis allows us to set the optimal values.
+
 Algorithms that have not been analysed for correctness often lead to 
-major bugs in programs.
+major bugs in programs. The analysis process often results in us discovering simpler algorithms.
+Many algorithms have parameters that must be set before implementation, and analysis allows us to set the optimal values.
 
 
 \begin{Example}
@@ -90,11 +89,12 @@ Proving correctness of \texttt{fastfib} is done by induction on $n$.  We omit th
 %\item In fact even a bad implementation in a slow interpreted language on an 
 %ancient machine of \texttt{fastfib} will beat the best implementation of 
 %\texttt{slowfib}, once $n$ becomes big enough.
+\begin{Boxample}[6]
 It is easy to see that the number of additions, function calls, etc needed by 
 \texttt{fastfib} to compute $F(n)$ has the form $An+B$ for some constants $A, B$.
+What about \texttt{slowfib}?
 
-TODO? add extra questions from slides?
-
+\end{Boxample}
 
 
 \chapter{How to measure running time} %---------------------------------------
@@ -150,7 +150,9 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
 %\paragraph{How running time scales with problem size}
 \begin{table}[htb] 
    \centering
- % \caption{\label{t:growth} Growth in running time as problem size grows} 
+   \caption{Growth in running time as problem size grows. Note that 
+   there are about $3\times 10^{18}$ nanoseconds in a century.}
+ % \caption{\label{t:growth} } 
    \begin{tabular}{|c|c|cccc|} \hline 
    \multicolumn{2}{|c|}{\textbf{Running time}} &  
    \multicolumn{4}{c|}{\textbf{Input size}} 
@@ -167,7 +169,7 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
    \end{tabular}
 \end{table} 
  
-Note: there are about $3\times 10^{18}$ nanoseconds in a century.
+
 
 
 \begin{Boxample}[4]
@@ -193,7 +195,7 @@ respectively, to process \(2^{10}\equiv 1024\) items.
 \end{Boxample}
 
 
-\chapter{Lecture: Techniques for estimating running time}
+\chapter{Techniques for estimating running time}
 
 Here are some easy basic rules.
 \begin{itemize}
@@ -250,8 +252,7 @@ This is a linear time algorithm, since it makes one pass through the array and d
 
 
 
-\begin{Example}
-\frametitle{Snippet: other loop increments}
+\begin{Boxample}[4]
 \begin{algorithm}[H]
   \caption{Example: exponential change of variable in loop
     \label{alg:runtime1}}
@@ -264,10 +265,10 @@ This is a linear time algorithm, since it makes one pass through the array and d
 \end{algorithmic}
 \end{algorithm}
 
-This runs in logarithmic time because $i$ doubles about $\lg n$ times until reaching $n$.
-\end{Example}
+%This runs in logarithmic time because $i$ doubles about $\lg n$ times until reaching $n$.
+\end{Boxample}
 
-\begin{Example}
+\begin{Boxample}[4]
 \begin{algorithm}[H]
   \caption{Snippet: Nested loops
     \label{alg:nestloop}}
@@ -279,32 +280,40 @@ This runs in logarithmic time because $i$ doubles about $\lg n$ times until reac
 \EndFor
 \end{algorithmic}
 \end{algorithm}
-\end{Example}
+\end{Boxample}
 
 What do we do if the control flow of the algorithm is more complicated? For example, how do we handle \textbf{if} statements?
 
-\begin{frame}
-\frametitle{Estimating running time: harder example}
-\begin{tabbing}
-xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
-\textbf{for} ($i = 1; i < n; i\gets 2*i$) \\
-\> \textbf{for} ($j = 1; j < n; j \gets 2*j$) \\
-\> \> \textbf{if} ($j = 2*i$) \\
-\> \> \> \textbf{for} ($k = 0; k < n; k\gets k+1$) \\
-\> \> \> \> \{ constant number of operations \} \\
-\> \> \textbf{else} \\
-\> \> \> \textbf{for} ($k = 1; k < n; k\gets 3*k$) \\
-\> \> \> \> \{ constant number of operations \}
-\end{tabbing}
-\pause
+\begin{Boxample}[6]
+\begin{algorithm}[H]
+\begin{algorithmic}[0]
+\For {$i = 1; i < n; i\gets 2*i$} 
+\For {$j = 1; j < n; j \gets 2*j$}
+\If{$j = 2*i$}
+\For{$k = 0; k < n; k\gets k+1$} 
+\State \{ constant number of operations \} 
+\EndFor
+\Else
+\For{$k = 1; k < n; k\gets 3*k$} 
+\State \{ constant number of operations \}
+\EndFor
+\EndIf
+\EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+\end{Boxample}
+
+\if01
 The $i$-loop has $l:=\lfloor \lg n \rfloor$ iterations, as does the $j$-loop. 
 For each $i$ (except the last value, $i = 2^l$) the if-statement executes for 
 exactly one value of $j$. The number of elementary operations is roughly 
 proportional to $\lg n (n + (\lg n - 1)\log_3 n)$. 
-\end{frame}
+\fi
 
 
 
+\if01
 \begin{frame}
 \begin{itemize}[<+->]
 \item \texttt{slowfib} makes $F(n)$ function calls each of which involves a
@@ -312,6 +321,7 @@ constant number of elementary operations. It turns out that $F(n)$ grows
 exponentially in $n$, so this is an \alert{exponential time algorithm}.
 \end{itemize}
 \end{frame}
+\fi
 
 
 \begin{Boxample}[6]
@@ -361,33 +371,18 @@ Is the running time quadratic or linear for the nested loops below?\\
 \end{Boxample}
 
 
-Conditional and switch operations like \textbf{if}
-\{\emph{condition}\} \textbf{then} \{\emph{constant running time}
-$T_1$\} \textbf{else} \{\emph{constant running time} $T_2$\} involve
-relative frequencies of the groups of computations.  The running time
-$T$ satisfies $T = f_\mathrm{true} T_1 + (1 - f_\mathrm{true}) T_2 <
-\max \{ T_1, T_2 \}$ where $f_\mathrm{true}$ is the relative frequency
-of the true condition value in the if-statement.
-
-The running time of a function or method call is $T = \sum_{i=1}^{k}T_i$
-where $T_i$ is the running time of statement \(i\) of the function
-and $k$ is the number of statements.
-
 
 \chapter{Asymptotic notation} %-----------------------------------------------
 
 \paragraph{Asymptotic comparison of functions}
-\begin{itemize}
-\item In order to compare running times of algorithms we want a way of comparing
- the growth rates of functions. 
-\item We want to see what happens for large values of $n$ --- small ones are not
- relevant.
-\item We are not usually interested in constant factors and only want to consider the 
-dominant term.
-\item The standard mathematical approach is to use asymptotic notation 
-$O, \Omega, \Theta$ which we will now describe.
-\end{itemize}
+In order to compare running times of algorithms we want a way of comparing
+the growth rates of functions. We want to see what happens for large values of $n$ --- small ones are not
+ relevant, because almost any algorithm is good enough in practice for very small input. 
+ We are not usually interested in constant factors and only want to consider the 
+dominant terms in the running time.
 
+The standard mathematical approach to this is to use \emph{asymptotic notation}
+$O, \Omega, \Theta$ which we will now describe.
 
 \paragraph{Big-O notation}
 \begin{Definition}
@@ -412,33 +407,35 @@ Informally, $f/g$ is bounded away from zero and infinity, and $f$ grows at the s
 \end{itemize}
 \end{Definition}
 
-Note that we could always reduce $n_0$ at the expense of a bigger $C$ but 
-it is often easier not to. 
+
 
 \paragraph{Asymptotic comparison --- examples}
-\begin{itemize}
-\item Every linear function $f(n) = an + b$, $a > 0$, is $O(n)$. Proof: 
+\begin{Example}
+Every linear function $f(n) = an + b$, $a > 0$, is $O(n)$. Proof: 
 $an + b \leq an + |b| \leq (a + |b|) n$ for $n \geq 1$. 
-\item If $f(n) = n, g(n) = n^2/2$, then $f$ is $O(g)$ and $g$ is not
+\end{Example}
+
+\begin{Example}
+\label{eg:asymp-lin-quadrat}
+If $f(n) = n, g(n) = n^2/2$, then $f$ is $O(g)$ and $g$ is not
 $O(f)$, so $g$ grows asymptotically faster than $f$. Proof: 
 $f(n) \leq 2 \cdot g(n)$ for $n\geq 0$ (or $f(n) \leq 1 \cdot g(n)$ for 
 $n \geq 2$); conversely, suppose 
 that eventually $n^2 \leq Cn$. Then $n \leq C$ for all sufficiently large $n$, 
 a contradiction.
-\item $n \lg n$ is $O(2^{-10} n^2)$ since $n \lg n \leq n^2$ for $n \geq 1$.
-\item We don't usually prove such results from the definition but you
+\end{Example}
+
+\begin{Boxample}[4]
+Show that $n \lg n$ is $O(2^{-10} n^2)$.
+%$n \lg n \leq n^2$ for $n \geq 1$.
+\end{Boxample}
+
+Note that we could always reduce $n_0$ at the expense of a bigger $C$ but 
+it is often easier not to. For example, in Example~\ref{eg:asymp-lin-quadrat}, we could have used 
+$n_0 = 2$ and $C = 1$, because $n\leq n^2/2$ for all $n\geq 2$.
+
+We don't usually prove such results from the definition but you
 need to know how to, in case the rules (coming up) don't apply.
-\end{itemize}
-
-
-\paragraph{Questions}
-\begin{itemize}
-\item What is the relationship between $n_0$ and $C$?
-\item Do we have to keep proving statements of the form ``$f$ is $O(g)$" from the definition?
-\item I have seen $f = O(g)$ before. How is that notation related to this?
-\item What can we say about functions like $1+(-1)^n$ or $1+1/2+1/3+\dots + 1/n$?
-\end{itemize}
-
 
 \paragraph{Rules for asymptotic notation}
 \begin{itemize}
@@ -456,23 +453,57 @@ Then
 \item if $0 < L < \infty$ then $f$ is $\Theta(g)$;
 \item if $L = \infty$ then $f$ is $\Omega(g)$ and $f$ is not $O(g)$.
 \end{itemize}
-
-
-L'H\^{o}pital's rule is often useful for the application of the limit rule. Note that the 
-limit may not exist at all.
 \end{itemize}
 
+Proofs of these rules will be given in lectures. L'H\^{o}pital's rule is often useful for the application of the limit rule. Note that the 
+limit may not exist at all.
 
 \paragraph{Asymptotic comparison --- more examples}
-\begin{itemize}
-\item $\log_a(n)$ is $\Theta(\lg n)$ for each $a > 1$, by limit rule;
-\item $n \lg n$ is $O(n^2)$ and $n \lg n$ is not $\Omega(n^2)$, by limit rule;
-\item $2^n$ is $\Omega(n^{100})$, by limit rule;
-\item $10^{-100} n^2 + 10^{100} n$ is not $O(n)$, by limit rule;
-\item $1 + (-1)^n$ is $O(1)$ but not $\Theta(1)$ since it takes on the value $0$
+
+\begin{Boxample}[4]
+\item $\log_a(n)$ is $\Theta(\lg n)$ for each $a > 1$.
+
+\end{Boxample}
+
+\begin{Example}
+$n \lg n$ is $O(n^2)$ and $n \lg n$ is not $\Omega(n^2)$, by the limit rule.
+\end{Example}
+\begin{Example}
+$2^n$ is $\Omega(n^{100})$, by the limit rule.
+\end{Example}
+
+\begin{Boxample}[4]
+Is $10^{-100} n^2 + 10^{100} n$ in $O(n)$?
+
+\end{Boxample}
+
+\begin{Example}
+$1 + (-1)^n$ is $O(1)$ but not $\Theta(1)$ since it takes on the value $0$
  infinitely often. Limit rule does not apply either.
-\item Important for later: $\log (n!)$ is $\Theta(n \log n)$. 
-\end{itemize}
+ \end{Example}
+ 
+ \paragraph{Asymptotics via integral approximation}
+\begin{Boxample}[8]
+We want the asymptotic behaviour of $\log (n!) = \sum_{k=1}^n \log k$.
+
+Clearly there is an upper bound $\log n! \leq n \log n$, because each term in the sum is at most $\log n$. 
+How can we get a lower bound? We use approximation by an integral.
+\if01
+For a lower bound, we can approximate by an integral (``upper and lower rectangles") to get 
+$\log n! \geq \int_1^{n+1} \log x \, dx$. Integration by parts shows that 
+$\log n! \in \Omega(n \log n)$.
+
+\item Note that the base of the logarithm is not important. More precise estimates can 
+be obtained, and it turns out that $\lim_{n\to \infty} (\log n!)/(n \log n) = 1$.
+\fi
+\end{Boxample}
+
+\begin{Example} 
+By integral approximation we can get $H_n \in \Theta(\log n)$ where 
+$H_n:=1+ 1/2 + 1/3 + \dots + 1/n$ is the \emph{$n$th harmonic number}. 
+\end{Example}
+
+\paragraph{Summary of results}
 Write $f \prec g$ if $f$ is $O(g)$ but $f$ is not $\Theta(g)$, so $g$ grows at a
  faster rate than $f$. Then, for example, 
 \begin{align*}
@@ -482,57 +513,43 @@ Write $f \prec g$ if $f$ is $O(g)$ but $f$ is not $\Theta(g)$, so $g$ grows at a
 \end{align*}
 
 
-\paragraph{Asymptotics via integral approximation}
-\begin{itemize}
-\item We want the asymptotic behaviour of $\log (n!) = \sum_{k=1}^n \log k$.
-\item Clearly there is an upper bound $\log n! \leq n \log n$. For a lower bound, we 
-can approximate by an integral (``upper and lower rectangles") to get 
-$\log n! \geq \int_1^{n+1} \log x \, dx$. Integration by parts shows that 
-$\log n! \in \Omega(n \log n)$.
-\item Note that the base of the logarithm is not important. More precise estimates can 
-be obtained, and it turns out that $\lim_{n\to \infty} (\log n!)/(n \log n) = 1$.
-\item By the same method we can get $H_n \in \Theta(\log n)$ where 
-$H_n:=1+ 1/2 + 1/3 + \dots + 1/n$ is the \emph{$n$th harmonic number}. 
-\end{itemize}
-
 
 
 \chapter{Q\&A} %--------------------------------------------------------------
 
-\paragraph{Is addition of integers an elementary operation?}
-\begin{itemize}
-\item If the integers (and their sum) can fit into a machine word (typically 64 bits, so not bigger than $9,223,372,036,854,775,807$) then 
-adding two of them can be done in constant time.
-\item If the integers are much longer, as occurs for example in symbolic algebra systems, cryptography, etc, then to avoid overflow they must be represented another way (``big integers"). Typically these are strings.
-\item In this case the addition is done componentwise and the running time grows linearly with the size of the integers.
-\item Assuming that $F(n)$ has the order of $n$ decimal digits (which is true), the amount of work 
-done by \texttt{fastfib} is of order $1+2+\dots + n$ which is order $n^2$, not $n$. 
-\item So \texttt{fastfib} is technically a quadratic time algorithm!
-\end{itemize}
+Here we consider some more subtle questions that have been ignored so far.
 
+\paragraph{Is addition of integers an elementary operation?}
+
+If the integers (and their sum) can fit into a machine word (typically 64 bits, so not bigger than $9,223,372,036,854,775,807$) then 
+adding two of them can be done in constant time. If the integers are much longer, as occurs for example in symbolic algebra systems, cryptography, etc, then to avoid overflow they must be represented another way (``big integers"). Typically these are strings. In this case the addition is done componentwise and the running time grows linearly with the size of the integers. 
+
+\begin{Example}
+Assuming that $F(n)$ has the order of $n$ decimal digits (which is true), the amount of work 
+done by \texttt{fastfib} is of order $1+2+\dots + n$ which is order $n^2$, not $n$. 
+So \texttt{fastfib} is technically a quadratic time algorithm!
+\end{Example}
 
 
 \paragraph{Have we been measuring input size correctly?}
-\begin{itemize}
-\item We used $n$ to measure the size of the integer $n$. 
-\item This seems wrong. In fact the number of bits needed to represent $n$ seems a much better 
-idea.
-\item If $m$ is the size of the positive integer $n$, then $m = 1+\lfloor\lg n\rfloor$, and $2^{m-1} \leq n < 2^m$.
-\item This turns \texttt{fastfib} from a polynomial time algorithm to an exponential time algorithm! The input size measure \emph{must} be specified.
-\end{itemize}
+
+We used $n$ to measure the size of the integer $n$. This seems wrong. In fact the number of bits needed to represent $n$ seems a much better 
+idea. If $m$ is the size of the positive integer $n$, then $m = 1+\lfloor\lg n\rfloor$, and $2^{m-1} \leq n < 2^m$.
+This turns \texttt{fastfib} from a polynomial time algorithm to an exponential time algorithm! The input size measure \emph{must} be specified in algorithm analysis.
 
 
 
 \paragraph{What happens if there are many inputs of a given size?}
-\begin{itemize}
-\item We usually don't want to have to consider the distribution of
+
+We usually don't want to have to consider the distribution of
 running time over all possible inputs of a given size. There may be (infinitely)
 many inputs of a given size, and running time may vary widely on these. 
-\item For example, for sorting the integers $1, \dots, n$, there are $n!$ possible inputs, and this is large even for $n=10$.
-\item We consider statistics of $T(\inp)$ such as \defnfont{worst-case} $W(n)$ or 
-\defnfont{average-case} $A(n)$ running time for instances $\inp$ of size $n$.
+For example, for sorting the integers $1, \dots, n$, there are $n!$ possible inputs, and this is large even for $n=10$.
+
+We consider statistics of $T(\inp)$ such as \defnfont{worst-case}  or 
+\defnfont{average-case} running time for instances $\inp$ of size $n$.
 % Jo asks: Are W(n) and A(n) actually ever used?
-\end{itemize}
+% MCW: no, now deleted here
 
 
 \paragraph{What are the pros and cons of worst and average case analysis?}
@@ -546,53 +563,51 @@ have little predictive or comparative value.
 example.
 \item Average-case analysis requires a good understanding of the probability 
 distribution of the inputs.
-\item Conclusion: a good worst-case bound is always useful, but it is
+\end{itemize}
+Conclusion: a good worst-case bound is always useful, but it is
 just a first step and we should aim to refine the analysis for important 
 algorithms. Average-case analysis is often more practically useful, provided the
  algorithm will be run on ``random" data. 
-\end{itemize}
-
-
-
 
 \paragraph{Why can constants often be ignored?}
-\begin{itemize}
-\item A linear time algorithm when implemented will take at most $A
+
+A linear time algorithm when implemented will take at most $A
 n + B$ seconds to run on an instance of size $n$, for some
-implementation-specific constants $A, B$. 
-\item For large $n$, this is well approximated by $A n$. 
+specific constants $A, B$ that depend on the implementation. For large $n$, this is well approximated by $A n$. 
 Small $n$ are not usually of interest anyway, since almost any algorithm is good
- enough for tiny instances.
-\item No matter what $A$ is, we can easily work out how the running time
-scales with increasing problem size (linearly!). 
-\item The difference between a linear and a quadratic time algorithm is
+ enough for tiny instances. 
+ 
+No matter what $A$ is, we can easily work out how the running time
+scales with increasing problem size (linearly!). The difference between a linear and a quadratic time algorithm is
 usually huge, no matter what the constants are. For large enough $n$, a
 linear time algorithm will always beat a quadratic time one. 
-\item Conclusion: in practice we often need to make only crude
+
+Conclusion: in practice we often need to make only crude
 distinctions. We only need to know whether the running time scales like 
 $n, n^2, n^3, n \log n, 2^n, \dots$. If we need finer distinctions, we 
 can do more analysis.
-\end{itemize}
 
 
 
 \paragraph{Can we always ignore constants?}
-\begin{itemize}
-\item When we want to choose between two good algorithms for the same
+
+When we want to choose between two good algorithms for the same
 problem (``is my linear-time algorithm faster than your linear-time
 algorithm?"), we may need to know constants. These must be determined
 empirically. 
-\item For important algorithms that will be used many times, it is worth
+
+For important algorithms that will be used many times, it is worth
 being more precise about the constants. Even small savings will be worth
 the trouble. 
-\item An algorithm with running time $10^{-10} n^2$ is probably better
+
+An algorithm with running time $10^{-10} n^2$ is probably better
 in practice than one with running time $10^{10} n$, since the latter
 will eventually beat the former, but only on instances of size at least $10^{20}$, 
 which is rarely met in practice. 
-\item Conclusion: we should have at least a rough feel for the constants
+
+Conclusion: we should have at least a rough feel for the constants
 of competing algorithms. However, in practice the constants are usually
 of moderate size. 
-\end{itemize}
 
 
 
