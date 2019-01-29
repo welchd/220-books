@@ -94,6 +94,8 @@ set of disjoint trees spanning the digraph (that is, it includes all the nodes o
 
 \input{figs/generalTraversal} 
 
+
+
 \section{Classifying arcs after a traversal}
 
 For the analysis of the traversal algorithm, it is useful to classify the arcs of $G$ based on their relationships in the search forest.  
@@ -113,7 +115,8 @@ search forest $F$.  Let $(u, v)\in E(G)$ be an arc. Then $(u, v)$ is a:
 \end{Definition} 
 
 A cross arc may 
-join two nodes in the same tree or point from one tree to another. Tree, forward and back arcs require that $u$ and $v$ be in the same tree.
+join two nodes in the same tree or point from one tree to another in the search forest. Tree, forward and back arcs require that $u$ and $v$ be in the same tree.
+
 
 
 \tikz{
@@ -1677,7 +1680,7 @@ and an unmatched starting vertex.}
 	\EndFor
 	\State $\status[x] \gets $ EVEN
 	\State $Q$.\algfont{insert}$(x)$
-	\While{\texbf{not}  $Q$.\algfont{isEmpty}$()$}
+	\While{\textbf{not}  $Q$.\algfont{isEmpty}$()$}
 		\State $u \gets Q$.\algfont{pop}$()$
  		\If{$\status[u] =$ EVEN}
  			\For{each $v$ adjacent to $u$}
