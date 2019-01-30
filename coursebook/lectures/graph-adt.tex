@@ -50,22 +50,21 @@ For the digraph shown in \cref{fig:graphExample}, write down the set $V$ and the
 \begin{note}
 Graphs vs Digraphs
 \begin{itemize}
-  \item Since we defined $E$ to be a set, there are no multiple arcs/edges
-  between a given pair of nodes/vertices.
-  \item For a digraph $G$ we sometimes denote the set of nodes by $V(G)$
+  \item In order to save writing ``(di)graph" too many times, we treat the digraph as the fundamental concept.
+  \item When we say something about digraphs, nodes and arcs, it is understood to also hold for graphs, nodes and edges unless explicitly stated otherwise. 
+  \item However, if we talk about graphs, edges, and vertices, our statement is not necessarily true for digraphs. 
+  \item Some authors use ``undirected graph'' to mean graph and use the term ``graph" to mean what we call a directed graph. We will always use digraph and graph.
+  \item $E$ is a set so there are no multiple arcs between a pair of nodes.
+ \item  An arc that begins and ends at the same node is called a \defnfont{loop}. 
+  We make the convention that \boldfont{loops are not allowed in our digraphs}. 
+  \item For digraph $G$ we sometimes denote the set of nodes by $V(G)$
   and the set of arcs by $E(G)$ for clarity.
   \item A graph can be viewed as a digraph where every unordered edge $\{u, v\}$ 
   is replaced by two directed arcs $(u, v)$ and $(v, u)$.  
   This works in most instances and has the advantage of allowing us to consider only digraphs.
   \item Sometimes we must know whether our object is really a graph or just a symmetric digraph. Whenever there
   is a potential ambiguity, we shall point it out.
-  \item  An arc that begins and ends at the same node is called a \defnfont{loop}. 
-  We make the convention that \boldfont{loops are not allowed in our digraphs}. 
-  \item Some authors use ``undirected graph'' to mean graph and use the term ``graph" to mean what we call a directed graph. We will always use digraph and graph.
-  \item In order to save writing ``(di)graph" too many times, we treat the digraph as the fundamental concept.
-  \item When we say something about digraphs, nodes and arcs, it is understood to also hold for graphs, nodes and edges unless explicitly stated otherwise. 
-  \item However, if we talk about graphs, edges, and vertices, our statement is not necessarily true for digraphs. 
-\end{itemize}
+ \end{itemize}
 \end{note}
 
 
@@ -301,8 +300,8 @@ V(G_2) \cup \ldots \cup V(G_k)$ and $E(G) = E(G_1) \cup E(G_2) \cup \ldots
 
 \chapter{Graph data structures} \label{sec:graph-reps}
 
-There are two common data structures used to representations for digraph in computers. For both structures, we assume
-that the digraph has nodes given in a fixed order with the
+When representing a digraph in a computer, we assume
+that it has nodes given in a fixed order with the
 \boldfont{convention} that the nodes are labelled $0, 1, \dots, n - 1$.
 
 \begin{Definition}
@@ -601,13 +600,13 @@ Draw the tree represented by the array $\pred = [-,0,0,1,2,2,2,3]$
 \section{Implementation of digraph ADT operations}
 \label{sec:graphadtimpl}
 
-In this section we discuss implementing basic operations on digraphs such as checking the existence of an arc or deleting a node and compare the performance of different data structures.
+In this section we discuss implementing basic operations on digraphs such as checking the existence of an arc or deleting a node.
+%and compare the performance of different data structures.
 
 An adjacency matrix is simply a matrix which is an array of arrays. 
 
-Adjacency lists are a list of lists, and there are several ways in which a list can be implemented. For
-example by an array or singly- or doubly-linked list using pointers which have different properties:
-e.g., accessing the middle element is $\Theta(1)$ for an array but $\Theta(n)$ for a linked list. 
+Adjacency lists are a list of lists. There are several ways in which a list can be implemented, for
+example by an array,  or singly- or doubly-linked lists using pointers.  These have different properties, for example, accessing the middle element is $\Theta(1)$ for an array but $\Theta(n)$ for a linked list. 
 
 Searching for a value that may or may not be in the list requires sequential search
 and takes $\Theta(n)$ time in the worst case. 
@@ -618,7 +617,7 @@ More complex data structures such as binary trees or heaps can be used to repres
 The basic operations we consider are checking for the existence of an arc between two nodes, finding the outdegree of a node, 
 finding the indegree of a nodes, adding an arc between two nodes, deleting an arc between two nodes, adding a node, and deleting a node. 
 
-For the two data structures, we'll look at the steps we need to carry out various basic operations and the the total cost of all steps. 
+For the two data structures, consider the steps we need to carry out various basic operations and the cost of all steps. 
 
 \begin{Boxample}[0]
 Compare the matrix and lists data structures for checking whether arc $(i,j)$ exists.
@@ -725,16 +724,16 @@ this will be inefficient. It is better to compute the reverse digraph once
 and then read off the outdegrees, this last step taking time $\Theta(n)$ 
 (see Exercise~\ref{exr:compute-reverse}).
 
-One way around all this work is to use in
-our definition of adjacency lists representation, instead of just the
-out-neighbours, a list of in-neighbours also. This may be useful in some
-contexts but in general requires more space than is needed.
+%One way around all this work is to use in
+%our definition of adjacency lists representation, instead of just the
+%out-neighbours, a list of in-neighbours also. This may be useful in some
+%contexts but in general requires more space than is needed.
 
 
 
 \section{Space requirements}
 
-We also need to consider the space requirements for each implementation. 
+%We also need to consider the space requirements for each implementation. 
 
 The adjacency matrix
 representation requires $\Theta(n^2)$ storage as we simply need a matrix of $n^2$

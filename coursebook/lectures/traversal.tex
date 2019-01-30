@@ -7,10 +7,10 @@
 Traversals involve visiting each node of a digraph in a systematic way using only the structure of the digraph, that is, following only the arcs in the digraph. 
 This is a very common task when dealing with digraphs and we'll cover several applications in later lectures.
 
-There are several ways to perform a systematic and efficient traversal.  
-We start with a basic framework for traversals then present the
-two most common techniques: breadth-first search and depth-first search.
-We also discuss a more general algorithm, priority-first search. 
+%There are several ways to perform a systematic and efficient traversal.  
+%We start with a basic framework for traversals then present the
+%two most common techniques: breadth-first search and depth-first search.
+%We also discuss a more general algorithm, priority-first search. 
 
 \section{The general graph traversal algorithm}
 \label{sec:trav}
@@ -42,7 +42,7 @@ The traversal algorithm which visits all nodes in a digraph is loosely described
 
 We keep track of the order in which nodes are visited by recording which arc was followed when a node first turned from white to grey. As we will see, this creates a sub-digraph of the original digraph which has a tree structure.
 
-This algorithm is formalised in the pseudocode  of \cref{alg:traverse,alg:visit}. \cref{alg:traverse} (\algfont{traverse}) initialises the process and is tasked with finding white nodes to start from. Most of the work is done in \cref{alg:visit} (\algfont{visit}) which takes a starting node and explores the portion of the subgraph reachable from that node.
+The traversal algorithm is formalised in the pseudocode  of \cref{alg:traverse,alg:visit}. \cref{alg:traverse} (\algfont{traverse}) initialises the process and is tasked with finding white nodes to start from. Most of the work is done in \cref{alg:visit} (\algfont{visit}) which takes a starting node and explores the portion of the subgraph reachable from that node.
 
 \begin{algorithm}[H]
   \caption{Basic graph traversal main routine: traverse
@@ -95,7 +95,6 @@ set of disjoint trees spanning the digraph (that is, it includes all the nodes o
 \input{figs/generalTraversal} 
 
 
-
 \section{Classifying arcs after a traversal}
 
 For the analysis of the traversal algorithm, it is useful to classify the arcs of $G$ based on their relationships in the search forest.  
@@ -138,7 +137,7 @@ join two nodes in the same tree or point from one tree to another in the search 
 
 
 The following theorem collects all the basic facts we need for proofs
-in later sections. \cref{fig:travdecomp} illustrates the first part.
+in later sections. %\cref{fig:travdecomp} illustrates the first part.
 
 \begin{Theorem}
 \label{thm:trav}
@@ -159,26 +158,29 @@ $G$. Then $v$ and $w$ belong to the same tree of $F$.
 \end{itemize}
 \end{Theorem}
 
-\begin{proof}
-If the first part were not true, then since $w$ is reachable from $v$,
-and $w$ has not been visited before $T_1$ is started, $w$ must be reached
-in the generation of $T_1$, contradicting $w\in T_2$. The second part
-follows immediately for symmetric digraphs and hence for graphs. Now
-suppose that $v$ is seen before $w$. Let $r$ be the root of the tree $T$
-containing $v$. Then $w$ is reachable from $r$ and so since it has not
-already been visited when $r$ is chosen, it belongs to $T$. Finally, if
-$v$ and $w$ are in the same tree, then any path from $v$ to $w$ in $G$
-going outside the tree must re-enter it via some arc; either the leaving
-or the entering arc will contradict the first part.
-\end{proof}
+%\begin{proof}
+%If the first part were not true, then since $w$ is reachable from $v$,
+%and $w$ has not been visited before $T_1$ is started, $w$ must be reached
+%in the generation of $T_1$, contradicting $w\in T_2$. The second part
+%follows immediately for symmetric digraphs and hence for graphs. Now
+%suppose that $v$ is seen before $w$. Let $r$ be the root of the tree $T$
+%containing $v$. Then $w$ is reachable from $r$ and so since it has not
+%already been visited when $r$ is chosen, it belongs to $T$. Finally, if
+%$v$ and $w$ are in the same tree, then any path from $v$ to $w$ in $G$
+%going outside the tree must re-enter it via some arc; either the leaving
+%or the entering arc will contradict the first part.
+%\end{proof}
 
+\begin{Boxample}[2]
+Prove any one of the four statements above (if probing statement 2, assume statement 1 is provne preceding statements are proven in proving your chosen statement)
+\end{Boxample}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics{decomposition}
-  \caption{Decomposition of a digraph in terms of search trees.}
-  \label{fig:travdecomp}
-\end{figure}
+%\begin{figure}[htbp]
+%  \centering
+%  \includegraphics{decomposition}
+%  \caption{Decomposition of a digraph in terms of search trees.}
+%  \label{fig:travdecomp}
+%\end{figure}
 
 \section{Running time for the general traversal algorithm}
 
@@ -186,27 +188,28 @@ The generality
 of our traversal algorithm makes it exact running time impossible to determine.  It depends on how one chooses the next grey node $u$
 and its white neighbour $v$. 
 
-It also apparently depends on how long it
-takes to determine whether there exist any grey nodes or whether $u$ has
-any white neighbours. However, any sensible rule for checking existence
-of either type of node should simply return false if there is no such
-node, and take no more time in this case than if it does find one. Thus
-we do not need to take account of the checking in our analysis.
+%It also apparently depends on how long it
+%takes to determine whether there exist any grey nodes or whether $u$ has
+%any white neighbours. However, any sensible rule for checking existence
+%of either type of node should simply return false if there is no such
+%node, and take no more time in this case than if it does find one. Thus
+%we do not need to take account of the checking in our analysis.
 
 The initialization of the array $\colour$ takes time 
 $\Theta(n)$ so \algfont{traverse} 
 is in $\Theta(n + t)$, where $t$ is the total time taken by all 
 the calls to \algfont{visit}.
 
-Each time through the while-loop of \algfont{visit} a grey node is
-chosen, and either a white node is turned grey or a grey node is turned
-black. Note that the same grey node can be chosen many times. Thus
-we execute the while-loop in total $\Theta(n)$ times since every node
-must eventually move from white through grey to black. Let $a, A$ be
-lower and upper bounds on the time taken to choose a grey node (note
-that they may depend on $n$ and be quite large if the rule used is not
-very simple). Then the time taken in choosing grey nodes is $O(An)$ and
-$\Omega(an)$. Now consider the time taken to find a white neighbour. This
+%Each time through the while-loop a grey node is
+%chosen, and either a white node is turned grey or a grey node is turned
+%black. Note that the same grey node can be chosen many times. Thus
+We execute the while-loop of \algfont{visit} in total $\Theta(n)$ times since every node
+must eventually move from white through grey to black. 
+
+Let $a, A$ be lower and upper bounds on the time taken to choose a grey node (these may depend on $n$). Then the time taken in choosing grey nodes is $O(An)$ and
+$\Omega(an)$. 
+
+Let $b, B$ be the Now consider the time taken to find a white neighbour. This
 will involve examining each  neighbour of $u$ and checking whether it is
 white, then applying a selection rule. If the time taken to apply the rule
 is at least $b$ and at most $B$ (which may depend on $n$), then the total 
@@ -220,9 +223,12 @@ and $\Omega(an + bn^2)$ if adjacency matrix format is used.
 
 A more detailed analysis would depend on the rule used. We shall see
 in Section~\ref{sec:BFSDFS} that BFS and DFS have $a, b, A, B$ all
-constant, and so each yields a linear-time traversal algorithm. In this
-case, assuming a sparse input digraph, the adjacency list format seems
-preferable. On the other hand, for example, suppose that $a$ is at least
+constant, and so each yields a linear-time traversal algorithm. 
+
+In this case, assuming a sparse input digraph, the adjacency list format seems
+preferable. 
+
+On the other hand, for example, suppose that $a$ is at least
 of order $n$ (a rather complex rule for grey nodes is being used) and $b,
 B$ are constant (for example, the first white node found is chosen). Then
 asymptotically both representations take time $\Omega(n^2)$, so using
