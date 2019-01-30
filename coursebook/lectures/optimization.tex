@@ -1,12 +1,12 @@
-\chapter{Weighted Digraphs and Optimization Problems}
+\part{Weighted Digraphs and Optimization Problems}
 \label{ch:weighted}
 
 
-\section{ weighted graph problems}
-\section{ Dijkstra}
-\section{ Bellman-Ford}
-\section{ Floyd}
-\section{ Prim, Kruskal}
+\chapter{Weighted graph problems}
+\section{Dijkstra}
+\section{Bellman-Ford}
+\section{Floyd}
+\section{Prim, Kruskal}
 
 
 So far our digraphs have only encoded information about connection
@@ -29,7 +29,6 @@ We need a different ADT for this purpose.
 A \defnfont{weighted digraph} is a pair $(G, c)$ where $G$ is a digraph
 and $c$ is a \defnfont{cost function}, that is, a function associating a
 real number to each arc of $G$.
-
 \end{Definition}
 
 We interpret $c(u, v)$ as the cost of using arc $(u, v)$. An ordinary digraph 
@@ -37,7 +36,7 @@ can be thought of as a special type of weighted digraph where the cost of each
 arc is $1$. A weighted graph may be represented as a symmetric digraph where 
 each of a pair of antiparallel arcs has the same weight.
 
-In Figure~\ref{fig:graphExample5} we display a classic unweighted graph
+In \cref{fig:graphExample5} we display a classic unweighted graph
 (called the $3$-cube) of diameter $3$, a digraph with arc weights, and a
 graph with edge weights.
 
@@ -70,7 +69,7 @@ an execution of the program.
 
 
 \begin{Example}
-The two weighted (di)graphs of Figure~\ref{fig:graphExample5} are
+The two weighted (di)graphs of \cref{fig:graphExample5} are
 stored as weighted adjacency matrices below.
 
 \[ 
@@ -152,8 +151,8 @@ no path in $G$ can have length more than $n-1$).
 \end{note}
 
 \begin{Example}
-The diameter of the $3$-cube in Figure~\ref{fig:graphExample5} is easily
-seen to be $3$. Since the digraph $G_2$ in Figure~\ref{fig:graphExample}
+The diameter of the $3$-cube in \cref{fig:graphExample5} is easily
+seen to be $3$. Since the digraph $G_2$ in \cref{fig:graphExample}
 is not strongly connected, the diameter is undefined.  
 \end{Example}
 
@@ -173,7 +172,7 @@ $\Theta(n^2+nm)$.
 
 \begin{Example}
 An adjacency matrix and a distance matrix for the 3-cube shown in
-Figure~\ref{fig:graphExample5} is given below.  The maximum entries of
+\cref{fig:graphExample5} is given below.  The maximum entries of
 value $3$ indicate the diameter. The reader should check these entries
 by performing a breadth-first search from each vertex.
 
@@ -238,7 +237,7 @@ on the arcs).
 
 \begin{Example}
 \label{eg:SSSP}
-In the weighted digraph of Figure~\ref{fig:graphExample5}, we can see by
+In the weighted digraph of \cref{fig:graphExample5}, we can see by
 considering all possibilities that the unique minimum weight path from
 $0$ to $3$ is $0\, 1\, 3$, of weight $3$.
 \end{Example}
@@ -264,44 +263,43 @@ or $2$) whose current best distance to $s$ is smallest, and update
 again. We continue in this way until all nodes belong to $S$.
 
 The basic structure of the algorithm is presented in
-Figure~\ref{fig:dijkstra-alg}.
+\cref{alg:dijkstra}.
 
-\begin{figure}
-\hspace*{.6in}\begin{minipage}{5in}
-\Algorithm{Dijkstra}{weighted digraph $(G, c)$; node $s\in V(G)$}{}
-{
-\> array $colour[0..n-1]$, $dist[0..n-1]$ \\
-\> \textbf{for} $u\in V(G)$ \textbf{do} \\
-\> \> $dist[u] \gets c[s,u]$; $colour[u] \gets$ WHITE  \\
-\> \textbf{end for} \\
-\> $dist[s] \gets 0$; $colour[s] \gets $ BLACK\\
-\> \textbf{while}  there is a white node  \\
-\> \> find a white node $u$ so that $dist[u]$ is minimum\\
-\> \> $colour[u] \gets $ BLACK \\
-\> \> \textbf{for}  $x \in V(G)$ \textbf{do}\\
-\> \> \> \textbf{if} $colour[x] = $ WHITE  \textbf{then} \\
-\> \> \> \> $dist[x] \gets \min \{dist[x], dist[u] + c[u,x]\}$\\  
-\> \> \> \textbf{end if} \\
-\> \> \textbf{end for} \\
-\> \textbf{end while} \\
-\> \textbf{return} $dist$\\ 
-}
-\end{minipage}
-\caption{Dijkstra's algorithm, first version.}
-\label{fig:dijkstra-alg}
-\end{figure}
+\begin{algorithm}[H]
+  \caption{Dijkstra's algorithm, first version}
+    \label{alg:dijkstra}
+\begin{algorithmic}[1]
+\Function{Dijkstra}{weighted digraph $(G, c)$; node $s\in V(G)$}
+	\State array $\colour[0..n-1]$, $\dist[0..n-1]$
+	\For{$u \in V(G)$}
+		\State $\dist[u] \gets c[s,u]$; $\colour[u] \gets$ WHITE 
+	\EndFor
+	\State $\dist[s] \gets 0$; $\colour[s] \gets $ BLACK
+	\While{there is a white node}
+		\State find a white node $u$ so that $\dist[u]$ is minimum
+		\State $\colour[u] \gets $ BLACK
+		\For{$x \in V(G)$}
+			\If{$\colour[x] = $ WHITE}
+				\State $\dist[x] \gets \min \{\dist[x], \dist[u] + c[u,x]\}$  
+			\EndIf
+		\EndFor
+	\EndWhile
+	\State \Return{$\dist$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 
 \begin{Example}
 \label{eg:dijkstra}
 An application of Dijkstra's algorithm on the second digraph
-of Figure~\ref{fig:graphExample5} is given in Table~\ref{tab:dijkstrarun}
+of \cref{fig:graphExample5} is given in \cref{tab:dijkstrarun}
 for each starting vertex $s$.
 
 The table illustrates that the distance vector is updated at 
 most $n - 1$ times (only before a new vertex is selected and added to $S$). 
 Thus we could have omitted the lines with $S=\set{0,1,2,3}$ in 
-Table~\ref{tab:dijkstrarun}.
+\cref{tab:dijkstrarun}.
 \end{Example}
 
 \begin{table}[h]
@@ -368,7 +366,7 @@ We first show that P2 holds after $k+1$ iterations. Suppose that
 $w\in S_{k+1}$.  If $w\neq u$ then $w\in S$ and so P2 trivially
 holds for $w$ by the inductive hypothesis. On the other hand,
 if $w=u$, consider any $S_{k+1}$-path $\gamma$ from $s$ to $u$.
-%(see Figure~\ref{fig:dijk-proof1}). 
+%(see \cref{fig:dijk-proof1}). 
 We shall show that $dist[u] \leq
 |\gamma |$ where $| \gamma | $ denotes the weight of $\gamma$. The
 last node before $u$ is some $y\in S_k$. Let $\gamma_1$ be the subpath
@@ -387,7 +385,7 @@ subpath of $\gamma$ ending at $u$. Then $|\gamma| = |\gamma_1| + c(u,x) \geq
 dist[x]$ by the update formula. 
 Otherwise, after reaching $u$, the path returns into $S_k$
 directly, emerging from $S_k$ again, at some node $y$ before going
-straight to $x$ (see Figure~\ref{fig:dijk-proof2}). Let $\gamma_1$
+straight to $x$ (see \cref{fig:dijk-proof2}). Let $\gamma_1$
 be the subpath of $\gamma$ ending at $y$. Since P2 holds for $S_k$,
 there is a minimum weight $S_k$-path $\beta$ from $s$ to $y$ of length
 $dist[y]$. Thus by the update formula, 
@@ -426,39 +424,41 @@ traversals in Section~\ref{sec:trav}, and in fact Dijkstra's algorithm fits
 into the priority-first search framework discussed in
 Section~\ref{sec:PFS}. The key value associated to a node $u$ is simply the
 value $dist[u]$, the current best distance to that node from the root $s$.
-In Figure~\ref{fig:dijkstra-alg2} we present Dijkstra's algorithm in this
+In \crefg{al:dijkstra2} we present Dijkstra's algorithm in this
 way.
 
-\begin{figure}
-\Algorithm{Dijkstra2}{weighted digraph $(G, c)$; node $s\in V(G)$}{}
-{
-\> priority queue $Q$ \\
-\> array $colour[0..n-1]$, $dist[0..n-1]$ \\
-\> \textbf{for} $u\in V(G)$ \textbf{do} \\
-\> \> $colour[u] \gets$ WHITE  \\
-\> \textbf{end for} \\
-\> $colour[s] \gets $ GREY \\
-\> Q.\algfont{insert}($s$, $0$) \\
-\> \textbf{while not} Q.\algfont{isEmpty}() \textbf{do} \\
-\> \> $u \gets $ Q.\algfont{peek}(); $t_1 \gets$  Q.\algfont{getKey}($u$) \\
-\> \> \textbf{for} each $x$ adjacent to $u$ \textbf{do} \\
-\> \> \> $t_2 \gets t_1 + c(u, x)$ \\
-\> \> \>  \textbf{if} $colour[x] = $ WHITE \textbf{then} \\
-\> \> \> \> $colour[x] \gets $ GREY \\
-\> \> \> \> Q.\algfont{insert}($x, t_2$) \\
-\> \> \> \textbf{else if} $colour[x] = $ GREY \textbf{and} Q.\algfont{getKey}($x$) $ > t_2$ \textbf{then} \\
-\> \> \> \> Q.\algfont{decreaseKey}($x$, $t_2$) \\
-\> \> \> \textbf{end if} \\
-\> \> \textbf{end for} \\
-\> \> Q.\algfont{delete}() \\
-\> \> $colour[u] \gets $ BLACK \\
-\> \> $dist[u] \gets t_1$ \\
-\> \textbf{end while} \\
-\> \textbf{return} $dist$\\
-}
-\caption{Dijkstra's algorithm, PFS version.}
-\label{fig:dijkstra-alg2}
-\end{figure}
+
+\begin{algorithm}[H]
+  \caption{Dijkstra's algorithm, PFS version.}
+  \label{alg:dijkstra2}
+\begin{algorithmic}[1]
+\Function{Dijkstra2}{weighted digraph $(G, c)$; node $s \in V(G)$}
+	\State priority queue $Q$
+	\State array $\colour[0..n-1]$, $\dist[0..n-1]$
+	\For{$u \in V(G)$}
+		\State $\colour[u] \gets$ WHITE 
+	\EndFor
+	\State $\colour[s] \gets $ GREY
+	\State $Q$.\algfont{insert}$(s, 0)$
+	\While{\textbf{not} $Q$.\algfont{isEmpty}$()$}
+		\State $u \gets Q$.\algfont{peek}$()$; $t_1 \gets$  $Q$.\algfont{getKey}$(u)$
+		\For{each $x$ adjacent to $u$}
+			\State $t_2 \gets t_1 + c(u, x)$
+			\If{$\colour[x] = $ WHITE}
+				\State $\colour[x] \gets $ GREY
+				\State $Q$.\algfont{insert}$(x, t_2)$
+			\ElseIf{$colour[x] = $ GREY \textbf{and} $Q$.\algfont{getKey}$(x) > t_2$}
+				\State $Q$.\algfont{decreaseKey}$(x, t_2)$
+			\EndIf
+		\EndFor
+		\State $Q$.\algfont{delete}$()$
+		\State $\colour[u] \gets $ BLACK
+		\State $\dist[u] \gets t_1$ 
+	\EndWhile
+	\State \Return{$\dist$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 
 It is now clear from this formulation that we need to perform $n$
@@ -491,28 +491,28 @@ nodes at ``level" $0, 1, \dots , n-1$ in turn. By level we mean the
 minimum possible number of arcs in a minimum weight path to that node from the
 source.
 
-\begin{figure}
-\hspace*{1in}\begin{minipage}{5in}
-\Algorithm{BellmanFord}{weighted digraph $(G,c)$; node $s$}{}
-{
-\> array $dist[0..n-1]$ \\
-\> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> $dist[u] \gets \infty$ \\
-\> \textbf{end for} \\
-\> $dist[s] \gets 0$ \\
-\> \textbf{for} $i$ \textbf{from} $0$ \textbf{to} $n-1$ \textbf{do} \\
-\> \> \textbf{for} $x \in V(G)$ \textbf{do}\\
-\> \> \> \textbf{for} $v \in V(G)$ \textbf{do}\\
-\> \> \> \> $dist[v] \gets \min( dist[v], dist[x] + c(x,v) )$ \\
-\> \> \> \textbf{end for} \\
-\> \> \textbf{end for} \\
-\> \textbf{end for}\\
-\> \textbf{return} $dist$ \\
-}
-\end{minipage}
-\caption{Bellman--Ford algorithm.}
-\label{fig:bellford-code}
-\end{figure}
+\begin{algorithm}[H]
+  \caption{Bellman--Ford algorithm.}
+  \label{alg:bellford-code}
+\begin{algorithmic}[1]
+\Function{BellmanFord}{weighted digraph $(G, c)$; node $s \in V(G)$}
+	\State array $\dist[0..n-1]$
+	\For{$u \in V(G)$}
+		\State $\dist[u] \gets \infty$ 
+	\EndFor
+	\State $\dist[s] \gets 0$
+	\For{$i$ \textbf{from} $0$ \textbf{to} $n-1$}
+		\For{$x \in V(G)$}
+			\For{$v \in V(G)$}
+				\State $\dist[v] \gets \min( \dist[v], \dist[x] + c(x,v) )$
+			\EndFor
+		\EndFor
+	\EndFor
+	\State \Return{$\dist$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
 
 \begin{Theorem} 
 Suppose that $G$ contains no negative weight cycles. Then after the $i$-th 
@@ -596,6 +596,8 @@ Where in the proof of Dijkstra's algorithm do we use the fact that
 all the arc weights are nonnegative?
 \end{Exercise}
 
+
+
 \section{All-pairs shortest path problem}
 \label{sec:APSP}
 
@@ -607,7 +609,7 @@ It is easy to present this information in a distance matrix.
 
 \begin{Example}
 \label{eg:APSP}
-For the digraph of Figure~\ref{fig:graphExample5}, we have already
+For the digraph of \cref{fig:graphExample5}, we have already
 calculated the all-pairs distance matrix in Example~\ref{eg:dijkstra}:
 
 $$
@@ -641,31 +643,32 @@ it can handle negative costs. For sparse graphs with positive costs
 repeated Dijkstra is competitive with Floyd, but for dense graphs they
 have the same asymptotic complexity. A key point in favour of Floyd's
 algorithm is its simplicity, as can be seen from the algorithm of
-Figure~\ref{fig:floydcode}. Floyd's algorithm is basically a simple
+\cref{alg:floydcode}. Floyd's algorithm is basically a simple
 triple for-loop.
 
-\begin{figure}
-\hspace*{.8in}\begin{minipage}{5in}
-\Algorithm{Floyd}{weighted digraph $(G,c)$}{}
-{
-\> array $d[0..n-1,0..n-1]$ \\
-\> \textbf{for} $u \in V(G)$ \textbf{do} \\
-\> \> \textbf{for} $v \in V(G)$ \textbf{do} \\
-\> \> \> $d[u, v] \gets c(u, v)$\\
-\> \> \textbf{end for} \\
-\> \textbf{end for} \\
-\> \textbf{for} $x \in V(G)$ \textbf{do}\\
-\> \> \textbf{for} $u \in V(G)$ \textbf{do}\\
-\> \> \> \textbf{for} $v \in V(G)$ \textbf{do}\\
-\> \> \> \> $d[u,v] \gets \min( d[u,v], d[u,x] + d[x,v] )$ \\
-\> \> \> \textbf{end for} \\
-\> \> \textbf{end for} \\
-\> \textbf{end for} \\
-\> \textbf{return} $d$ \\
-}
-\end{minipage}
-\caption{Floyd's algorithm.} \label{fig:floydcode}
-\end{figure}
+\begin{algorithm}[H]
+  \caption{Floyd's algorithm.}
+  \label{alg:floydcode}
+\begin{algorithmic}[1]
+\Function{Floyd}{weighted digraph $(G, c)$}
+	\State array $d[0..n-1,0..n-1]$
+	\For{$u \in V(G)$}
+		\For{$v \in V(G)$}
+			\State $d[u, v] \gets c(u, v)$
+		\EndFor 
+	\EndFor
+	\For{$x \in V(G)$}
+		\For{$u \in V(G)$}
+			\For{$v \in V(G)$}
+				\State $d[u,v] \gets \min( d[u,v], d[u,x] + d[x,v] )$
+			\EndFor
+		\EndFor
+	\EndFor
+	\State \Return{$d$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
 
 \begin{note}
 Observe that we are altering the value of $d[u, v]$ in the update
@@ -677,7 +680,7 @@ via the update formula, and everything works.
 \begin{Example}
 \label{eg:floyd}
 An application of Floyd's algorithm on the third graph of
-Figure~\ref{fig:graphExample5} is given below.  The initial cost 
+\cref{fig:graphExample5} is given below.  The initial cost 
 matrix is as follows.
 
 \[ 
@@ -891,7 +894,7 @@ idea. For example, how can we cheaply link sites with communication
 links so that they are all connected?
 
 \begin{Example}
-In the third graph of Figure~\ref{fig:graphExample5}, the tree
+In the third graph of \cref{fig:graphExample5}, the tree
 determined by the edges 
 $$\{0, 2\}, \{1, 3\}, \{3, 5\}, \{4, 5\}, \{2, 4\}$$ 
 has total weight $9$. It is a tree and has the $5$ smallest weight
@@ -979,42 +982,41 @@ concludes the proof of correctness.
 \end{proof}
 
 The above informal descriptions of MST algorithms can be converted easily
-to an algorithm. In Figure~\ref{fig:primcode} we present the algorithm. Note
+to an algorithm. In \cref{alg:primcode} we present the algorithm. Note
 how similar Prim's algorithm is to Dijkstra's. The main difference is
 in the update formula. We also store the PFS tree, which we elected not
 to do for Dijkstra.
 
-\begin{figure}
-\hspace*{.3in}\begin{minipage}{5in}
-\Algorithm{Prim}{weighted graph $(G, c)$; vertex $s\in V(G)$}{}
-{
-\> priority queue $Q$ \\
-\> array $colour[0..n-1], pred[0..n-1]$ \\
-\> \textbf{for} $u\in V(G)$ \textbf{do} \\
-\> \> $colour[u] \gets$ WHITE; $pred[u] \gets NULL$  \\
-\> \textbf{end for} \\
-\> $colour[s] \gets $ GREY \\
-\> Q.\algfont{insert}($s$, $0$) \\
-\> \textbf{while not} Q.\algfont{isEmpty}() \textbf{do} \\
-\> \> $u \gets $ Q.\algfont{peek}() \\
-\> \> \textbf{for} each $x$ adjacent to $u$ \textbf{do} \\
-\> \> \> $t \gets c(u, x)$ \\
-\> \> \>  \textbf{if} $colour[x] = $ WHITE \textbf{then} \\
-\> \> \> \> $colour[x] \gets $ GREY; $pred[x] \gets u$ \\
-\> \> \> \> Q.\algfont{insert}($x, t$) \\
-\> \> \> \textbf{else if} $colour[x] = $ GREY \textbf{and} Q.\algfont{getKey}($x$) $ > t$ \textbf{then} \\
-\> \> \> \> Q.\algfont{decreaseKey}($x, t$); $pred[x] \gets u$ \\
-\> \> \> \textbf{end if} \\
-\> \> \textbf{end for} \\
-\> \> Q.\algfont{delete}() \\
-\> \> $colour[u] \gets $ BLACK \\
-\> \textbf{end while} \\
-\> \textbf{return} $pred$ \\
-}
-\end{minipage}
-\caption{Prim's algorithm.}
-\label{fig:primcode}
-\end{figure}
+\begin{algorithm}[H]
+  \caption{Prim's algorithm.}
+  \label{alg:primcode}
+\begin{algorithmic}[1]
+\Function{Prim}{weighted digraph $(G, c)$; vertex $s\in V(G)$}
+	\State priority queue $Q$
+	\State array $\colour[0..n-1], \pred[0..n-1]$
+	\For{$u\in V(G)$}
+		\Stae $\colour[u] \gets$ WHITE; $\pred[u] \gets NULL$ 
+	\EndFor
+	\State $\colour[s] \gets $ GREY
+	\State $Q$.\algfont{insert}$(s, 0)$
+	\While{\textbf{not} $Q$.\algfont{isEmpty}$()$}
+		\State $u \gets Q$.\algfont{peek}$()$
+		\For{each $x$ adjacent to $u$}
+			\State $t \gets c(u, x)$
+			\If{$\colour[x] = $ WHITE}
+				\State $\colour[x] \gets $ GREY; $\pred[x] \gets u$
+				\State $Q$.\algfont{insert}$(x, t)$
+			\ElseIf{$\colour[x] = $ GREY \textbf{and} $Q$.\algfont{getKey}$(x) > t$}
+				\State $Q$.\algfont{decreaseKey}$(x, t)$; $\pred[x] \gets u$
+			\EndIf
+		\EndFor
+		\State $Q$.\algfont{delete}$()$
+		\State $\colour[u] \gets $ BLACK
+	\EndWhile
+	\State \Return{$\pred$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 
 In Prim's algorithm, we checked whether a cycle would be created by adding
@@ -1035,25 +1037,25 @@ able to find the tree containing an endpoint, and to merge two trees. The
 is needed. It allows us to perform the \algfont{find} and \algfont{union}
 operations efficiently. % (see Section~\ref{sec:app:adt-informal}).
 
-\begin{figure}
-\hspace*{1in}\begin{minipage}{5in}
-\Algorithm{Kruskal}{weighted graph $(G, c)$}{}
-{
-\> disjoint sets ADT $A$ \\
-\> initialize $A$ with each vertex in its own set \\
-\> sort the edges in increasing order of cost \\
-\> \textbf{for} each edge $\{u, v\}$ in increasing cost order \textbf{do}\\
-\> \> \textbf{if not } $A$.\algfont{set}($u$) = $A$.\algfont{set}($v$) \textbf{then} \\
-\> \> \>  add this edge \\
-\> \> \> $A$.\algfont{union}($A$.\algfont{set}($u$), $A$.\algfont{set}($v$)) \\
-\> \> \textbf{end if} \\
-\> \textbf{end for} \\
-\> \textbf{return} $A$ \\
-}
-\end{minipage}
-\caption{Kruskal's algorithm.}
-\label{fig:Kruskal-alg}
-\end{figure}
+
+\begin{algorithm}[H]
+  \caption{Kruskal's algorithm.}
+  \label{alg:kruskal}
+\begin{algorithmic}[1]
+\Function{Kruskal}{weighted digraph $(G, c)$}
+	\State disjoint sets ADT $A$
+	\State initialize $A$ with each vertex in its own set
+	\State sort the edges in increasing order of cost
+	\For{each edge $\{u, v\}$ in increasing cost order}
+		\If{\textbf{not} $A$.\algfont{set}$(u) = A$.\algfont{set}$(v)$}
+			\State add this edge
+			\State $A$.\algfont{union}$(A$.\algfont{set}$(u)$, $A$.\algfont{set}$(v))$
+		\EndIf
+	\EndFor
+	\State \Return{$A$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 The complexity of the algorithm depends to a great extent on the data
 structures used. The best known for Prim is the same as for Dijkstra,
@@ -1069,7 +1071,7 @@ linear time.
 
 \begin{Exercise} \label{ex:doMST}
 Carry out each of these algorithms on the weighted
-graph of Figure~\ref{fig:graphExample5}. Do the two algorithms give the
+graph of \cref{fig:graphExample5}. Do the two algorithms give the
 same spanning tree? 
 \end{Exercise}
 

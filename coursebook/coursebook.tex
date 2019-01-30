@@ -12,9 +12,9 @@
 
 % ## paragraph style ## ----------------------------------------------
 %TODO fix this up
-\usepackage{parskip}
+% \usepackage{parskip}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{5pt}
+\setlength{\parskip}{5pt} 
 
 
 % ## packages for graphics, etc ## ----------------------------------------------
@@ -134,14 +134,15 @@
 {\medskip \noindent{\textsc{\textbf{Solution to \cref{#1} on
 page~\pageref{#1}}}}:\newline }
 
-\DeclareMathOperator{\pred}{\text{\textit{pred}}}
-\DeclareMathOperator{\colour}{\text{\textit{colour}}}
-\DeclareMathOperator{\done}{\text{\textit{done}}}
-\DeclareMathOperator{\seen}{\text{\textit{seen}}}
-\DeclareMathOperator{\status}{\text{\textit{status}}}
-\DeclareMathOperator{\timeVar}{\text{\textit{time}}}
-\DeclareMathOperator{\algo}{\text{\texttt{algo}}}
-\DeclareMathOperator{\inp}{\text{\texttt{inp}}}
+\DeclareMathOperator{\pred}{\text{\algfont{pred}}}
+\DeclareMathOperator{\colour}{\text{\algfont{colour}}}
+\DeclareMathOperator{\done}{\text{\algfont{done}}}
+\DeclareMathOperator{\seen}{\text{\algfont{seen}}}
+\DeclareMathOperator{\status}{\text{\algfont{status}}}
+\DeclareMathOperator{\timeVar}{\text{\algfont{time}}}
+\DeclareMathOperator{\algo}{\text{\algfont{algo}}}
+\DeclareMathOperator{\inp}{\text{\algfont{inp}}}
+\DeclareMathOperator{\dist}{\text{\algfont{dist}}}
 
 \usepackage{mathtools}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
