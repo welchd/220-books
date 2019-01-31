@@ -13,8 +13,8 @@ the usual primary school method for multiplication of decimal integers, quicksor
 Algorithms predate electronic computers by thousands of years --- for example
 Euclid's greatest common divisor algorithm (seen in COMPSCI 225).
 
-Algorithms and programs are different --- \emph{program} is a sequence of computer instructions implementing 
-the algorithm. A program can implement more than one algorithm.
+Algorithms and programs are different --- a \emph{program} is a sequence of computer instructions implementing 
+the algorithm. A program may implement more than one algorithm.
 
 Experience in computing shows that enormously more performance gains can be achieved 
 by optimizing the algorithm than by optimizing other factors such as
@@ -130,7 +130,9 @@ inputs that cause problems if the algorithm is inefficient.
 
 We use a clean mathematical model of the problem. Example: sorting 
 distinct records is really the same problem as computing the inverse of a 
-permutation. We define a notion of  \emph{input size} on the data. This is a positive integer. 
+permutation. 
+
+We define a notion of  \emph{input size} on the data. This is a positive integer. 
 Example: number of records in a database to be sorted.
 
 We use the concept of \emph{elementary operation} as our basic measuring 
@@ -248,7 +250,7 @@ Here are some easy basic rules.
 \Cref{alg:findmax} is a linear time algorithm, since it makes one pass through the array and does a constant amount of work each time.
 % \end{Example}
 
-
+What happens if the loop variable changes in a more complicated way?
 
 \begin{algorithm}[H]
   \caption{Example: exponential change of variable in loop.
@@ -263,7 +265,7 @@ Here are some easy basic rules.
 \end{algorithm}
 
 \begin{Boxample}[4]
-In what time runs \cref{alg:runtime1} and why?
+What is the running time for \cref{alg:runtime1} and why?
 %This runs in logarithmic time because $i$ doubles about $\lg n$ times until reaching $n$.
 \end{Boxample}
 
@@ -279,7 +281,7 @@ In what time runs \cref{alg:runtime1} and why?
 \end{algorithmic}
 \end{algorithm}
 \begin{Boxample}[4]
-In what time runs \cref{alg:nestloop} and why?
+What is the running time for  \cref{alg:nestloop} and why?
 \end{Boxample}
 
 What do we do if the control flow of the algorithm is more complicated? For example, how do we handle \textbf{if} statements?
@@ -304,7 +306,7 @@ What do we do if the control flow of the algorithm is more complicated? For exam
 \end{algorithmic}
 \end{algorithm}
 \begin{Boxample}[6]
-In what time runs \cref{alg:ifstatements} and why? 
+What is the running time for \cref{alg:ifstatements} and why? 
 \end{Boxample}
 
 \if01
@@ -349,7 +351,7 @@ Let us roughly estimate the running time of \cref{alg:nest2}.
 
 The inner loop is executed $k$ times for $j=2, 4, \ldots, 2^{k}$
 where $k < \lg n \le k+1$. The total time for the elementary operations is 
-proportional to $kn$, that is, $T(n)=  n  \lfloor \lg n \rfloor$.    
+proportional to $kn$, that is, $T(n)=  n  \lfloor \lg n \rfloor \approx n\lg n$.
 \end{Boxample}
 
 
@@ -422,8 +424,8 @@ $an + b \leq an + |b| \leq (a + |b|) n$ for $n \geq 1$.
 \begin{Example} 
 \label{eg:asymp-lin-quadrat}
 If $f(n) = n, g(n) = n^2/2$, then $f$ is $O(g)$ and $g$ is not
-$O(f)$, so $g$ grows asymptotically faster than $f$. Proof: 
-$f(n) \leq 2 \cdot g(n)$ for $n\geq 0$ (because $n\leq n^2$); conversely, suppose 
+in $O(f)$, so $g$ grows asymptotically faster than $f$. Proof: 
+first note that $f(n) \leq 2 \cdot g(n)$ for $n\geq 0$ (because $n\leq n^2$). Conversely, suppose 
 that eventually $n^2 \leq Cn$. Then $n \leq C$ for all sufficiently large $n$, 
 a contradiction.
 \end{Example}
@@ -444,9 +446,9 @@ need to know how to, in case the rules (coming up) don't apply.
 \begin{itemize}
 \item (irrelevance of constant factors) if $c > 0$ is constant then $cf$ is $\Theta(f)$.
 \item (transitivity) If $f$ is $O(g)/\Omega(g)/\Theta(g)$ and $g$ is 
-$O(h)/\Omega(h)/\Theta(h)$, then $f$ is $O(h)/\Omega(h)/\Theta(h)$.
+in $O(h)/\Omega(h)/\Theta(h)$, then $f$ is $O(h)/\Omega(h)/\Theta(h)$.
 \item (sum rule) If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 + f_2$ is 
-$O(\max\{g_1, g_2\})$.
+in $O(\max\{g_1, g_2\})$.
 \item (product rule) If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 f_2$ 
 is $O(g_1 g_2)$.
 \item (limit rule) \emph{Suppose that $L:=\lim_{n\to\infty} f(n)/g(n)$ exists}. 

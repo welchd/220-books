@@ -1,4 +1,4 @@
-\part{Efficiency of Sorting}  
+\part{Analysis of Sorting}  
 \label{ch:effsort}
 
 \chapter{The problem of sorting, selection sort} %--------------------------------------------
@@ -127,9 +127,8 @@ But if we change the data structure \dots (see lecture on heapsort).
 \label{sec:insertionsort}
 The sorting algorithm \defnfont{insertion sort} works as follows.
 \begin{itemize}
-	\item  For each element in the unsorted part of the input list, scan backward 
-	until we find a preceding element which exceeds it, and then swap these 
-	elements (or insert). Iterate.
+	\item  For each element $x$ in the unsorted part of the input list, scan backward while the preceding element 
+	exceeds it. Move $x$ to its correct position. Iterate.
 \end{itemize}
 This is the sorting method used by cardplayers to arrange cards in a hand.
 It works well on small lists, or lists that are nearly sorted.
