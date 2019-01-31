@@ -65,22 +65,22 @@ working from the bottom up instead of from the top down.
     \label{alg:fastfib}}
 \begin{algorithmic}[1]
 \Function{fastfib}{integer $n$}
-\If{$n < 0$} 
-\Return{$0$}
-\ElsIf{$n = 0$} 
-\Return{$0$}
-\ElsIf{$n = 1$} 
-\Return{$1$}
-\Else
-\Let{$a$}{$1$} \Comment{stores $F(i)$ at bottom of loop}
-\Let{$b$}{$0$}  \Comment{stores $F(i-1)$ at bottom of loop}
-\For{$i \gets 2$ \text{to} $n$}
-\Let{$t$}{$a$}
-\Let{$a$}{$a+b$}
-\Let{$b$}{$t$}
-\EndFor
-\EndIf
-\State \Return{$a$}
+	\If{$n < 0$} 
+		\Return{$0$}
+	\ElsIf{$n = 0$} 
+		\Return{$0$}
+	\ElsIf{$n = 1$} 
+		\Return{$1$}
+	\Else
+		\Let{$a$}{$1$} 	\Comment{stores $F(i)$ at bottom of loop}
+		\Let{$b$}{$0$}  \Comment{stores $F(i-1)$ at bottom of loop}
+		\For{$i \gets 2$ \text{to} $n$}
+			\Let{$t$}{$a$}
+			\Let{$a$}{$a+b$}
+			\Let{$b$}{$t$}
+		\EndFor
+	\EndIf
+	\State \Return{$a$}
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -211,97 +211,100 @@ Here are some easy basic rules.
 
 
 
-\begin{Example}
+% \begin{Example}
 \begin{algorithm}[H]
-  \caption{Swapping two elements in an array
+  \caption{Swapping two elements in an array.
     \label{alg:swap}}
 \begin{algorithmic}[0]
 \Require{$0 \leq i \leq j \leq n-1$}
 \Function{swap}{array $a[0..n-1]$, integer $i$, integer $j$}
-\State $t \gets a[i]$
-\State $a[i] \gets a[j]$
-\State $a[j] \gets t$
-\State \Return{$a$}
+	\State $t \gets a[i]$
+	\State $a[i] \gets a[j]$
+	\State $a[j] \gets t$
+	\State \Return{$a$}
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+\Cref{alg:swap} is a constant time algorithm.
+% \end{Example}
 
-This is a constant time algorithm.
-\end{Example}
 
-
-\begin{Example}
+% \begin{Example}
 \begin{algorithm}[H]
-  \caption{Finding the maximum in an array
+  \caption{Finding the maximum in an array.
     \label{alg:findmax}}
 \begin{algorithmic}[0]
 \Function{findmax}{array $a[0..n-1]$}
-\State $k \gets 0$ \Comment{location of maximum so far}
-\For {$j \gets 1$ \text{to} $n-1$} 
-\If {$a[k] < a[j]$}
-\State{$k = j$} 
-\EndIf
-\EndFor
-\State \Return{$k$}
+	\State $k \gets 0$ \Comment{location of maximum so far}
+	\For {$j \gets 1$ \text{to} $n-1$} 
+		\If {$a[k] < a[j]$}
+			\State{$k = j$} 
+		\EndIf
+	\EndFor
+	\State \Return{$k$}
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-
-This is a linear time algorithm, since it makes one pass through the array and does a constant amount of work each time.
-\end{Example}
-
+\Cref{alg:findmax} is a linear time algorithm, since it makes one pass through the array and does a constant amount of work each time.
+% \end{Example}
 
 
-\begin{Boxample}[4]
+
 \begin{algorithm}[H]
-  \caption{Example: exponential change of variable in loop
+  \caption{Example: exponential change of variable in loop.
     \label{alg:runtime1}}
 \begin{algorithmic}[0]
 \State \Let{$i$}{1}
 \While{$i < n$}
-\State $i \gets 2*i$
-\State \text{print} $i$
+	\State $i \gets 2*i$
+	\State \text{print} $i$
 \EndWhile
 \end{algorithmic}
 \end{algorithm}
 
+\begin{Boxample}[4]
+In what time runs \cref{alg:runtime1} and why?
 %This runs in logarithmic time because $i$ doubles about $\lg n$ times until reaching $n$.
 \end{Boxample}
 
-\begin{Boxample}[4]
 \begin{algorithm}[H]
-  \caption{Snippet: Nested loops
-    \label{alg:nestloop}}
+  \caption{Snippet: Nested loops.}
+    \label{alg:nestloop}
 \begin{algorithmic}[0]
 \For {$i \gets 1$ \text{to} $n$} 
-\For {$j \gets i$ \text{to} $n$} 
-\State \text{print} $i+j$
-\EndFor
+	\For {$j \gets i$ \text{to} $n$} 
+		\State \text{print} $i+j$
+	\EndFor
 \EndFor
 \end{algorithmic}
 \end{algorithm}
+\begin{Boxample}[4]
+In what time runs \cref{alg:nestloop} and why?
 \end{Boxample}
 
 What do we do if the control flow of the algorithm is more complicated? For example, how do we handle \textbf{if} statements?
 
-\begin{Boxample}[6]
 \begin{algorithm}[H]
+  \caption{Snippet: If statements.}
+  \label{alg:ifstatements}
 \begin{algorithmic}[0]
 \For {$i = 1; i < n; i\gets 2*i$} 
-\For {$j = 1; j < n; j \gets 2*j$}
-\If{$j = 2*i$}
-\For{$k = 0; k < n; k\gets k+1$} 
-\State \{ constant number of operations \} 
-\EndFor
-\Else
-\For{$k = 1; k < n; k\gets 3*k$} 
-\State \{ constant number of operations \}
-\EndFor
-\EndIf
-\EndFor
+	\For {$j = 1; j < n; j \gets 2*j$}
+		\If{$j = 2*i$}
+			\For{$k = 0; k < n; k\gets k+1$} 
+				\State \{ constant number of operations \} 
+			\EndFor
+		\Else
+			\For{$k = 1; k < n; k\gets 3*k$} 
+				\State \{ constant number of operations \}
+			\EndFor
+		\EndIf
+	\EndFor
 \EndFor
 \end{algorithmic}
 \end{algorithm}
+\begin{Boxample}[6]
+In what time runs \cref{alg:ifstatements} and why? 
 \end{Boxample}
 
 \if01
@@ -324,50 +327,51 @@ exponentially in $n$, so this is an \alert{exponential time algorithm}.
 \fi
 
 
+\begin{algorithm}[H]
+  \caption{Snippet: Nested loops 2.}
+  \label{alg:nest2}
+\begin{algorithmic}[0]
+\State $m \leftarrow 2$
+\For{$j \leftarrow 1$ \textbf{to} $n$}
+	\If{$j = m$}
+		\State $m \leftarrow 2m$
+		\For{$i \leftarrow  1$ \textbf{to} $n$}
+			\State $\ldots$ \Comment{constant number of elementary operations}
+		\EndFor
+	\EndIf 
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
 \begin{Boxample}[6]
 \label{exm:nest2}
-Let us roughly estimate the running time of the following nested loops:
- 
-\hspace*{.3in}\begin{minipage}{5in}
-\Algorbody
-{
-\(m \leftarrow 2\) \\
-\textbf{for} \(j \leftarrow 1\) \textbf{to} \(n\) \textbf{do}\\
-\>\textbf{if} \(j = m \) \textbf{then} \\
-\>\> \(m \leftarrow 2m\) \\
-\>\>\textbf{for} \(i \leftarrow  1\) \textbf{to} \(n\) \textbf{do}\\
-\>\>\>$\ldots$ \AlgCmt{constant number of elementary operations} \\
-\>\>\textbf{end for} \\
-\>\textbf{end if}\\
-\textbf{end for}\\
-}
-\end{minipage}
+Let us roughly estimate the running time of \cref{alg:nest2}.
 
 The inner loop is executed $k$ times for $j=2, 4, \ldots, 2^{k}$
 where $k < \lg n \le k+1$. The total time for the elementary operations is 
 proportional to $kn$, that is, $T(n)=  n  \lfloor \lg n \rfloor$.    
 \end{Boxample}
 
+
+\begin{algorithm}[H]
+  \caption{Snippet: Nested loops 3.}
+  \label{alg:nest3}
+\begin{algorithmic}[0]
+\State $m \leftarrow 1$
+\For{$j \leftarrow 1$ \textbf{step} $j \leftarrow j+1$ \textbf{to} $n$}
+	\If{$j = m$}
+		\State $m \leftarrow m \cdot (n-1)$
+		\For{$i \leftarrow  0$  \textbf{step} $i \leftarrow i+1$ \textbf{to} $n - 1$}
+			\State $\ldots$ \Comment{constant number of elementary operations}
+		\EndFor
+	\EndIf
+\EndFor 
+\end{algorithmic}
+\end{algorithm}
+
 \begin{Boxample}[6]
 \label{exm:nest1}
-Is the running time quadratic or linear for the nested loops below?\\
-
-\begin{minipage}{5in}
-\Algorbody
-{
-\(m \leftarrow 1\) \\
-\textbf{for} \(j \leftarrow 1\) \textbf{step} \(j \leftarrow j+1\) 
-                                    \textbf{until} \(n\) \textbf{do}\\
-\>\textbf{if} \(j = m \) \textbf{then} \(m \leftarrow m \cdot (n-1)\) \\
-\>\>\textbf{for} \(i \leftarrow  0\) \textbf{step} \(i \leftarrow i+1\) 
-                                       \textbf{until} \(n-1\) \textbf{do}\\
-\>\>\>$\ldots$ \AlgCmt{constant number of elementary operations} \\
-\>\>\textbf{end for} \\
-\>\textbf{end if}\\
-\textbf{end for} \\
-}
-\end{minipage}
-
+Is the running time of \cref{alg:nest3} quadratic or linear?
 \end{Boxample}
 
 
