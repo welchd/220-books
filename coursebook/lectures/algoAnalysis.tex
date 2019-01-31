@@ -419,8 +419,7 @@ $an + b \leq an + |b| \leq (a + |b|) n$ for $n \geq 1$.
 \label{eg:asymp-lin-quadrat}
 If $f(n) = n, g(n) = n^2/2$, then $f$ is $O(g)$ and $g$ is not
 $O(f)$, so $g$ grows asymptotically faster than $f$. Proof: 
-$f(n) \leq 2 \cdot g(n)$ for $n\geq 0$ (or $f(n) \leq 1 \cdot g(n)$ for 
-$n \geq 2$); conversely, suppose 
+$f(n) \leq 2 \cdot g(n)$ for $n\geq 0$ (because $n\leq n^2$); conversely, suppose 
 that eventually $n^2 \leq Cn$. Then $n \leq C$ for all sufficiently large $n$, 
 a contradiction.
 \end{Example}
