@@ -8,34 +8,37 @@
 A \defnfont{table} is an ADT that supports operations to insert, retrieve and delete an element
 with given search key.  Another name is \defnfont{dictionary}.
 \end{Definition}
-Tables are used in databases. There are  many ways in which a table could be implemented;
-with an unsorted lists, with a sorted list, with a (balanced) binary search tree, with a hash table.
+Tables are used for databases. There are  many ways in which a table could be implemented;
+with an unsorted list, with a sorted list, with a (balanced) binary search tree, with a hash table.
 
 \paragraph{Sequential search}
-\begin{itemize}
-\item In a list with no other structure, the only way to find an element is to 
+
+In a list with no other structure, the only way to find an element is to 
 check each element. 
-\item This takes time in $\Theta(n)$ for any reasonable implementation (such as 
+This takes time in $\Theta(n)$ for any reasonable implementation (such as 
 array or linked list).
-\item We only need to be able to iterate through the elements in linear time, so
+
+We only need to be able to iterate through the elements in linear time, so
  even more general structures than lists also allow for this type of search.
-\end{itemize}
+
 
 \paragraph{Binary search}
-\begin{itemize}
-\item In a sorted list where constant time access is possible 
-(such as an array implementation), we can find a key $K$ as follows. 
-Start at the middle element $y$, and recursively go left (right) if $y>K$ (if $y<K$);
+
+In a sorted list where constant time access is possible 
+(such as an array implementation), we can find a key $K$ as follows: start at the middle element $y$, and recursively go left (right) if $y>K$ (if $y<K$);
  stop if we hit  $K$ or search subinterval is empty.
-\item Note: binary search is conceptually easy but surprisingly hard to program
+
+Note: binary search is conceptually easy but surprisingly hard to program
  correctly even for professionals (see J. Bentley, \emph{Programming Pearls}).
-\item The (worst-case) recurrence is $T(n) = 1 +  T(\lfloor n/2 \rfloor)$, with 
-solution in $\Theta(\log n)$.
-\item The execution of this algorithm (looking for all possible keys) can be 
+
+The (worst-case) recurrence for the running time is $T(n) = 1 +  T(\lfloor n/2 \rfloor)$, with 
+solution in $\Theta(\log n)$. The best case is when we find the element on the first try (it is in the middle position).
+
+The execution of this algorithm (looking for all possible keys) can be 
 described by a decision tree called a (static) \defnfont{binary search tree}. The 
 number of comparisons required to find the key is the depth of the leaf 
 containing that key.
-\end{itemize}
+
 
 \begin{algorithm}[H]
   \caption{Binary search
@@ -60,17 +63,16 @@ containing that key.
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Binary search trees.}
+\paragraph{Binary search trees}
 \begin{Definition}
 A {binary search tree} (BST) is a binary tree with keys stored in nodes, 
 such that the key of each node is $\geq$ the key of every node in the left subtree and $\leq$ 
 the key of  every node in the right subtree.
 \end{Definition}
 
-\begin{itemize}
-\item A BST implements the Table ADT. To find/insert a key, use binary search as 
-described above.
-\item To remove a node, we need more work.
+
+A BST implements the Table ADT. To find/insert a key, use binary search as 
+described above. To remove a node, we need more work:
 \begin{itemize}
 \item A node with no children: simply delete.
 \item A node with only one child: delete the node, connect the child 
@@ -78,68 +80,59 @@ to the parent.
 \item A node $n$ with two children: find the minimum key $K$ in the 
 right subtree, delete that node, and replace the key of $n$ by $K$.
 \end{itemize}
-%\item BSTs are very versatile. They are good for sorting. An inorder traversal 
-%of the tree yields the keys in sorted order. Also, BSTs model the behaviour of 
-%quicksort.
-%\item Main problem with BSTs: they can become unbalanced by insertions and 
-%deletions.
-\end{itemize}
+
+\begin{Boxample}[4]
+Follow the above steps to delete node ** in the BST shown.
+jo-TODO
+\end{Boxample}
 
 
-\paragraph{Analysis of BST operations.}
-\begin{itemize}
-\item The running time of all basic operations is proportional to the number of 
-nodes visited.
-\item In the worst case, finding/removing/inserting take time in $\Theta(h)$ 
+\paragraph{Analysis of BST operations}
+
+The running time of all basic operations is proportional to the number of 
+nodes visited. In the worst case, finding/removing/inserting take time in $\Theta(h)$ 
 where $h$ is the height of the tree. Unfortunately the height can be as large 
-as $n-1$ in the worst case.
-%\item A BST built by $n$ insertions of random keys has height in 
-%$\Theta(\log n)$ (see next slide). So randomly grown trees are not too 
-%unbalanced.
-%\item However deletions can mess this up, and are hard to analyse.
-\item Conclusion: we need another idea to guarantee good worst-case 
+as $n-1$ in the worst case. Conclusion: we need another idea to guarantee good worst-case 
 performance. We need to \emph{rebalance} BSTs.
-\end{itemize}
+
+\begin{Boxample}[4]
+When deleting a node  in a BST, what if we use the maximum key in the left subtree instead?
+Carry this our for the In the BST shown above.
+jo-TODO
+
+\end{Boxample}
 
 
-\begin{itemize}
-\item When deleting a node  in a BST, what if we use the maximum key in the left subtree instead?
-\item What is the average case search cost in a BST?
-\item What is the relation between BSTs and sorting?
-\end{itemize}
+The above example shows that if for deletion we instead use choose the maximum key in the left subtree, everything proceeds as expected. 
+However always using the same side can lead to unbalance. Alternating sides, or choosing a side randomly, will more likely  result in a more 
+balanced tree.
 
-\paragraph{Alternative deletion method.}
-\begin{itemize}
-\item If we choose the maximum key in the left subtree, everything proceeds as expected. 
-\item However always using the same side can lead to unbalance.
-\item Alternating sides, or choosing a side randomly, will more likely  result in a more balanced tree.
-\end{itemize}
 
 \paragraph{Treesort.}
-\begin{itemize}
-\item As we did with heapsort, we can build a binary search tree from our initial list, by inserting 
-elements one at a time.
-\item We can recover the sorted list by reading the keys according to an inorder traversal.
-\item This takes time in $\Theta(n\log n)$.
-\item As with heapsort, we can do this in place in an array. This is basically quicksort!
-\end{itemize}
 
-jo-TODO: add inorder figure?
+As we did with heapsort, we can build a binary search tree from our initial list, by inserting 
+elements one at a time. We can recover the sorted list by reading the keys according to an inorder traversal. This takes time in $\Theta(n\log n)$.
+
+As with heapsort, we can do this in place in an array. This is basically quicksort!
+
+jo-TODO: add inorder figure
 
 
 \paragraph{Relation between Quicksort and BSTs.}
-\begin{itemize}
-\item After choosing the pivot and partitioning, we can represent the array as a 
+
+After choosing the pivot and partitioning, we can represent the array as a 
 binary tree: pivot at the root, left subfile on the left, right subfile on the 
 right. It has the BST property with respect to the sort keys.
-\item Given the above BST describing the execution of quicksort on the array, 
+
+Given the above BST describing the execution of quicksort on the array, 
 note that the cost of constructing the tree (measured by key comparisons) is 
 the same as the number of comparisons used by quicksort in sorting the file.
-\item This is equal to the {internal path length}, the sum of all depths 
+This is equal to the {internal path length}, the sum of all depths 
 of nodes. 
-\item Thus the average search cost in a BST built by random insertions is $\Theta(\log n)$ .
-\end{itemize}
 
+Thus the average search cost in a BST built by random insertions is $\Theta(\log n)$ .
+
+jo-TODO: add figure showing this
 
 
 
@@ -151,56 +144,55 @@ of nodes.
 There are several classes of BSTs (such as AVL, red-black, AA) that 
 perform rebalancing operations at crucial times in order to keep the height 
 close to $\lg n$.
-These operations are based on local {rotations} of the tree.
+These operations are based on local \emph{rotations} of the tree.
 Analysis of performance is fairly difficult.
-It is not too hard to show that AVL trees maintain the right height (see textbook). 
-Average-case height is not really known.
+The average-case height is not really known.
+
+jo-TODO insert picture of a rotation, then Boxample asking them to rotate left/right about a node.
 
 \paragraph{AVL trees}
-\begin{itemize}
-\item These were the first self-balancing BSTs, introduced in 1962 by 
-Adelson-Velskii and Landis.
-\item The {balance of a node} is the difference between heights of its 
-right subtree and left subtree. AVL trees adjust themselves after each insertion 
-or deletion so that each node has balance $0, 1$ or $-1$.
-\item An AVL tree with $n$ nodes has height at most $1.44 \lg n$, about $44\%$ more 
-than optimal (proof uses a simple recurrence relation for the number of nodes in 
-a smallest tree of height $h$).
-\end{itemize}
 
-\paragraph{Extra: height of a balanced (AVL) tree}
-\begin{itemize}
-\item Let $A_h$ be the minimum number of nodes in a tree of height $h$. Clearly 
-$A_0 = 1, A_1 = 2$.
-\item The subtrees at the root are also AVL trees of height $h-1$ or $h-2$, 
-because of the balance property.
-\item Thus $A_h \geq A_{h-1} + A_{h-2} + 1$ (in fact we have equality here 
-(can you see why?))
-\item This is similar to the Fibonacci recurrence, and we know that 
+These were the first self-balancing BSTs, introduced in 1962 by 
+Adelson-Velskii and Landis. The \emph{balance of a node} is defined to be the difference between heights of its 
+right subtree and left subtree. AVL trees adjust themselves after each insertion 
+or deletion (via tricky rotations not discussed here --- see Wikipedia for gory details) so that each node has balance $0, 1$ or $-1$.
+
+jo-TODO figure with example and nonexample of AVL tree
+
+
+\paragraph{Height of an AVL tree}
+\begin{Example}
+An AVL tree with $n$ nodes has height at most $1.44 \lg n$, about $44\%$ more 
+than optimal.
+
+Proof: Let $A_h$ be the minimum number of nodes in a tree of height $h$. Clearly 
+$A_0 = 1, A_1 = 2$. The subtrees at the root are also AVL trees of height $h-1$ or $h-2$, 
+because of the balance property. Thus $A_h \geq A_{h-1} + A_{h-2} + 1$ (in fact we have equality here 
+(can you see why?)). This is similar to the Fibonacci recurrence, and we know that 
 $A_h \sim C \phi^h$ for some $C>0$, where $\phi = (1+\sqrt{5})/2$. 
-\item Taking logarithms gives $h \sim \lg n / \lg \phi \approx 1.44 \lg n$. 
-\end{itemize}
+Taking logarithms gives $h \sim \lg n / \lg \phi \approx 1.44 \lg n$. 
+\end{Example}
 
 \begin{Boxample}[2]
-\begin{itemize}
-\item How many types of self-balancing search trees can you find (e.g. Wikipedia)?
-\item Which type of balanced trees does your favourite programming language use?
-\end{itemize}
+How many types of self-balancing search trees can you find (e.g. Wikipedia)?
+
 \end{Boxample}
 
 \paragraph{Red-black trees}
-\begin{itemize}
-\item Introduced in 1978.
-\item These have a balance condition that ensures (via tricky rotations) that the maximum depth of a leaf is no more than twice the minimum depth.
-\item They do this by colouring each node red or black (note that we are explicitly using external nodes), with the rules:
+
+Introduced in 1978, these have a balance condition that ensures (via tricky rotations not discussed here --- see Wikipedia for gory details) that the maximum depth of a leaf is no more than twice the minimum depth. They do this by colouring each node red or black (note that we are explicitly using external nodes), with the rules:
 \begin{itemize}
 \item the root is black;
 \item all leaves (external nodes) are black, even when the parent is black;
 \item both children of every red node are black;
 \item every path from a node to a leaf contains the same number of black nodes.
 \end{itemize}
-\item Worst case height is at most $2 \lg n$.
-\end{itemize}
+
+jo-TODO figure with example and nonexample of red-black tree
+
+\paragraph{Height of a red-black tree}
+The worst case height is at most $2 \lg n$.
+MCW-TODO add proof or link to it
 
 \paragraph{Balanced search trees in practice (Dec 2018)}
 \begin{itemize}
@@ -222,15 +214,16 @@ A {hash function} is a function $h$ that outputs an integer
 value for each key. A {hash table} is an array implementation of
 the table ADT, where each key is mapped via a hash function to an array
 index. 
-\item The number of possible keys is usually enormously more than
+\end{Definition}
+
+The number of possible keys is usually enormously more than
 the actual number of keys. Thus allocating an array with enough size to
 fit all possible keys would be very inefficient. So hash functions are
 not $1$-to-$1$; that is, two keys may be mapped to the same index (a
 {collision}). 
-\end{Definition}
+
 We need a collision resolution policy to prescribe what to do when 
-collisions occur. 
-We assume the first-come-first served (FCFS) model for resolving
+collisions occur. We assume the first-come-first served (FCFS) model for resolving
 collisions.
 
 There are several desirable properties of a hash function:
@@ -264,6 +257,8 @@ evict the latecomer (FCFS) or evict the element furthest from its home location
 	\end{itemize}
 \end{itemize}
 
+
+
 \paragraph{Collision resolution via chaining.}
 \begin{itemize}
 \item Elements that hash to the same slot are placed in a list. The slot
@@ -291,51 +286,50 @@ we \defnfont{probe} (look for an empty space).
 	\end{itemize}
 \end{itemize}
 
-\begin{itemize}
-\item Why might double hashing be better than linear probing?
-\item How do we analyse hashing?
-\item How often do collisions occur in practice?
-\end{itemize}
+jo-TODO insert Boxamples of linear probing and double hashing 
 
-\paragraph{Linear probing.}
-\begin{itemize}
-\item Linear probing is easy to implement, easier than double hashing.
-\item However it is prone to \emph{clustering} --- large clusters of filled entries form, and this makes search times longer on average.
-\end{itemize}
+
+Linear probing is easy to implement, easier than double hashing.
+However it is prone to \emph{clustering} --- large clusters of filled entries form, and this makes search times longer on average.
+
 
 
 \paragraph{Analysis of hashing.}
-\begin{itemize}
-\item We count cost by number of key comparisons/probes.
-\item Insertion has the same cost as an unsuccessful search, provided the table 
-is not full.
-\item The average cost of a successful search is the average of all insertions
+
+We count cost by number of key comparisons/probes.
+
+Insertion has the same cost as an unsuccessful search, provided the table 
+is not full. Thus the average cost of a successful search is the average of all insertions
  needed to construct the table from empty.
-\item We often use the \defnfont{simple uniform hashing} model. That is, each of 
+
+We often use the \defnfont{simple uniform hashing} model. That is, each of 
 the $n$ keys is equally likely to hash into any of the $m$ slots. So we are 
 considering a ``balls in bins" model.
-\item If $n$ is much smaller than $m$, collisions will be few and most slots 
+
+If $n$ is much smaller than $m$, collisions will be few and most slots 
 will be empty. If $n$ is much larger than $m$, collisions will be many and no 
 slots will be empty. The most interesting behaviour is when $m$ and $n$ are 
-of comparable size.
-\item Define the \defnfont{load factor} to be $\lambda := n/m$.
-\end{itemize}
+of comparable size. We define the \defnfont{load factor} to be $\lambda := n/m$. The results below 
+will be stated in terms of $\lambda$.
+
 
 \chapter{Analysis of hashing} %-------------------------------------------------
 
 \paragraph{Analysis of balls in bins}
-\begin{itemize}
-\item Define 
+Define 
 $$Q(m, n) = \frac{m!}{(m-n)! m^n} = \frac{m}{m} \frac{m-1}{m} \dots 
 \frac{m - n + 1}{m}.$$
 Note that $Q(m,0) = 1, Q(m, n) = 0$ unless $0 \leq n \leq m$.
-\item The probability of no collisions when $n$ balls are thrown into $m$ boxes 
+
+The probability of no collisions when $n$ balls are thrown into $m$ boxes 
 uniformly at random is $Q(m, n)$. For example, $Q(366, 180) \approx 0.4487
  \times 10^{-23}$, $Q(366, 24) \approx  0.4627$. 
-\item The expected number of balls until the first collision is equal to 
-$E(m):=\sum_{n \leq m} Q(m, n)$. Note $E(365) \approx 25$.
-\end{itemize}
 
+The expected number of balls until the first collision is equal to 
+$E(m):=\sum_{n \leq m} Q(m, n)$. Note $E(365) \approx 25$.
+
+
+jo-TODO include some plots as below
 % \paragraph{Plots of $Q(m, n)$ against $n$, $m=25,100,400,1600$}
 % \includegraphics[width=4cm]{pictures/birthday25.jpg}
 % \includegraphics[width=4cm]{pictures/birthday100.jpg}
@@ -345,42 +339,38 @@ $E(m):=\sum_{n \leq m} Q(m, n)$. Note $E(365) \approx 25$.
 
 
 \paragraph{Results for chaining}
-\begin{itemize}
-\item The worst case for searching is $\Theta(n)$, since there may be only one 
-chain with all the keys.
-\item The average cost for unsuccessful search is the average list length, 
+
+The worst case for searching is $\Theta(n)$, since there may be only one 
+chain with all the keys. The average cost for unsuccessful search is the average list length, 
 namely $\lambda$.
-\item The average cost for successful search is then 
+
+The average cost for successful search is then 
 $$
 \frac{1}{n} \sum_{k=1}^n \frac{k}{m} = \frac{n+1}{2m} \approx \lambda/2.
 $$
-\item Thus provided the load factor is kept bounded, basic operations run in 
+Thus provided the load factor is kept bounded, basic operations all run in 
 constant time on average. 
-\end{itemize}
+
 
 \paragraph{Results for open addressing}
-\begin{itemize}
-\item We assume {uniform hashing}: each configuration of 
+
+We assume \defnfont{uniform hashing}: each configuration of 
 $n$ keys in a table of size $m$ is equally likely to occur. In other words, the 
 hash function produces a random permutation of the keys, and the slots are 
 probed in random order for each key.
-\item Uniform hashing can't be implemented practically but seems to be a good 
+
+Uniform hashing can't be implemented practically but seems to be a good 
 model when double hashing is used.
-\item It can be shown that the average cost for insertion under this 
+
+It can be shown that the average cost for insertion under this 
 hypothesis is $\Theta(1/(1-\lambda))$ as $m \to \infty$. 
-\item Linear probing is not well described by the uniform hashing model 
+
+Linear probing is not well described by the uniform hashing model 
 (because of the clustering). A more detailed analysis can be done. 
 The average insertion cost is $\Theta(1 + 1/(1 - \lambda)^2)$.
-\item If the load factor is bounded away from $1$, basic operations 
-run in constant time; otherwise performance will be very bad. We should resize!
-\end{itemize}
 
-\paragraph{Questions}
-\begin{itemize}
-\item What are the details of the analysis of uniform hashing?
-\item Are there formulas for how long we expect to wait for a collision, etc?
-\item What hashing methods are used by major programming language libraries?
-\end{itemize}
+If the load factor is bounded away from $1$, basic operations 
+run in constant time; otherwise performance will be very bad. We should resize!
 
 
 \paragraph{Extra: unsuccessful search under uniform hashing hypothesis.}
@@ -417,7 +407,7 @@ Answer: $e^{-\lambda}$. Many of the lists are just wasted space even for
 pretty full tables.
 \item When $m$ is $\Theta(n)$, what is the expected maximum number of balls in a box? 
 Answer: about $(\log n)/(\log \log n)$. Some of the lists may be fairly long. 
-\item The analysis that gives these results is beyond this course. See me for 
+\item The analysis that gives these results is beyond this course. See lecturer for 
 references.
 \end{itemize}
 
@@ -435,19 +425,40 @@ references.
 
 \chapter{Universal Hashing} %-------------------------------------------------
 
-\begin{itemize}
-\item Hash functions must be deterministic, but we don't want  to let users know what they are. 
-However, they can often guess.
-\item A nice way to use randomization is to choose the hash function at runtime randomly from a family of hash functions.
-\item Ideally,   the probability of a collision between two elements is only $1/m$, which is what a random guess would yield, so malicious users cannot 
+
+Hash functions must be deterministic, but we don't want  to let users know what they are. 
+However, they can often guess. 
+
+A nice way to use randomization is to choose the hash function at runtime randomly from a family of hash functions.
+Ideally,   the probability of a collision between two elements is only $1/m$, which is what a random guess would yield, so malicious users cannot 
 force collisions.
-\item More formally, if $F$ is a family of hash functions then for any keys $k\neq k'$, we have
+
+More formally, if $F$ is a family of hash functions then for any keys $k\neq k'$, we have
 $$
 \frac{1}{|F|} \left| h\in F : h(k) = h(k') \right| \leq \frac{1}{m}
 $$
-\item One way of constructing such an $F$ is to take a prime $p\geq m$  and for $0<a <p, 0\leq b < p$ define 
+
+\begin{Boxample}[6]
+One way of constructing such an $F$ is to take a prime $p\geq m$  and for $0<a <p, 0\leq b < p$ define 
 $$h_{ab}(x) = ak+b \mod p \mod m.$$
-\end{itemize}
+
+\end{Boxample}
+
+
+ 
+
+\begin{Boxample}[4]
+\item Java String \texttt{hashcode} computes the address of a string 
+$s=s[0]\cdots s[n-1]$ using integer arithmetic via the formula 
+$s[0]*31^{n-1} + s[1]*31^{n-2} + ... + s[n-1]$. Can you find two 2-character strings with the same hashcode? 
+Why might this cause a security problem in practice?
+\end{Boxample}
+
+\begin{Boxample}[6]
+If we want to print out all items of a table in sorted order, what is the best data structure?
+If we don't mind an occasional long wait and mostly do lookups, which is best?
+If we do a lot of insertions and deletions and few lookups, and are risk-averse, which is best?
+\end{Boxample}
 
 \paragraph{Efficiency of various implementations of Table ADT.}
 \begin{table}[htb] 
@@ -465,20 +476,7 @@ Balanced BST & $\log n$ & $\log n$ & $\log n$ & $n$ \\
 Hash table & $n$ & $n$ & $n$ & $n$ \\
 \hline
 \end{tabular}}
-\end{table} 
-
-\paragraph{Questions}
-\begin{itemize}
-\item Java String \texttt{hashcode} computes the address of a string 
-$s=s[0]\cdots s[n-1]$ using integer arithmetic via the formula 
-$s[0]*31^{n-1} + s[1]*31^{n-2} + ... + s[n-1]$. Can you find two 2-character strings with the same hashcode? 
-Why might this cause a security problem in practice?
-\item If we want to print out all items of a table in sorted order, what is the best data structure?
-\item If we don't mind an occasional long wait and mostly do lookups, which is best?
-\item If we do a lot of insertions and deletions and few lookups, and are risk-averse, which is best?
-\end{itemize}
-
-
+\end{table}
 
 
 
