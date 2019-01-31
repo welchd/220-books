@@ -64,9 +64,10 @@ The sorting algorithm \defnfont{selection sort} works as follows.
 \end{itemize}
 
 \begin{Boxample}[0]
-Complete the following selection sort process.\\
-jo-TODO
-%\includegraphics{SelectionSortEx}
+Complete the following selection sort process.
+\begin{center}
+\includegraphics{SelectionSort}
+\end{center}
 \end{Boxample}
 
 \begin{algorithm}[H]
@@ -107,8 +108,10 @@ Yes, selection sort is an in-place sorting algorithm. Convince yourself why.
 \paragraph{Is selection sort stable?}
 No, selection sort is not a stable sorting algorithm.
 \begin{Boxample}[0]
-Complete the following selection sort process to see that the algorithm is not stable.\\
-jo-TODO
+Complete the following selection sort process to see that the algorithm is not stable.
+\begin{center}
+\includegraphics{SelectionSortStable} 
+\end{center}
 \end{Boxample}
 
 \paragraph{What happens if we try selection sort on a linked list, or an array?}
@@ -160,9 +163,10 @@ It works well on small lists, or lists that are nearly sorted.
 \end{algorithm}
 
 \begin{Boxample}[0]
-Complete the following insertion sort process.\\
-jo-TODO
-%\includegraphics{InsertionSortEx}
+Complete the following insertion sort process.
+\begin{center}
+\includegraphics{InsertionSort}
+\end{center}
 \end{Boxample}
 
 \begin{algorithm}[H]
@@ -225,8 +229,10 @@ jo-TODO
 \paragraph{Is insertion sort stable?}
 Yes, insertion sort is stable.
 \begin{Boxample}[0]
-Complete the following insertion sort process to convince yourself that it is stable.\\
-jo-TODO
+Complete the following insertion sort process to convince yourself that it is stable.
+\begin{center}
+\includegraphics{InsertionSortStable} 
+\end{center}
 \end{Boxample}
 
 \paragraph{Analysis when implemented on a linked list.}
@@ -255,8 +261,10 @@ Almost nothing is known about average-case running time of Shellsort.
 Empirically, behaviour that looks like $O(n^{7/6})$ has been obtained.
 
 \begin{Example}
-An example of ShellSort with $h = \ldots$\\
-Jo-TODO
+An example of ShellSort with $h = 5, 3, 1$.
+\begin{center}
+\includegraphics{ShellSort} 
+\end{center}
 \end{Example}
 
 
@@ -330,10 +338,11 @@ place.
 \end{algorithmic}
 \end{algorithm}
 \fi
-\begin{Boxample}[8]
+\begin{Boxample}[0]
 Execute mergesort on the following input, showing all details.
- jo-TODO
-
+\begin{center}
+\includegraphics{MergeSort} 
+\end{center}
 \end{Boxample}
 
 \paragraph{Mergesort analysis}
@@ -357,8 +366,10 @@ Show by example that it is not.
 \paragraph{Is mergesort stable?}
 
 \begin{Boxample}[0]
-Complete the following mergesort process to convince yourself that it is stable.\\
-jo-TODO
+Execute mergesort on the following input to convince yourself that the algorithm is stable.
+\begin{center}
+\includegraphics{MergeSortStable} 
+\end{center} 
 \end{Boxample}
 
 \paragraph{Analysis when implemented on a linked list.}
@@ -366,7 +377,8 @@ Since finding the middle element of the list is time-consuming, in this case it 
 
 \begin{Boxample}[6]
 Execute  bottom-up mergesort  on the following input.\\
-jo-TODO
+jo-TODO\\
+Jo asks: I can't see a difference between bottom-up mergesort and ``normal'' mergesort. What is it?
 \end{Boxample}
 
 
@@ -530,6 +542,15 @@ Thus $F(n)$ is $\Theta(\phi^n)$.
 	\EndFunction  
 \end{algorithmic}
 \end{algorithm}
+
+\begin{Boxample}[5]
+Complete the following quicksort sort process.
+\begin{center}
+\includegraphics{QuickSort}
+\end{center}
+\end{Boxample}
+
+
 
 \paragraph{Linear time partitioning.}
 Given a list $L$ and an element $p$ of $L$ called the pivot, we can partition so
