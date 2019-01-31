@@ -52,12 +52,12 @@ The traversal algorithm is formalised in the pseudocode  of \cref{alg:traverse,a
 	\State  array $\colour[0..n-1]$ \Comment{records node colour}
 	\State array $\pred[0..n-1]$ \Comment{records path of traversal as a tree}
 	\For{$u \in V(G)$} \Comment{make all nodes white}
-	\State $\colour[u] \gets $ WHITE 
+		\State $\colour[u] \gets $ WHITE 
 	\EndFor
 	\For{$s \in V(G)$}  \Comment{find a white node}
-	\If {$\colour[s] ==$ WHITE} 
-	\State \texttt{visit}$[s]$ \Comment{start traversal from $s$}
-	\EndIf
+		\If {$\colour[s] ==$ WHITE} 
+			\State \texttt{visit}$[s]$ \Comment{start traversal from $s$}
+		\EndIf
 	\EndFor
 	\Return $\pred$ 
 \EndFunction
@@ -72,14 +72,14 @@ The traversal algorithm is formalised in the pseudocode  of \cref{alg:traverse,a
 	\State  $\colour[s] \gets$ GREY 
 	\State $\pred[s] \gets$ NULL \Comment{make start node the root of the tree}
 	\While{there is a GREY node} \Comment{continues until all nodes are black}
-	\State choose a GREY node $u$ 
-	\If{$u$ has a WHITE neighbour}
-	\State choose a WHITE neighbour, $v$ 
-	\State $\colour[v] \gets $ GREY \Comment{$v$ is visited for first time, so turns grey }
-	\State $pred[v] \gets u$ \Comment{make $u$ the parent of $v$ in the traversal tree}
-	\Else
-	\State $\colour[u] \gets $ BLACK \Comment{$u$ has no white neighbours so done with $u$ }
-	\EndIf
+		\State choose a GREY node $u$ 
+		\If{$u$ has a WHITE neighbour}
+			\State choose a WHITE neighbour, $v$ 
+			\State $\colour[v] \gets $ GREY \Comment{$v$ is visited for first time, so turns grey }
+			\State $pred[v] \gets u$ \Comment{make $u$ the parent of $v$ in the traversal tree}
+		\Else
+			\State $\colour[u] \gets $ BLACK \Comment{$u$ has no white neighbours so done with $u$ }
+		\EndIf
 	\EndWhile
 \EndFunction
 \end{algorithmic}
@@ -950,7 +950,7 @@ expression like that shown in \cref{fig:prec}.
 \begin{figure}[hbtp]
 	\centering
 	\includegraphics{precedence}
-	\caption{Digraph describing structure of an arithmetic expression. Jo-TODO improve example}
+	\caption{Digraph describing structure of an arithmetic expression.}
 	\label{fig:prec}
 \end{figure} 
 
@@ -992,9 +992,18 @@ of the vertices.
 \end{Example}
 
 \begin{Boxample}[1]
-Perform a topological sort on the graph on the left\ldots\\ 
-% \centerline{\IpeScale{80}\Ipe{./figs/graphEx4.ipe}}
-Jo-TODO
+A graph with all possible topological orders and drawn with topological order $0, 1, 2, 3, 4$.  Draw the graph for topological order $0, 2, 1, 4, 3$. 
+\begin{center}
+\includegraphics{topologicalOrder1}
+\end{center}
+Find a topological order of the following graph and draw it.
+\begin{center}
+\includegraphics{topologicalOrder2}
+\end{center}
+List all possible topological orders of the following graph.
+\begin{center}
+\includegraphics{topologicalOrder3}
+\end{center}
 \end{Boxample}
 % \begin{figure}
 % \centerline{\IpeScale{80}\Ipe{./figs/graphEx4.ipe}}
@@ -1010,7 +1019,7 @@ First we note that \boldfont{if} a topological sort of a DAG $G$
 is possible, then there must be a source node in $G$. The source
 node can be first in a topological order, and no node that is not
 a source can be first (because it has an in-neighbour that must
-precede it in the topological order).
+precede it in the topological order). 
 
 %\newpage
 
