@@ -172,7 +172,7 @@ $G$. Then $v$ and $w$ belong to the same tree of $F$.
 %\end{proof}
 
 \begin{Boxample}[2]
-Prove any one of the four statements above (if probing statement 2, assume statement 1 is provne preceding statements are proven in proving your chosen statement)
+Assuming the first statement, prove the third statement
 \end{Boxample}
 
 %\begin{figure}[htbp]
@@ -186,7 +186,7 @@ Prove any one of the four statements above (if probing statement 2, assume state
 
 The generality
 of our traversal algorithm makes it exact running time impossible to determine.  It depends on how one chooses the next grey node $u$
-and its white neighbour $v$. 
+and its white neighbour $v$.  SOme schemes for choosing $u$ and $v$ can be complex and depend on $n$. Here consider that the schemes are simple and constant time. 
 
 %It also apparently depends on how long it
 %takes to determine whether there exist any grey nodes or whether $u$ has
@@ -195,7 +195,8 @@ and its white neighbour $v$.
 %node, and take no more time in this case than if it does find one. Thus
 %we do not need to take account of the checking in our analysis.
 
-The initialization of the array $\colour$ takes time 
+\begin{itemize}
+\item The initialization of the array $\colour$ takes time 
 $\Theta(n)$ so \algfont{traverse} 
 is in $\Theta(n + t)$, where $t$ is the total time taken by all 
 the calls to \algfont{visit}.
@@ -203,27 +204,28 @@ the calls to \algfont{visit}.
 %Each time through the while-loop a grey node is
 %chosen, and either a white node is turned grey or a grey node is turned
 %black. Note that the same grey node can be chosen many times. Thus
-We execute the while-loop of \algfont{visit} in total $\Theta(n)$ times since every node
+\item We execute the while-loop of \algfont{visit} in total $\Theta(n)$ times since every node
 must eventually move from white through grey to black. 
 
-Let $a, A$ be lower and upper bounds on the time taken to choose a grey node (these may depend on $n$). Then the time taken in choosing grey nodes is $O(An)$ and
-$\Omega(an)$. 
+\item The time taken in choosing grey nodes is and
+$\Omega(n)$. 
 
-Let $b, B$ be the Now consider the time taken to find a white neighbour. This
-will involve examining each  neighbour of $u$ and checking whether it is
-white, then applying a selection rule. If the time taken to apply the rule
-is at least $b$ and at most $B$ (which may depend on $n$), then the total 
+\item The time taken to find a white neighbour involves examining each  neighbour of $u$ and checking whether it is
+white, then applying a selection rule. 
+
+\item  the total 
 time in
 choosing white neighbours is $O(Bm)$ and $\Omega(bm)$ if adjacency lists
 are used and $O(Bn^2)$ and $\Omega(bn^2)$ if an adjacency matrix is used.
 
-In summary, then, the running time of \algfont{traverse} is $O(An + Bm)$
+\item So the running time of \algfont{traverse} is $O(An + Bm)$
 and $\Omega(an + bm)$ if adjacency lists are used, and $O(An + Bn^2)$
 and $\Omega(an + bn^2)$ if adjacency matrix format is used.
 
-A more detailed analysis would depend on the rule used. We shall see
-in Section~\ref{sec:BFSDFS} that BFS and DFS have $a, b, A, B$ all
-constant, and so each yields a linear-time traversal algorithm. 
+\item for siimple slection rules (as we'll mainly consider) $a, b, A, B$ are all
+constant, and so the running time is $\Omega(an + bm)$
+
+\end{itemize}
 
 In this case, assuming a sparse input digraph, the adjacency list format seems
 preferable. 
