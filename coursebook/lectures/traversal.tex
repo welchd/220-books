@@ -207,7 +207,7 @@ the calls to \algfont{visit}.
 \item We execute the while-loop of \algfont{visit} in total $\Theta(n)$ times since every node
 must eventually move from white through grey to black. 
 
-\item The time taken in choosing grey nodes is and
+\item The time taken in choosing grey nodes is
 $\Omega(n)$. 
 
 \item The time taken to find a white neighbour involves examining each  neighbour of $u$ and checking whether it is
@@ -215,27 +215,21 @@ white, then applying a selection rule.
 
 \item  the total 
 time in
-choosing white neighbours is $O(Bm)$ and $\Omega(bm)$ if adjacency lists
-are used and $O(Bn^2)$ and $\Omega(bn^2)$ if an adjacency matrix is used.
+choosing white neighbours $\Omega(m)$ if adjacency lists
+are used and $\Omega(bn^2)$ if an adjacency matrix is used.
 
-\item So the running time of \algfont{traverse} is $O(An + Bm)$
-and $\Omega(an + bm)$ if adjacency lists are used, and $O(An + Bn^2)$
-and $\Omega(an + bn^2)$ if adjacency matrix format is used.
-
-\item for siimple slection rules (as we'll mainly consider) $a, b, A, B$ are all
-constant, and so the running time is $\Omega(an + bm)$
+\item So the running time of \algfont{traverse} is $\Omega(n + (n+m)) = \Omega(n + m)$
+if adjacency lists are used, and $\Omega(n + n^2) = \Omega(n^2)$ if adjacency matrix format is used.
 
 \end{itemize}
 
-In this case, assuming a sparse input digraph, the adjacency list format seems
+So for simple selection rules and assuming a sparse input digraph, the adjacency list format seems
 preferable. 
 
-On the other hand, for example, suppose that $a$ is at least
-of order $n$ (a rather complex rule for grey nodes is being used) and $b,
-B$ are constant (for example, the first white node found is chosen). Then
-asymptotically both representations take time $\Omega(n^2)$, so using
-the adjacency matrix is not clearly ruled out (it may even be preferable
-if it makes programming easier).
+But if more complex selection rules are used, for example, choosing a single grey node is 
+of order $n$ while choosing a single white node is still constant time, thenrunning time is 
+asymptotically $\Omega(n^2)$ regardless of the data structure, so using
+the adjacency matrix is not clearly ruled out.
 
 %\subsection*{Exercises}
 %
