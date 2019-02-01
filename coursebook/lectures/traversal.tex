@@ -216,7 +216,7 @@ white, then applying a selection rule.
 \item  the total 
 time in
 choosing white neighbours $\Omega(m)$ if adjacency lists
-are used and $\Omega(bn^2)$ if an adjacency matrix is used.
+are used and $\Omega(n^2)$ if an adjacency matrix is used.
 
 \item So the running time of \algfont{traverse} is $\Omega(n + (n+m)) = \Omega(n + m)$
 if adjacency lists are used, and $\Omega(n + n^2) = \Omega(n^2)$ if adjacency matrix format is used.
@@ -227,7 +227,7 @@ So for simple selection rules and assuming a sparse input digraph, the adjacency
 preferable. 
 
 But if more complex selection rules are used, for example, choosing a single grey node is 
-of order $n$ while choosing a single white node is still constant time, thenrunning time is 
+of order $n$ while choosing a single white node is still constant time, then running time is 
 asymptotically $\Omega(n^2)$ regardless of the data structure, so using
 the adjacency matrix is not clearly ruled out.
 
@@ -262,36 +262,40 @@ the adjacency matrix is not clearly ruled out.
 %\end{itemize}
 %\end{Exercise}
 
-\chapter{Depth First Seach (DFS)}
+\chapter{Basics DFS and BFS.  Details of DFS }
 
 \section{DFS and BFS}
 \label{sec:BFSDFS}
 
-So far everything has been discussed at a very general level. To proceed
-further we need more analysis of how to guide the traversal: what rule do
-we use for choosing the next grey and next white node? Different rules lead
-to very different results. The two main rules are \defnfont{breadth-first
-search} (BFS) and \defnfont{depth-first search} (DFS) which we discuss now.
-We shall also discuss the more complicated \defnfont{priority-first
-search} (PFS) in Section~\ref{sec:PFS}.
+Traversal algorithms differ in the rules for choosing the next grey and next white node, with  different rules lead
+to very different results. 
 
-Breadth-first and depth-first search are dual to each other.  In BFS,
-when we want to visit a new node, the new grey node chosen is the one
-that has been grey for the \boldfont{longest} time. By contrast, in DFS,
-we choose the one that has been grey for the \boldfont{shortest} time.
+The two main algorithms are defined by how they choose the grey nodes:
+\begin{itemize}
+\item in \defnfont{breadth-first
+search} (BFS) the new grey node chosen is the one
+that has been grey for the \boldfont{longest} time 
+\item in \defnfont{depth-first
+search} (DFS) the new grey node chosen is the one
+that has been grey for the \boldfont{shortest} time
+\end{itemize}
+ 
+BFS takes us away
+from the root node as slowly as possible. First we visit the root, then all its neighbours, then all neighbours of its neighbours and so on. The root is the first node to turn black.
 
-In BFS we start at a node $v$ and then go to each neighbour of $v$ (in
-some order), then each neighbour of a neighbour of $v$ that has not
-already been visited, and so on. The search chooses grey nodes across
-the entire  frontier between the white and grey nodes, and takes us away
-from the root node as slowly as possible.
+By contrast, DFS  takes us away
+from the root node as quickly as possible. If the first visited neighbour of the root has a neighbour, we immediately visit that neighbour. Then, it that has a neighbour , we visit that and so on, thus ``deeply''
+searching as far away from the root as possible. We continue away from the root until we cannot visit
+any new nodes, then backtrack as little as possible. The root is the last node to turn black.
 
-By contrast, in  DFS we start at a node $v$, but this time we ``deeply''
-search as far away from vertex $v$ as possible, until we cannot visit
-any new nodes, upon which we backtrack as little as possible. The search
-keeps us away from the root as long as possible.
+There still remains the choice
+of which white neighbour of the chosen grey node to visit. It does
+not matter what choice is made but our \defnfont{convention is to choose the one with
+lowest index} (the nodes being numbered $0, \dots, n - 1$). 
 
-These search concepts are best illustrated with some examples.
+Both of the choices for grey and white nodes are simple and be made in constant time so that the running time is  $\Omega(n + m)$ (assuming adjacency lists). So BFS and DFS are linear in the size + order of a digraph. 
+
+If an adjacency matrix is used, the algorithms are quadratic in the size of the graph ($\Omega(n^2)$).
 
 \begin{Example}
 \label{eg:graphExample2}
@@ -299,31 +303,16 @@ These search concepts are best illustrated with some examples.
 A graph $G_1$ and a digraph $G_2$ are displayed in
 \cref{fig:graphExample2}.
 
-Breadth-first search trees (originating from node $0$) of the graph $G_1$
-and digraph $G_2$  are displayed in \cref{fig:graphEx2-BFS}. The
+In \cref{fig:graphEx2-BFS} we show the breadth-first search trees based on a BFS traversal starting at node $0$ (for $G_1$ and $G_2$). The
+dashed arcs indicate the original arcs that are not part of the BFS trees. The numbering next to the 
+
+In \cref{fig:graphEx2-DFS} we show the depth-first search trees based on a DFS traversal starting at node $0$. Again, The
 dashed arcs indicate the original arcs that are not part of the BFS trees.
 
-Note that even with DFS or BFS specified there still remains the choice
-of which white neighbour of the chosen grey node to visit. While it does
-not matter what choice is made, the choice should be algorithmic.
-Our \boldfont{convention} is to choose the one with
-lowest index (the nodes being numbered $0, \dots, n - 1$). 
 
-This convention for choosing white nodes means that we can
-reconstruct the progress of the BFS traversal completely. For example,
-in $G_1$, node $0$ is visited first, then node $1$, node $2$, node $3$,
-node $4$, node $8$, and so on. Thus we can classify the
-edges: for example $\{1, 2\}$ is a cross edge, $\{2, 8\}$ a tree edge,
-and so on.
-
-We also display depth-first search trees (originating from node $0$) of
-the graph $G_1$ and digraph $G_2$ in \cref{fig:graphEx2-DFS}.
-Again, the dashed arcs indicate the original arcs that are not part of
-the DFS trees.
-
-Here, for example, in $G_2$ we see that the order of visiting nodes is 
-$0, 1, 6, 2, 4,$ $5, 3$. The arc $(5, 0)$ is a back arc, $(3, 5)$ is a
-cross arc, there are no forward arcs, etc.
+\begin{Boxample}[2]
+FInd a tree arc, cross arc, forward arc and back arc for each of the search trees in \cref{fig:graphEx2-BFS,fig:graphEx2-DFS} (or say if that type of arc does not exist for that traversal).
+\end{Boxample}
 
 \end{Example}
 \begin{figure}[hbtp]
@@ -347,55 +336,47 @@ cross arc, there are no forward arcs, etc.
 	\label{fig:graphEx2-DFS}
 \end{figure}
 
-In the examples above, all nodes were reachable from the root, and so
-there is a single search tree in the forest. For general digraphs, this
-may not be true. We should distinguish between BFS or DFS originating
-from a given node, or just BFS/DFS run on a digraph. The former we call
-\algfont{BFSvisit}/\algfont{DFSvisit} (a special case of \algfont{visit}) 
-and the
-latter just \algfont{BFS}/\algfont{DFS} (a special case of \algfont{traverse}). 
-The algorithm \algfont{DFS}, for example, repeatedly chooses a root and runs
-\algfont{DFSvisit} from that root, until all nodes have been visited.
-Pseudocode for these procedures is given in the next two sections.
+For a general digraph, and unlike the examples given here, all nodes may not be reachable from the starting node. In this case, each call to
+\algfont{BFSvisit}/\algfont{DFSvisit} (special cases of \algfont{visit}) produces a single search tree, while the algorithm \algfont{DFS}/\algfont{BFS} (special cases of \algfont{traverse}) repeatedly chooses a root and runs the associated visit algorithm, producing the search forest.
 
-\section*{Exercises}
+%\section*{Exercises}
+%
+%\begin{Exercise}
+%\label{exr:bfs-vs-dfs}
+%Draw a graph for which DFS and BFS can visit nodes in the same order. Then 
+%draw one for which they must visit nodes in the same order. Make your examples 
+%as large as possible (maximize $n+m$).
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{exr:iterative-deep}
+%A technique called \defnfont{iterative deepening} combines features of BFS and DFS.
+%Starting at a root, for each $i = 0, 1, \dots$ we search all nodes at distance 
+%at most $i$, using DFS (in other words, we limit the depth of the DFS to $i$). 
+%We do this for each $i$ until the whole graph is explored or we reach a 
+%preassigned limit on $i$.
+%
+%Note that we visit nodes near the root many times, so this search is not as 
+%efficient in terms of time.  What is the advantage of this search
+%technique when the graphs are too big to hold in memory? 
+%\end{Exercise}
 
-\begin{Exercise}
-\label{exr:bfs-vs-dfs}
-Draw a graph for which DFS and BFS can visit nodes in the same order. Then 
-draw one for which they must visit nodes in the same order. Make your examples 
-as large as possible (maximize $n+m$).
-\end{Exercise}
-
-\begin{Exercise}
-\label{exr:iterative-deep}
-A technique called \defnfont{iterative deepening} combines features of BFS and DFS.
-Starting at a root, for each $i = 0, 1, \dots$ we search all nodes at distance 
-at most $i$, using DFS (in other words, we limit the depth of the DFS to $i$). 
-We do this for each $i$ until the whole graph is explored or we reach a 
-preassigned limit on $i$.
-
-Note that we visit nodes near the root many times, so this search is not as 
-efficient in terms of time.  What is the advantage of this search
-technique when the graphs are too big to hold in memory? 
-\end{Exercise}
-
-\section{Additional properties of depth-first search}
+\section{Pseudocode for depth-first search}
 \label{ss: DFS}
 
-In DFS, the next grey node chosen is the last one to be coloured grey thus far. 
-The data structure for processing grey nodes  in this ``last in, first
-out" order is therefore a stack (see Section~\ref{sec:app:adt-informal} if
-necessary for the basic facts about stacks). We may store the nodes in a
-stack as they are discovered. So the general \algfont{traverse} and
-\algfont{visit} procedures can be replaced by those in
-\cref{fig:DFScode}. Note how the algorithm for \algfont{visit} has
-been altered. We loop through the nodes adjacent to the chosen grey node
-$u$, and as soon as we find a white one, we add it to the stack. We also
-introduce a variable $\timeVar$ and keep track of the time a node was turned
-grey, and the time it was turned black, in the arrays $\seen, \done$.
-These will be useful later.
+In DFS, the next grey node chosen is the last one to be coloured grey. 
+This ``last in, first
+out" order is mimicked  by a \boldfont{stack} data structure. We thus store grey nodes in a stack as they are discovered. 
 
+The pseudocode for DFS and DFS visit is in \cref{alg:DFScode}. 
+
+\begin{itemize}
+\item We loop through the nodes adjacent to the chosen grey node
+$u$, and as soon as we find a white one, we add it to the stack.
+\item We also introduce a variable $\timeVar$ and keep track of the time a node changes colour
+\item The array $\seen$ records the time a node turns grey
+\item The array  $\done$ records the time a node turns black
+\end{itemize}
 
 \begin{algorithm}[H]
   \caption{Depth-first search algorithm.}
@@ -415,6 +396,13 @@ These will be useful later.
 	\EndFor
 	\State \Return{$\pred, \seen, \done$}
 \EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \caption{Depth-first visit algorithm.}
+    \label{alg:DFSvisitcode}
+\begin{algorithmic}[1]
 \Function{DFSvisit}{node $s$}
 	\State $\colour[s] \gets $ GREY
 	\State $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
@@ -435,13 +423,13 @@ These will be useful later.
 \end{algorithmic}
 \end{algorithm}
 
-The complexity analysis of DFS is easy. Choosing a grey node $u$ takes
-constant time since only the stack pop operation is required. The time
-taken to apply the selection rule to a white neighbour is also constant,
-since we take the first one found in the for-loop. Our analysis of
-\algfont{traverse} shows us that \algfont{DFS} runs in time $\Theta(n+m)$
-if adjacency lists are used, and $\Theta(n^2)$ using an adjacency matrix.
-In summary, \algfont{DFS} is a linear-time traversal algorithm.
+%The complexity analysis of DFS is easy. Choosing a grey node $u$ takes
+%constant time since only the stack pop operation is required. The time
+%taken to apply the selection rule to a white neighbour is also constant,
+%since we take the first one found in the for-loop. Our analysis of
+%\algfont{traverse} shows us that \algfont{DFS} runs in time $\Theta(n+m)$
+%if adjacency lists are used, and $\Theta(n^2)$ using an adjacency matrix.
+%In summary, \algfont{DFS} is a linear-time traversal algorithm.
 
 One nice feature of depth-first search is its recursive nature.  The
 relationship between stacks and recursion is, we hope, well known to the
@@ -519,135 +507,135 @@ Exercise~\ref{ex:DFS-cross-vs-forward}). We can also perform the classification
 after the algorithm has terminated, just by looking at the timestamps 
 $\seen$ and $\done$ (see Exercise~\ref{ex:DFS-arc-class}).
 
-\subsection*{Exercises}
-
-\begin{Exercise} 
-\label{ex:DFS-all-arcs-occur}
-Give examples to show that all four types of arcs can arise when DFS is
-run on a digraph.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:DFS-doDFS}
-
-Execute depth-first search on the digraph with adjacency lists
-representation  given below. Classify each arc as tree, forward, back or cross.
-\newline
-$$
-\lightgraybox{
-	\begin{tabular}{c|cccc}
-		0 & 2 &   &   \\
-		1 & 0 &   &   \\
-		2 & 0 & 1 &   \\
-		3 & 4 & 5 & 6 \\
-		4 & 5 &   &   \\
-		5 & 3 & 4 & 6 \\
-		6 & 1 & 2 &   \\
-	\end{tabular}
-}
-$$
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:DFS-cross-vs-forward}
-Explain how to determine, at the time when an arc is first explored by
-DFS, whether it is a cross arc or a forward arc.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:DFS-arc-class}
-Suppose that we have performed \algfont{DFS} on a digraph $G$. Let $(v, w)\in
-E(G)$. Show that the following statements are true.
-\begin{itemize}
-\item
-$(v, w)$ is a tree or forward arc if and only if  
-$$\seen[v] < \seen[w] < \done[w] < \done[v];$$
-\item
-$(v, w)$ is a back arc if and only if
-$$\seen[w] <  \seen[v] < \done[v] < \done[w];$$ 
-\item
-$(v, w)$ is a cross arc if and only if 
-$$\seen[w] < \done[w]  < \seen[v] < \done[v].$$
-\end{itemize}
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:DFS-timestamps}
-\item Suppose that \algfont{DFS} is run on a digraph $G$ and the following
-timestamps obtained.
-
-\
-
-\begin{tabular}{|c|ccccccc|}
-\hline 
-$v$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\
-\hline
-$\seen[v]$ & 0 & 1 & 2 & 11 & 4 & 3 & 6 \\
-\hline
-$\done[v]$ & 13 & 10 & 9 & 12 & 5 & 8 & 7 \\
-\hline
-\end{tabular}
-
-\
-
-\begin{itemize}
-\item 
-List all tree arcs in the DFS forest.
-\item 
-Suppose that $(6,1)$ is an arc of $G$. Which type of arc 
-(tree, forward, back or cross) is it?
-\item 
-Is it possible for node $2$ to be an ancestor of node $3$ in the DFS
-forest?
-\item
-Is it possible that $G$ contains an arc $(5,3)$? If so, what type of arc
-must it be?
-\item 
-Is it possible that $G$ contains an arc $(1,5)$? If so, what type of arc
-must it be?
-\end{itemize}
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:DFS-tree-vs-nontree}
-Is there a way to distinguish tree arcs from non-tree arcs just by
-looking at timestamps after \algfont{DFS} has finished running?
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:DFS-graph-no-cross}
-Suppose that DFS is run on a graph $G$. Prove that cross edges do not occur.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:DFS-false-conj}
-Give an example to show that the following conjecture is \boldfont{not
-true}: if $w$ is reachable from $v$ and $\seen[v] < \seen[w]$ then $w$ is
-a descendant of $v$ in the DFS forest.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:DFS-prepostorder}
-DFS allows us to give a so-called pre-order and post-order labelling to
-a digraph. The pre-order label indicates the order in which the nodes
-were turned grey. The post-order label indicates the order in which the
-nodes were turned black.
-
-For example, each node of the following tree is labelled with a pair of
-integers indicating the pre- and post- orders, respectively, of the
-layout.
-
-\smallskip
-
-% \centerline{\Ipe{./figs/pre+post.ipe}}
-
-This is obviously strongly related to the values in the arrays $\seen$ and 
-$\done$. What is the exact relationship between the two?
-\end{Exercise}
-
-\begin{Exercise}\label{ex:white-path}
-Prove Theorem~\ref{thm:white-path} by using induction.
-\end{Exercise}
+%\subsection*{Exercises}
+%
+%\begin{Exercise} 
+%\label{ex:DFS-all-arcs-occur}
+%Give examples to show that all four types of arcs can arise when DFS is
+%run on a digraph.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:DFS-doDFS}
+%
+%Execute depth-first search on the digraph with adjacency lists
+%representation  given below. Classify each arc as tree, forward, back or cross.
+%\newline
+%$$
+%\lightgraybox{
+%	\begin{tabular}{c|cccc}
+%		0 & 2 &   &   \\
+%		1 & 0 &   &   \\
+%		2 & 0 & 1 &   \\
+%		3 & 4 & 5 & 6 \\
+%		4 & 5 &   &   \\
+%		5 & 3 & 4 & 6 \\
+%		6 & 1 & 2 &   \\
+%	\end{tabular}
+%}
+%$$
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:DFS-cross-vs-forward}
+%Explain how to determine, at the time when an arc is first explored by
+%DFS, whether it is a cross arc or a forward arc.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:DFS-arc-class}
+%Suppose that we have performed \algfont{DFS} on a digraph $G$. Let $(v, w)\in
+%E(G)$. Show that the following statements are true.
+%\begin{itemize}
+%\item
+%$(v, w)$ is a tree or forward arc if and only if  
+%$$\seen[v] < \seen[w] < \done[w] < \done[v];$$
+%\item
+%$(v, w)$ is a back arc if and only if
+%$$\seen[w] <  \seen[v] < \done[v] < \done[w];$$ 
+%\item
+%$(v, w)$ is a cross arc if and only if 
+%$$\seen[w] < \done[w]  < \seen[v] < \done[v].$$
+%\end{itemize}
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:DFS-timestamps}
+%\item Suppose that \algfont{DFS} is run on a digraph $G$ and the following
+%timestamps obtained.
+%
+%\
+%
+%\begin{tabular}{|c|ccccccc|}
+%\hline 
+%$v$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\
+%\hline
+%$\seen[v]$ & 0 & 1 & 2 & 11 & 4 & 3 & 6 \\
+%\hline
+%$\done[v]$ & 13 & 10 & 9 & 12 & 5 & 8 & 7 \\
+%\hline
+%\end{tabular}
+%
+%\
+%
+%\begin{itemize}
+%\item 
+%List all tree arcs in the DFS forest.
+%\item 
+%Suppose that $(6,1)$ is an arc of $G$. Which type of arc 
+%(tree, forward, back or cross) is it?
+%\item 
+%Is it possible for node $2$ to be an ancestor of node $3$ in the DFS
+%forest?
+%\item
+%Is it possible that $G$ contains an arc $(5,3)$? If so, what type of arc
+%must it be?
+%\item 
+%Is it possible that $G$ contains an arc $(1,5)$? If so, what type of arc
+%must it be?
+%\end{itemize}
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:DFS-tree-vs-nontree}
+%Is there a way to distinguish tree arcs from non-tree arcs just by
+%looking at timestamps after \algfont{DFS} has finished running?
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:DFS-graph-no-cross}
+%Suppose that DFS is run on a graph $G$. Prove that cross edges do not occur.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:DFS-false-conj}
+%Give an example to show that the following conjecture is \boldfont{not
+%true}: if $w$ is reachable from $v$ and $\seen[v] < \seen[w]$ then $w$ is
+%a descendant of $v$ in the DFS forest.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:DFS-prepostorder}
+%DFS allows us to give a so-called pre-order and post-order labelling to
+%a digraph. The pre-order label indicates the order in which the nodes
+%were turned grey. The post-order label indicates the order in which the
+%nodes were turned black.
+%
+%For example, each node of the following tree is labelled with a pair of
+%integers indicating the pre- and post- orders, respectively, of the
+%layout.
+%
+%\smallskip
+%
+%% \centerline{\Ipe{./figs/pre+post.ipe}}
+%
+%This is obviously strongly related to the values in the arrays $\seen$ and 
+%$\done$. What is the exact relationship between the two?
+%\end{Exercise}
+%
+%\begin{Exercise}\label{ex:white-path}
+%Prove Theorem~\ref{thm:white-path} by using induction.
+%\end{Exercise}
 
 
 \chapter{Breadth First Search (BFS) and Priority First Search (PFS)}
