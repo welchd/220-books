@@ -739,9 +739,9 @@ The adjacency matrix
 representation requires $\Theta(n^2)$ storage as we simply need a matrix of $n^2$
 bits 
 
-At first guess we might say adjacency lists representation requires
-$\Theta(n+m)$ storage, since we need $n$ lists and the combined length of all the lists is $m$ (each arc appears exactly once).
-However this is not strictly true as node numbers require more than one bit of storage each. The number $k$ requires  $\Theta(\log k)$ bits, with the average entry in a list being $\frac n 2$ and  so the space requirement for lists is more like $\Theta(n+m \log(n))$ 
+At first guess we might say adjacency lists require
+$\Theta(n+m)$ storage, since we need $n$ lists and the combined length of all the lists is $m$.
+But node numbers require more than one bit of storage each: the number $k$ uses about  $\Theta(\log k)$ bits. The average entry in a list is $\frac n 2$, so the total space requirement is more like $\Theta(n+m \log(n))$ 
 
 
 \begin{Boxample}[2]

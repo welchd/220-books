@@ -137,7 +137,7 @@ join two nodes in the same tree or point from one tree to another in the search 
 
 
 The following theorem collects all the basic facts we need for proofs
-in later sections. %\cref{fig:travdecomp} illustrates the first part.
+in later sections. The proofs are simple and can be done as exercises. %\cref{fig:travdecomp} illustrates the first part.
 
 \begin{Theorem}
 \label{thm:trav}
@@ -285,15 +285,14 @@ from the root node as slowly as possible. First we visit the root, then all its 
 
 By contrast, DFS  takes us away
 from the root node as quickly as possible. If the first visited neighbour of the root has a neighbour, we immediately visit that neighbour. Then, it that has a neighbour , we visit that and so on, thus ``deeply''
-searching as far away from the root as possible. We continue away from the root until we cannot visit
-any new nodes, then backtrack as little as possible. The root is the last node to turn black.
+searching as far away from the root as possible. We backtrack as little as possible before continuing away from the root again. The root is the last node to turn black.
 
 There still remains the choice
 of which white neighbour of the chosen grey node to visit. It does
 not matter what choice is made but our \defnfont{convention is to choose the one with
-lowest index} (the nodes being numbered $0, \dots, n - 1$). 
+lowest index} (recall nodes have indices $0, \dots, n - 1$). 
 
-Both of the choices for grey and white nodes are simple and be made in constant time so that the running time is  $\Omega(n + m)$ (assuming adjacency lists). So BFS and DFS are linear in the size + order of a digraph. 
+These choices can be made in constant time so that the running time is  $\Omega(n + m)$ (assuming adjacency lists). So BFS and DFS are linear in the size + order of a digraph. 
 
 If an adjacency matrix is used, the algorithms are quadratic in the size of the graph ($\Omega(n^2)$).
 
@@ -431,10 +430,8 @@ $u$, and as soon as we find a white one, we add it to the stack.
 %if adjacency lists are used, and $\Theta(n^2)$ using an adjacency matrix.
 %In summary, \algfont{DFS} is a linear-time traversal algorithm.
 
-One nice feature of depth-first search is its recursive nature.  The
-relationship between stacks and recursion is, we hope, well known to the
-reader. We can replace the \algfont{DFSvisit} procedure in this case by
-the recursive version in \cref{fig:DFSreccode}.
+Given the relationship between stacks and recursion, we can replace the \algfont{DFSvisit} procedure by
+a recursive version: \cref{fig:DFSreccode}.
 
 \begin{figure}[htbp]
 \hspace*{1.3in}\begin{minipage}{5in}
@@ -456,24 +453,23 @@ the recursive version in \cref{fig:DFSreccode}.
 \label{fig:DFSreccode}
 \end{figure}
 
-We now note a few important facts about depth-first search that are
-useful in proving correctness of various algorithms later on. 
+\section{DFS useful results and facts}
 
-\begin{Theorem} \label{thm:white-path} 
-The call to \algfont{recursiveDFSvisit}
-with input $s$ terminates only when all nodes reachable from $s$ via
-a path of white nodes have been visited. The descendants of $s$ in the
-DFS forest are precisely these nodes.
-\end{Theorem}
+%\begin{Theorem} \label{thm:white-path} 
+%The call to \algfont{recursiveDFSvisit}
+%with input $s$ terminates only when all nodes reachable from $s$ via
+%a path of white nodes have been visited. The descendants of $s$ in the
+%DFS forest are precisely these nodes.
+%\end{Theorem}
+%
+%\begin{proof}
+%See Exercise~\ref{ex:white-path}.
+%\end{proof}
 
-\begin{proof}
-See Exercise~\ref{ex:white-path}.
-\end{proof}
-
-There are not as many possibilities for interleaving of the timestamps
-as there appear at first sight. In particular, we \boldfont{cannot}
-have $\seen[v] < \seen[w] < \done[v] < \done[w]$. The following theorem
-explains why.
+%There are not as many possibilities for interleaving of the timestamps
+%as there appear at first sight. In particular, we \boldfont{cannot}
+%have $\seen[v] < \seen[w] < \done[v] < \done[w]$. The following theorem
+%explains why.
 
 \begin{Theorem}
 \label{thm:DFS-seen-done}
@@ -490,22 +486,50 @@ $$\seen[v] < \done[v]  < \seen[w] < \done[w] \quad .$$
 \end{itemize}
 \end{Theorem}
 
-\begin{proof} The first part is clear from the recursive formulation
-of DFS. Now suppose that $v$ is not an ancestor of $w$. Note that $w$
-is obviously also not an ancestor of $v$. 
-%Let $x$ be the root of the tree of $F$ containing $v$. 
-Thus $v$ lives in a subtree that is completely explored before the 
-subtree of $w$ is visited by \algfont{recursiveDFSvisit}.
-\end{proof}
+Note that this result rules out  the timestamps $\seen[v] < \seen[w] < \done[v] < \done[w]$.
+
+%\begin{proof} The first part is clear from the recursive formulation
+%of DFS. Now suppose that $v$ is not an ancestor of $w$. Note that $w$
+%is obviously also not an ancestor of $v$. 
+%%Let $x$ be the root of the tree of $F$ containing $v$. 
+%Thus $v$ lives in a subtree that is completely explored before the 
+%subtree of $w$ is visited by \algfont{recursiveDFSvisit}.
+%\end{proof}
+
 
 All four types of arcs in our search forest classification can
-arise with DFS. The different types of non-tree arcs can be easily
-distinguished while the algorithm is running. For example, if an arc
-$(u, v)$ is explored and $v$ is found to be white, then the arc is a
-tree arc; if $v$ is grey then the arc is a back arc, and so on (see
-Exercise~\ref{ex:DFS-cross-vs-forward}). We can also perform the classification 
-after the algorithm has terminated, just by looking at the timestamps 
-$\seen$ and $\done$ (see Exercise~\ref{ex:DFS-arc-class}).
+arise with DFS. The different types of arcs can be easily
+distinguished while the algorithm is running or by looking at the timestamps 
+$\seen$ and $\done$.
+
+\begin{Boxample}[3]
+Explain how to determine, at the time when an arc is first explored by
+DFS, whether it is a tree-, back-, forward- or cross-arc.
+\end{Boxample}
+
+\begin{Boxample}[3]
+Suppose that we have performed \algfont{DFS} on a digraph $G$. Let $(v, w)\in
+E(G)$. Show that the following statements are true.
+\begin{itemize}
+\item
+$(v, w)$ is a tree or forward arc if and only if  
+$$\seen[v] < \seen[w] < \done[w] < \done[v];$$
+\item
+$(v, w)$ is a back arc if and only if
+$$\seen[w] <  \seen[v] < \done[v] < \done[w];$$ 
+\item
+$(v, w)$ is a cross arc if and only if 
+$$\seen[w] < \done[w]  < \seen[v] < \done[v].$$
+\end{itemize}
+\end{Boxample}
+
+
+% For example, if an arc
+%$(u, v)$ is explored and $v$ is found to be white, then the arc is a
+%tree arc; if $v$ is grey then the arc is a back arc, and so on (see
+%Exercise~\ref{ex:DFS-cross-vs-forward}). We can also perform the classification 
+%after the algorithm has terminated, just by looking at the timestamps 
+%$\seen$ and $\done$ (see Exercise~\ref{ex:DFS-arc-class}).
 
 %\subsection*{Exercises}
 %
@@ -667,6 +691,11 @@ array $d$.
 	\EndFor
 	\State \Return{$\pred, d$}
 \EndFunction
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[H]
+  \caption{Breadth-first search visit algorithm.}
+  \begin{algorithmic}[1]
 \Function{BFSvisit}{node $s$}
 	\State $\colour[s] \gets $ GREY; $d[s] \gets 0$ 
 	\State $Q$.\algfont{insert}$(s)$
@@ -685,12 +714,12 @@ array $d$.
 \end{algorithmic}
 \end{algorithm}
 
-A similar analysis to what we did for DFS also holds for BFS: it is also
-a linear time traversal algorithm, because the next grey and white node 
-can again be chosen in constant time.
+%A similar analysis to what we did for DFS also holds for BFS: it is also
+%a linear time traversal algorithm, because the next grey and white node 
+%can again be chosen in constant time.
 
 It is rather obvious that BFS processes all nodes at distance 1, then
-all nodes at distance 2, etc, from the root. The formal proof is below.
+all nodes at distance 2, etc, from the root. The formal thereom stating this is given below without proff (see book for a simple inductive proof).
 
 \begin{Theorem}
 \label{thm:BFSdist}
@@ -699,22 +728,22 @@ Let $v\in V(G)$, and let $r$ be the root of the search tree containing $v$.
 Then $d[v] = d(r, v)$.
 \end{Theorem}
 
-\begin{proof}
-Note that since $d[v]$ is the length of a path of tree arcs
-from $r$ to $v$, we have $d[v] \geq d(r, v)$. We prove the result by
-induction on the distance. Denote the BFS search forest by $F$ and let $s$
-be the root of a tree in $F$. Then $d[s] = 0 = d(s, s)$ so the result is
-true for distance zero. Suppose it is true for all $v$ for which $d(s,
-v) < k$ and consider a node $v$ such that $d(s, v) = k \geq 1$. Choose
-a shortest path from $s$ to $v$ in $G$ and let $u$ be the penultimate
-node in the path. Then $d(s, u) = k - 1$ (it cannot be less, or it would
-contradict $d(s, v) = k$; on the other hand the subpath from $s$ to $u$
-must be a shortest path from $s$ to $u$, otherwise we could find a shorter
-one from $s$ to $v$). By the inductive hypothesis, $d[u] = d(s, u) = k -
-1$. Now $v$ must be seen after $u$ (otherwise $d[v] < k$, but we know
-$d[v] \geq d(s, v) = k$). Thus $v$ is seen in the loop through white
-neighbours of $u$, and so $d[v] = d[u] + 1 = k$. 
-\end{proof}
+%\begin{proof}
+%Note that since $d[v]$ is the length of a path of tree arcs
+%from $r$ to $v$, we have $d[v] \geq d(r, v)$. We prove the result by
+%induction on the distance. Denote the BFS search forest by $F$ and let $s$
+%be the root of a tree in $F$. Then $d[s] = 0 = d(s, s)$ so the result is
+%true for distance zero. Suppose it is true for all $v$ for which $d(s,
+%v) < k$ and consider a node $v$ such that $d(s, v) = k \geq 1$. Choose
+%a shortest path from $s$ to $v$ in $G$ and let $u$ be the penultimate
+%node in the path. Then $d(s, u) = k - 1$ (it cannot be less, or it would
+%contradict $d(s, v) = k$; on the other hand the subpath from $s$ to $u$
+%must be a shortest path from $s$ to $u$, otherwise we could find a shorter
+%one from $s$ to $v$). By the inductive hypothesis, $d[u] = d(s, u) = k -
+%1$. Now $v$ must be seen after $u$ (otherwise $d[v] < k$, but we know
+%$d[v] \geq d(s, v) = k$). Thus $v$ is seen in the loop through white
+%neighbours of $u$, and so $d[v] = d[u] + 1 = k$. 
+%\end{proof}
 
 We can classify arcs, but the answer is not as nice as with DFS.
 
@@ -913,10 +942,6 @@ any code for \algfont{setKey}.
 \end{algorithmic}
 \end{algorithm}
 
-
-We proceed to show some applications of BFS and DFS in the following
-sections. Applications of PFS will be discussed in
-Chapter~\ref{ch:weighted}.
 
 %\subsection*{Exercises}
 \chapter{Cycles, Girth and Topological Sort}
