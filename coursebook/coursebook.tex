@@ -11,7 +11,6 @@
  
 
 % ## paragraph style ## ----------------------------------------------
-%TODO fix this up
 \usepackage{parskip}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt} 
@@ -39,7 +38,7 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit}
 
-
+ 
 % ## style ## ----------------------------------------------
 \renewcommand{\labelitemii}{$\circ$}
 % roman letters in enumerate
@@ -97,36 +96,15 @@
 \newtheorem*{theorem}{Theorem}
 \newtheorem*{tech}{\textbf{Technique}}
 
-\newtheoremstyle{boxampleStyle}
-  {0pt} % measure of space to leave above the theorem.
-  {\topsep} % measure of space to leave below the theorem.
-  {\normalfont} % name of font to use in the body of the theorem.
-  {0pt} % measure of space to indent.
-  {\bfseries} % name of head font.
-  {. } % punctuation between head and body.
-  { } % space after theorem head.
-  {} %
-% \theoremstyle{boxampleStyle} 
-\theoremstyle{definition} 
-\newtheorem{ExampleInBox}[Lemma]{Example}
-
 \usepackage{mdframed}
 \usepackage{xparse}
 \NewDocumentEnvironment{Boxample}{o}{%
-    \begin{mdframed}\begin{ExampleInBox}%
+    \begin{mdframed}\begin{Example}%
 }{%
-    \end{ExampleInBox}%
+    \end{Example}%
     \vspace*{#1cm}%
     \end{mdframed}%
 }
-
-% \newcommand{\truevspace}[1]{ %Call this macro to get a vertical space of #1 cm
-% \newcount\Scount
-% \Scount=0
-% \loop\vspace*{1cm}\par\goodbreak\advance\Scount by 1 \ifnum\Scount< #1 \repeat
-% }
-% \def\beginboxedexample{\begin{mdframed}\begin{Example}}
-% \def \endboxedexample #1 {\vspace{#1} \end{Example} \end{mdframed} }
 
 
 % ## definitions & macros ## ----------------------------------------------
@@ -187,7 +165,9 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
  pdfcreator={LaTeX with hyperref package},
  pagebackref=true,
 ]{hyperref}
-\usepackage[capitalise,noabbrev,nameinlink ]{cleveref} 
+\usepackage[capitalise,noabbrev,nameinlink ]{cleveref}
+\crefname{Boxample}{Example}{Examples}
+\crefname{Example}{Example}{Examples}
 
 
 % headings hacked from memoir package
@@ -280,7 +260,7 @@ Algorithms and Data Structures}\\[0.1cm]
 
 %\part{Introduction to Algorithm Analysis}
 
-\include{lectures/mathsintro}
+\include{lectures/mathsintro} 
 
 \include{lectures/algoAnalysis}
 \include{lectures/sorting}

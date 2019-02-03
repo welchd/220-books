@@ -81,9 +81,10 @@ to the parent.
 right subtree, delete that node, and replace the key of $n$ by $K$.
 \end{itemize}
 
-\begin{Boxample}[4]
-Follow the above steps to delete node ** in the BST shown.
-jo-TODO
+\begin{Boxample}[1] \label{eg:bstDeleteRight}
+Follow the above steps to delete node $11$ in the BST shown.\\
+\newline
+\includegraphics{bstEx}
 \end{Boxample}
 
 
@@ -95,10 +96,9 @@ where $h$ is the height of the tree. Unfortunately the height can be as large
 as $n-1$ in the worst case. Conclusion: we need another idea to guarantee good worst-case 
 performance. We need to \emph{rebalance} BSTs.
 
-\begin{Boxample}[4]
+\begin{Boxample}[5] \label{eg:bstDeleteLeft}
 When deleting a node  in a BST, what if we use the maximum key in the left subtree instead?
-Carry this our for the In the BST shown above.
-jo-TODO
+Carry this out for node $11$ in the BST shown in Example \ref{eg:bstDeleteRight}.
 
 \end{Boxample}
 
@@ -110,12 +110,19 @@ balanced tree.
 
 \paragraph{Treesort.}
 
-As we did with heapsort, we can build a binary search tree from our initial list, by inserting 
-elements one at a time. We can recover the sorted list by reading the keys according to an inorder traversal. This takes time in $\Theta(n\log n)$.
+As we did with heapsort, we can build a binary search tree from our initial list, by inserting elements one at a time. 
+We can recover the sorted list by reading the keys according to an inorder traversal (see \cref{fig:inorderTraversal}). 
+This takes time in $\Theta(n \log n)$.
 
 As with heapsort, we can do this in place in an array. This is basically quicksort!
 
-jo-TODO: add inorder figure
+\begin{figure}[htb]
+  \centering
+  \includegraphics{inorderTraversal}
+  % \includegraphics{inorderTraversal2} % alternative version with arrows
+  \caption{An inorder traversal of a BST.}
+  \label{fig:inorderTraversal}
+\end{figure}
 
 
 \paragraph{Relation between Quicksort and BSTs.}
@@ -127,12 +134,18 @@ right. It has the BST property with respect to the sort keys.
 Given the above BST describing the execution of quicksort on the array, 
 note that the cost of constructing the tree (measured by key comparisons) is 
 the same as the number of comparisons used by quicksort in sorting the file.
-This is equal to the {internal path length}, the sum of all depths 
-of nodes. 
+This is equal to the {internal path length}, the sum of all depths of nodes.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics{bstQuicksort}
+  \caption{Illustration of the relation between quicksort and BSTs.}
+  \label{fig:bstQuicksort}
+\end{figure}
 
 Thus the average search cost in a BST built by random insertions is $\Theta(\log n)$ .
 
-jo-TODO: add figure showing this
+% Jo says: I assume you wanted a figure for the relation, because average is hard to illustrate  
 
 
 
@@ -148,19 +161,37 @@ These operations are based on local \emph{rotations} of the tree.
 Analysis of performance is fairly difficult.
 The average-case height is not really known.
 
-jo-TODO insert picture of a rotation, then Boxample asking them to rotate left/right about a node.
+\begin{figure}[htb]
+  \centering
+  \includegraphics{rotationNumbers}
+  %\includegraphics{rotationVariables} % alternative with p, q, a, b, c instead of numbers 
+  \caption{Right and left rotation of a BST.}
+  \label{fig:rotation}
+\end{figure} 
 
-\paragraph{AVL trees}
+\begin{Boxample}[7]
+Perform a right rotation on the BST around the vertices $p = 50$ and $q = 74$ like in \cref{fig:rotation}.
+Then perform a left rotation on the resulting BST around the vertices $12$ and $50$.\\
+\newline 
+\includegraphics{rotationBoxample}
+\end{Boxample}
 
-These were the first self-balancing BSTs, introduced in 1962 by 
-Adelson-Velskii and Landis. The \emph{balance of a node} is defined to be the difference between heights of its 
+
+\paragraph{AVL trees.}
+
+These were the first self-balancing BSTs, introduced in 1962 by Adelson-Velskii and Landis. 
+The \emph{balance of a node} is defined to be the difference between heights of its 
 right subtree and left subtree. AVL trees adjust themselves after each insertion 
 or deletion (via tricky rotations not discussed here --- see Wikipedia for gory details) so that each node has balance $0, 1$ or $-1$.
 
-jo-TODO figure with example and nonexample of AVL tree
+\begin{figure}[htb]
+  \centering
+  \includegraphics{avlTreeEx}
+  \caption{An AVL tree on the left and a non-AVL tree on the right with node balances shown below the nodes.}
+  \label{fig:avlTreeEx}
+\end{figure} 
 
-
-\paragraph{Height of an AVL tree}
+\paragraph{Height of an AVL tree.}
 \begin{Example}
 An AVL tree with $n$ nodes has height at most $1.44 \lg n$, about $44\%$ more 
 than optimal.
@@ -180,15 +211,24 @@ How many types of self-balancing search trees can you find (e.g. Wikipedia)?
 
 \paragraph{Red-black trees}
 
-Introduced in 1978, these have a balance condition that ensures (via tricky rotations not discussed here --- see Wikipedia for gory details) that the maximum depth of a leaf is no more than twice the minimum depth. They do this by colouring each node red or black (note that we are explicitly using external nodes), with the rules:
+Introduced in 1978, these have a balance condition that ensures (via tricky rotations not discussed here --- see Wikipedia for gory details) 
+that the maximum depth of a leaf is no more than twice the minimum depth. 
+They do this by colouring each node red or black (note that we are explicitly using external nodes), with the rules:
 \begin{itemize}
 \item the root is black;
 \item all leaves (external nodes) are black, even when the parent is black;
 \item both children of every red node are black;
 \item every path from a node to a leaf contains the same number of black nodes.
 \end{itemize}
+See \cref{fig:redblackTreeEx} for an example.
 
-jo-TODO figure with example and nonexample of red-black tree
+\begin{figure}[htb]
+  \centering
+  \includegraphics{redBlackEx}
+  \caption{A red-black tree on the left. The BST on the right is not a red-black tree 
+  because not every path from $14$ to a leaf contains the same number of black nodes.}
+  \label{fig:redblackTreeEx}
+\end{figure} 
 
 \paragraph{Height of a red-black tree}
 The worst case height is at most $2 \lg n$.
