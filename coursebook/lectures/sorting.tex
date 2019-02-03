@@ -41,11 +41,17 @@ It is \defnfont{stable} if records with equal keys have their order unchanged by
 % \end{Example}
 
 We consider only two elementary operations: a \defnfont{comparison} of two items and a \defnfont{move} of an item.
-We can swap the position of elements (at positions $i$ and $j$ say). 
-Each swap requires 3 data moves (updates of variables).
-Another way is to insert the element at position $i$ after position $j$ and remove it from its current position.
+For a comparison, we choose keys $x$ and $y$ and answer the question ``is $x<y$?". (or maybe we ask which of $x<y, x=y, y<x$ is true). 
+There are two main types of move-related operations. 
+\begin{itemize}
+\item We can \emph{swap} the position of elements (at positions $i$ and $j$ say). 
+Each swap requires 3 updates of variables.
+\item Another way is to insert the element in the list at position $i$ after position $j$ and remove it from its current position.
+\end{itemize}
+
 If the list is implemented using an array, then insertion-deletion is expensive ($\Theta(n-j)$ data moves in worst case), 
-since elements must be moved along, and hence not an elementary operation. Then swaps are better.
+since elements must be moved along, and hence this is not an elementary operation. Then swaps are better.
+
 If the list is implemented as a linked list, then insertion is cheap ($\Theta(1)$ data moves in worst case).
 So we usually do that instead of swapping.
 	
@@ -55,13 +61,14 @@ The sorting algorithm \defnfont{selection sort} works as follows.
 \begin{itemize} 
 	\item Find the maximum element of the unsorted part of the list by sequential 
 	scan, and move it to the end of the sorted part. Iterate.
-	\item This is perhaps the most obvious sorting algorithm.
+	\end{itemize}
+This is perhaps the most obvious sorting algorithm.
 	%\item Selection sort is in-place.
-	\item This algorithm makes the smallest possible number of swaps of any algorithm, 
+It makes the smallest possible number of swaps of any comparison-based sorting algorithm, 
 	so may be useful if data moves are VERY expensive.
-	\item Is it clearly inefficient: useful comparison information gathered in each 
+Is it clearly inefficient: useful comparison information gathered in each 
 	pass is forgotten.
-\end{itemize}
+
 
 \begin{Boxample}[0]
 Complete the following selection sort process.
@@ -100,7 +107,8 @@ elementary operations.
 The algorithm is very insensitive to the input. 
 Its best and worst case running time are very similar. 
 The best case is when the list is already sorted; the worst is when every swap is needed, 
-and this occurs when the input permutation has no fixed point.
+and this occurs when the input permutation has no fixed point. However the number of comparisons, which usually dominates the running time, 
+is the same for every input.
 
 \paragraph{Is selection sort in-place?}
 Yes, selection sort is an in-place sorting algorithm. Convince yourself why.
@@ -210,7 +218,7 @@ How many inversions are in the permutation $72481536$?
 \end{Boxample}
 
 \paragraph{What is the average-case performance of insertion sort on random data?}
-\begin{Boxample}[4]
+\begin{Boxample}[6]
 What is the average number of inversions in a random permutation of $\{1,\dots, n\}$?
 \end{Boxample}
 \if01
@@ -650,44 +658,44 @@ $$\frac{a_n}{n+1} = \frac{a_1}{2} + \sum_{j=2}^n \left(\frac{4}{j+1} -
 \end{itemize}
 
 
-\paragraph{What are the best and worst-case inputs?}
+\paragraph{Which inputs give the best and worst-case?}
 
 \paragraph{Is quicksort in-place?}
 
 \paragraph{Is quicksort stable?}
 
 
-\paragraph{What happens if we do quicksort on a linked list?}
+\paragraph{What happens if we  use quicksort on a linked list?}
+Although it could be done, quicksort is almost never used on a linked list. It is too difficult to quickly find a good pivot element, for example.
 
 \paragraph{How should we choose the pivot?}
 
 If we always choose the first element of the list, it is easy to implement but
 the worst-case runtime is $\Omega(n^2)$, and it is easy for a malicious adversary to submit input 
-which will trigger this behaviour.
+which will trigger this behaviour. This naive choice (the first one used by Hoare) is very rarely used any more.
 
 We can take the median of a sample of (say 3) elements. This reduces the 
 likelihood of worst-case behaviour and also makes performance on sorted arrays 
 and arrays with equal keys better. 
 
-Choosing an element uniformly at random gives a \emph{randomized} 
+Choosing an element uniformly at random (or randomly shuffling the list and choosing the first element) 
+gives a \emph{randomized} 
 algorithm whose expected running time on every input can be proved to be in 
 $O(n \log n)$. 
 
+No matter how we choose the pivot as above, there is always some chance of quicksort running in quadratic time.
+
 
 \paragraph{How else might we improve quicksort?}
+MCW TODO  timsort, pivot is median
 
-
-
-
-
-\paragraph{Quicksort variants.}
-\begin{itemize}
-\item It is best to use insertion sort once the sublists become very small, to 
+It is best to use insertion sort once the sublists become very small, to 
 avoid excessive overhead owing to recursion. Choosing the cutoff point requires 
-more detailed analysis; somewhere around 10 is often used.
-\item What happens when we have many equal keys?
-\end{itemize}
-\end{itemize}
+more detailed analysis; somewhere around 10 is often used. This idea can be used with any recursive sorting algorithm.
+
+What happens when we have many equal keys?
+
+
 
 
 
@@ -702,27 +710,35 @@ $n!$ possible permutations of the keys. At each step we can only ask a Yes/No
 question of the form $(a_i < a_j)$?, and this determines the branching: left for
  Yes, right for No. The number of comparisons required to obtain the output at a leaf is the 
 length of the path from the root to that leaf (the {depth} of the leaf 
-node).
+node). Thus the worst case number of comparisons is the maximum depth (the \emph{height}) of the tree.
 
-So, what can be said about the depth of the leaves in a binary tree with 
-$n$ nodes?
+jo-TODO position these graphics properly
 
-jo-TODO need picture, why commented out?
-
+\begin{Example}
+\includegraphics[width=9cm]{figs/selsort-dt}
+Here is the decision tree for selection sort when run on an  input list of size $3$. The label 
+``$i$ vs $j$" means that the $i$th element of the input list is compared to the $j$th element, by asking
+``is $a[i] < a[j]$"?
 %\frametitle{Selection sort decision tree for $n=3$}
-%\includegraphics[width=9cm]{pictures/selsort-dt}
 
+The next figure shows the corresponding decision tree for insertion sort. We add in the grey background nodes to give information about 
+which input yields which sequence of comparisons.
 %\frametitle{Insertion sort decision tree for input of size 3}
-%\includegraphics[width=8cm]{pictures/insort}
-
+\includegraphics[width=12cm]{figs/insort-dt}
+\end{Example}
 
 \paragraph{Worst case height of binary decision tree} 
+So, what can be said about the height of a binary tree with 
+$n$ nodes?
+
 Suppose that $T$ is a binary tree with $n$ nodes. Going from the root, the
  number of nodes at each level at most doubles. So if the maximum depth (the 
  {height} (!)) is $h$ then the number of leaves is at most $2^h$. 
  
  In our sorting decision tree we have $n!$ leaves. Thus we must have $2^h 
 \geq n!$ so that $h \geq \lg n!$. 
+
+\paragraph{Worst case running time of comparison-based sorting algorithm}
 
 We have already shown that $\log n!$ is $\Omega (n \lg n)$. Thus the 
 worst-case number of comparisons of any comparison-based sorting method must 
@@ -732,8 +748,10 @@ could only make the worst-case worse!)
 %are equally likely (see textbook).  So the average-case runtime for any such 
 %algorithm is  $\Omega(n \log n)$.
 
-
+\begin{Boxample}[4]
 We showed that the worst case for any sorting algorithm is in $\Omega (n \lg n)$. What about the average case?
+
+\end{Boxample}
 
 \begin{Boxample}[1]
 Radix sort can sort $n$ strings in time in $\Theta(n)$.
@@ -786,7 +804,7 @@ each take time $O(\log n)$. The simplest is the {binary heap}.
 % Jo - how about the following Boxample, instead of writing down the idea? Analysis afterwards
 % \begin{Boxample}[5]
 % Let $Q$ be a priority queue with the methods \texttt{insert} and \texttt{getMin}. 
-% Write a sorting algorithm (in pseudeo-code) utilising $Q$. 
+% Write a sorting algorithm (in pseudo-code) utilising $Q$. 
 % \end{Boxample}
 
 \paragraph{Priority queue: binary heap implementation.}
@@ -843,23 +861,24 @@ an array.
  deleted elements end up at the end of the array.
 \end{itemize}
 
-\paragraph{Heapsort variants.}
-\begin{itemize}
-\item We can build the heap by repeatedly adding elements to the empty heap.
-However, for sorting we only need the heap property at the end.
-\item One way is to build a complete binary tree without the heap property. Then
+\paragraph{How can we further improve heapsort?}
+
+We can build the heap by repeatedly adding elements to the empty heap.
+However, for sorting we only need the heap property at the end. One way is to build a complete binary tree without the heap property, then
  recursively heapify the left and right subtrees, and then let the root swap 
- down to the right position. 
-\item The recursion $T(n) = 2T(n/2) + \lg n$ describes the running time of the 
+ down to the right position. The recursion $T(n) = 2T(n/2) + \lg n$ describes the running time of the 
  latter method: solution is $\Theta(n)$ (exact formula is tricky to guess).
-\item This method can be rewritten to avoid recursion (``bottom-up") and to work 
+ 
+This method can be rewritten to avoid recursion (``bottom-up") and to work 
 in place in the array implementation. 
-\item There is also a way to delete the maximum that is about twice as fast on 
+
+There is also a way to delete the maximum that is about twice as fast on 
 average: it involves swapping down a long way and then swapping back up if 
-necessary. See me for more details.
-\item There is still serious research being done on better priority queue 
+necessary. See lecturer for more details.
+
+There is still serious research being done on better priority queue 
 implementations.
-\end{itemize}
+
 
 \begin{algorithm}[H]
   \caption{Heapsort
