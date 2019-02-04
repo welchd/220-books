@@ -122,9 +122,9 @@ Complete the following selection sort process to see that the algorithm is not s
 \end{center}
 \end{Boxample}
 
-\paragraph{What happens if we try selection sort on a linked list, or an array?}
-Performance on a linked list is not much different from an array. 
-The differences involve swap versus insertion, and comparisons dominate the running time.
+\paragraph{What happens if we run selection sort on a linked list?}
+Running time on a linked list is not much different from performance on an array. 
+The differences involve swap versus insertion, but comparisons dominate the running time anyway.
 
 Lastly, note that there is no better way to find the maximum using a list than what we have done above. 
 But if we change the data structure \dots (see lecture on heapsort).
@@ -203,7 +203,7 @@ Complete the following insertion sort process.
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{What is the running time?}
+\paragraph{Insertion sort analysis}
 The number of key comparisons for fixed $i$ is one more than the number of $a[j]$ with $j < i$ and $a[i] < a[j]$.
 Thus the total number of comparisons is $n-1$ plus the number of \defnfont{inversions}, 
 namely pairs $(i, j)$ of indices with $j < i$ and $a[j] > a[i]$ (``out of order" pairs of elements).
@@ -230,7 +230,8 @@ this pair is an inversion in exactly one of $\pi$ or the reverse of $\pi$.
 Unlike selection sort, insertion sort has running time that is very sensitive to the input. 
 As mentioned above, the best case occurs when the input is already sorted, and the worst when the input is in reverse sorted order.
 
-\paragraph{Is insertion sort in place?}
+\paragraph{Is insertion sort in-place?}
+Yes. 
 \begin{Boxample}[0]
 Complete the following insertion sort process to convince yourself that it is in place.\\
 jo-TODO
@@ -238,7 +239,7 @@ jo-TODO
 
 
 \paragraph{Is insertion sort stable?}
-Yes, insertion sort is stable.
+Yes.
 \begin{Boxample}[0]
 Complete the following insertion sort process to convince yourself that it is stable.
 \begin{center}
@@ -251,11 +252,11 @@ We can reduce the number of data moves if we use a linked list to implement
 the list ADT. However, searching to find the right insertion point still takes time in 
 $\Theta(n^2)$ in the worst case.
 
-\paragraph{What happens if we use binary search to find the insertion point, instead of backward sequential search?}
-On an array, we can reduce the number of comparisons by using binary search to find 
-the insertion point. The swaps still take time in $\Theta(n^2)$ as above.
+\paragraph{How can we improve insertion sort?}
+On an array, we can reduce the number of comparisons by using binary search (see future lecture) to find 
+the insertion point. However, the swaps still take time in $\Theta(n^2)$ as above, so this is of little use.
 
-\paragraph{Can we improve on insertion sort by making bigger moves? - Shellsort}
+We can improve by changing the algorithm somewhat.
 We can move elements to the left using big steps, gradually reducing the 
 step size to 1. This is called \defnfont{Shellsort} (D. Shell, 1959). 
 \begin{itemize}
@@ -280,9 +281,10 @@ An example of ShellSort with $h = 5, 3, 1$.
 \end{Example}
 
 Shellsort is easy to program and useful in practice for fairly large arrays (say $10^5$) especially if the data is partially sorted. 
-It is clearly better than insertion sort.
+It is substantially  better than insertion sort.
 
 \chapter{Divide and conquer sorting algorithms}  %----------------------------
+\label{sec:mergesort}
 Here we look at two ``industrial strength" sorting algorithms, \defnfont{Mergesort} and \defnfont{Quicksort}.
 \begin{itemize}
 \item Each algorithm splits the input list into two sublists, 
@@ -298,7 +300,8 @@ procedure \texttt{partition} to alter the list so that the pivot is in its
 correct position relative to the left and right sublists on each side. Then the left and right sublists 
 are sorted recursively.
 \end{itemize}
-Mergesort is stable. Quicksort is (more or less) in place. Each is used as the basis for 
+%Mergesort is stable. Quicksort is (more or less) in place. 
+Each is used as the basis for 
 built-in sorting algorithms in common programming languages.
 
 \begin{algorithm}[H]
@@ -542,6 +545,8 @@ Thus $F(n)$ is $\Theta(\phi^n)$.
 \chapter{Quicksort} %---------------------------------------------------------
 \label{sec:quicksort}
 
+Quicksort was described briefly in Lecture~\ref{sec:mergesort}. We give the details now.
+
 \begin{algorithm}[H]
   \caption{Quicksort - basic}    
   \label{alg:quicksort}
@@ -659,45 +664,46 @@ $$\frac{a_n}{n+1} = \frac{a_1}{2} + \sum_{j=2}^n \left(\frac{4}{j+1} -
 
 
 \paragraph{Which inputs give the best and worst-case?}
+The worst case number of comparisons occurs when the pivot is always at the end of the sublist. For example, if we always choose the first element as the pivot and the input is in sorted order, this will happen. The running time is then $\Theta(n^2)$. The best case occurs when the pivot turns out to be the median element, so that the left and right subarrays are balanced at each level of the recursion, and this gives running time in $\Theta(n\log n)$ as with mergesort.
 
 \paragraph{Is quicksort in-place?}
+Not technically, but almost. It requires $\Theta(\lg n)$ space for the recursion stack. This is very little extra space in practice, but it is not a constant amount.
+
 
 \paragraph{Is quicksort stable?}
+No.
+\begin{Boxample}[5]
+Create an example that shows that quicksort is not a stable sorting algorithm.
+
+\end{Boxample}
+
 
 
 \paragraph{What happens if we  use quicksort on a linked list?}
 Although it could be done, quicksort is almost never used on a linked list. It is too difficult to quickly find a good pivot element, for example.
 
-\paragraph{How should we choose the pivot?}
+\paragraph{How can we improve quicksort?}
 
-If we always choose the first element of the list, it is easy to implement but
+If we always choose the first element of the list as the pivot, it is easy to implement but
 the worst-case runtime is $\Omega(n^2)$, and it is easy for a malicious adversary to submit input 
 which will trigger this behaviour. This naive choice (the first one used by Hoare) is very rarely used any more.
 
-We can take the median of a sample of (say 3) elements. This reduces the 
+For a better way of choosing the pivot, we can take the median of a sample of (say 3) elements. This reduces the 
 likelihood of worst-case behaviour and also makes performance on sorted arrays 
 and arrays with equal keys better. 
 
-Choosing an element uniformly at random (or randomly shuffling the list and choosing the first element) 
+Choosing a pivot element uniformly at random (or randomly shuffling the list and choosing the first element) 
 gives a \emph{randomized} 
 algorithm whose expected running time on every input can be proved to be in 
 $O(n \log n)$. 
 
-No matter how we choose the pivot as above, there is always some chance of quicksort running in quadratic time.
+No matter how we choose the pivot as above, there is always some chance of quicksort running in quadratic time. Choosing the exact median turns out to be too time-consuming: see Lecture~\ref{sec:qselect}.
 
-
-\paragraph{How else might we improve quicksort?}
-MCW TODO  timsort, pivot is median
+MCW TODO  timsort
 
 It is best to use insertion sort once the sublists become very small, to 
 avoid excessive overhead owing to recursion. Choosing the cutoff point requires 
 more detailed analysis; somewhere around 10 is often used. This idea can be used with any recursive sorting algorithm.
-
-What happens when we have many equal keys?
-
-
-
-
 
 \chapter{Lower complexity bound for sorting} %--------------------------------
 \label{sec:lowerbound}
@@ -792,7 +798,11 @@ and:
 priority;
 \item successively remove the highest priority element until $Q$ is empty. 
 \end{itemize}
-This gives a sorting algorithm that is obviously correct. Performance:
+
+
+This gives a sorting algorithm that is obviously correct. 
+
+\paragraph{Priority queue sort analysis}
 \begin{itemize}
 \item If we implement $Q$ using an unsorted list, we obtain selection sort. 
 Insertion takes $\Theta(1)$ time but deletion time is $\Theta(n)$. Total is quadratic.
@@ -817,6 +827,11 @@ the last level is left-filled);
 \end{itemize}
 \end{Definition}
 
+\begin{Example}[6]
+jo - TODO picture of heap and non-heap
+\end{Example}
+
+
 A heap can implement a priority queue as follows. 
 \begin{itemize}
 \item Keys are stored in nodes. 
@@ -827,6 +842,10 @@ possible. Swap it upward until no swap is required.
 is required. 
 \end{itemize}
 
+\begin{Example}[6]
+jo - TODO picture example of heap insertion and deletion
+\end{Example}
+
 \paragraph{Heapsort analysis.}
 \begin{itemize}
 \item Building a heap using $n$ successive insertions takes time in 
@@ -835,17 +854,16 @@ $O(n\log n)$ since the tree has height in $O(\log n)$.
  time in $O(n \log n)$.
 \item Thus heapsort is a worst-case $\Theta(n \log n)$ sorting algorithm, like 
 mergesort. 
-\item Detailed average-case analysis is more difficult, but the best and worst 
-case are not very different. Heapsort is not very sensitive to the input.
+%\item Detailed average-case analysis is more difficult, but the best and worst 
+%case are not very different. Heapsort is not very sensitive to the input.
 \end{itemize}
 
-\paragraph{Questions}
-\begin{itemize}
-\item Can we make heapsort work in-place without building a separate heap?
-\item For heapsort we only need the heap property at the end, but our method keeps it after inserting every element. 
-Can we be more efficient?
-\end{itemize}
+\paragraph{How can we improve the algorithm?}
 
+
+
+
+It turns out we can we make heapsort work in-place without building a separate heap, because the tree structure is so restricted.
 
 \paragraph{Array representation of binary heap.}
 \begin{itemize}
@@ -861,10 +879,12 @@ an array.
  deleted elements end up at the end of the array.
 \end{itemize}
 
-\paragraph{How can we further improve heapsort?}
+\begin{Boxample}[6]
+jo - TODO draw heap and get them to convert to array
+\end{Boxample}
 
-We can build the heap by repeatedly adding elements to the empty heap.
-However, for sorting we only need the heap property at the end. One way is to build a complete binary tree without the heap property, then
+Note that for heapsort we only need the heap property at the end, but our method keeps it after inserting every element. 
+Can we be more efficient? Yes - one way is to build a complete binary tree without the heap property, then
  recursively heapify the left and right subtrees, and then let the root swap 
  down to the right position. The recursion $T(n) = 2T(n/2) + \lg n$ describes the running time of the 
  latter method: solution is $\Theta(n)$ (exact formula is tricky to guess).
@@ -872,9 +892,10 @@ However, for sorting we only need the heap property at the end. One way is to bu
 This method can be rewritten to avoid recursion (``bottom-up") and to work 
 in place in the array implementation. 
 
-There is also a way to delete the maximum that is about twice as fast on 
-average: it involves swapping down a long way and then swapping back up if 
-necessary. See lecturer for more details.
+\begin{Boxample}[4]
+jo-TODO execution of this heap-building algorithm - look in textbook
+
+\end{Boxample}
 
 There is still serious research being done on better priority queue 
 implementations.
@@ -910,9 +931,16 @@ implementations.
 \label{sec:qselect}
 
 
-The following table gives a summary of sorting algorithms.
+Table~\ref{t:sortchar} gives a summary of results so far on sorting algorithms.
+Running times give asymptotic order only. 
+Shellsort analysis depends on the increments used, and is difficult. 
+Quicksort needs a stack of size $\Theta(\log n)$ for the recursion. 
+Selection sort is stable for linked lists. 
+Mergesort is in-place for linked lists.
+
 \begin{table}[htb] 
 \caption{Characteristics of sorting methods} 
+\label{t:sortchar}
 \centerline{
 \begin{tabular}{|c|c|c|c|c|c|} \hline 
 Method & Worst & Average & Best & Stable? & In-place? \\
@@ -926,24 +954,23 @@ Heapsort & $n \log n$ & $n \log n$ & $n \log n$ & No & Yes \\
 \hline
 \end{tabular}}
 \end{table} 
-Running times give asymptotic order only. 
-Shellsort analysis depends on the increments used, and is difficult. 
-Quicksort needs a stack of size $\Theta(\log n)$ for the recursion. 
-Selection sort is stable for linked lists. 
-Mergesort is in-place for linked lists.
+
 
 \paragraph{Selection.}
-\begin{itemize}
-\item Fix $r$ with $1\leq r \leq n$. We want to find the element with
+We want to consider a related but different topic, Fix $r$ with $1\leq r \leq n$. We want to find the element with
 $r$th key from an input list (the $r$th \defnfont{order statistic}). 
-Should be easier than sorting! 
-\item
-Building a priority queue and extracting is probably too much work even if 
-$r = 1$, certainly if $r = n/2$. 
-\item One approach is to use the quicksort idea. At each stage we only need to 
+This should be easier than sorting! 
+
+\begin{Boxample}[5]
+Suppose that we build a priority queue and repeatedly extract elements until we get the one we want.
+What is the asymptotic running time in terms of $n$ and $r$?
+
+\end{Boxample}
+
+One good approach is to use the quicksort idea. At each stage we only need to 
 make a recursive call on one half of the array because we know where the pivot 
 is relative to the desired element. 
-\end{itemize}
+
 
 \begin{algorithm}[H]
   \caption{Quickselect
@@ -967,6 +994,8 @@ is relative to the desired element.
 \end{algorithmic}
 \end{algorithm}
 
+jo-TODO Boxample needed, execute qselect
+
 % \paragraph{Questions}
 % \begin{itemize}
 % \item What is the average-case running time of quickselect?
@@ -974,13 +1003,23 @@ is relative to the desired element.
 % \end{itemize}
 
 \paragraph{Quickselect analysis.}
-\begin{itemize}
-\item The recurrence for the average number of comparisons has the form 
-$E(n) = n + \frac{1}{n} \sum_{i=0}^{n-1} E(p)$. 
-\item This has a solution that is 
+
+The recurrence for the average number of comparisons has the form 
+$$E(n) = n + \frac{1}{n} \sum_{i=0}^{n-1} E(p).$$
+
+This has a solution that is 
 $\Theta(n)$, via the same method used for the quicksort recurrence.
-\item The worst case is still quadratic.
-\item There is another divide-and-conquer 
-algorithm that is worst-case linear, but much more complicated and never used in practice. Note that if it did work well in practice, we could use it to find the pivot, and thereby achieve $O(n\log n)$ worst case quicksort.
-\end{itemize}
+
+\begin{Boxample}[5]
+
+Solve the quickselect recurrence above.
+\end{Boxample}
+
+The worst case running time is still quadratic, for the same reason as for quicksort.
+
+\paragraph{How can we improve quickselect?}
+
+There is another divide-and-conquer 
+algorithm (see Wikipedia, ``Median of medians")  that is worst-case linear, but much more complicated and never used in practice. Note that if it did work well in practice, we would use it to find an optimal (i.e. median) pivot, and thereby achieve $O(n\log n)$ worst case running time for quicksort.
+
 

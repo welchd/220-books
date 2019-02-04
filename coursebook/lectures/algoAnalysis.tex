@@ -505,17 +505,17 @@ be obtained, and it turns out that $\lim_{n\to \infty} (\log n!)/(n \log n) = 1$
 
 \begin{Example} 
 By integral approximation we can get $H_n \in \Theta(\log n)$ where 
-$H_n:=1+ 1/2 + 1/3 + \dots + 1/n$ is the \emph{$n$th harmonic number}. 
+$H_n:=1+ 1/2 + 1/3 + \dots + 1/n$ is the $n$\emph{th harmonic number}. 
 \end{Example}
 
 \paragraph{Summary of results}
 Write $f \prec g$ if $f$ is $O(g)$ but $f$ is not $\Theta(g)$, so $g$ grows at a
  faster rate than $f$. Then, for example, 
-\begin{align*}
-& \log n \prec (\log n)^2 \prec \sqrt{n} \prec n \prec n \log n 
- \prec n (\log n)^2 \prec n^2 \\
-& \prec n^3 \prec \dots \prec (1.5)^n \prec 2^n \prec n! \prec n^n.
-\end{align*}
+$$
+ \log n \prec (\log n)^2 \prec \sqrt{n} \prec n \prec n \log n 
+ \prec n (\log n)^2 \prec n^2 
+\prec n^3 \prec \dots \prec (1.5)^n \prec 2^n \prec n! \prec n^n.
+$$
 
 
 
@@ -572,7 +572,7 @@ distribution of the inputs.
 Conclusion: a good worst-case bound is always useful, but it is
 just a first step and we should aim to refine the analysis for important 
 algorithms. Average-case analysis is often more practically useful, provided the
- algorithm will be run on ``random" data. 
+ algorithm will be run on ``random" data and we have some tolerance for risk.
 
 \paragraph{Why can constants often be ignored?}
 
