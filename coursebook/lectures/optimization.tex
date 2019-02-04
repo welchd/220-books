@@ -2,11 +2,8 @@
 \label{ch:weighted}
 
 
-\chapter{Weighted graph problems}
-\section{Dijkstra}
-\section{Bellman-Ford}
-\section{Floyd}
-\section{Prim, Kruskal}
+\chapter{Weighted graphs, the single-source shortest paths problem, Dijkstra}
+
 
 
 So far our digraphs have only encoded information about connection
@@ -41,7 +38,7 @@ In \cref{fig:graphExample5} we display a classic unweighted graph
 graph with edge weights.
 
 \begin{figure}
-\centerline{\IpeScale{80}\Ipe{./figs/graphEx5.ipe}}
+%\centerline{\IpeScale{80}\Ipe{./figs/graphEx5.ipe}}
 
 \caption{Some weighted (di)graphs.}
 \label{fig:graphExample5}
@@ -327,6 +324,9 @@ Thus we could have omitted the lines with $S=\set{0,1,2,3}$ in
 \end{center}
 \end{table}
 
+\chapter{Djikstra proof, Bellman-Ford}
+
+
 Why does Dijkstra's algorithm work? The proof of correctness is a
 little longer than for previous algorithms. The key observation is the
 following result. By an \defnfont{$S$-path} from $s$ to $w$ we mean a
@@ -424,7 +424,7 @@ traversals in Section~\ref{sec:trav}, and in fact Dijkstra's algorithm fits
 into the priority-first search framework discussed in
 Section~\ref{sec:PFS}. The key value associated to a node $u$ is simply the
 value $dist[u]$, the current best distance to that node from the root $s$.
-In \crefg{al:dijkstra2} we present Dijkstra's algorithm in this
+In \cref{alg:dijkstra2} we present Dijkstra's algorithm in this
 way.
 
 
@@ -598,7 +598,7 @@ all the arc weights are nonnegative?
 
 
 
-\section{All-pairs shortest path problem}
+\chapter{All-pairs shortest path problem}
 \label{sec:APSP}
 
 The problem is as follows: given a weighted digraph $(G, c)$, determine
@@ -870,7 +870,7 @@ the problem with this additional constraint.
 \end{Exercise}
 \end{samepage}
 
-\section{Minimum spanning tree problem}
+\chapter{Minimum spanning tree problem}
 \label{sec:MST}
 In this section, we use ``tree" to mean ``free tree" throughout.
 Recall that a tree is a connected acyclic graph. A \defnfont{spanning
@@ -1087,7 +1087,7 @@ expensive edge we can, subject to maintaining connectedness. Does it
 solve the MST problem sometimes? always?
 \end{Exercise}
 
-\section{Hard graph problems}
+\chapter{Hard graph problems}
 \label{sec:hardgraph}
 We have presented several efficient algorithms for some common digraph
 problems. All of these algorithms have running time bounded above by a low
