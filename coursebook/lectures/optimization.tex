@@ -38,8 +38,8 @@ In \cref{fig:graphExample5} we display a classic unweighted graph
 graph with edge weights.
 
 \begin{figure}
+% TODO this IPE fig not working
 %\centerline{\IpeScale{80}\Ipe{./figs/graphEx5.ipe}}
-
 \caption{Some weighted (di)graphs.}
 \label{fig:graphExample5}
 \end{figure}
@@ -447,7 +447,7 @@ way.
 			\If{$\colour[x] = $ WHITE}
 				\State $\colour[x] \gets $ GREY
 				\State $Q$.\algfont{insert}$(x, t_2)$
-			\ElseIf{$colour[x] = $ GREY \textbf{and} $Q$.\algfont{getKey}$(x) > t_2$}
+			\ElsIf{$colour[x] = $ GREY \textbf{and} $Q$.\algfont{getKey}$(x) > t_2$}
 				\State $Q$.\algfont{decreaseKey}$(x, t_2)$
 			\EndIf
 		\EndFor
@@ -572,7 +572,7 @@ between various South Island towns. What is the shortest time to drive legally f
 Picton to (a) Wanaka, (b) Queenstown and (c) Invercargill? Explain which
 algorithm you use and show your work.
 \begin{center}
-\includegraphics[width=8cm]{figs/SI.xfg.eps}
+\includegraphics[width=8cm]{southisland}
 %\verb|\epsfig{figure=figs/SI.xfg.eps, width=12cm}|
 \end{center}
 \end{Exercise}
@@ -995,7 +995,7 @@ to do for Dijkstra.
 	\State priority queue $Q$
 	\State array $\colour[0..n-1], \pred[0..n-1]$
 	\For{$u\in V(G)$}
-		\Stae $\colour[u] \gets$ WHITE; $\pred[u] \gets NULL$ 
+		\State $\colour[u] \gets$ WHITE; $\pred[u] \gets NULL$ 
 	\EndFor
 	\State $\colour[s] \gets $ GREY
 	\State $Q$.\algfont{insert}$(s, 0)$
@@ -1006,7 +1006,7 @@ to do for Dijkstra.
 			\If{$\colour[x] = $ WHITE}
 				\State $\colour[x] \gets $ GREY; $\pred[x] \gets u$
 				\State $Q$.\algfont{insert}$(x, t)$
-			\ElseIf{$\colour[x] = $ GREY \textbf{and} $Q$.\algfont{getKey}$(x) > t$}
+			\ElsIf{$\colour[x] = $ GREY \textbf{and} $Q$.\algfont{getKey}$(x) > t$}
 				\State $Q$.\algfont{decreaseKey}$(x, t)$; $\pred[x] \gets u$
 			\EndIf
 		\EndFor

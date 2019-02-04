@@ -1100,52 +1100,52 @@ arc. Otherwise printing the nodes in reverse order of finishing time
 gives a topological order. Note that printing the nodes in order of
 finishing time gives a topological order of the reverse digraph $G_r$.
 
-\subsection*{Exercises}
-
-\begin{Exercise}
-\label{ex:DAG-vs-tree}
-Give an example of a DAG whose underlying graph contains a cycle. Make
-your example as small as possible.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:DAG-sink}
-Prove that every DAG must have at least one source and at least one sink.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:sillytopsort}
-Show that the following method for topologically sorting a DAG does not work in 
-general: print the nodes in order of visiting time.
-\end{Exercise}
-
-\begin{Exercise} 
-\label{ex:profP}
-Professor P has the following information taped to his mirror, to help
-him to get dressed in the morning.
-
-Socks before shoes; underwear before trousers; trousers before belt;
-trousers before shoes; shirt before glasses; shirt before tie; tie
-before jacket; shirt before hat; shirt before belt.
-
-Find an acceptable order of dressing for Professor P.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:zero-indeg-runtime}
-What is the time complexity of zero-indegree sorting? 
-\end{Exercise}
-
-
-\begin{Exercise}
-\label{ex:forest}
-Let $G$ be a graph. There is an easy way to show that $G$ is acyclic.
-It is not hard to show (see Section~\ref{sec:app:trees}) that a graph $G$ is 
-acyclic if and only if $G$ is a forest, that is, a union of (free) trees.
-
-Give a simple way to check whether a graph $G$ is acyclic. Does the method 
-for finding a DAG given above work for acyclic graphs also?
-\end{Exercise}
+%\subsection*{Exercises}
+%
+%\begin{Exercise}
+%\label{ex:DAG-vs-tree}
+%Give an example of a DAG whose underlying graph contains a cycle. Make
+%your example as small as possible.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:DAG-sink}
+%Prove that every DAG must have at least one source and at least one sink.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:sillytopsort}
+%Show that the following method for topologically sorting a DAG does not work in 
+%general: print the nodes in order of visiting time.
+%\end{Exercise}
+%
+%\begin{Exercise} 
+%\label{ex:profP}
+%Professor P has the following information taped to his mirror, to help
+%him to get dressed in the morning.
+%
+%Socks before shoes; underwear before trousers; trousers before belt;
+%trousers before shoes; shirt before glasses; shirt before tie; tie
+%before jacket; shirt before hat; shirt before belt.
+%
+%Find an acceptable order of dressing for Professor P.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:zero-indeg-runtime}
+%What is the time complexity of zero-indegree sorting? 
+%\end{Exercise}
+%
+%
+%\begin{Exercise}
+%\label{ex:forest}
+%Let $G$ be a graph. There is an easy way to show that $G$ is acyclic.
+%It is not hard to show (see Section~\ref{sec:app:trees}) that a graph $G$ is 
+%acyclic if and only if $G$ is a forest, that is, a union of (free) trees.
+%
+%Give a simple way to check whether a graph $G$ is acyclic. Does the method 
+%for finding a DAG given above work for acyclic graphs also?
+%\end{Exercise}
 
 \chapter{Connectivity, components, strong components}
 
@@ -1691,44 +1691,44 @@ then we have found an augmenting path.  Otherwise, if we visit all vertices
 path exists starting at $v$.  This algorithm is given in \cref{fig:augpath}.
 
 
-\begin{algorithm}[H]
-  \caption{An algorithm to find an augmenting path, given a matching
-and an unmatched starting vertex.}
-    \label{alg:augpath}
-\begin{algorithmic}[1]
-\Function{findAugmentingPath}{bipartite graph $G$; matching $M$; unmatched vertex $x$}
-	\State queue $Q$
-	\State array $\status[0..n-1]$, $\pred[0..n-1]$
-	\For{$u \in V(G)$}
-  		\State $\status[u] \gets $ WHITE; $\pred[u] \gets $ NULL 
-	\EndFor
-	\State $\status[x] \gets $ EVEN
-	\State $Q$.\algfont{insert}$(x)$
-	\While{\textbf{not}  $Q$.\algfont{isEmpty}$()$}
-		\State $u \gets Q$.\algfont{pop}$()$
- 		\If{$\status[u] =$ EVEN}
- 			\For{each $v$ adjacent to $u$}
- 				\If{$\status[v]$ = WHITE}
- 					\State $\status[v] \gets$ ODD; $\pred[v] \gets$ u
- 					\If{$v$ is unmatched in $M$}
- 						\State \Return{path $x,\ldots, \pred[\pred[u]], \pred[u], u, v$}
- 					\Else
-	 					\State $Q$.\algfont{insert}$(v)$
- 					\EndIf
- 				\EndIf
- 			\EndFor
- 		\Else 			\Comment{that is, $\status[u] =$ ODD} 
-			\State $v \gets$ matched vertex of $u$ from $M$
-			\If{$status[v]$ = WHITE}
-				\State$\status[v] \gets$ EVEN; $\pred[v] \gets u$
- 				\State$Q$.insert$(v)$
-	 		\EndIf
- 		\EndIf
-	\EndWhile
-	\State \Return{false} \Comment{no augmenting paths containing $x$}
-\EndFunction
-\end{algorithmic}
-\end{algorithm}
+%\begin{algorithm}[H]
+%  \caption{An algorithm to find an augmenting path, given a matching
+%and an unmatched starting vertex.}
+%    \label{alg:augpath}
+%\begin{algorithmic}[1]
+%\Function{findAugmentingPath}{bipartite graph $G$; matching $M$; unmatched vertex $x$}
+%	\State queue $Q$
+%	\State array $\status[0..n-1]$, $\pred[0..n-1]$
+%	\For{$u \in V(G)$}
+%  		\State $\status[u] \gets $ WHITE; $\pred[u] \gets $ NULL 
+%	\EndFor
+%	\State $\status[x] \gets $ EVEN
+%	\State $Q$.\algfont{insert}$(x)$
+%	\While{\textbf{not}  $Q$.\algfont{isEmpty}$()$}
+%		\State $u \gets Q$.\algfont{pop}$()$
+% 		\If{$\status[u] =$ EVEN}
+% 			\For{each $v$ adjacent to $u$}
+% 				\If{$\status[v]$ = WHITE}
+% 					\State $\status[v] \gets$ ODD; $\pred[v] \gets$ u
+% 					\If{$v$ is unmatched in $M$}
+% 						\State \Return{path $x,\ldots, \pred[\pred[u]], \pred[u], u, v$}
+% 					\Else
+%	 					\State $Q$.\algfont{insert}$(v)$
+% 					\EndIf
+% 				\EndIf
+% 			\EndFor
+% 		\Else 			\Comment{that is, $\status[u] =$ ODD} 
+%			\State $v \gets$ matched vertex of $u$ from $M$
+%			\If{$status[v]$ = WHITE}
+%				\State$\status[v] \gets$ EVEN; $\pred[v] \gets u$
+% 				\State$Q$.insert$(v)$
+%	 		\EndIf
+% 		\EndIf
+%	\EndWhile
+%	\State \Return{false} \Comment{no augmenting paths containing $x$}
+%\EndFunction
+%\end{algorithmic}
+%\end{algorithm}
 
 
 
@@ -1736,64 +1736,64 @@ and an unmatched starting vertex.}
 There exists a polynomial-time algorithm to find a maximum matching
 in a bipartite graph.
 \end{Theorem}
-\begin{proof}
-We first need to show that the algorithm \algfont{findAugmentingPath}, given in
-\cref{fig:augpath}, does find an augmenting path if one exists.
-It is sufficient to show that if there exists at least one augmenting path 
-from vertex $x$ to some other unmatched vertex that we find any one of them 
-(in our case, by imitating BFS, it will be one of shortest length).  
-\algfont{findAugmentingPath}
-builds a traversal tree starting at $x$ using the following constraints.
-\begin{itemize}
-\item If a reachable vertex $u$ is in the same partition as $x$ (status will
-be set to EVEN by the algorithm) then we know (except for $x$) that there is 
-an alternating path with the last edge including $u$ being in the matching.
-\item If a reachable vertex $v$ is not in the same partition as $x$ (status will
-be set to ODD if it is matched) then we know that there is 
-an alternating path with the last edge including $v$ is not in the matching.
-\end{itemize}
-This process produces a tree with alternating paths rooted at $x$ as 
-illustrated in \cref{fig:augtree}.  The status of the nodes are ODD 
-or EVEN depending if they are an even or odd distance from $x$.  If a vertex 
-(first seen) is at an odd distance then we have seen an alternating path 
-where the last edge is not in the matching.  If this last vertex is unmatched 
-then we have found an augmenting path, otherwise we extend the path by using 
-the matched edge.  
-If a vertex is at an even distance then we have seen an alternating path
-where the last edge is in the matching.  Since the graph is bipartite the
-status of being ODD or EVEN is unambiguous.
-
-\begin{figure}
-\centering
-\includegraphics{augtree} 
-\caption{Structure of the graph traversal tree for finding augmenting paths.}
-\label{fig:augtree}
-\end{figure}
-
-Suppose the algorithm \algfont{findAugmentingPath} terminates without
-finding an augmenting path when one does exist.  Let $x=v_0,v_1,\ldots,v_k$
-be a counterexample.  Consider the
-first index $0<i\leq k$ such that $status[v_i] =$ WHITE.  We know $v_{i-1}$ was
-inserted in the queue $Q$. Consider the two cases.  If $i-1$ is even then
-since $v_i$ is a neighbour of $v_{i-1}$ its status would have changed to
-ODD.
-If $i-1$ is odd then either $(v_{i-1},v_i)$ is in the matching or not.
-If so, the status of $v_i$ would have changed; if not, a prefix of the 
-counterexample is not an augmenting path.  Thus, by contradiction,
-\algfont{findAugmentingPath} will find an augmenting path if one exists.
-
-The running time of one invocation of \algfont{findAugmentingPath} is the same 
-as the running time of BFS since each vertex is added to the queue $Q$
-at most once.  For adjacency list representation of graphs this 
-can be carried out in time $O(m)$.  If we find an augmenting path
-then our best matching increases by one.  
-Since a maximum matching is bounded by $\lfloor n/2 \rfloor$ we
-only need to find at most $O(n)$ augmenting paths.
-We potentially need to call \algfont{findAugmentingPath}
-once for each unmatched vertex, which is bounded by $O(n)$, and 
-repeat the process for each modified matching.  Therefore, the total 
-running time to find a maximum matching is at most $O(n^2m)$.
-\end{proof}
+%\begin{proof}
+%We first need to show that the algorithm \algfont{findAugmentingPath}, given in
+%\cref{fig:augpath}, does find an augmenting path if one exists.
+%It is sufficient to show that if there exists at least one augmenting path 
+%from vertex $x$ to some other unmatched vertex that we find any one of them 
+%(in our case, by imitating BFS, it will be one of shortest length).  
+%\algfont{findAugmentingPath}
+%builds a traversal tree starting at $x$ using the following constraints.
+%\begin{itemize}
+%\item If a reachable vertex $u$ is in the same partition as $x$ (status will
+%be set to EVEN by the algorithm) then we know (except for $x$) that there is 
+%an alternating path with the last edge including $u$ being in the matching.
+%\item If a reachable vertex $v$ is not in the same partition as $x$ (status will
+%be set to ODD if it is matched) then we know that there is 
+%an alternating path with the last edge including $v$ is not in the matching.
+%\end{itemize}
+%This process produces a tree with alternating paths rooted at $x$ as 
+%illustrated in \cref{fig:augtree}.  The status of the nodes are ODD 
+%or EVEN depending if they are an even or odd distance from $x$.  If a vertex 
+%(first seen) is at an odd distance then we have seen an alternating path 
+%where the last edge is not in the matching.  If this last vertex is unmatched 
+%then we have found an augmenting path, otherwise we extend the path by using 
+%the matched edge.  
+%If a vertex is at an even distance then we have seen an alternating path
+%where the last edge is in the matching.  Since the graph is bipartite the
+%status of being ODD or EVEN is unambiguous.
+%
+%\begin{figure}
+%\centering
+%\includegraphics{augtree} 
+%\caption{Structure of the graph traversal tree for finding augmenting paths.}
+%\label{fig:augtree}
+%\end{figure}
+%
+%Suppose the algorithm \algfont{findAugmentingPath} terminates without
+%finding an augmenting path when one does exist.  Let $x=v_0,v_1,\ldots,v_k$
+%be a counterexample.  Consider the
+%first index $0<i\leq k$ such that $status[v_i] =$ WHITE.  We know $v_{i-1}$ was
+%inserted in the queue $Q$. Consider the two cases.  If $i-1$ is even then
+%since $v_i$ is a neighbour of $v_{i-1}$ its status would have changed to
+%ODD.
+%If $i-1$ is odd then either $(v_{i-1},v_i)$ is in the matching or not.
+%If so, the status of $v_i$ would have changed; if not, a prefix of the 
+%counterexample is not an augmenting path.  Thus, by contradiction,
+%\algfont{findAugmentingPath} will find an augmenting path if one exists.
+%
+%The running time of one invocation of \algfont{findAugmentingPath} is the same 
+%as the running time of BFS since each vertex is added to the queue $Q$
+%at most once.  For adjacency list representation of graphs this 
+%can be carried out in time $O(m)$.  If we find an augmenting path
+%then our best matching increases by one.  
+%Since a maximum matching is bounded by $\lfloor n/2 \rfloor$ we
+%only need to find at most $O(n)$ augmenting paths.
+%We potentially need to call \algfont{findAugmentingPath}
+%once for each unmatched vertex, which is bounded by $O(n)$, and 
+%repeat the process for each modified matching.  Therefore, the total 
+%running time to find a maximum matching is at most $O(n^2m)$.
+%\end{proof}
 
 The algorithm presented here can easily be improved to $O(nm)$ by
 noting that it is only required to traverse and compute an 
@@ -1811,7 +1811,7 @@ We conclude this section by mentioning that there also exist
 poly\-nomial-time algorithms to find maximum matchings in arbitrary
 (non-bipartite) graphs. The details are beyond the scope of this book.
 
-\subsection*{Exercises}
+%\subsection*{Exercises}
 
 \begin{Exercise}\label{ex:agpath}
 Prove that a matching for a graph is maximum if and only if it does not
@@ -1824,14 +1824,14 @@ that has an augmenting path of length 5 and a maximum matching of
 the same graph with two more edges.
 \end{Exercise}
 
-\if 01
-\begin{Exercise}
-Explain what changes need to be done to the algorithm
- \algfont{findAugmentingPath} 
-so that it runs in time $O(|E|)$ and traverses all of the bipartite graph
-(instead of just the tree reachable from the unmatched vertex $x$).
-\end{Exercise}
-\fi
+%\if 01
+%\begin{Exercise}
+%Explain what changes need to be done to the algorithm
+% \algfont{findAugmentingPath} 
+%so that it runs in time $O(|E|)$ and traverses all of the bipartite graph
+%(instead of just the tree reachable from the unmatched vertex $x$).
+%\end{Exercise}
+%\fi
 
 \begin{Exercise}\label{ex:konig}
 Show that the size of a maximum matching in a bipartite graph $G=(V,E)$ is the
@@ -1841,16 +1841,16 @@ all $(u,v) \in E$, at least one of $u$ or $v$ is in $V'$.
 Does the equality hold for arbitrary graphs?
 \end{Exercise}
 
-\section{Notes}
-
-The linear-time algorithm for finding strong components of a digraph was 
-introduced by R. E. Tarjan in 1971.
-
-One of the early polynomial-time algorithms for finding
-maximum matchings in bipartite graphs is based on the Ford--Fulkerson 
-network flow algorithm \cite{FF56} from 1956.
-The first polynomial-time algorithm for finding a maximum matching in an 
-arbitrary graph was presented by J.~Edmonds \cite{Ed65} in 1965.
+%\section{Notes}
+%
+%The linear-time algorithm for finding strong components of a digraph was 
+%introduced by R. E. Tarjan in 1971.
+%
+%One of the early polynomial-time algorithms for finding
+%maximum matchings in bipartite graphs is based on the Ford--Fulkerson 
+%network flow algorithm \cite{FF56} from 1956.
+%The first polynomial-time algorithm for finding a maximum matching in an 
+%arbitrary graph was presented by J.~Edmonds \cite{Ed65} in 1965.
 
 %[FF56]
 %L. R. Ford and D. R. Fulkerson 
