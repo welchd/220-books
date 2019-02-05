@@ -76,7 +76,7 @@ The traversal algorithm is formalised in the pseudocode  of \cref{alg:traverse,a
 		\If{$u$ has a WHITE neighbour}
 			\State choose a WHITE neighbour, $v$ 
 			\State $\colour[v] \gets $ GREY \Comment{$v$ is visited for first time, so turns grey }
-			\State $pred[v] \gets u$ \Comment{make $u$ the parent of $v$ in the traversal tree}
+			\State $\pred[v] \gets u$ \Comment{make $u$ the parent of $v$ in the traversal tree}
 		\Else
 			\State $\colour[u] \gets $ BLACK \Comment{$u$ has no white neighbours so done with $u$ }
 		\EndIf
