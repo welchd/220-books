@@ -417,27 +417,25 @@ $u$, and as soon as we find a white one, we add it to the stack.
 %In summary, \algfont{DFS} is a linear-time traversal algorithm.
 
 Given the relationship between stacks and recursion, we can replace the \algfont{DFSvisit} procedure by
-a recursive version: \cref{fig:DFSreccode}.
+a recursive version: \cref{alg:DFSreccode}.
 
-\begin{figure}[htbp]
-\hspace*{1.3in}\begin{minipage}{5in}
-\Algorithm{recursiveDFSvisit}{node $s$}{}
-{
-\> $\colour[s] \gets $ GREY \\
-\> $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$ \\
-\> \textbf{for} each $v$ adjacent to $s$ \textbf{do} \\
-\> \> \textbf{if} $\colour[v] = $ WHITE \textbf{then} \\
-\> \> \> $\pred[v] \gets s$ \\
-\> \> \> \algfont{recursiveDFSvisit}($v$) \\
-\> \> \textbf{end if} \\
-\> \textbf{end for} \\
-\> $\colour[s] \gets $ BLACK \\
-\> $\done[s] \gets \timeVar $; $\timeVar \gets \timeVar + 1$ \\
-}
-\end{minipage}
-\caption{Recursive DFS visit algorithm.}
-\label{fig:DFSreccode}
-\end{figure}
+\begin{algorithm}[H]
+  \caption{Recursive DFS visit algorithm.}
+    \label{alg:DFSreccode}
+\begin{algorithmic}[1]
+\Function{recursiveDFSvisit}{node $s$}
+	\State $\colour[s] \gets $ GREY
+	\State $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
+	\For{each $v$ adjacent to $s$}
+		\If{$\colour[v] = $ WHITE}
+			\State $\pred[v] \gets s$
+			\State \algfont{recursiveDFSvisit}$(v)$ 
+		\EndIf
+	\EndFor
+	\State $\colour[s] \gets $ BLACK
+	\State $\done[s] \gets \timeVar $; $\timeVar \gets \timeVar + 1$
+\end{algorithmic}
+\end{algorithm}
 
 \section{DFS useful results and facts}
 
@@ -949,12 +947,12 @@ any code for \algfont{setKey}.
 \EndFunction
 \Function{PFSvisit}{node $s$}
 	\State $\colour[s] \gets $ GREY 
-	\State $Q$.\algfont{insert}($s$, \algfont{setKey}$(s)$)
+	\State $Q$.\algfont{insert}$(s$, \algfont{setKey}$(s))$
 	\While{\textbf{not} $Q$.\algfont{isEmpty}$()$}
 		\State $u \gets Q$.\algfont{peek}$()$
 		\If{$u$ has a neighbour $v$ with $\colour[v] = $ WHITE}
 			\State $\colour[v] \gets $ GREY
-			\State $Q$.\algfont{insert}$(v$, \algfont{setKey} $(v))$
+			\State $Q$.\algfont{insert}$(v$, \algfont{setKey}$(v))$
 		\Else
 			\State $Q$.\algfont{delete}
 			\State $\colour[u] \gets$ BLACK
@@ -1100,7 +1098,7 @@ cycle  visited by the DFS algorithm. We claim that $(v_n, v_0)$ is a
 back arc. To see why this is true, first note that during the DFS $v_0$ is 
 linked to $v_n$ via a path of unvisited nodes (possibly of length shorter 
 than $n$).  We have $v_n$ as a descendant of $v_0$ in the DFS tree and
-a back arc ($v_n, v_0$).
+a back arc $(v_n, v_0)$.
 \end{proof}
 
 One valid topological order is simply the reverse of the DFS finishing times.
