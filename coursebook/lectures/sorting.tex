@@ -558,21 +558,19 @@ Quicksort was described briefly in Lecture~\ref{sec:mergesort}. We give the deta
 			\State $q \gets  \Call{partition}{a, i,j,p}$ \Comment{put $p$ in correct position}
 			\State $\Call{quicksort}{a,i,q-1}$ \Comment{sort left half}
 			\State $\Call{quicksort}{a,q+1,j}$ \Comment{sort right half}
-			
 		\EndIf
 	%\State \Return{$a$}
 	\EndFunction  
 \end{algorithmic}
 \end{algorithm}
 
-jo-TODO this example is in the wrong place, doesn't make much sense until we have done the partition algorithm (and that needs its own Boxample too).
-\begin{Boxample}[5]
-Complete the following quicksort sort process.
+\begin{Example}
+Illustration of quicksort. First the pivot element 4 is moved into the middle. 
+Then the left side (``$< 4$'') and right side (``$> 4$'') are recursively sorted.
 \begin{center}
-\includegraphics{QuickSort}
+  \includegraphics{QuickSortExample}
 \end{center}
-\end{Boxample}
-
+\end{Example}
 
 
 \paragraph{Linear time partitioning.}
@@ -602,15 +600,30 @@ $\geq p$. One method is \cref{alg:partition} (Hoare, 1960). There are others:
 \State $r \gets r-1 $ \Comment{find small element}
 \Until{$a[r]\leq p$} 
 \If{$l < r$}
-\State \texttt{swap}($a,l,r$)  \Comment{swap big and small elements}
+\State \texttt{swap}$(a,l,r)$  \Comment{swap big and small elements}
 \Else
-\State \texttt{swap}($a,i,r$)  \Comment{put pivot in correct place}
+\State \texttt{swap}$(a,i,r)$  \Comment{put pivot in correct place}
 \State \Return{$r$}
 \EndIf
 \EndWhile
 \EndFunction  
 \end{algorithmic}
 \end{algorithm}
+
+\begin{Boxample}[1]
+Complete the following example for the partition algorithm \cref{alg:partition}. 
+Begin with setting the pointers $p$, $l$ and $r$ after finding the big and small element in the second iteration.
+\begin{center}
+\includegraphics{partitionAlgo}
+\end{center}
+\end{Boxample}
+
+\begin{Boxample}[2]
+Complete the example of the quicksort algorithm \cref{alg:quicksort} using the partition algorithm \cref{alg:partition}.
+\begin{center}
+\includegraphics{QuickSortExercise}
+\end{center}
+\end{Boxample}
 
 \paragraph{Quicksort analysis.}
 
@@ -718,19 +731,22 @@ question of the form $(a_i < a_j)$?, and this determines the branching: left for
 length of the path from the root to that leaf (the {depth} of the leaf 
 node). Thus the worst case number of comparisons is the maximum depth (the \emph{height}) of the tree.
 
-jo-TODO position these graphics properly
-
 \begin{Example}
-\includegraphics[width=9cm]{figs/selsort-dt}
 Here is the decision tree for selection sort when run on an  input list of size $3$. The label 
 ``$i$ vs $j$" means that the $i$th element of the input list is compared to the $j$th element, by asking
 ``is $a[i] < a[j]$"?
+\begin{center}
+\includegraphics[width=8cm]{figs/selsort-dt}
+\end{center}
+
 %\frametitle{Selection sort decision tree for $n=3$}
 
 The next figure shows the corresponding decision tree for insertion sort. We add in the grey background nodes to give information about 
 which input yields which sequence of comparisons.
 %\frametitle{Insertion sort decision tree for input of size 3}
-\includegraphics[width=12cm]{figs/insort-dt}
+\begin{center}
+\includegraphics[width=9cm]{figs/insort-dt}
+\end{center} 
 \end{Example}
 
 \paragraph{Worst case height of binary decision tree} 
@@ -827,8 +843,12 @@ the last level is left-filled);
 \end{itemize}
 \end{Definition}
 
-\begin{Example}[6]
-jo - TODO picture of heap and non-heap
+\begin{Example}
+The tree on the left is a heap. The other two trees are not heaps; 
+the one in the middle is not left-complete and the one on the right does not have the partial order property.
+\begin{center}
+\includegraphics{heapsEx}
+\end{center}
 \end{Example}
 
 
@@ -842,8 +862,11 @@ possible. Swap it upward until no swap is required.
 is required. 
 \end{itemize}
 
-\begin{Example}[6]
-jo - TODO picture example of heap insertion and deletion
+\begin{Example}
+Example of heap insertion and deletion. 
+\begin{center}
+\includegraphics{heapInsertDelete}
+\end{center}
 \end{Example}
 
 \paragraph{Heapsort analysis.}
@@ -859,10 +882,6 @@ mergesort.
 \end{itemize}
 
 \paragraph{How can we improve the algorithm?}
-
-
-
-
 It turns out we can we make heapsort work in-place without building a separate heap, because the tree structure is so restricted.
 
 \paragraph{Array representation of binary heap.}
@@ -879,8 +898,11 @@ an array.
  deleted elements end up at the end of the array.
 \end{itemize}
 
-\begin{Boxample}[6]
-jo - TODO draw heap and get them to convert to array
+\begin{Boxample}[0]
+Convert the heap to an array. 
+\begin{center}
+\includegraphics{heapArray}
+\end{center}
 \end{Boxample}
 
 Note that for heapsort we only need the heap property at the end, but our method keeps it after inserting every element. 
