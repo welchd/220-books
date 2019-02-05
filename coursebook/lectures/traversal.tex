@@ -262,28 +262,23 @@ the adjacency matrix is not clearly ruled out.
 %\end{itemize}
 %\end{Exercise}
 
-\chapter{Basics DFS and BFS.  Details of DFS }
-
-\section{DFS and BFS}
-\label{sec:BFSDFS}
+\chapter{Depth first search }
 
 Traversal algorithms differ in the rules for choosing the next grey and next white node, with  different rules lead
-to very different results. 
+to very different results.  Here we
 
-The two main algorithms are defined by how they choose the grey nodes:
 \begin{itemize}
-\item in \defnfont{breadth-first
-search} (BFS) the new grey node chosen is the one
-that has been grey for the \boldfont{longest} time 
 \item in \defnfont{depth-first
 search} (DFS) the new grey node chosen is the one
 that has been grey for the \boldfont{shortest} time
 \end{itemize}
  
-BFS takes us away
-from the root node as slowly as possible. First we visit the root, then all its neighbours, then all neighbours of its neighbours and so on. The root is the first node to turn black.
+%BFS takes us away
+%from the root node as slowly as possible. First we visit the root, then all its neighbours, then all neighbours of its neighbours and so on. The root is the first node to turn black.
 
-By contrast, DFS  takes us away
+%By contrast, 
+
+DFS  takes us away
 from the root node as quickly as possible. If the first visited neighbour of the root has a neighbour, we immediately visit that neighbour. Then, it that has a neighbour , we visit that and so on, thus ``deeply''
 searching as far away from the root as possible. We backtrack as little as possible before continuing away from the root again. The root is the last node to turn black.
 
@@ -292,28 +287,26 @@ of which white neighbour of the chosen grey node to visit. It does
 not matter what choice is made but our \defnfont{convention is to choose the one with
 lowest index} (recall nodes have indices $0, \dots, n - 1$). 
 
-These choices can be made in constant time so that the running time is  $\Omega(n + m)$ (assuming adjacency lists). So BFS and DFS are linear in the size + order of a digraph. 
+These choices can be made in constant time so that the running time is  $\Omega(n + m)$ (assuming adjacency lists). So DFS are linear in the size + order of a digraph. 
 
 If an adjacency matrix is used, the algorithms are quadratic in the size of the graph ($\Omega(n^2)$).
 
 \begin{Example}
 \label{eg:graphExample2}
-
 A graph $G_1$ and a digraph $G_2$ are displayed in
 \cref{fig:graphExample2}.
 
-In \cref{fig:graphEx2-BFS} we show the breadth-first search trees based on a BFS traversal starting at node $0$ (for $G_1$ and $G_2$). The
-dashed arcs indicate the original arcs that are not part of the BFS trees. The numbering next to the 
+In \cref{fig:graphEx2-DFS} we show the depth-first search trees based on a DFS traversal starting at node $0$. The
+dashed arcs indicate the original arcs that are not part of the DFS trees.
+\end{Example}
 
-In \cref{fig:graphEx2-DFS} we show the depth-first search trees based on a DFS traversal starting at node $0$. Again, The
-dashed arcs indicate the original arcs that are not part of the BFS trees.
 
 
 \begin{Boxample}[2]
-FInd a tree arc, cross arc, forward arc and back arc for each of the search trees in \cref{fig:graphEx2-BFS,fig:graphEx2-DFS} (or say if that type of arc does not exist for that traversal).
+Find a tree arc, cross arc, forward arc and back arc for each of the search trees in \cref{fig:graphEx2-DFS} (or say if that type of arc does not exist for that traversal).
 \end{Boxample}
 
-\end{Example}
+
 \begin{figure}[hbtp]
 	\centering
 	\includegraphics{graphEx2}
@@ -321,12 +314,7 @@ FInd a tree arc, cross arc, forward arc and back arc for each of the search tree
 	\label{fig:graphExample2}
 \end{figure}
 
-\begin{figure}[hbtp]
-	\centering
-	\includegraphics{graphEx2BFS}
-	\caption{BFS trees for $G_1$ and $G_2$, rooted at $0$.}
-	\label{fig:graphEx2-BFS}
-\end{figure}
+
 
 \begin{figure}[hbtp]
 	\centering 
@@ -335,8 +323,7 @@ FInd a tree arc, cross arc, forward arc and back arc for each of the search tree
 	\label{fig:graphEx2-DFS}
 \end{figure}
 
-For a general digraph, and unlike the examples given here, all nodes may not be reachable from the starting node. In this case, each call to
-\algfont{BFSvisit}/\algfont{DFSvisit} (special cases of \algfont{visit}) produces a single search tree, while the algorithm \algfont{DFS}/\algfont{BFS} (special cases of \algfont{traverse}) repeatedly chooses a root and runs the associated visit algorithm, producing the search forest.
+For a general digraph, and unlike the examples given here, all nodes may not be reachable from the starting node. In this case, each call to \algfont{DFSvisit} (a special case of \algfont{visit}) produces a single search tree, while the algorithm \algfont{DFS} (a special case of \algfont{traverse}) repeatedly chooses a root and runs the associated visit algorithm, producing the search forest.
 
 %\section*{Exercises}
 %
@@ -363,11 +350,10 @@ For a general digraph, and unlike the examples given here, all nodes may not be 
 \section{Pseudocode for depth-first search}
 \label{ss: DFS}
 
-In DFS, the next grey node chosen is the last one to be coloured grey. 
 This ``last in, first
-out" order is mimicked  by a \boldfont{stack} data structure. We thus store grey nodes in a stack as they are discovered. 
+out" order of choosing grey nodes that we see in DFS is mimicked  by a \boldfont{stack} data structure. We thus store grey nodes in a stack as they are discovered. 
 
-The pseudocode for DFS and DFS visit is in \cref{alg:DFScode}. 
+The pseudocode for DFS and DFS visit is in \cref{alg:DFScode,alg:DFSvisitcode}. 
 
 \begin{itemize}
 \item We loop through the nodes adjacent to the chosen grey node
@@ -664,11 +650,39 @@ $$\seen[w] < \done[w]  < \seen[v] < \done[v].$$
 
 \chapter{Breadth First Search (BFS) and Priority First Search (PFS)}
 
+\begin{itemize}
+\item in \defnfont{breadth-first
+search} (BFS) the new grey node chosen is the one
+that has been grey for the \boldfont{longest} time
+\end{itemize}
+ 
+BFS takes us away from the root node as slowly as possible. 
+First we visit the root, then all its neighbours, then all neighbours of its neighbours and so on. 
+The root is the first node to turn black.
+
+As with DFS, the running time of BFS is in $\Theta(n+m)$ when implemented using adjacency lists.
+
+\begin{figure}[hbtp]
+	\centering
+	\includegraphics{graphEx2BFS}
+	\caption{BFS trees for $G_1$ and $G_2$ of \cref{fig:graphExample2}, rooted at $0$.}
+	\label{fig:graphEx2-BFS}
+\end{figure}
+
+\begin{Example}
+In \cref{fig:graphEx2-BFS} we show the breadth-first search trees based on a BFS traversal of $G_1$ and $G_2$ in \cref{fig:graphExample2} starting at node $0$ . The
+dashed arcs indicate the original arcs that are not part of the BFS trees. The numbering next to the 
+\end{Example}
+
+\begin{Boxample}[2]
+Find a tree arc, cross arc, forward arc and back arc for each of the search trees in \cref{fig:graphEx2-BFS} (or say if that type of arc does not exist for that traversal).
+\end{Boxample}
+
 \section{Additional properties of breadth-first search}
 \label{sec:bfs}
 
 The first-in first-out processing of the grey nodes in BFS is ideally
-handled by a queue. In \cref{fig:BFScode} we present the algorithm.
+handled by a queue. The pseudocode for BFS is in \cref{alg:BFScode,alg:BFSvisitcode}.
 The timestamps $\seen, \done$ of DFS are of less use here;
 it is more useful to record the number of steps from the root in the
 array $d$.
@@ -695,6 +709,7 @@ array $d$.
 \end{algorithm}
 \begin{algorithm}[H]
   \caption{Breadth-first search visit algorithm.}
+     \label{alg:BFSvisitcode}
   \begin{algorithmic}[1]
 \Function{BFSvisit}{node $s$}
 	\State $\colour[s] \gets $ GREY; $d[s] \gets 0$ 
@@ -719,7 +734,7 @@ array $d$.
 %can again be chosen in constant time.
 
 It is rather obvious that BFS processes all nodes at distance 1, then
-all nodes at distance 2, etc, from the root. The formal thereom stating this is given below without proff (see book for a simple inductive proof).
+all nodes at distance 2, etc, from the root. The formal theorem stating this is given below without proof (see book for a simple inductive proof).
 
 \begin{Theorem}
 \label{thm:BFSdist}
@@ -771,26 +786,26 @@ if $(v, w)$ is a cross arc then one of the following holds:
 \end{itemize}
 \end{Theorem}
 
-\begin{proof}
-The arc is added to the tree if and only if $w$ is white. If the arc is
-a back arc, then $w$ is an ancestor of $v$; the FIFO queue structure
-means $w$ is black before the adjacency list of $v$ is scanned. 
-
-Now suppose that $(x, u)$ is a forward arc. Then since $u$ is a
-descendant of $x$ but not a child in the search forest, 
-Theorem~\ref{thm:BFSdist} yields $d[u]
-\geq d[x] + 2$. But by the last theorem we have $d[u] = d(s, u) \leq
-d(s, x) + 1 = d[x] + 1$, a contradiction. Hence no such arc exists.
-
-A cross arc may join two nodes on the same level, jump up one level,
-or jump up more than one level. In the last case, $w$ is already black
-before $v$ is seen. In the second case, $w$ may be seen before $v$,
-in which case it is black before $v$ is seen (recall $w$ is not the
-parent of $v$), or it may be seen after $v$, in which case it is grey
-when $(v, w)$ is explored. In the first case, $w$ may be seen before $v$ (in
-which case it is black before $v$ is seen), or $w$ may be seen after $v$
-(in which case it is grey when $(v, w)$ is explored).
-\end{proof}
+%\begin{proof}
+%The arc is added to the tree if and only if $w$ is white. If the arc is
+%a back arc, then $w$ is an ancestor of $v$; the FIFO queue structure
+%means $w$ is black before the adjacency list of $v$ is scanned. 
+%
+%Now suppose that $(x, u)$ is a forward arc. Then since $u$ is a
+%descendant of $x$ but not a child in the search forest, 
+%Theorem~\ref{thm:BFSdist} yields $d[u]
+%\geq d[x] + 2$. But by the last theorem we have $d[u] = d(s, u) \leq
+%d(s, x) + 1 = d[x] + 1$, a contradiction. Hence no such arc exists.
+%
+%A cross arc may join two nodes on the same level, jump up one level,
+%or jump up more than one level. In the last case, $w$ is already black
+%before $v$ is seen. In the second case, $w$ may be seen before $v$,
+%in which case it is black before $v$ is seen (recall $w$ is not the
+%parent of $v$), or it may be seen after $v$, in which case it is grey
+%when $(v, w)$ is explored. In the first case, $w$ may be seen before $v$ (in
+%which case it is black before $v$ is seen), or $w$ may be seen after $v$
+%(in which case it is grey when $(v, w)$ is explored).
+%\end{proof}
 
 In the special case of graphs we can say more.
 
@@ -809,11 +824,11 @@ $\{v, w\}$ is a cross edge, $| d[w] - d[v] | = 1$.
 \end{itemize}
 \end{Theorem}
 
-\begin{proof} By Theorem~\ref{thm:BFS-arcclass} there can be no forward
-edges, hence no back edges. A cross edge may not jump up more than
-one level, else it would also jump down more than one level, which is
-impossible by Theorem~\ref{thm:BFSdist}.
-\end{proof}
+%\begin{proof} By Theorem~\ref{thm:BFS-arcclass} there can be no forward
+%edges, hence no back edges. A cross edge may not jump up more than
+%one level, else it would also jump down more than one level, which is
+%impossible by Theorem~\ref{thm:BFSdist}.
+%\end{proof}
 
 For a given BFS tree, we can uniquely label the vertices of
 a digraph based on the time they were first seen. For the graph
@@ -862,47 +877,54 @@ minimum length if it exists.
 \section{Priority-first search}
 \label{sec:PFS}
 
-Priority-first search is a more sophisticated form of traversal with
-many applications. For now, we consider it simply as a common
-generalization of breadth-first and depth-first search. Priority-first
-search may seem a little abstract compared to the more concrete DFS and
-BFS. We shall not need it until Chapter~\ref{ch:weighted}; however
-it will be essential then.
+Priority-first search is a more general and sophisticated form of traversal that encompasses both BFS and DFS (and others). 
 
-The important property is that each grey node has associated with it an
-integer \defnfont{key}. The interpretation of the key is of a priority: the
-smaller the key, the higher the priority. The rule for selecting a new
+\begin{itemize}
+\item each grey node has associated with it an
+integer \defnfont{key}. 
+\item The interpretation of the key is of a priority: the
+smaller the key, the higher the priority. 
+\item The rule for choosing a new
 grey node is to choose one with the smallest key.  
+\item The key can either be assigned once when the node is first seen and then left unchanged, or could be updated at other times. We concentrate on unchanging keys here.
+\item To mimic BFS, set the key for the node $v$ to be the time that $v$ turns grey. It will always remain as the lowest key until it turns black.
+\item To mimic DFS, set the key for node $v$ to be $-\seen[v]$, so that the most recently seen node has the lowest key
+\item The running time of PFS depends on how long it takes to find the minimum key value.
+\item The rules described here implemented using an array take $\Omega(n)$ to find the lowest key so the algorithm is $\Theta(n^2)$. Contrast with with $\Theta(m+n)$ for standard traversal.
+\item PFS is best described via the priority
+queue ADT which has more efficient implementations than using a standard array.
+\end{itemize}
 
-In the simplest form of PFS, the key value is assigned when the node
-becomes grey, and never updated subsequently. More generally, the key
-may be further updated at other times. We shall see both types in this
-book. The second type of PFS is used in optimization problems as we
-shall discuss in Chapter~\ref{ch:weighted}. 
 
-The first type of PFS includes both BFS and DFS. In BFS, the key
-value of $v$ can be taken as the time $v$ was first coloured grey.
-Note that this means that a given grey node can be selected many
-times---until it becomes black, in fact, it will always have minimum
-key among the grey nodes. By contrast, in DFS we can take the key
-value to be $-\seen[v]$. Then the last node seen always has minimum
-key. It cannot be chosen again until the nodes seen after it have
-become black.
+%In the simplest form of PFS, the key value is assigned when the node
+%becomes grey, and never updated subsequently. More generally, the key
+%may be further updated at other times. We shall see both types in this
+%book. The second type of PFS is used in optimization problems as we
+%shall discuss in Chapter~\ref{ch:weighted}. 
+%
+%The first type of PFS includes both BFS and DFS. In BFS, the key
+%value of $v$ can be taken as the time $v$ was first coloured grey.
+%Note that this means that a given grey node can be selected many
+%times---until it becomes black, in fact, it will always have minimum
+%key among the grey nodes. By contrast, in DFS we can take the key
+%value to be $-\seen[v]$. Then the last node seen always has minimum
+%key. It cannot be chosen again until the nodes seen after it have
+%become black.
+%
+%The running time of PFS depends mostly on how long it takes to find the
+%minimum key value, and how long it takes to update the key values.
+%
+%In the array implementation mentioned above, finding the minimum key
+%value takes time of order $n$ at each step, so the quantity $a$ is
+%$\Omega(n)$. Thus a PFS of this type will take time in $\Omega(n^2)$.
+%This is worse than the $\Theta(n+m)$ we obtain with BFS and DFS using
+%adjacency lists and a queue or stack respectively. One reason is that a
+%simple array is not a particularly good data structure for finding the
+%minimum key. You have already seen a better one in Part I of this 
+%book---the binary heap. In fact PFS is best described via the priority
+%queue ADT (see Section~\ref{sec:app:adt-informal}).
 
-The running time of PFS depends mostly on how long it takes to find the
-minimum key value, and how long it takes to update the key values.
-
-In the array implementation mentioned above, finding the minimum key
-value takes time of order $n$ at each step, so the quantity $a$ is
-$\Omega(n)$. Thus a PFS of this type will take time in $\Omega(n^2)$.
-This is worse than the $\Theta(n+m)$ we obtain with BFS and DFS using
-adjacency lists and a queue or stack respectively. One reason is that a
-simple array is not a particularly good data structure for finding the
-minimum key. You have already seen a better one in Part I of this 
-book---the binary heap. In fact PFS is best described via the priority
-queue ADT (see Section~\ref{sec:app:adt-informal}).
-
-Pseudocode demonstrating the first type of PFS is presented in
+Pseudocode demonstrating the PFS is presented in
 \cref{fig:PFScode}. The subroutine \algfont{setKey} there is the
 rule for giving the key value when a node is inserted. We do not include
 any code for \algfont{setKey}.
