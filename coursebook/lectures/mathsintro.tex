@@ -1,16 +1,15 @@
-\chapter{Mathematical Background}
+\chapter{Basic Mathematical Background}
 \label{ch:app:mathtools}
 
 jo-TODO make this Lecture 0 by renumbering throughout
 
-jo-TODO
-MCW-TODO check whether we need anything else, add more examples and self-quiz questions
+MCW-TODO check whether we need anything else, add more examples and self-quiz questions using stuff from CS120
 
 We list here some important mathematical facts and techniques  that will be used often in this course. It is very important to understand them well - ask for help if your background has substantial holes.
 
 \paragraph{Sets}
 
-A \emph{set} is an unordered collection of objects (called \emph{elements}).
+A \emph{set} is an unordered collection of distinct objects (called \emph{elements}). We write $a\in X$ to mean that $a$ is an element of $X$.
 
 Important sets: 
 \begin{itemize}
@@ -19,7 +18,8 @@ Important sets:
 \item $\varnothing = \{\}$, the \emph{empty set} having no elements.
 \end{itemize}
 
-Notation: $X = \{2,3,5,7,11\}$ or $X = \{x\in \mathbb{N} : \text{$x$ is prime and $x< 12$}\}$.
+Notation: list elements, e.g. $X = \{2,3,5,7,11\}$ or use set-builder notation $X = \{x\in \mathbb{N} : \text{$x$ is prime and $x< 12$}\}$. Note that $\{a, a, b\} = \{a, b\}$ because elements cannot be repeated in a set.
+
 Operations: 
 \begin{itemize}
 \item $A\cap B = \{x: x\in A \text{ and } x\in B\}$
@@ -36,19 +36,33 @@ Important functions from $\mathbb{R}$ to $\mathbb{R}$:
 \begin{itemize}
 \item Power functions $f(x) = x$, $f(x) = x^2$, $f(x) = x^3$, etc
 \item Exponential functions $f(x) = 2^x$, $f(x) = (1.5)^x$, etc
-\item Logarithm (inverse of exponential) has a different domain.
+\item Logarithm (inverse of exponential) is defined by $\log_a (y) = x$ if and only if $y = a^x$. Its domain is $\{x\in \mathbb{R} : x > 0\}$. We usually just write $\log_a y$, omitting parentheses, if there is no confusion about what is meant.
 \end{itemize}
 
-More important functions: \emph{ceiling} rounds up to nearest integer, e.g. $\lceil 3.7 \rceil = 4$. \emph{Floor} rounds down, e.g. $\lfloor 3.7 \rfloor= 3 = \lfloor 3 \rfloor$.
+Other useful functions: 
+\begin{itemize}
+\item \emph{Ceiling} rounds up to nearest integer, e.g. $\lceil 3.7 \rceil = 4 = \lceil 4 \rceil$. 
+\item \emph{Floor} rounds down, e.g. $\lfloor 3.7 \rfloor= 3 = \lfloor 3 \rfloor$.
+\end{itemize}
+
+
 
 \paragraph{Basic properties of important functions}
 \begin{itemize}
-\item For $a>1$ the exponential $f(x) = a^x$ is \emph{increasing} and positive, and satisfies $a^{x+y} = a^x a^y$ for all $x,y\in \mathbb{R}$.
-\item For $a>1$ the logarithm $\log_a$ is increasing and satisfies $\log_a(xy) = \log_a x + \log_a y$ for all $x,y>0$.
-\item We write $\ln = \log_e$ and $\lg = \log_2$. Note that $\log_a x = \log_b x \log_a b$.
-\item Derivatives: $\frac{d}{dx} e^x = e^x, \frac{d}{dx} \ln x = \frac{1}{x}$.
+\item For fixed $a>1$ the exponential $f(x) = a^x$ is \emph{increasing} and positive, and satisfies $$a^{x+y} = a^x a^y$$ for all $x,y\in \mathbb{R}$. 
+\item For fixed $a>1$ the logarithm $\log_a$ is increasing and satisfies 
+$$\log_a(xy) = \log_a x + \log_a y$$ for all $x,y>0$.
+\item We write $\ln = \log_e$ and $\lg = \log_2$. Note that $\log_a x = \log_a b \log_b x$ and $a^x = e^{x\ln a}$.
+\item Derivatives: $\frac{d}{dx} e^x = e^x, \frac{d}{dx} \ln x = \frac{1}{x},  \frac{d}{dx} x^a = ax^{a-1}$ if $a$ is a constant.
 \end{itemize}
 
+\begin{Boxample}[4]
+Prove that for every $n\in \mathbb{N}$ such that $n\geq 1$,
+$$
+\lceil \lg (n+1) \rceil = 1 + \lfloor \lg n \rfloor.
+$$
+
+\end{Boxample}
 
 \paragraph{Sums}
 
@@ -64,13 +78,18 @@ Some important sums:
 \sum_{i=m}^n a^n&  = \frac{a^{n+1}-a^m}{a-1}.
 \end{align*}
 
-
-
+\begin{Boxample}[4]
+Simplify 
+$$
+\sum_{i=1}^{2n} 2^i.
+$$
+\end{Boxample}
 
 \paragraph{Proof by induction}
+A standard technique for proving a collection of results, one for each natural number. If we can prove for $n=0$, and also show that whenever the result we want is true for $n$, it is true for $n+1$, then we know it must be true for all $n\in \mathbb{N}$.
 
 \begin{Example}
-Pove that if $a\neq 1$ then for all  $n\geq 0$
+Prove that if $a\neq 1$ then for all  $n\geq 0$
 $$
 \sum_{i=0}^n a^n = \frac{a^{n+1} - 1}{a - 1}.
 $$
@@ -88,7 +107,7 @@ Thus the result holds for \emph{all} $n\geq 0$, by \emph{mathematical induction}
 
 \paragraph{Binary trees}
 
-A \emph{binary tree} is either empty or consists of a \emph{root} node connected to an ordered pair of binary trees. 
+A \emph{binary tree} is an object that is either empty or consists of a \emph{root} node connected to an ordered pair of binary trees. 
  
 We can also define them using explicit external nodes (null pointers) to represent empty trees. Then a binary tree is an external node or an internal node connected to an ordered pair of binary trees.
  
@@ -109,6 +128,11 @@ Important technique: \emph{L'H\^{o}pital's rule}: $\lim_{x\to \infty} f(x)/g(x) 
 \begin{Example}
  $\lim_{x\to\infty} \frac{e^x}{x} = \lim_{x\to\infty} e^x = \infty$; $\lim_{x\to\infty} (\ln x)/x = \lim_{x\to\infty} (1/x)/1 = 0$.
  \end{Example}
+ 
+ \begin{Boxample}[5]
+What is  $\lim_{x\to\infty} \frac{\log x}{x}$?
+ 
+ \end{Boxample}
 
 
 
