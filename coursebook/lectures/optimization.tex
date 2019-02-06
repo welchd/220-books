@@ -70,7 +70,7 @@ $w$ and then the cost $c(v, w)$.
 
 
 \begin{Boxample}[0]
-TODO: turn this into a shorter boxample...
+jo TODO: turn this into a shorter boxample...
 
 The two weighted (di)graphs of \cref{fig:graphExample5} are
 stored as weighted adjacency matrices below.
@@ -302,11 +302,12 @@ Thus we could have omitted the lines with $S=\set{0,1,2,3}$ in
 \cref{tab:dijkstrarun}.
 \end{Example}
 
+jo-TODO: add figures to Dijkstra algo table
 \begin{table}[h]
 \caption{Illustrating Dijkstra's algorithm.}\label{tab:dijkstrarun}
 \begin{center}
 \begin{tabular}{|c|c|}\hline
-\textbf{current} $S \subseteq V$ &  \textbf{distance vector} $dist$  \\ \hline
+\textbf{current} $S \subseteq V$ &  \textbf{distance vector} $\dist$  \\ \hline
 \set{0} & $0, 1, 4, \infty$  \\
 \set{0,1} & $0, 1, 4, 3$  \\
 \set{0,1,3} & $0, 1, 4, 3$  \\
@@ -329,7 +330,6 @@ Thus we could have omitted the lines with $S=\set{0,1,2,3}$ in
 
 \chapter{Djikstra proof, Bellman-Ford}
 
-
 Why does Dijkstra's algorithm work? The proof of correctness is a
 little longer than for previous algorithms. The key observation is the
 following result. By an \defnfont{$S$-path} from $s$ to $w$ we mean a
@@ -340,17 +340,17 @@ need not belong to $S$, but all other nodes in the path do belong to $S$.
 \label{thm:dijkstra} Suppose that all arc weights are nonnegative. Then
 at the top of the \boldfont{while} loop, we have the following properties:
 \begin{description}
-\item[P1:] if $x\in V(G)$, then $dist[x]$ is the minimum cost of an $S$-path 
+\item[P1:] if $x\in V(G)$, then $\dist[x]$ is the minimum cost of an $S$-path 
 from $s$ to $x$;
-\item[P2:] if $w\in S$, then $dist[w]$ is the minimum cost of a path
+\item[P2:] if $w\in S$, then $\dist[w]$ is the minimum cost of a path
 from $s$ to $w$.
 \end{description}
 \end{Theorem}
 
 \begin{note} Assuming the result to be true for a moment, we can see
-that once a node $u$ is added to $S$ and $dist[u]$ is updated, $dist[u]$
+that once a node $u$ is added to $S$ and $\dist[u]$ is updated, $\dist[u]$
 never changes in subsequent iterations. When the algorithm terminates,
-all nodes belong to $S$ and hence $dist$ holds the correct distance information.
+all nodes belong to $S$ and hence $\dist$ holds the correct distance information.
 \end{note}
 \begin{proof} 
 Note that at every step, $dist[x]$ does contain
@@ -408,7 +408,7 @@ Hence P1 holds for all iterations.
 The study of the time complexity of Dijkstra's algorithm leads to many
 interesting topics.
 
-Note that the value of $dist[x]$ will change only if $x$ is adjacent to
+Note that the value of $\dist[x]$ will change only if $x$ is adjacent to
 $u$. Thus if we use a weighted adjacency list, the block inside the
 second for-loop need only be executed $m$ times. However, if
 using the adjacency matrix representation, the block inside the for-loop
@@ -416,17 +416,17 @@ must still be executed $n^2$ times.
 
 The time complexity is of order $a n + m$ if adjacency lists are used,
 and $a n + n^2$ with an adjacency matrix, where $a$ represents the time
-taken to find the node with minimum value of $dist$. The obvious method
-of finding the minimum is simply to scan through array $dist$
+taken to find the node with minimum value of $\dist$. The obvious method
+of finding the minimum is simply to scan through array $\dist$
 sequentially, so that $a$ is of order $n$, and the running time of
 Dijkstra is therefore $\Theta(n^2)$. Dijkstra himself originally used
-an adjacency matrix and scanning of the $dist$ array. 
+an adjacency matrix and scanning of the $\dist$ array. 
 
 The above analysis is strongly reminiscent of our analysis of graph
 traversals in Section~\ref{sec:trav}, and in fact Dijkstra's algorithm fits
 into the priority-first search framework discussed in
 Section~\ref{sec:PFS}. The key value associated to a node $u$ is simply the
-value $dist[u]$, the current best distance to that node from the root $s$.
+value $\dist[u]$, the current best distance to that node from the root $s$.
 In \cref{alg:dijkstra2} we present Dijkstra's algorithm in this
 way.
 
@@ -450,7 +450,7 @@ way.
 			\If{$\colour[x] = $ WHITE}
 				\State $\colour[x] \gets $ GREY
 				\State $Q$.\algfont{insert}$(x, t_2)$
-			\ElsIf{$colour[x] = $ GREY \textbf{and} $Q$.\algfont{getKey}$(x) > t_2$}
+			\ElsIf{$\colour[x] = $ GREY \textbf{and} $Q$.\algfont{getKey}$(x) > t_2$}
 				\State $Q$.\algfont{decreaseKey}$(x, t_2)$
 			\EndIf
 		\EndFor
@@ -897,11 +897,14 @@ idea. For example, how can we cheaply link sites with communication
 links so that they are all connected?
 
 \begin{Example}
-In the third graph of \cref{fig:graphExample5}, the tree
-determined by the edges 
+%In the third graph of \cref{fig:graphExample5}, the tree determined by the edges
+In the graph below, the tree determined by the edges
 $$\{0, 2\}, \{1, 3\}, \{3, 5\}, \{4, 5\}, \{2, 4\}$$ 
-has total weight $9$. It is a tree and has the $5$ smallest weight
-edges, so must be a MST.
+has total weight $9$. 
+It is a tree and has the $5$ smallest weight edges, so must be a MST.
+\begin{center}
+  \includegraphics{graphExMST}
+\end{center}
 \end{Example}
 
 One should not search naively through all possible spanning trees: it is
