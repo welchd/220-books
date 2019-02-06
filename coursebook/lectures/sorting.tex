@@ -392,10 +392,12 @@ Execute mergesort on the following input to convince yourself that the algorithm
 \paragraph{Analysis when implemented on a linked list.}
 Since finding the middle element of the list is time-consuming, in this case it makes more sense to ``unroll" the recursion and process all the instances at the bottom of the recursion tree (merging two size 1 lists) first, then merge all the resulting size 2 lists two-by-two, etc. This ``bottom-up mergesort" is not only equivalent to mergesort, it is in place! Note that ``bottom-up mergesort" is strictly speaking a different algorithm from mergesort.
 
-\begin{Boxample}[6]
-Execute  bottom-up mergesort  on the following input.\\
-jo-TODO\\
-Jo asks: I can't see a difference between bottom-up mergesort and ``normal'' mergesort. What is it?
+\begin{Boxample}[0]
+Execute  bottom-up mergesort  on the following input.
+\begin{center}
+% \includegraphics{MergeSortBottomUp} % version with same numbers as others, but then same as for recursive boxample
+\includegraphics{MergeSortBottomUp2}
+\end{center}
 \end{Boxample}
 
 
@@ -409,7 +411,7 @@ $n \gets size(a)$; $b \gets a[0..n/2]; c \gets a[1+n/2, \dots n-1];$ \\
 $t \gets $ \texttt{merge} (\texttt{mergesort}($b$), \texttt{mergesort}($c$)) \\
 \textbf{return} $t$ \\
 \textbf{end}
-\end{tabbing}
+\end{tabbing}	
 \begin{tabbing}
 xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 \textbf{algorithm} \texttt{quicksort} (list $a$, integers $l, r$) \\
@@ -552,7 +554,7 @@ Quicksort was described briefly in Lecture~\ref{sec:mergesort}. We give the deta
   \label{alg:quicksort}
 \begin{algorithmic}[0]
 	\Require{$0 \leq i \leq j \leq n-1$}
-	\Function{quicksort}{list $a[0..n-1]$, integer $i$, integer $j$}
+	\Function{quicksort}{list $a[0..n-1]$, integer $i$, integer $j$} 
 		\If{$i < j$}
 			\State $p \gets a[i]$ \Comment{pivot element}
 			\State $q \gets  \Call{partition}{a, i,j,p}$ \Comment{put $p$ in correct position}
@@ -932,13 +934,13 @@ implementations.
 %\State $a\gets $ \texttt{heapify}($a$, $k$)
 \State $i \gets \lfloor \frac{n-1}{2} \rfloor $
 \While{$i\geq 0$} 
-\State \texttt{sink}($a, i, k$) \Comment{let element sink to its correct place}
-\State $i\gets i - 1$
+	\State \texttt{sink}$(a, i, k)$ \Comment{let element sink to its correct place}
+	\State $i\gets i - 1$
 \EndWhile \Comment{heap now built}
 \While{$k > 0$}
-\State \texttt{swap}($a[k], a[0]$)
-\State $k \gets k - 1$
-\State \texttt{sink}($a, 0, k$) \Comment{let element at root sink to its correct place}
+	\State \texttt{swap}$(a[k], a[0])$
+	\State $k \gets k - 1$
+	\State \texttt{sink}$(a, 0, k)$ \Comment{let element at root sink to its correct place}
 \EndWhile
 \State \Return{$a$}\Comment{array is now sorted}
 \EndFunction  
@@ -982,9 +984,10 @@ Heapsort & $n \log n$ & $n \log n$ & $n \log n$ & No & Yes \\
 
 
 \paragraph{Selection.}
-We want to consider a related but different topic, Fix $r$ with $1\leq r \leq n$. We want to find the element with
-$r$th key from an input list (the $r$th \defnfont{order statistic}). 
+We want to consider a related but different topic. Fix $r$ with $1\leq r \leq n$. 
+We want to find the element with the $r$th key from an input list (the $r$th \defnfont{order statistic}). 
 This should be easier than sorting! 
+% jo says: why not simpyl say we want the kth smallest element?
 
 \begin{Boxample}[5]
 Suppose that we build a priority queue and repeatedly extract elements until we get the one we want.
@@ -1019,7 +1022,12 @@ is relative to the desired element.
 \end{algorithmic}
 \end{algorithm}
 
-jo-TODO Boxample needed, execute qselect
+\begin{Boxample}[1]
+Execute quickselect on the array below. Hint: You have to make one recursive call to the left and one to the right.
+\begin{center}
+\includegraphics{QuickSelect} 
+\end{center}
+\end{Boxample}
 
 % \paragraph{Questions}
 % \begin{itemize}
