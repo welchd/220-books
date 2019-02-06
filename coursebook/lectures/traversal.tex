@@ -965,7 +965,7 @@ any code for \algfont{setKey}.
 
 
 %\subsection*{Exercises}
-\chapter{Topological sort and finding cycles}
+\chapter{Topological sort, acyclic graphs and girth}
 
 Many computer science applications require us to find precedence (or dependencies) among events. If we consider the events to be nodes and an arc $(u,v)$ means that $u$ precedes $v$, that is, that $u$ must be calculated before $v$ can be calculated, deciding the order in which to process events becomes a problem of sorting the nodes of a digraph.
 
@@ -1066,12 +1066,13 @@ It is clear that if a digraph has a topological order it has no cycles, so it a 
 \end{Boxample}
 
 This theorem and proof then gives an algorithm (\defnfont{zero-indegree sorting})
-for topologically sorting a DAG $G$.
-
-if we apply zero-indegree sorting to a digraph that is not
+for topologically sorting a DAG $G$. If we apply zero-indegree sorting to a digraph that is not
 a DAG, eventually it will stop because no source node can be found at
 some point.
 
+\begin{Boxample}[3]
+What is the running time of a naive implementation of zero-indgree sorting? Could this be improved upon?
+\end{Boxample}
 % (otherwise we would obtain a topological order and hence the
 %digraph would be a DAG)
 %
@@ -1084,11 +1085,15 @@ some point.
 
 \section{FInding cycles and topological sorting using DFS}
 
-One way to determine whether or not a digraph is a DAG and, if it is, find a topological sort is to run a DFS on the graph.
+DFS can be used to determine whether or not a digraph is a DAG and, if it is, find a topological sort.
 
- If $G$ contains a cycle,  DFS must eventually reach
+\begin{itemize}
+\item Run DFS on $G$
+\item If $G$ contains a cycle,  the traversal will eventually reach
 a node that points to one that has been seen before. In other words, we
 will detect a back arc. 
+\item If the traversal finds no back arcs, $G$ is a DAG and the listing nodes in reverse order of DFS $\done$ times  is a topological sort of $G$.
+\end{itemize}
 
 \begin{Theorem}
 \label{thm:findDAG}
@@ -1126,10 +1131,11 @@ cases, Exercise~\ref{ex:DFS-arc-class} shows that $\done[u] > \done[v]$,
 which means $u$ comes before $v$ in the alleged topological order.
 \end{proof}
 
-To find if 
-We can therefore just run DFS on $G$, and stop if we find a back
-arc. Otherwise printing the nodes in reverse order of finishing time
-gives a topological order. Note that printing the nodes in order of
+%To find if 
+%We can therefore just run DFS on $G$, and stop if we find a back
+%arc. Otherwise printing the nodes in reverse order of finishing time
+%gives a topological order. 
+Note that printing the nodes in order of
 finishing time gives a topological order of the reverse digraph $G_r$.
 
 %\subsection*{Exercises}
@@ -1179,25 +1185,121 @@ finishing time gives a topological order of the reverse digraph $G_r$.
 %for finding a DAG given above work for acyclic graphs also?
 %\end{Exercise}
 
+\section{The girth of a graph}
+\label{sec:girth}
+
+The length of the smallest cycle in a graph is an important quantity. 
+For example, in a communication network, short cycles are often something to be
+avoided because they can slow down message propagation.
+
+
+\begin{Definition}
+the \defnfont{girth} of the graph is the length of the shortest cycle. If the graph has no cycles then the
+girth is undefined but may be viewed as $+\infty$. 
+
+For a digraph we use the term girth for its underlying graph and the (maybe non-standard) term \defnfont{directed girth} for
+the length of the smallest directed cycle.
+\end{Definition}
+
+\begin{Boxample}[4]
+What is the girth of the following graph?
+
+\end{Boxample}
+%\begin{note} 
+%For a digraph we use the term girth for its underlying
+%graph and the (maybe non-standard) term \defnfont{directed girth} for
+%the length of the smallest directed cycle.
+%\end{note}
+
+%\begin{Example}
+%\label{eg:cycles}
+%In \cref{fig:cycle} are three (di)graphs.  The first has no cycles 
+%(it is a free tree), the second is a DAG of girth 3, and the third has girth 4.
+%\end{Example}
+%
+%\begin{figure}
+%\centering
+%\includegraphics{graphEx3}
+%\caption{Some (di)graphs with different cycle behaviour.}
+%\label{fig:cycle}
+%\end{figure}
+
+\subsection{Finding the girth of a graph with BFS}
+
+How to compute the girth of a graph? Here is an algorithm for finding
+the length of a shortest cycle containing a given vertex $v$ in a graph
+$G$. Perform \algfont{BFSvisit}. If we meet a grey neighbour (that is,
+we are exploring edge $\{x, y\}$ from $x$ and we find that $y$ is already
+grey), continue only to the end of the current level and then stop. For
+each edge $\set{x, y}$ as above on this level, if $v$ is the lowest
+common ancestor of $x$ and $y$ in the BFS tree, then there is a cycle
+containing $x, y, v$ of length $l=d(x) + d(y) + 1$. Report the minimum
+value of $l$ obtained along the current level.
+
+\begin{Theorem}
+\label{thm:BFS-cycle} 
+The above algorithm is correct.
+\end{Theorem}
+
+\begin{proof}
+Suppose that we arrive at vertex $x$, $d(x) = k$, and we have just
+encountered a grey neighbour $y$. Then $d[y] = d[x] + 1$ or $d[y] = d[x]$
+(note that $d[x] = d[y] + 1$ is ruled out because then $x$ would be a
+child of $y$ and $y$ would be black). This means that there is definitely
+a cycle containing $x, y$ and $z$, where $z$ is the lowest common ancestor
+of $x$ and $y$ in the BFS tree. Note that $z\neq x, z\neq y$ since neither
+$x$ nor $y$ is an ancestor of the other. The cycle consists of the tree
+edges from $z$ to $x$, the cross edge $\set{x,y}$ and the tree edges
+from $z$ to $y$. The length of the cycle is $l=d[x] + d[y] - 2 d[z] + 1$.
+
+Conversely, let $C$ be any cycle and let $z$ be the first vertex of
+the cycle reached by the search. Let $x$ and $y$ be two vertices in $C$
+whose distance  from $z$ is greatest, with $d[x] \leq d[y]$. Then the
+lowest common ancestor of  $x$ and $y$ is exactly $z$, and the cycle
+found in the first paragraph is exactly $C$.
+
+The vertex $v$ belongs to the cycle $C$ if and only if $v = z$. The
+length of the cycle is $2k+1$ if $d[x] = d[y]$ and $2k+2$ if $d[y] =
+d[x] - 1$. The minimum length of any cycle containing $v$ found after
+this is $2(k+1) + 1 = 2k+3$, so no better cycle can be found after the
+current level $k$ is explored.
+\end{proof}
+
+\begin{note}
+An easy-to-implement DFS idea may not work properly. For example,
+the DFS tree originating from vertex $0$ of the third graph of
+\cref{fig:cycle} finds only $6$-cycles with the back edges (even
+though a $4$-cycle exists using two of the back edges).
+\end{note}
+
+To compute the girth of a graph, we can simply run the above algorithm
+from each vertex in turn, and take the minimum cycle length achieved.
+
+\subsection{Finding the directed girth of a digraph with DFS}
+
+
+
 \chapter{Connectivity, components, strong components}
 
-\section{Connectivity}
-\label{sec:connectivity}
-
 For many purposes it is useful to know whether a digraph is ``all in one
-piece", and if not, to decompose it into pieces. We now formalize these
-notions. The situation for graphs is easier than that for digraphs.
+piece", and if not, to decompose it into pieces.
+
+\section{Connectivity in graphs}
+
+%For many purposes it is useful to know whether a digraph is ``all in one
+%piece", and if not, to decompose it into pieces. We now formalize these
+%notions. The situation for graphs is easier than that for digraphs.
 
 \begin{Definition} 
 A graph is \defnfont{connected} if for each pair of 
 vertices $u, v\in V(G)$, there is a path between them.
 \end{Definition}
 
-In \cref{eg:graphExample} the graph $G_1$ is connected, as is the
-underlying graph of $G_2$. 
+%In \cref{eg:graphExample} the graph $G_1$ is connected, as is the
+%underlying graph of $G_2$. 
 
-If a graph is not connected, then it must have more than one ``piece".
-More formally, we have the following.
+%If a graph is not connected, then it must have more than one ``piece".
+%More formally, we have the following.
 
 \begin{Theorem}
 \label{thm:components}
@@ -1210,14 +1312,14 @@ to any vertices in $G_j$
 \end{itemize}
 \end{Theorem}
 
-\begin{proof}
-Consider the relation $\sim$ defined on $V(G)$, given by $u\sim v$ if
-and only if there is a path joining $u$ and $v$ (in other words, $u$ and
-$v$ are each reachable from the other). Then $\sim$ is an equivalence
-relation and so induces a partition of $V(G)$ into disjoint subsets. The
-subgraphs $G_i$ induced by these subsets have no edges joining them by
-definition of $\sim$, and each is connected by definition of $\sim$.
-\end{proof}
+%\begin{proof}
+%Consider the relation $\sim$ defined on $V(G)$, given by $u\sim v$ if
+%and only if there is a path joining $u$ and $v$ (in other words, $u$ and
+%$v$ are each reachable from the other). Then $\sim$ is an equivalence
+%relation and so induces a partition of $V(G)$ into disjoint subsets. The
+%subgraphs $G_i$ induced by these subsets have no edges joining them by
+%definition of $\sim$, and each is connected by definition of $\sim$.
+%\end{proof}
 
 The subgraphs $G_i$ above are called the \defnfont{connected components}
 of the graph $G$. Clearly, a graph is connected if and only if it has
@@ -1239,17 +1341,22 @@ connected components of $G$ are precisely the subgraphs spanned by the
 trees in the search forest. 
 \end{Theorem}
 
-\begin{proof}
-The result is true for any traversal procedure, as we have already observed in 
-Theorem~\ref{thm:trav}. The trees of the search forest have no edges joining 
-them, and together they span $G$.
-\end{proof}
+%\begin{proof}
+%The result is true for any traversal procedure, as we have already observed in 
+%Theorem~\ref{thm:trav}. The trees of the search forest have no edges joining 
+%them, and together they span $G$.
+%\end{proof}
 
-So we need only run BFS or DFS on the graph, and keep count
-of the number of times we choose a root---this is the number of
-components. We can store or print the vertices and edges in each
-component as we explore them. Clearly, this gives a linear time algorithm
-for determining the components of a graph.
+So to find the components of a graph $G$:
+\begin{itemize}
+\item Run BFS or DFS on $G$ and count
+of the number of times we choose a root --- this is the number of components
+\item Store or print the vertices and edges in each
+component as we explore them.
+\item This is a linear time algorithm, $O(m+n)$
+\end{itemize}
+
+\section{Connectivity in digraphs}
 
 So far it may seem that we have been too detailed in our treatment of 
 connectedness. After all the above results are all rather obvious.
@@ -1444,93 +1551,6 @@ correct. Then run it again on the reverse digraph and verify that the
 answers are the same.
 \end{Exercise}
 
-%\newpage
-
-\section{Cycles}
-\label{sec:cycles}
-
-In this section, we cover three varied topics concerning cycles.
-
-\subsection{The girth of a graph}
-\label{subssec:girth}
-
-The length of the smallest cycle in a graph is an important quantity. 
-For example, in a communication network, short cycles are often something to be
-avoided because they can slow down message propagation.
-
-\begin{Definition}
-For a graph (with a cycle), the length of the shortest cycle is called
-the \defnfont{girth} of the graph. If the graph has no cycles then the
-girth is undefined but may be viewed as $+\infty$.
-\end{Definition}
-
-\begin{note} 
-For a digraph we use the term girth for its underlying
-graph and the (maybe non-standard) term \defnfont{directed girth} for
-the length of the smallest directed cycle.
-\end{note}
-
-\begin{Example}
-\label{eg:cycles}
-In \cref{fig:cycle} are three (di)graphs.  The first has no cycles 
-(it is a free tree), the second is a DAG of girth 3, and the third has girth 4.
-\end{Example}
-
-\begin{figure}
-\centering
-\includegraphics{graphEx3}
-\caption{Some (di)graphs with different cycle behaviour.}
-\label{fig:cycle}
-\end{figure}
-
-How to compute the girth of a graph? Here is an algorithm for finding
-the length of a shortest cycle containing a given vertex $v$ in a graph
-$G$. Perform \algfont{BFSvisit}. If we meet a grey neighbour (that is,
-we are exploring edge $\{x, y\}$ from $x$ and we find that $y$ is already
-grey), continue only to the end of the current level and then stop. For
-each edge $\set{x, y}$ as above on this level, if $v$ is the lowest
-common ancestor of $x$ and $y$ in the BFS tree, then there is a cycle
-containing $x, y, v$ of length $l=d(x) + d(y) + 1$. Report the minimum
-value of $l$ obtained along the current level.
-
-\begin{Theorem}
-\label{thm:BFS-cycle} 
-The above algorithm is correct.
-\end{Theorem}
-
-\begin{proof}
-Suppose that we arrive at vertex $x$, $d(x) = k$, and we have just
-encountered a grey neighbour $y$. Then $d[y] = d[x] + 1$ or $d[y] = d[x]$
-(note that $d[x] = d[y] + 1$ is ruled out because then $x$ would be a
-child of $y$ and $y$ would be black). This means that there is definitely
-a cycle containing $x, y$ and $z$, where $z$ is the lowest common ancestor
-of $x$ and $y$ in the BFS tree. Note that $z\neq x, z\neq y$ since neither
-$x$ nor $y$ is an ancestor of the other. The cycle consists of the tree
-edges from $z$ to $x$, the cross edge $\set{x,y}$ and the tree edges
-from $z$ to $y$. The length of the cycle is $l=d[x] + d[y] - 2 d[z] + 1$.
-
-Conversely, let $C$ be any cycle and let $z$ be the first vertex of
-the cycle reached by the search. Let $x$ and $y$ be two vertices in $C$
-whose distance  from $z$ is greatest, with $d[x] \leq d[y]$. Then the
-lowest common ancestor of  $x$ and $y$ is exactly $z$, and the cycle
-found in the first paragraph is exactly $C$.
-
-The vertex $v$ belongs to the cycle $C$ if and only if $v = z$. The
-length of the cycle is $2k+1$ if $d[x] = d[y]$ and $2k+2$ if $d[y] =
-d[x] - 1$. The minimum length of any cycle containing $v$ found after
-this is $2(k+1) + 1 = 2k+3$, so no better cycle can be found after the
-current level $k$ is explored.
-\end{proof}
-
-\begin{note}
-An easy-to-implement DFS idea may not work properly. For example,
-the DFS tree originating from vertex $0$ of the third graph of
-\cref{fig:cycle} finds only $6$-cycles with the back edges (even
-though a $4$-cycle exists using two of the back edges).
-\end{note}
-
-To compute the girth of a graph, we can simply run the above algorithm
-from each vertex in turn, and take the minimum cycle length achieved.
 
 \chapter{Bipartite graphs and matchings}
 
