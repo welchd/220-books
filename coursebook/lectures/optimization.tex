@@ -6,16 +6,13 @@
 
 
 
-So far our digraphs have only encoded information about connection
-relations between nodes. For many applications it is important to study
-not only \boldfont{whether} one can get from $A$ to $B$, but
+Weighted digrephs encode not only information about  \boldfont{whether} one can get from $A$ to $B$, but
 \boldfont{how much it will cost} to do so.
 
-For example, the weight could represent how much it costs to use a link
+The weight could represent how much it costs to use a link
 in a communication network, or distance between nodes in a
-transportation network. We shall use the terminology of cost and distance
-interchangeably (so, for example, we talk about finding a minimum weight
-path by choosing a shortest edge).
+transportation network. We use the terminology of cost and distance
+interchangeably.
 
 We need a different ADT for this purpose. 
 
@@ -30,8 +27,10 @@ real number to each arc of $G$.
 
 We interpret $c(u, v)$ as the cost of using arc $(u, v)$. An ordinary digraph 
 can be thought of as a special type of weighted digraph where the cost of each 
-arc is $1$. A weighted graph may be represented as a symmetric digraph where 
-each of a pair of antiparallel arcs has the same weight.
+arc is $1$. 
+
+%A weighted graph may be represented as a symmetric digraph where 
+%each of a pair of antiparallel arcs has the same weight.
 
 In \cref{fig:graphExample5} we display a classic unweighted graph
 (called the $3$-cube) of diameter $3$, a digraph with arc weights, and a
@@ -44,31 +43,37 @@ graph with edge weights.
   \label{fig:graphExample5}
 \end{figure}
 
-There are two obvious ways to represent a weighted digraph on a
-computer. One is via a matrix. The adjacency matrix is modified so that
+Weighted digraphs are represented on a computers using adjacency matrices or lists:
+\begin{itemize}
+\item The adjacency matrix is modified so that
 each entry of $1$ (signifying that an arc exists) is replaced by the
-cost of that arc. Another is a double adjacency list. In this case, the
+cost of that arc.
+\item Care needs to be taken if using 0 to represent the absence of arcs, as 0 may be a legal edge weight. In these cases, \texttt{null}, $\infty$ or some suitable value may be used.
+\item we use the convention that 0 or null represents the absence of an arc. 
+\item Another is a double adjacency list. In this case, the
 list associated to a node $v$ contains, alternately, an adjacent node
 $w$ and then the cost $c(v, w)$.  
+\end{itemize}
 
-If there is no arc between $u$ and $v$, then in an ordinary adjacency
-matrix the corresponding entry is $0$. However, in a weighted adjacency
-matrix, the ``cost" of a non-existent arc should be set consistantly 
-for most applications. We adopt the following \boldfont{convention}. 
-An entry of \verb|null| or $0$ in a weighted 
-adjacency matrix
-means that the arc does not exist, and vice versa. In many of our
-algorithms below, such entries should be replaced by the programming
-equivalent of \verb|null| for class objects, or $\infty$ for 
-primitive data types.  In the later case, we might use some positive 
-integer greater than any expected value that might occur during
-an execution of the program. 
+%If there is no arc between $u$ and $v$, then in an ordinary adjacency
+%matrix the corresponding entry is $0$. However, in a weighted adjacency
+%matrix, the ``cost" of a non-existent arc should be set consistantly 
+%for most applications. We adopt the following \boldfont{convention}. 
+%An entry of \verb|null| or $0$ in a weighted 
+%adjacency matrix
+%means that the arc does not exist, and vice versa. In many of our
+%algorithms below, such entries should be replaced by the programming
+%equivalent of \verb|null| for class objects, or $\infty$ for 
+%primitive data types.  In the later case, we might use some positive 
+%integer greater than any expected value that might occur during
+%an execution of the program. 
 
 
-\begin{Example}
+\begin{Boxample}[0]
+TODO: turn this into a shorter boxample...
+
 The two weighted (di)graphs of \cref{fig:graphExample5} are
 stored as weighted adjacency matrices below.
-
 \[ 
 \left[
 \begin{array}{cccc}
@@ -114,10 +119,10 @@ $$
 \end{tabular}
 }
 $$
-\end{Example}
+\end{Boxample}
 
-See Appendix~\ref{sec:wgraphs} for sample Java code for representing
-the abstract data type of edge-weighted digraphs.
+%See Appendix~\ref{sec:wgraphs} for sample Java code for representing
+%the abstract data type of edge-weighted digraphs.
 
 %\subsection*{Exercises}
 
