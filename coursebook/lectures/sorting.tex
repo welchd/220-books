@@ -901,7 +901,7 @@ an array.
 \end{itemize}
 
 \begin{Boxample}[0]
-Convert the heap to an array. 
+Complete the array representation of the binary heap.
 \begin{center}
 \includegraphics{heapArray}
 \end{center}
@@ -916,18 +916,16 @@ Can we be more efficient? Yes - one way is to build a complete binary tree witho
 This method can be rewritten to avoid recursion (``bottom-up") and to work 
 in place in the array implementation. 
 
-\begin{Boxample}[4]
-jo-TODO execution of this heap-building algorithm - look in textbook
-
-\end{Boxample}
-
-There is still serious research being done on better priority queue 
-implementations.
-
+\begin{Example}\label{ex:heapbuild}
+Heap-building algorithm as in the first while-loop of \cref{alg:heapsort}.
+\begin{center}
+\includegraphics[width=1.0\textwidth]{heapBuild}
+\end{center}
+\end{Example}
 
 \begin{algorithm}[H]
-  \caption{Heapsort
-    \label{alg:heapsort}}
+  \caption{Heapsort}
+    \label{alg:heapsort}
 \begin{algorithmic}[1]
 \Function{Heapsort}{array $a[0..n-1]$}
 \State $k \gets n-1$ \Comment{index of last leaf in heap}
@@ -947,11 +945,17 @@ implementations.
 \end{algorithmic}
 \end{algorithm}
 
-
-\begin{Boxample}[4]
-jo-TODO execution of this algorithm 
-
+\pagebreak[4]
+\begin{Boxample}[0]
+Heapsort on the already build heap from Example~\ref{ex:heapbuild}. 
+Complete the last steps.
+\begin{center}
+\includegraphics[width=1.0\textwidth]{heapSort}
+\end{center}
 \end{Boxample}
+
+There is still serious research being done on better priority queue 
+implementations.
 
 
 \chapter{Data selection} %-------------------------------------------
