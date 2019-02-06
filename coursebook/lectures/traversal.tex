@@ -434,6 +434,7 @@ a recursive version: \cref{alg:DFSreccode}.
 	\EndFor
 	\State $\colour[s] \gets $ BLACK
 	\State $\done[s] \gets \timeVar $; $\timeVar \gets \timeVar + 1$
+\EndFunction
 \end{algorithmic}
 \end{algorithm}
 
@@ -835,42 +836,42 @@ vertices \set{1,2} with labels \set{2,3}, vertices \set{3,4,8} with
 labels \set{4,5,6}, and the last vertex level \set{5,6,7} with labels
 \set{7,8,9}. These are indicated in \cref{fig:graphEx2-BFS}.
 
-\subsection*{Exercises}
-
-\begin{Exercise}
-\label{ex:doBFS}
-Carry out \algfont{BFS} on the digraph with adjacency list given below. 
-Show the state of the queue after each change in its state.
-\newline
-$$
-\lightgraybox{
-	\begin{tabular}{c|cccc}
-		0 & 2 &   &   \\
-		1 & 0 &   &   \\
-		2 & 0 & 1 &   \\
-		3 & 4 & 5 & 6 \\
-		4 & 5 &   &   \\
-		5 & 3 & 4 & 6 \\
-		6 & 1 & 2 &   \\
-	\end{tabular}
-}
-$$
-\end{Exercise}
-
-
-\begin{Exercise}
-\label{ex:BFS-back-vs-cross}
-How can we distinguish between a back and a cross arc while 
-\algfont{BFS} is running on a digraph?
-
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:BFS-cycle}
-Explain how to determine whether the root of a BFS tree is contained in
-a cycle, while the algorithm is running. You should find a cycle of
-minimum length if it exists.
-\end{Exercise}
+%\subsection*{Exercises}
+%
+%\begin{Exercise}
+%\label{ex:doBFS}
+%Carry out \algfont{BFS} on the digraph with adjacency list given below. 
+%Show the state of the queue after each change in its state.
+%\newline
+%$$
+%\lightgraybox{
+%	\begin{tabular}{c|cccc}
+%		0 & 2 &   &   \\
+%		1 & 0 &   &   \\
+%		2 & 0 & 1 &   \\
+%		3 & 4 & 5 & 6 \\
+%		4 & 5 &   &   \\
+%		5 & 3 & 4 & 6 \\
+%		6 & 1 & 2 &   \\
+%	\end{tabular}
+%}
+%$$
+%\end{Exercise}
+%
+%
+%\begin{Exercise}
+%\label{ex:BFS-back-vs-cross}
+%How can we distinguish between a back and a cross arc while 
+%\algfont{BFS} is running on a digraph?
+%
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:BFS-cycle}
+%Explain how to determine whether the root of a BFS tree is contained in
+%a cycle, while the algorithm is running. You should find a cycle of
+%minimum length if it exists.
+%\end{Exercise}
 
 \section{Priority-first search}
 \label{sec:PFS}
@@ -964,61 +965,53 @@ any code for \algfont{setKey}.
 
 
 %\subsection*{Exercises}
-\chapter{Cycles, Girth and Topological Sort}
+\chapter{Topological sort and finding cycles}
+
+Many computer science applications require us to find precedence (or dependencies) among events. If we consider the events to be nodes and an arc $(u,v)$ means that $u$ precedes $v$, that is, that $u$ must be calculated before $v$ can be calculated, deciding the order in which to process events becomes a problem of sorting the nodes of a digraph.
+
+%\section{Acyclic digraphs and topological ordering}
+%\label{sec:dag}
+%
+%In this section we show how to arrange, when possible, the nodes
+%of a digraph into a topological or precedence order.  Many computer
+%science applications require us to find precedences (or dependencies)
+%among events, 
+\begin{Boxample}[0]
+Consider a complier evaluating sub-expressions of the expression $-(a+b) * (b+c) + ((b+c)+d)$.  The compiler must compute, for example, (a+b) and (b+c) before it could compute $-(a+b) * (b+c)$. This can be shown as a dependency digraph where the arc $(u,v)$ means that $u$ depends on $v$ so that $v$ must be calculated first:\\
+\includegraphics{precedence}
+\end{Boxample}
+
+Respecting all precedences/dependencies is equivalent to drawing the digraph with all nodes in a straight line and the arcs all pointing the same direction. The order of calculation is then to starts at one end of the line and proceeds to the other.
 
 
-\section{Acyclic digraphs and topological ordering}
-\label{sec:dag}
+%\begin{figure}[hbtp]
+%	\centering
+%	\includegraphics{precedence}
+%	\caption{Digraph describing structure of an arithmetic expression.}
+%	\label{fig:prec}
+%\end{figure} 
 
-In this section we show how to arrange, when possible, the nodes
-of a digraph into a topological or precedence order.  Many computer
-science applications require us to find precedences (or dependencies)
-among events, such as a compiler evaluating sub-expressions of an
-expression like that shown in \cref{fig:prec}.
-
-\begin{figure}[hbtp]
-	\centering
-	\includegraphics{precedence}
-	\caption{Digraph describing structure of an arithmetic expression.}
-	\label{fig:prec}
-\end{figure} 
-
-Here the compiler would need to compute, for example, both $(a+b)$ and
-$c$ before it can compute $c-(a+b)$.
 
 \begin{Definition}
 Let $G$ be a digraph. A \defnfont{topological sort} of $G$ is a linear
 ordering of all its vertices such that if $G$ contains an arc $(u,v)$,
-then $u$ appears before $v$ in the ordering.
+then $u$ appears before $v$ in the ordering. It is also known as  a defnfont{topological order} or \defnfont{linear order}.
 \end{Definition}
 
-The term topological sort comes from the study of partial orders and is
-sometimes called a \defnfont{topological order} or \defnfont{linear order}.
- If a topological sort exists, then it is possible to draw a picture  of
-$G$ with all nodes in a straight line, and the arcs ``pointing the same
-way".
-
-A digraph without cycles is commonly called a \defnfont{DAG}, an
-abbreviation for \textbf{d}irected \textbf{a}cyclic
-\textbf{g}raph. It is much easier for a digraph to be a
-DAG than for its underlying graph to be acyclic. % (see Exercise~\ref{}). 
-
 For our arithmetic expression example above, a linear
-order of the sub-expression DAG gives us an order (actually the reverse
+order of the sub-expression digraph gives us an order (actually the reverse
 of the order) where we can safely evaluate the expression.
 
-Clearly if the digraph contains a cycle, it is not possible to find
-such a linear ordering. This corresponds to inconsistencies in the
-precedences given, and no scheduling of the tasks is possible.
 
-\begin{Example}
-\label{eg:toporder}
-In \cref{fig:toporder} we list three DAGs and possible topological
-orders for each. Note that adding more arcs to a DAG  reduces the number
-of topological orders it has.  This is because each arc $(u,v)$ forces
-$u$ to occur before $v$, which restricts the number of valid permutations
-of the vertices.
-\end{Example}
+
+%\begin{Example}
+%\label{eg:toporder}
+%In \cref{fig:toporder} we list three DAGs and possible topological
+%orders for each. Note that adding more arcs to a DAG  reduces the number
+%of topological orders it has.  This is because each arc $(u,v)$ forces
+%$u$ to occur before $v$, which restricts the number of valid permutations
+%of the vertices.
+%\end{Example}
 
 \begin{Boxample}[1]
 A graph with all possible topological orders and drawn with topological order $0, 1, 2, 3, 4$.  Draw the graph for topological order $0, 2, 1, 4, 3$. 
@@ -1029,7 +1022,7 @@ Find a topological order of the following graph and draw it.
 \begin{center}
 \includegraphics{topologicalOrder2}
 \end{center}
-List all possible topological orders of the following graph.
+Topological orders are not unique. List all possible topological orders of the following graph.
 \begin{center}
 \includegraphics{topologicalOrder3}
 \end{center}
@@ -1040,44 +1033,62 @@ List all possible topological orders of the following graph.
 % \label{fig:toporder}
 % \end{figure}
 
-The algorithms for computing \boldfont{all} topological orders are
-more advanced than what we have time or space for here. We show how to
-compute one such order, however.
-
-First we note that \boldfont{if} a topological sort of a DAG $G$
-is possible, then there must be a source node in $G$. The source
-node can be first in a topological order, and no node that is not
-a source can be first (because it has an in-neighbour that must
-precede it in the topological order). 
+%The algorithms for computing \boldfont{all} topological orders are
+%more advanced than what we have time or space for here. We show how to
+%compute one such order, however.
+%
+%First we note that \boldfont{if} a topological sort of a DAG $G$
+%is possible, then there must be a source node in $G$. The source
+%node can be first in a topological order, and no node that is not
+%a source can be first (because it has an in-neighbour that must
+%precede it in the topological order). 
 
 %\newpage
+
+Clearly if the digraph contains a cycle, it is not possible to find
+such a linear ordering. This corresponds to inconsistencies in the
+precedences given, and no scheduling of the tasks is possible.
+
+\begin{Definition}
+A digraph without cycles is commonly called a \defnfont{DAG}, an
+abbreviation for \textbf{d}irected \textbf{a}cyclic
+\textbf{g}raph.  
+\end{Definition}
+
 
 \begin{Theorem}
 \label{thm:topDAG}
 A digraph has a topological order if and only if it is a DAG.
 \end{Theorem}
 
-\begin{proof} 
-First show that every DAG has a source (see
-exercise~\ref{ex:DAG-sink}).  Given this, we proceed as follows. Deleting
-a source node creates a digraph that is still a DAG, because deleting
-a node and some arcs cannot create a cycle where there was none
-previously. Repeatedly doing this gives a topological order.
-\end{proof}
+\begin{Boxample}[6]
+It is clear that if a digraph has a topological order it has no cycles, so it a DAG. Show that a DAG always has a topological order by first showing that every DAG has a source and that by removing the source and any out-arcs from the source you still have a DAG. Show that the order in which nodes are removed gives a topological order.
+\end{Boxample}
 
-This theorem then gives an algorithm (\defnfont{zero-indegree sorting})
+This theorem and proof then gives an algorithm (\defnfont{zero-indegree sorting})
 for topologically sorting a DAG $G$.
 
-So far we have not shown how to determine whether a given digraph is
-a DAG. But if we apply zero-indegree sorting to a digraph that is not
+if we apply zero-indegree sorting to a digraph that is not
 a DAG, eventually it will stop because no source node can be found at
-some point (otherwise we would obtain a topological order and hence the
-digraph would be a DAG).
+some point.
 
-There is another way to determine acyclicity and topologically sort a
-DAG, based on DFS. If $G$ contains a cycle,  DFS must eventually reach
+% (otherwise we would obtain a topological order and hence the
+%digraph would be a DAG)
+%
+%So far we have not shown how to determine whether a given digraph is
+%a DAG. But if we apply zero-indegree sorting to a digraph that is not
+%a DAG, eventually it will stop because no source node can be found at
+%some point (otherwise we would obtain a topological order and hence the
+%digraph would be a DAG).
+
+
+\section{FInding cycles and topological sorting using DFS}
+
+One way to determine whether or not a digraph is a DAG and, if it is, find a topological sort is to run a DFS on the graph.
+
+ If $G$ contains a cycle,  DFS must eventually reach
 a node that points to one that has been seen before. In other words, we
-will detect a back arc. The details and proof that this works now follow.
+will detect a back arc. 
 
 \begin{Theorem}
 \label{thm:findDAG}
@@ -1085,23 +1096,23 @@ Suppose that DFS is run on a digraph $G$. Then $G$ is acyclic if and
 only if there are no back arcs.
 \end{Theorem}
 
-\begin{proof}
-Suppose that we run DFS on $G$. Note that if there is a
-back arc $(v, u)$, then $u$ and $v$ belong to the same tree $T$, with
-root $s$ say. Then there is a path from $s$ to $u$, and there is a path
-from $u$ to $v$ by definition of back arc. Adding the arc $(v, u)$ gives
-a cycle. 
-
-Conversely, if there is a cycle $v_0\, v_1\, \dots \, v_n\, v_0$, we may
-suppose without loss of generality that $v_0$ is the first node of the
-cycle  visited by the DFS algorithm. We claim that $(v_n, v_0)$ is a
-back arc. To see why this is true, first note that during the DFS $v_0$ is 
-linked to $v_n$ via a path of unvisited nodes (possibly of length shorter 
-than $n$).  We have $v_n$ as a descendant of $v_0$ in the DFS tree and
-a back arc $(v_n, v_0)$.
-\end{proof}
-
-One valid topological order is simply the reverse of the DFS finishing times.
+%\begin{proof}
+%Suppose that we run DFS on $G$. Note that if there is a
+%back arc $(v, u)$, then $u$ and $v$ belong to the same tree $T$, with
+%root $s$ say. Then there is a path from $s$ to $u$, and there is a path
+%from $u$ to $v$ by definition of back arc. Adding the arc $(v, u)$ gives
+%a cycle. 
+%
+%Conversely, if there is a cycle $v_0\, v_1\, \dots \, v_n\, v_0$, we may
+%suppose without loss of generality that $v_0$ is the first node of the
+%cycle  visited by the DFS algorithm. We claim that $(v_n, v_0)$ is a
+%back arc. To see why this is true, first note that during the DFS $v_0$ is 
+%linked to $v_n$ via a path of unvisited nodes (possibly of length shorter 
+%than $n$).  We have $v_n$ as a descendant of $v_0$ in the DFS tree and
+%a back arc $(v_n, v_0)$.
+%\end{proof}
+%
+%One valid topological order is simply the reverse of the DFS finishing times.
 
 \begin{Theorem}
 Let $G$ be a DAG. Then listing the nodes in reverse order of DFS
@@ -1115,6 +1126,7 @@ cases, Exercise~\ref{ex:DFS-arc-class} shows that $\done[u] > \done[v]$,
 which means $u$ comes before $v$ in the alleged topological order.
 \end{proof}
 
+To find if 
 We can therefore just run DFS on $G$, and stop if we find a back
 arc. Otherwise printing the nodes in reverse order of finishing time
 gives a topological order. Note that printing the nodes in order of
