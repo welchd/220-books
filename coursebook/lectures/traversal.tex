@@ -1358,106 +1358,105 @@ component as we explore them.
 
 \section{Connectivity in digraphs}
 
-So far it may seem that we have been too detailed in our treatment of 
-connectedness. After all the above results are all rather obvious.
-However, now consider the situation for digraphs. The intuition of ``being all 
-in one piece" is not as useful here. In
-\cref{eg:graphExample} the graph $G_1$ is connected, as is the
-underlying graph of $G_2$. They are ``all in one piece", but not the
-same from the point of view of reachability. For example, in digraph
-$G_2$, node $2$ is a sink. This motivates the following definition.
+The intuition of a digraph being `all 
+in one piece" is not as useful as it was for graphs. 
+
+\begin{Boxample}[0]
+This digraph appears to be ``all in one piece'' as its underlying graph is connected. But can you get from any node to any other node following the direction of the arcs? 
+TODO-add in graph here to illlustrate
+\end{Boxample}
+
+This example motivates the following definition.
 
 \begin{Definition}
 A digraph $G$ is \defnfont{strongly connected} if for each pair of nodes $u, v$ 
-of $G$, there is a path in $G$ from $u$ to $v$.
+of $G$, there is a path in $G$ from $u$ to $v$ and from $v$ to $u$ (that is, $u$ and $v$ are reachalbe from one another).
 \end{Definition}
 
-\begin{note}
-In other words, $u$ and $v$ are each reachable from the other.
+\begin{Boxample}[4]
+Show that a strongly connected digraph of order at least two contains at least one cycle.
+\end{Boxample}
 
-\
 
-Suppose that the underlying graph of $G$ is connected (some authors call
-this being \defnfont{weakly connected}), but $G$ is not strongly
-connected. Then if $G$ represents a road network, it is possible to get
-from any place to any other one, but at least one such route will be
-illegal: one must go the wrong way down a one-way street. 
-\end{note}
+%A strongly connected digraph must contain many cycles: indeed, if $v$ and
+%$w$ are different nodes, then there is a path from $v$ to $w$ and a path
+%from $w$ to $v$, so $v$ and $w$ are contained in a cycle. Conversely, if
+%each pair of nodes is contained in a cycle, then the digraph is clearly
+%strongly connected.
 
-A strongly connected digraph must contain many cycles: indeed, if $v$ and
-$w$ are different nodes, then there is a path from $v$ to $w$ and a path
-from $w$ to $v$, so $v$ and $w$ are contained in a cycle. Conversely, if
-each pair of nodes is contained in a cycle, then the digraph is clearly
-strongly connected.
+\begin{Definition} A \defnfont{strongly connected component}, $G_i$, of $G$ is a maximal sub-digraph of $G$ such that $G_i$ is strongly connected. All nodes of $G$ are in exactly one such $G_i$, so the partition into strongly connected components is unique.
+\end{Definition}
 
-Again, we can define \defnfont{strongly connected components} in a
-way that is entirely analogous to component for graphs. The proof
-above for connected components generalizes to this situation.
+%%\newpage
+%\begin{Theorem}
+%\label{thm:scc}
+%Let $G=(V, E)$ be a digraph. Then $V$ can be uniquely written as a union of
+%disjoint subsets $V_i$, with each corresponding induced subdigraph $G_i$ being
+%a strongly connected component of $G$.
+%\end{Theorem}
+%
+%\begin{proof} Consider the relation $\sim$ defined on $V$, given by
+%$u\sim v$ if and only if there is a path joining $u$ and $v$ and a path
+%joining $v$ and $u$ (in other words, $u$ and $v$ are each reachable
+%from the other). Then $\sim$ is an equivalence relation and so induces
+%a partition of $V$ into disjoint subsets.  By definition, each 
+%subdigraph $G_i$ is strongly connected and of maximal order.
+%\end{proof}
 
-%\newpage
-\begin{Theorem}
-\label{thm:scc}
-Let $G=(V, E)$ be a digraph. Then $V$ can be uniquely written as a union of
-disjoint subsets $V_i$, with each corresponding induced subdigraph $G_i$ being
-a strongly connected component of $G$.
-\end{Theorem}
-
-\begin{proof} Consider the relation $\sim$ defined on $V$, given by
-$u\sim v$ if and only if there is a path joining $u$ and $v$ and a path
-joining $v$ and $u$ (in other words, $u$ and $v$ are each reachable
-from the other). Then $\sim$ is an equivalence relation and so induces
-a partition of $V$ into disjoint subsets.  By definition, each 
-subdigraph $G_i$ is strongly connected and of maximal order.
-\end{proof}
-
-\begin{Example}\label{eg:scc}
-A digraph and its three (uniquely determined) strongly connected
-components are displayed in \cref{fig:scc}. Note that there are
-arcs of the digraph not included in the strongly connected components.
-\end{Example}
-
-\begin{figure}[htbp]
-\centering
+\begin{Boxample}[0]\label{eg:scc}
+A digraph and its three strongly connected
+components. Note that there are
+arcs of the digraph not included in the strongly connected components.\\
 \includegraphics{SCC}
-\caption{A digraph and its strongly connected components.}
-\label{fig:scc}
-\end{figure}
+\end{Boxample}
 
-Note that if the underlying graph of $G$ is connected but $G$ is
-not strongly connected, then  there are strong components $C_1$ and
-$C_2$ such that it is possible to get from $C_1$ to $C_2$ but not
-from $C_2$ to $C_1$. If $C_1$ and $C_2$ are different strong
-components, then any arcs between them must either all point from
-$C_1$ to $C_2$ or from $C_2$ to $C_1$.  Suppose that we imagine
-each strong component shrunk to a single node (so we ignore the
-internal structure of each component, but keep the arcs between
-components). Then in the digraph resulting, if $v\neq w$ and we can
-get from $v$ to $w$ then we cannot get from $w$ to $v$. In other
-words, no pair of nodes can belong to a cycle, and hence the digraph
-is acyclic. See \cref{fig:sccdecomp}. Note that the converse
-is also true: if we have an acyclic digraph $G$ and replace each
-node by a strongly connected digraph, the strongly connected
-components of the resulting digraph are exactly those digraphs that
-we inserted.
+%\begin{figure}[htbp]
+%\centering
+%\includegraphics{SCC}
+%\caption{A digraph and its strongly connected components.}
+%\label{fig:scc}
+%\end{figure}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics{decomposition2}
-\caption{Structure of a digraph in terms of its strong components.}
-\label{fig:sccdecomp}
-\end{figure}
+\section{Finding the strongly connected components}
 
-Note the similarity between this and the search forest decomposition
-in \cref{fig:travdecomp}. In that case, if we shrink each
-search tree to a point, the resulting digraph is also acyclic.
+%Note that if the underlying graph of $G$ is connected but $G$ is
+%not strongly connected, then  there are strong components $C_1$ and
+%$C_2$ such that it is possible to get from $C_1$ to $C_2$ but not
+%from $C_2$ to $C_1$. If $C_1$ and $C_2$ are different strong
+%components, then any arcs between them must either all point from
+%$C_1$ to $C_2$ or from $C_2$ to $C_1$.  Suppose that we imagine
+%each strong component shrunk to a single node (so we ignore the
+%internal structure of each component, but keep the arcs between
+%components). Then in the digraph resulting, if $v\neq w$ and we can
+%get from $v$ to $w$ then we cannot get from $w$ to $v$. In other
+%words, no pair of nodes can belong to a cycle, and hence the digraph
+%is acyclic. See \cref{fig:sccdecomp}. Note that the converse
+%is also true: if we have an acyclic digraph $G$ and replace each
+%node by a strongly connected digraph, the strongly connected
+%components of the resulting digraph are exactly those digraphs that
+%we inserted.
+%
+%\begin{figure}[htbp]
+%\centering
+%\includegraphics{decomposition2}
+%\caption{Structure of a digraph in terms of its strong components.}
+%\label{fig:sccdecomp}
+%\end{figure}
 
-How to determine the strongly connected components? First we observe
-that the previous method for graphs definitely fails (see
-Exercise~\ref{ex:DFSfails}). To decide whether a digraph is strongly
-connected we could run \algfont{BFSvisit} or \algfont{DFSvisit}
-originating from each node in turn and see whether each of the $n$ trees
-so generated spans the digraph. However the running time of such an
+%Note the similarity between this and the search forest decomposition
+%in \cref{fig:travdecomp}. In that case, if we shrink each
+%search tree to a point, the resulting digraph is also acyclic.
+
+\begin{Boxample}[4]
+Find a counter-example to show that the method for finding connected components of graphs in \cref{thm:trav-comps}  fails at finding strongly connected components of digraphs.
+\end{Boxample}
+
+
+We can determine if $G$ is strongly connected or not (i.e., has a single strongly connected component) by running  \algfont{BFSvisit} or \algfont{DFSvisit}
+originating from each node in turn. If it is strongly connected, all trees produced will span $G$. The running time of such an
 algorithm is $\Theta(n^2+nm)$.
+
+{\color{red} TODO: compress and clarify this argument. OK to omit formal proof if decent intuition is given}
 
 We can do better by using DFS more cleverly. 
 
@@ -1511,45 +1510,45 @@ strong component of $G$, and all strong components arise this way.
 Rule: use the white node whose finishing time in $F$ was largest.
 \end{Theorem}
 
-\begin{proof}
-Suppose that a search tree in $G_r$ does  contain more than one strong
-component. Let $S_1$ be the first strong component seen in $G_r$ and let
-$S_2$ be another, and let the roots be $r, s$ respectively. Note that by
-the rule for choosing nodes $r$ was the first node of $S_1$ seen in $F$
-(by Theorem~\ref{thm:white-path}, every node of $S_1$ is a descendant
-of the first one seen, which therefore has latest finishing time). The
-analogous statement holds for $s$ and $S_2$.
-
-By the rule for choosing roots, we have $\done[r] > \done[s]$ in $F$. We
-cannot have $\seen[s] > \seen[r]$ in $F$, for then $s$ would be a descendant
-of $r$ in $F$ and in $G_r$, so they would belong to the same strong
-component. Thus $\seen[r] > \seen[s]$ in $F$. Hence $S_2$ was explored
-in $F$ before $r$ (and hence any node of $S_1$) was seen. But then $r$
-would have been reachable from $s$ in $G$ via a path of white nodes,
-so Theorem~\ref{thm:white-path} shows that $r$ and $s$ are in the same
-strong component, another contradiction.
-\end{proof} 
+%\begin{proof}
+%Suppose that a search tree in $G_r$ does  contain more than one strong
+%component. Let $S_1$ be the first strong component seen in $G_r$ and let
+%$S_2$ be another, and let the roots be $r, s$ respectively. Note that by
+%the rule for choosing nodes $r$ was the first node of $S_1$ seen in $F$
+%(by Theorem~\ref{thm:white-path}, every node of $S_1$ is a descendant
+%of the first one seen, which therefore has latest finishing time). The
+%analogous statement holds for $s$ and $S_2$.
+%
+%By the rule for choosing roots, we have $\done[r] > \done[s]$ in $F$. We
+%cannot have $\seen[s] > \seen[r]$ in $F$, for then $s$ would be a descendant
+%of $r$ in $F$ and in $G_r$, so they would belong to the same strong
+%component. Thus $\seen[r] > \seen[s]$ in $F$. Hence $S_2$ was explored
+%in $F$ before $r$ (and hence any node of $S_1$) was seen. But then $r$
+%would have been reachable from $s$ in $G$ via a path of white nodes,
+%so Theorem~\ref{thm:white-path} shows that $r$ and $s$ are in the same
+%strong component, another contradiction.
+%\end{proof} 
 
 The above algorithm runs in linear time with adjacency lists, since each
 DFS and the creation of the reverse digraph take linear time. We only
 need to remember  while performing the first DFS to store the nodes in
 an array in order of finishing time. 
 
-\subsection*{Exercises}
-
-\begin{Exercise}
-\label{ex:DFSfails}
-Give an example to show that a single use of DFS does not in general
-find the strongly connected components of a digraph.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:dolinscc}
-Carry out the above  algorithm by hand on the digraph of
-\cref{eg:scc} and verify that the components given there are
-correct. Then run it again on the reverse digraph and verify that the
-answers are the same.
-\end{Exercise}
+%\subsection*{Exercises}
+%
+%\begin{Exercise}
+%\label{ex:DFSfails}
+%Give an example to show that a single use of DFS does not in general
+%find the strongly connected components of a digraph.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:dolinscc}
+%Carry out the above  algorithm by hand on the digraph of
+%\cref{eg:scc} and verify that the components given there are
+%correct. Then run it again on the reverse digraph and verify that the
+%answers are the same.
+%\end{Exercise}
 
 
 \chapter{Bipartite graphs and matchings}
