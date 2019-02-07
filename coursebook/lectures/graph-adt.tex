@@ -351,7 +351,7 @@ $L_i$ may or may not be sorted in order of increasing node number.
 Our \boldfont{convention} is to sort them whenever it is convenient. 
 Many implementations do \emph{not} enforce this convention.
 
-\begin{Example}
+\begin{Boxample}
 A graph and its adjacency matrix and adjacency list.\\
 \begin{center}
 \begin{minipage}[c]{0.3\textwidth}
@@ -360,22 +360,22 @@ A graph and its adjacency matrix and adjacency list.\\
 \end{minipage}
 \begin{minipage}[c]{0.65\textwidth}
 $\quad \left[
-\begin{matrix}
-0 & 1 & 1 & 0 & 0 \\
-1 & 0 & 1 & 0 & 0 \\
-1 & 1 & 0 & 1 & 1 \\
-0 & 0 & 1 & 0 & 1 \\
-0 & 0 & 1 & 1 & 0 
-\end{matrix}
+	\begin{matrix}
+	0 & 1 & 1 & 0 & 0 \\
+	1 & 0 & 1 & 0 & 0 \\
+	1 & 1 & 0 & 1 & 1 \\
+	0 & 0 & 1 & 0 & 1 \\
+	0 & 0 & 1 & 1 & 0 
+	\end{matrix}
 \right] 
 \qquad \qquad
 \lightgraybox{
-	\begin{array}{cccc}
-	1 & 2 &   &   \\
-	0 & 2 &   &   \\
-	0 & 1 & 3 & 4 \\
-	2 & 4 &   &   \\
-	2 & 3 &   &   \\
+	\begin{array}{c|cccc}
+	0 & 1 & 2 &   &   \\
+	1 & 0 & 2 &   &   \\
+	2 & 0 & 1 & 3 & 4 \\
+	3 & 2 & 4 &   &   \\
+	4 & 2 & 3 &   &   \\
 	\end{array}
 }
 $
@@ -383,10 +383,10 @@ $
 \end{center}
 Notice that the number of $1$'s in a row in the adjacency matrix is the out-degree of the corresponding node, 
 while the number of $1$'s in a column is the indegree.
-\end{Example}
+\end{Boxample}
 
 
-\begin{Example}
+\begin{Boxample}
 A digraph and its adjacency matrix and adjacency list.\\
 \begin{center}
 \begin{minipage}[c]{0.3\textwidth}
@@ -406,6 +406,23 @@ $\quad
 \right]
 \qquad \qquad
 \lightgraybox{
+	\begin{array}{c|ccc}
+	0 & 2  \\
+	1 & 0 & 2 & 3  \\
+	2  \\
+	3 & 1 & 4  \\
+	4 & 2 \\
+	\end{array}
+}
+$
+\end{minipage}
+\end{center}
+An empty sequence occurs in the adjacency list where a node has no out-neighbours (for example, sequence $2$). 
+\end{Boxample}
+
+Sometimes the node labels in adjacency lists are omitted.
+$$
+\lightgraybox{
 	\begin{array}{ccc}
 	2 &   &   \\
 	0 & 2 & 3 \\
@@ -414,24 +431,8 @@ $\quad
 	2 &   &   \\
 	\end{array}
 }
-$
-\end{minipage}
-\end{center}
-An empty sequence occurs in the adjacency list where a node has no out-neighbours (for example, sequence $2$). 
+$$
 
-We may include node labels in the adjacency lists for clarity or where nodes are not numbered in the usual way, for example
-$$
-\lightgraybox{
-\begin{array}{c|ccc}
-0 & 2  \\
-1 & 0 & 2 & 3  \\
-2  \\
-3 & 1 & 4  \\
-4 & 2 \\
-\end{array}
-}
-$$
-\end{Example}
 
 
 \begin{Boxample}[2]

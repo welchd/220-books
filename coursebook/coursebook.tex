@@ -31,7 +31,7 @@
 
 \usepackage{utopia}
 \newcommand{\defnfont}[1]{\textbf{\textit{#1}}\index{#1}}
-\newcommand{\boldfont}[1]{\emph{#1}}
+\newcommand{\boldfont}[1]{\\textbf{#1}}
 \newcommand{\algfont}[1]{\texttt{#1}\index{algorithm!#1}}
 
 % ## tikz ## ----------------------------------------------
@@ -252,7 +252,7 @@ Algorithms and Data Structures}\\[0.1cm]
 % - ### front matter ### -
 \setcounter{page}{1}
 
-\tableofcontents
+
 
 %\newpage
 %\listoffigures
@@ -271,6 +271,8 @@ This is the official coursebook for COMPSCI 220. The lecture schedule will follo
 
 Thanks to Michael Dinneen and Georgy Gimel'farb for their past help with materials for this course. In particular, the textbook written by Dinneen, Gimel'farb and Wilson covers topics in this coursebook in more detail and is strongly recommended.
 
+\clearpage
+\tableofcontents
 
 \include{lectures/mathsintro} 
 

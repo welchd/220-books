@@ -354,14 +354,14 @@ never changes in subsequent iterations. When the algorithm terminates,
 all nodes belong to $S$ and hence $\dist$ holds the correct distance information.
 \end{note}
 \begin{proof} 
-Note that at every step, $dist[x]$ does contain
+Note that at every step, $\dist[x]$ does contain
 the length of \boldfont{some} path from $s$ to $x$; that path is an
-$S$-path if $x\in S$. Also, the update formula ensures that $dist[x]$
+$S$-path if $x\in S$. Also, the update formula ensures that $\dist[x]$
 never increases. 
 
 To prove P1 and P2, we use induction on the number of times $k$ we
 have been through the while-loop. Let $S_k$ denote the value of $S$
-at this stage. When $k=0$, $S_0=\{s\}$, and since $dist[s]=0$, P1 and
+at this stage. When $k=0$, $S_0=\{s\}$, and since $\dist[s]=0$, P1 and
 P2 obviously hold. Now suppose that they hold after $k$ times through
 the while-loop and let $u$ be the next special node chosen during that
 loop. Thus $S_{k+1} = S_k \cup \set{u}.$
@@ -371,31 +371,31 @@ $w\in S_{k+1}$.  If $w\neq u$ then $w\in S$ and so P2 trivially
 holds for $w$ by the inductive hypothesis. On the other hand,
 if $w=u$, consider any $S_{k+1}$-path $\gamma$ from $s$ to $u$.
 %(see \cref{fig:dijk-proof1}). 
-We shall show that $dist[u] \leq
+We shall show that $\dist[u] \leq
 |\gamma |$ where $| \gamma | $ denotes the weight of $\gamma$. The
 last node before $u$ is some $y\in S_k$. Let $\gamma_1$ be the subpath
-of $\gamma$ ending at $y$. Then $dist[u] \leq dist[y] + c(y,u)$ by the
-update formula. Furthermore $dist[y] \leq |\gamma_1 |$ by the inductive
+of $\gamma$ ending at $y$. Then $\dist[u] \leq \dist[y] + c(y,u)$ by the
+update formula. Furthermore $\dist[y] \leq |\gamma_1 |$ by the inductive
 hypothesis applied to $y\in S_k$. Thus, combining these inequalities,
-we obtain $dist[u] \leq |\gamma_1 | + c(y, u) = | \gamma |$ as
+we obtain $\dist[u] \leq |\gamma_1 | + c(y, u) = | \gamma |$ as
 required. Hence P2 holds for every iteration.
 
 Now suppose $x\in V(G)$. Let $\gamma$ be any $S_{k+1}$-path to $x$. If
 $u$ is not involved then $\gamma$ is an $S_k$ path and so $|\gamma| \leq
-dist[x]$ by the inductive hypothesis. Now suppose that $\gamma$ does
+\dist[x]$ by the inductive hypothesis. Now suppose that $\gamma$ does
 include $u$. 
 If $\gamma$ goes straight from $u$ to $x$, we let $\gamma_1$ denote the 
 subpath of $\gamma$ ending at $u$. Then $|\gamma| = |\gamma_1| + c(u,x) \geq 
-dist[x]$ by the update formula. 
+\dist[x]$ by the update formula. 
 Otherwise, after reaching $u$, the path returns into $S_k$
 directly, emerging from $S_k$ again, at some node $y$ before going
 straight to $x$ (see \cref{fig:dijk-proof2}). Let $\gamma_1$
 be the subpath of $\gamma$ ending at $y$. Since P2 holds for $S_k$,
 there is a minimum weight $S_k$-path $\beta$ from $s$ to $y$ of length
-$dist[y]$. Thus by the update formula, 
+$\dist[y]$. Thus by the update formula, 
 $$
 |\gamma| = |\gamma_1| + c(y,
-x) \geq |\beta| + c(y, x) \geq dist[y] + c(y, x) \geq dist[x].
+x) \geq |\beta| + c(y, x) \geq \dist[y] + c(y, x) \geq \dist[x].
 $$ 
 Hence P1 holds for all iterations.
 \end{proof}
@@ -520,21 +520,21 @@ source.
 
 \begin{Theorem} 
 Suppose that $G$ contains no negative weight cycles. Then after the $i$-th 
-iteration of the outer for-loop, $dist[v]$ contains the minimum weight of a 
+iteration of the outer for-loop, $\dist[v]$ contains the minimum weight of a 
 path to $v$ for all nodes $v$ with level at most $i$.
 \end{Theorem}
 
 \begin{proof} 
 Note that as for Dijkstra, the update formula is such that
-$dist$ values never increase.
+$\dist$ values never increase.
 
 We use induction on $i$. When $i=0$ the  result is true because of our
 initialization. Suppose it is true for $i-1$. Let $v$ be a node at level
 $i$, and let $\gamma$ be a minimum weight path from $s$ to $v$. Since
 there are no negative weight cycles, $\gamma$ has $i$ arcs. If $y$
 is the last node of $\gamma$ before $v$, and $\gamma_1$ the subpath to
-$y$, then by the inductive hypothesis we have $dist[y] \leq | \gamma_1
-|$. Thus by the update formula we have $dist[v] \leq dist[y] + c(y, v)
+$y$, then by the inductive hypothesis we have $\dist[y] \leq | \gamma_1
+|$. Thus by the update formula we have $\dist[v] \leq \dist[y] + c(y, v)
 \leq | \gamma_1 | + c(y, v) \leq | \gamma |$ as required.
 \end{proof}
 

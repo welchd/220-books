@@ -723,12 +723,12 @@ more detailed analysis; somewhere around 10 is often used. This idea can be used
 
 We have seen that various algorithms do different amounts of work on different inputs, and their best and worst case inputs are different in general.
 
-\begin{Boxample}[0]
-
+\begin{Boxample}
 How many comparisons do selection sort, insertion sort, mergesort, quicksort do on the following input?
-jo-TODO $n=4$ example with some differences - do two inputs if needed
-
-\end{Boxample}
+\begin{center}
+\includegraphics{numberOfComparisons}
+\end{center}
+\end{Boxample} 
 
 Is it possible to sort $n$ items in $O(n)$ time in the worst case? Is there a general sorting algorithm $A$ and constant $c>0$ such that for all inputs of size $n$, $A$ uses at most $cn$ comparisons to sort? Interestingly, the answer is no, as we shall now see.
 
@@ -785,7 +785,7 @@ We showed that the worst case for any sorting algorithm is in $\Omega (n \lg n)$
 
 \end{Boxample}
 
-\begin{Boxample}[1]
+\begin{Boxample}[2]
 Radix sort can sort $n$ strings in time in $\Theta(n)$.
  What can we conclude about radix sort? Look it up and check your guess.
 \end{Boxample}

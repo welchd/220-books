@@ -15,34 +15,40 @@ This is a very common task when dealing with digraphs and we'll cover several ap
 \section{The general graph traversal algorithm}
 \label{sec:trav}
 
-All graph traversal algorithms  have the same basic structure  that relies on keeping track of which nodes have been visited and whether they may be adjacent to nodes that have not yet been visited. We use a system of three colours to to describe these states (see  \cref{fig:travcols}):
+All graph traversal algorithms  have the same basic structure  that relies on keeping track of which nodes have been visited 
+and whether they may be adjacent to nodes that have not yet been visited. We use a system of three colours to to describe these states:
 \begin{itemize} 
 \item \defnfont{White nodes} have not yet been visited;
 \item \defnfont{Grey nodes} (or \defnfont{frontier nodes}) have been visited but may have 
  out-neighbours that are white;
 \item \defnfont{Black nodes} have been visited and all their out-neighbours have been visited too (so are not white). 
 \end{itemize}
-\begin{figure}
-  \centering
+
+\begin{Boxample}
+Node states during a digraph traversal.
+\begin{center}
   \includegraphics{graphTraversalNodeStateBW}
-  \caption{Node states during a digraph traversal.}
-  \label{fig:travcols}
-\end{figure}
+\end{center}
+\end{Boxample}
+
 
 
 The traversal algorithm which visits all nodes in a digraph is loosely described as follows: 
 \begin{itemize}
-\item all nodes are white to begin with
-\item a starting white node is chosen and turned grey
-\item a grey node is chosen and its out-neighbours explored. 
+\item All nodes are white to begin with.
+\item A starting white node is chosen and turned grey.
+\item A grey node is chosen and its out-neighbours explored. 
 \item If any out-neighbour is white, it is visited and turned grey. If no out-neighbours are white, the grey node is turned black. 
-\item the process of choosing grey nodes and exploring neighbours is continued until all nodes reachable from the initial node are black.
-\item if any white nodes remain in the digraph, a new  starting node is chosen and the process continues until all nodes are black.
+\item The process of choosing grey nodes and exploring neighbours is continued until all nodes reachable from the initial node are black.
+\item If any white nodes remain in the digraph, a new  starting node is chosen and the process continues until all nodes are black.
 \end{itemize}
 
-We keep track of the order in which nodes are visited by recording which arc was followed when a node first turned from white to grey. As we will see, this creates a sub-digraph of the original digraph which has a tree structure.
+We keep track of the order in which nodes are visited by recording which arc was followed when a node first turned from white to grey. 
+As we will see, this creates a sub-digraph of the original digraph which has a tree structure.
 
-The traversal algorithm is formalised in the pseudocode  of \cref{alg:traverse,alg:visit}. \cref{alg:traverse} (\algfont{traverse}) initialises the process and is tasked with finding white nodes to start from. Most of the work is done in \cref{alg:visit} (\algfont{visit}) which takes a starting node and explores the portion of the subgraph reachable from that node.
+The traversal algorithm is formalised in the pseudocode  of \cref{alg:traverse,alg:visit}.  
+\cref{alg:traverse} (\algfont{traverse}) initialises the process and is tasked with finding white nodes to start from. 
+Most of the work is done in \cref{alg:visit} (\algfont{visit}) which takes a starting node and explores the portion of the subgraph reachable from that node.
 
 \begin{algorithm}[H]
   \caption{Basic graph traversal main routine: traverse
@@ -90,9 +96,24 @@ nodes are precisely the black nodes (all nodes reachable from the initial node),
 
 Each white node chosen in \algfont{traverse} becomes the root of a tree in the call to \algfont{visit}. Eventually, we obtain a
 set of disjoint trees spanning the digraph (that is, it includes all the nodes of the digraph), which we call the
-\defnfont{search forest}. The search forest  is returned by \algfont{traverse} in the array $pred$.
+\defnfont{search forest}. The search forest  is returned by \algfont{traverse} in the array $\pred$.
 
-\input{figs/generalTraversal} 
+\begin{center} 
+\includegraphics{traversalAlgo1} 
+
+\includegraphics{traversalAlgo2}
+ 
+\includegraphics{traversalAlgo3}
+ 
+\includegraphics{traversalAlgo4}
+ 
+\includegraphics{traversalAlgo5}
+ 
+\includegraphics{traversalAlgo6}
+  
+\includegraphics{traversalAlgo7} 
+\end{center}
+%\input{figs/generalTraversal} 
 
 
 \section{Classifying arcs after a traversal}
@@ -101,39 +122,44 @@ For the analysis of the traversal algorithm, it is useful to classify the arcs o
 
 \begin{Definition}\label{defn:arc-types}
 Suppose we have performed a traversal of a digraph $G$, resulting in a
-search forest $F$.  Let $(u, v)\in E(G)$ be an arc. Then $(u, v)$ is a:
+search forest $F$.  Let $(u, v)\in E(G)$ be an arc. Then $(u, v)$ is a
 \begin{itemize} 
-\item \defnfont{tree arc} if it belongs to one of the trees of $F$. 
-\item Or, if it is not a tree arc, it is a
+\item \defnfont{tree arc} if it belongs to one of the trees of $F$;
+\item or, if it is not a tree arc, it is a
 \begin{itemize}
-\item \defnfont{forward arc} if $u$ is an ancestor of $v$ in $F$
-\item \defnfont{back arc} if $u$ is a descendant of $v$ in $F$
+\item \defnfont{forward arc} if $u$ is an ancestor of $v$ in $F$;
+\item \defnfont{back arc} if $u$ is a descendant of $v$ in $F$; 
 \item \defnfont{cross arc} if neither $u$ nor $v$ is an ancestor of the other in $F$.
 \end{itemize}
 \end{itemize}
 \end{Definition} 
 
-A cross arc may 
-join two nodes in the same tree or point from one tree to another in the search forest. Tree, forward and back arcs require that $u$ and $v$ be in the same tree.
+A cross arc may join two nodes in the same tree or point from one tree to another in the search forest. Tree, forward and back arcs require that $u$ and $v$ be in the same tree.
+
+\begin{Boxample}
+The edge $(a, e)$ is a tree arc, the edge $(d, b)$ is a back arc, and the edge $(c, a)$ is a cross arc.
+\begin{center}
+\includegraphics{traversalAlgoResult} 
+\end{center}
+\end{Boxample}
 
 
-
-\tikz{
-\foreach \x/\y/\c in {3/2/c,0/0/a,1/2/b,2/-2/d,4/0/e} {
-     \draw[blue,thick] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
-}
-\draw[blue,very thick,-latex] (0.135,0.27) -- (0.865,1.73); %b->c
-\draw[thick,dashed,-latex] (0.25,0.167) -- (2.75,1.833); %b->a
-\draw[blue,very thick,-latex] (3.135,1.73) -- (3.865,0.27); %a->e
-\draw[thick,dashed,-latex] (1.3,2) -- (2.7,2);  %c->a
-\draw[blue,very thick,-latex] (1.073,1.708) -- (1.927,-1.708); %c->d   
-\draw[magenta,thick,dashed,-latex] (1.788,-1.788) -- (0.212,-0.212); %d->b  
-\draw[thick,dashed,-latex] (2.212,-1.788) -- (3.788,-0.212); %d->e
-\foreach \x/\y/\c/\d in {3/2/a/very thick,4/0/e/ultra thick,0/0/b/very thick,1/2/c/very thick,2/-2/d/ultra thick} {
-     \filldraw[black] (\x,\y) circle (3mm);
-     \draw[blue,\d] (\x,\y) circle(3mm) node[yellow] {\footnotesize\c};
-}
-}
+% \tikz{
+% \foreach \x/\y/\c in {3/2/c,0/0/a,1/2/b,2/-2/d,4/0/e} {
+%      \draw[blue,thick] (\x,\y) circle(3mm) node[black] {\footnotesize\c};
+% }
+% \draw[blue,very thick,-latex] (0.135,0.27) -- (0.865,1.73); %b->c
+% \draw[thick,dashed,-latex] (0.25,0.167) -- (2.75,1.833); %b->a
+% \draw[blue,very thick,-latex] (3.135,1.73) -- (3.865,0.27); %a->e
+% \draw[thick,dashed,-latex] (1.3,2) -- (2.7,2);  %c->a
+% \draw[blue,very thick,-latex] (1.073,1.708) -- (1.927,-1.708); %c->d   
+% \draw[magenta,thick,dashed,-latex] (1.788,-1.788) -- (0.212,-0.212); %d->b  
+% \draw[thick,dashed,-latex] (2.212,-1.788) -- (3.788,-0.212); %d->e
+% \foreach \x/\y/\c/\d in {3/2/a/very thick,4/0/e/ultra thick,0/0/b/very thick,1/2/c/very thick,2/-2/d/ultra thick} {
+%      \filldraw[black] (\x,\y) circle (3mm);
+%      \draw[blue,\d] (\x,\y) circle(3mm) node[yellow] {\footnotesize\c};
+% }
+% }
 
 
 The following theorem collects all the basic facts we need for proofs
@@ -171,7 +197,7 @@ $G$. Then $v$ and $w$ belong to the same tree of $F$.
 %or the entering arc will contradict the first part.
 %\end{proof}
 
-\begin{Boxample}[2]
+\begin{Boxample}[3]
 Assuming the first statement, prove the third statement
 \end{Boxample}
 
@@ -184,9 +210,10 @@ Assuming the first statement, prove the third statement
 
 \section{Running time for the general traversal algorithm}
 
-The generality
-of our traversal algorithm makes it exact running time impossible to determine.  It depends on how one chooses the next grey node $u$
-and its white neighbour $v$.  SOme schemes for choosing $u$ and $v$ can be complex and depend on $n$. Here consider that the schemes are simple and constant time. 
+The generality of our traversal algorithm makes it exact running time impossible to determine.  
+It depends on how one chooses the next grey node $u$ and its white neighbour $v$.  
+Some schemes for choosing $u$ and $v$ can be complex and depend on $n$. 
+Here consider that the schemes are simple and constant time. % TODO strange wording
 
 %It also apparently depends on how long it
 %takes to determine whether there exist any grey nodes or whether $u$ has
@@ -213,9 +240,7 @@ $\Omega(n)$.
 \item The time taken to find a white neighbour involves examining each  neighbour of $u$ and checking whether it is
 white, then applying a selection rule. 
 
-\item  the total 
-time in
-choosing white neighbours $\Omega(m)$ if adjacency lists
+\item  The total time in choosing white neighbours $\Omega(m)$ if adjacency lists
 are used and $\Omega(n^2)$ if an adjacency matrix is used.
 
 \item So the running time of \algfont{traverse} is $\Omega(n + (n+m)) = \Omega(n + m)$
@@ -264,13 +289,12 @@ the adjacency matrix is not clearly ruled out.
 
 \chapter{Depth first search} %------------------------------------------------
 
-Traversal algorithms differ in the rules for choosing the next grey and next white node, with  different rules lead
-to very different results.  Here we
+Traversal algorithms differ in the rules for choosing the next grey and next white node, with  different rules leading
+to very different results.
 
 \begin{itemize}
-\item in \defnfont{depth-first
-search} (DFS) the new grey node chosen is the one
-that has been grey for the \boldfont{shortest} time
+\item In \defnfont{depth-first search} (DFS) the new grey node chosen is the one
+that has been grey for the \boldfont{shortest} time.
 \end{itemize}
  
 %BFS takes us away
@@ -278,52 +302,38 @@ that has been grey for the \boldfont{shortest} time
 
 %By contrast, 
 
-DFS  takes us away
-from the root node as quickly as possible. If the first visited neighbour of the root has a neighbour, we immediately visit that neighbour. Then, it that has a neighbour , we visit that and so on, thus ``deeply''
-searching as far away from the root as possible. We backtrack as little as possible before continuing away from the root again. The root is the last node to turn black.
+DFS takes us away from the root node as quickly as possible. If the first visited neighbour of the root has a neighbour, we immediately visit that neighbour. 
+Then, if that has a neighbour, we visit that and so on, thus ``deeply'' searching as far away from the root as possible. 
+We backtrack as little as possible before continuing away from the root again. The root is the last node to turn black.
 
-There still remains the choice
-of which white neighbour of the chosen grey node to visit. It does
-not matter what choice is made but our \defnfont{convention is to choose the one with
+There still remains the choice of which white neighbour of the chosen grey node to visit. 
+It does not matter what choice is made but our \defnfont{convention is to choose the one with
 lowest index} (recall nodes have indices $0, \dots, n - 1$). 
 
-These choices can be made in constant time so that the running time is  $\Omega(n + m)$ (assuming adjacency lists). So DFS are linear in the size + order of a digraph. 
-
+These choices can be made in constant time so that the running time is  $\Omega(n + m)$ (assuming adjacency lists). 
+So DFS are linear in the size $+$ order of a digraph. 
 If an adjacency matrix is used, the algorithms are quadratic in the size of the graph ($\Omega(n^2)$).
 
-\begin{Example}
-\label{eg:graphExample2}
-A graph $G_1$ and a digraph $G_2$ are displayed in
-\cref{fig:graphExample2}.
-
-In \cref{fig:graphEx2-DFS} we show the depth-first search trees based on a DFS traversal starting at node $0$. The
-dashed arcs indicate the original arcs that are not part of the DFS trees.
-\end{Example}
-
-
-
 \begin{Boxample}[2]
-Find a tree arc, cross arc, forward arc and back arc for each of the search trees in \cref{fig:graphEx2-DFS} (or say if that type of arc does not exist for that traversal).
+A digraph and its DFS search tree, rooted at node $0$. The dashed arcs indicate the original arcs that are not part of the DFS tree.
+\begin{center}
+\includegraphics{DFSalgoDigraph}
+\end{center}
+Find a tree arc, cross arc, forward arc and back arc (or say if that type of arc does not exist for that traversal).
 \end{Boxample}
 
 
-\begin{figure}[hbtp]
-	\centering
-	\includegraphics{graphEx2}
-	\caption{A graph $G_1$ and a digraph $G_2$.}
-	\label{fig:graphExample2}
-\end{figure}
+\begin{Boxample}[2]
+A graph and its DFS search tree, rooted at vertex $0$. The dashed arcs indicate the original arcs that are not part of the DFS tree.
+\begin{center}
+\includegraphics{DFSalgoGraph} 
+\end{center}
+Find a tree arc, cross arc, forward arc and back arc (or say if that type of arc does not exist for that traversal).
+\end{Boxample}
 
-
-
-\begin{figure}[hbtp]
-	\centering 
-	\includegraphics{graphEx2DFS}
-	\caption{DFS trees for $G_1$ and $G_2$, rooted at $0$.}
-	\label{fig:graphEx2-DFS}
-\end{figure}
-
-For a general digraph, and unlike the examples given here, all nodes may not be reachable from the starting node. In this case, each call to \algfont{DFSvisit} (a special case of \algfont{visit}) produces a single search tree, while the algorithm \algfont{DFS} (a special case of \algfont{traverse}) repeatedly chooses a root and runs the associated visit algorithm, producing the search forest.
+For a general digraph, and unlike the examples given here, all nodes may not be reachable from the starting node. 
+In this case, each call to \algfont{DFSvisit} (a special case of \algfont{visit}) produces a single search tree, 
+while the algorithm \algfont{DFS} (a special case of \algfont{traverse}) repeatedly chooses a root and runs the associated visit algorithm, producing the search forest.
 
 %\section*{Exercises}
 %
@@ -350,8 +360,8 @@ For a general digraph, and unlike the examples given here, all nodes may not be 
 \section{Pseudocode for depth-first search}
 \label{ss: DFS}
 
-This ``last in, first
-out" order of choosing grey nodes that we see in DFS is mimicked  by a \boldfont{stack} data structure. We thus store grey nodes in a stack as they are discovered. 
+This ``last in, first out" order of choosing grey nodes that we see in DFS is mimicked by a \boldfont{stack} data structure. 
+We thus store grey nodes in a stack as they are discovered. 
 
 The pseudocode for DFS and DFS visit is in \cref{alg:DFScode,alg:DFSvisitcode}. 
 
@@ -437,6 +447,14 @@ a recursive version: \cref{alg:DFSreccode}.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
+\begin{Boxample}
+DFS with \algofont{recursiveDFSvisit}.
+\begin{center}
+\includegraphics{DFSalgoRecursive}
+\end{center}
+\end{Boxample}
+
 
 \section{DFS useful results and facts}
 
