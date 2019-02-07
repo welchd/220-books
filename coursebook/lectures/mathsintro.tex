@@ -6,7 +6,7 @@ MCW-TODO check whether we need anything else, add more examples and self-quiz qu
 
 We list here some important mathematical facts and techniques  that will be used often in this course. It is very important to understand them well - ask for help if your background has substantial holes.
 
-\paragraph{Sets}
+\section{Sets}
 
 A \defnfont{set} is an unordered collection of distinct objects (called \defnfont{elements}). We write $a\in X$ to mean that $a$ is an element of $X$.
 
@@ -21,13 +21,13 @@ Notation: list elements, e.g. $X = \{2,3,5,7,11\}$ or use set-builder notation $
 
 Operations: 
 \begin{itemize}
-\item $A\cap B = \{x: x\in A \text{ and } x\in B\}$
-\item $A\cup B = \{x: x\in A \text{ or  } x\in B\}$
-\item $|A|$ is the number of elements of $A$.
+\item $A\cap B = \{x: x\in A \text{ and } x\in B\}$, the \defnfont{intersection} of $A$ and $B$;
+\item $A\cup B = \{x: x\in A \text{ or  } x\in B\}$, the \defnfont{union} of $A$ and $B$;
+\item $|A|$ is the number of elements of $A$, the \defnfont{cardinality} of $A$.
 \end{itemize}
 
 
-\paragraph{Functions}
+\section{Functions}
 
 A \defnfont{function} is a mapping $f$ from a set $X$ (the \defnfont{domain}) to a set $Y$ (the \defnfont{codomain}) such that every $x\in X$ maps to a unique $y\in Y$.
 
@@ -46,7 +46,7 @@ Other useful functions:
 
 
 
-\paragraph{Basic properties of important functions}
+\section{Basic properties of important functions}
 \begin{itemize}
 \item For fixed $a>1$ the exponential $f(x) = a^x$ is \defnfont{increasing} and positive, and satisfies $$a^{x+y} = a^x a^y$$ for all $x,y\in \mathbb{R}$. 
 \item For fixed $a>1$ the logarithm $\log_a$ is increasing and satisfies 
@@ -63,7 +63,7 @@ $$
 
 \end{Boxample}
 
-\paragraph{Sums}
+\section{Sums}
 
 A \defnfont{sequence} is a function $f:\mathbb{N} \to \mathbb{R}$. 
 
@@ -84,7 +84,7 @@ $$
 $$
 \end{Boxample}
 
-\paragraph{Proof by induction}
+\section{Proof by induction}
 A standard technique for proving a collection of results, one for each natural number. If we can prove for $n=0$, and also show that whenever the result we want is true for $n$, it is true for $n+1$, then we know it must be true for all $n\in \mathbb{N}$.
 
 \begin{Example}
@@ -104,7 +104,7 @@ Thus the result holds for \defnfont{all} $n\geq 0$, by \defnfont{mathematical in
 
 
 
-\paragraph{Binary trees}
+\section{Binary trees}
 
 A \defnfont{binary tree} is an object that is either empty or consists of a \defnfont{root} node connected to an ordered pair of binary trees. 
  
@@ -112,7 +112,7 @@ We can also define them using explicit external nodes (null pointers) to represe
  
 Binary trees can be traversed in several ways,including \defnfont{preorder}, \defnfont{postorder}, \defnfont{inorder}. The latter recursively visits the left child, node, and right child.
 
-\paragraph{Limits}
+\section{Limits}
 
 Write $\lim_{x\to \infty} f(x) = \infty$ if for \defnfont{all} $N>0$ there is \defnfont{some} point past which $f(x) > N$ for \defnfont{all} $x$, and write $\lim_{x\to\infty} f(x) = 0$ if for \defnfont{all} $\varepsilon>0$ there is \defnfont{some} point past which $f(x) < \varepsilon$ for \defnfont{all} $x$.
 
