@@ -566,6 +566,9 @@ Quicksort was described briefly in Lecture~\ref{sec:mergesort}. We give the deta
 \end{algorithmic}
 \end{algorithm}
 
+The exact way in which quicksort works depends on the details of the way we choose the pivot element and how the 
+partition algorithm works. Each choice for these gives a different quicksort algorithm.
+
 \begin{Boxample}
 Illustration of quicksort. First the pivot element 4 is moved into the middle. 
 Then the left side (``$< 4$'') and right side (``$> 4$'') are recursively sorted.
@@ -644,38 +647,33 @@ This requires a different solution method to the easier recurrences.
 %that $H_n$ is $\Theta(\log n)$.
 
 \section*{Quicksort recurrence solution}
-\begin{itemize}
-\item Let $a_n$ be the average of $C_n$ so that 
+Let $a_n$ be the average of $C_n$ so that 
 $a_n = n - 1 + \frac{1}{n} \sum_{1\leq p \leq n} (a_{p-1} + a_{n-p})$. 
 Collect common terms in the sums to obtain
 $$a_n = n - 1 + \frac{2}{n} \sum_{j=0}^{n-1} a_j.$$ 
-\item This {full history} recurrence can be solved by 
-{eliminating the history}, (a general form of {telescoping}). 
-\item The solution is 
-$a_n = 2 (n + 1) H_n - 4n \approx 2 n \ln n$, where 
-$$H_n:= \sum_{1\leq j \leq n} 1/j.$$ 
-\end{itemize}
+Note that to compute each term using this recurrence, we require knowledge of all previous terms.
+We first \emph{eliminate the history}, (a general form of \emph{telescoping}). 
+%\item The solution is 
+%$a_n = 2 (n + 1) H_n - 4n \approx 2 n \ln n$, where 
+%$$H_n:= \sum_{1\leq j \leq n} 1/j.$$ 
 
-    
 \section*{Extra: Quicksort recurrence solution details}
-\begin{itemize}
-\item  We have for $n>1$
+We have for $n>1$
 \begin{align*}
 na_n - (n-1) a_{n-1} & = n(n-1) + 2 \sum_{0\leq j < n} a_j \\
 & - (n-1)(n-2) - 2\sum_{0 \leq j < n - 1} a_j \\
 & = 2(n - 1) + 2 a_{n-1}
 \end{align*}
-\item
 Thus $na_n = 2(n - 1) + (n+1)a_{n-1}$, so that 
 $$
 \frac{a_n}{n+1} = \frac{2(n-1)}{n(n+1)} + \frac{a_{n-1}}{n} = 
 \frac{a_{n-1}}{n} + \frac{4}{n+1} - \frac{2}{n}.
 $$
-\item
 We can iterate to obtain
 $$\frac{a_n}{n+1} = \frac{a_1}{2} + \sum_{j=2}^n \left(\frac{4}{j+1} - 
 \frac{2}{j}\right) = \dots = 2H_n + \frac{4}{n+1}.$$
-\end{itemize}
+
+TODO check $H_n$ defined earlier
 
 
 \section*{Which inputs give the best and worst-case?}
@@ -723,6 +721,16 @@ more detailed analysis; somewhere around 10 is often used. This idea can be used
 \chapter{Lower complexity bound for sorting} %--------------------------------
 \label{sec:lowerbound}
 
+We have seen that various algorithms do different amounts of work on different inputs, and their best and worst case inputs are different in general.
+
+\begin{Boxample}[0]
+
+How many comparisons do selection sort, insertion sort, mergesort, quicksort do on the following input?
+jo-TODO $n=4$ example with some differences - do two inputs if needed
+
+\end{Boxample}
+
+Is it possible to sort $n$ items in $O(n)$ time in the worst case? Is there a general sorting algorithm $A$ and constant $c>0$ such that for all inputs of size $n$, $A$ uses at most $cn$ comparisons to sort? Interestingly, the answer is no, as we shall now see.
 
 Let $\algo$ be a comparison-based sorting algorithm. The execution
 of $\algo$ on an input of $n$ distinct keys can be modelled by a
@@ -767,7 +775,7 @@ Suppose that $T$ is a binary tree with $n$ nodes. Going from the root, the
 We have already shown that $\log n!$ is $\Omega (n \lg n)$. Thus the 
 worst-case number of comparisons of any comparison-based sorting method must 
 grow at least at the asymptotic rate $n \log n$ (any input that had duplicates 
-could only make the worst-case worse!)
+could only make the worst case worse!)
 %\item The same type of argument also works on average provided the $n!$ inputs 
 %are equally likely (see textbook).  So the average-case runtime for any such 
 %algorithm is  $\Omega(n \log n)$.
@@ -961,6 +969,7 @@ implementations.
 \chapter{Data selection} %-------------------------------------------
 \label{sec:qselect}
 
+TODO add something about sorting in practice, as we do for BST and hashing.
 
 Table~\ref{t:sortchar} gives a summary of results so far on sorting algorithms.
 Running times give asymptotic order only. 
