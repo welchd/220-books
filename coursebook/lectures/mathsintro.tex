@@ -8,13 +8,13 @@ We list here some important mathematical facts and techniques  that will be used
 
 \paragraph{Sets}
 
-A \emph{set} is an unordered collection of distinct objects (called \emph{elements}). We write $a\in X$ to mean that $a$ is an element of $X$.
+A \defnfont{set} is an unordered collection of distinct objects (called \defnfont{elements}). We write $a\in X$ to mean that $a$ is an element of $X$.
 
 Important sets: 
 \begin{itemize}
-\item $\mathbb{N} = \{0,1,2,\dots \}$, the set of \emph{natural numbers}.
-\item $\mathbb{R}$, the set of \emph{real numbers}.
-\item $\varnothing = \{\}$, the \emph{empty set} having no elements.
+\item $\mathbb{N} = \{0,1,2,\dots \}$, the set of \defnfont{natural numbers}.
+\item $\mathbb{R}$, the set of \defnfont{real numbers}.
+\item $\varnothing = \{\}$, the \defnfont{empty set} having no elements.
 \end{itemize}
 
 Notation: list elements, e.g. $X = \{2,3,5,7,11\}$ or use set-builder notation $X = \{x\in \mathbb{N} : \text{$x$ is prime and $x< 12$}\}$. Note that $\{a, a, b\} = \{a, b\}$ because elements cannot be repeated in a set.
@@ -29,7 +29,7 @@ Operations:
 
 \paragraph{Functions}
 
-A \emph{function} is a mapping $f$ from a set $X$ (the \emph{domain}) to a set $Y$ (the \emph{codomain}) such that every $x\in X$ maps to a unique $y\in Y$.
+A \defnfont{function} is a mapping $f$ from a set $X$ (the \defnfont{domain}) to a set $Y$ (the \defnfont{codomain}) such that every $x\in X$ maps to a unique $y\in Y$.
 
 Important functions from $\mathbb{R}$ to $\mathbb{R}$: 
 \begin{itemize}
@@ -40,15 +40,15 @@ Important functions from $\mathbb{R}$ to $\mathbb{R}$:
 
 Other useful functions: 
 \begin{itemize}
-\item \emph{Ceiling} rounds up to nearest integer, e.g. $\lceil 3.7 \rceil = 4 = \lceil 4 \rceil$. 
-\item \emph{Floor} rounds down, e.g. $\lfloor 3.7 \rfloor= 3 = \lfloor 3 \rfloor$.
+\item \defnfont{Ceiling} rounds up to nearest integer, e.g. $\lceil 3.7 \rceil = 4 = \lceil 4 \rceil$. 
+\item \defnfont{Floor} rounds down, e.g. $\lfloor 3.7 \rfloor= 3 = \lfloor 3 \rfloor$.
 \end{itemize}
 
 
 
 \paragraph{Basic properties of important functions}
 \begin{itemize}
-\item For fixed $a>1$ the exponential $f(x) = a^x$ is \emph{increasing} and positive, and satisfies $$a^{x+y} = a^x a^y$$ for all $x,y\in \mathbb{R}$. 
+\item For fixed $a>1$ the exponential $f(x) = a^x$ is \defnfont{increasing} and positive, and satisfies $$a^{x+y} = a^x a^y$$ for all $x,y\in \mathbb{R}$. 
 \item For fixed $a>1$ the logarithm $\log_a$ is increasing and satisfies 
 $$\log_a(xy) = \log_a x + \log_a y$$ for all $x,y>0$.
 \item We write $\ln = \log_e$ and $\lg = \log_2$. Note that $\log_a x = \log_a b \log_b x$ and $a^x = e^{x\ln a}$.
@@ -65,7 +65,7 @@ $$
 
 \paragraph{Sums}
 
-A \emph{sequence} is a function $f:\mathbb{N} \to \mathbb{R}$. 
+A \defnfont{sequence} is a function $f:\mathbb{N} \to \mathbb{R}$. 
 
 Notation: $f_0, f_1, f_2, \cdots$ where $f_i = f(i)$.
 
@@ -99,30 +99,30 @@ Proof: It is true for $n=0$: $1 = 1$. Assume it is true for a given  $n\geq 0$. 
 & = \frac{a^{n+1} (a - 1) + a^{n+1} - 1}{a-1}\\
 & = \frac{a^{n+2} - 1}{a-1}.
 \end{align*}
-Thus the result holds for \emph{all} $n\geq 0$, by \emph{mathematical induction}.
+Thus the result holds for \defnfont{all} $n\geq 0$, by \defnfont{mathematical induction}.
 \end{Example}
 
 
 
 \paragraph{Binary trees}
 
-A \emph{binary tree} is an object that is either empty or consists of a \emph{root} node connected to an ordered pair of binary trees. 
+A \defnfont{binary tree} is an object that is either empty or consists of a \defnfont{root} node connected to an ordered pair of binary trees. 
  
 We can also define them using explicit external nodes (null pointers) to represent empty trees. Then a binary tree is an external node or an internal node connected to an ordered pair of binary trees.
  
-Binary trees can be traversed in several ways,including \emph{preorder},\emph{postorder}, \emph{inorder}. The latter recursively visits the left child, node, and right child.
+Binary trees can be traversed in several ways,including \defnfont{preorder}, \defnfont{postorder}, \defnfont{inorder}. The latter recursively visits the left child, node, and right child.
 
 \paragraph{Limits}
 
-Write $\lim_{x\to \infty} f(x) = \infty$ if for \emph{all} $N>0$ there is \emph{some} point past which $f(x) > N$ for \emph{all} $x$, and write $\lim_{x\to\infty} f(x) = 0$ if for \emph{all} $\varepsilon>0$ there is \emph{some} point past which $f(x) < \varepsilon$ for \emph{all} $x$.
+Write $\lim_{x\to \infty} f(x) = \infty$ if for \defnfont{all} $N>0$ there is \defnfont{some} point past which $f(x) > N$ for \defnfont{all} $x$, and write $\lim_{x\to\infty} f(x) = 0$ if for \defnfont{all} $\varepsilon>0$ there is \defnfont{some} point past which $f(x) < \varepsilon$ for \defnfont{all} $x$.
 
-If $0 < L < \infty$ we say $\lim_{x\to\infty} f(x) = L$ if for all $\varepsilon > 0$ there is \emph{some} point beyond which $L - \varepsilon < f(x) < L + \varepsilon$ for \emph{all} $x$.
+If $0 < L < \infty$ we say $\lim_{x\to\infty} f(x) = L$ if for all $\varepsilon > 0$ there is \defnfont{some} point beyond which $L - \varepsilon < f(x) < L + \varepsilon$ for \defnfont{all} $x$.
 
 \begin{Example}
 $\lim_{x\to\infty} x^2 = \infty$, $\lim_{x\to \infty} 1/x = 0$.
 \end{Example}
 
-Important technique: \emph{L'H\^{o}pital's rule}: $\lim_{x\to \infty} f(x)/g(x) = \lim_{x\to \infty} f'(x)/g'(x)$ as long as the latter exists. 
+Important technique: \defnfont{L'H\^{o}pital's rule}: $\lim_{x\to \infty} f(x)/g(x) = \lim_{x\to \infty} f'(x)/g'(x)$ as long as the latter exists. 
 
 \begin{Example}
  $\lim_{x\to\infty} \frac{e^x}{x} = \lim_{x\to\infty} e^x = \infty$; $\lim_{x\to\infty} (\ln x)/x = \lim_{x\to\infty} (1/x)/1 = 0$.
