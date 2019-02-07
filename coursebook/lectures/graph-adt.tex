@@ -135,24 +135,26 @@ Note: In a graph, a walk of the form $u\, v\, u$ is not considered a cycle
 A cycle in a graph must be of length at least $3$.
 
 
-\begin{Example}
-For the graph of Example \ref{ex:graph} the following
-sequences of vertices are classified as being walks, paths, or cycles.
+\begin{Boxample}
+For the graph on the left the following
+sequences of vertices are classified as being walks, paths, or cycles. Fill out the last line.
 
-\medskip
-
-\begin{center}
+\begin{minipage}[c]{0.3\textwidth}
+\centering
+\includegraphics{graphExUndirected}
+\end{minipage}
+\begin{minipage}[c]{0.65\textwidth}
 \begin{tabular}{|l|c|c|c|}\hline
 \textbf{vertex sequence} & \textbf{walk?} & \textbf{path?} & \textbf{cycle?} \\ \hline
-$0\, 3\, 2$                  & no & no & no  \\
+$0\, 3\, 2$                  & no  & no  & no  \\
 $0\, 1\, 2\, 3\, 4$          & yes & yes & no  \\
-$0\, 1\,  2\,  0$            & yes & no & yes  \\
-$1\,  2\,  3\,  4\,  2\,  0$ & yes & no & no \\
-$0 \, 1\,  0$                & yes & no & no \\
+$0\, 1\,  2\,  0$            & yes & no  & yes  \\
+$0 \, 1\,  0$                & yes & no  & no \\
+$1\,  2\,  3\,  4\,  2\,  0$ &     &     &  \\
 \hline
 \end{tabular}
-\end{center}
-\end{Example}
+\end{minipage}
+\end{Boxample}
 
 \begin{Boxample}[8]
 Show that if there is a walk from $u$ to $v$, then we can find a path from $u$ to $v$.

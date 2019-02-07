@@ -3,7 +3,7 @@
 
 \chapter{Searching, binary search trees} %------------------------------------
 
-\paragraph{Table ADT.}
+\section*{Table ADT}
 \begin{Definition}
 A \defnfont{table} is an ADT that supports operations to insert, retrieve and delete an element
 with given search key.  Another name is \defnfont{dictionary}.
@@ -11,7 +11,7 @@ with given search key.  Another name is \defnfont{dictionary}.
 Tables are used for databases. There are  many ways in which a table could be implemented;
 with an unsorted list, with a sorted list, with a (balanced) binary search tree, with a hash table.
 
-\paragraph{Sequential search}
+\section*{Sequential search}
 
 In a list with no other structure, the only way to find an element is to 
 check each element. 
@@ -22,7 +22,7 @@ We only need to be able to iterate through the elements in linear time, so
  even more general structures than lists also allow for this type of search.
 
 
-\paragraph{Binary search}
+\section*{Binary search}
 
 In a sorted list where constant time access is possible 
 (such as an array implementation), we can find a key $K$ as follows: start at the middle element $y$, and recursively go left (right) if $y>K$ (if $y<K$);
@@ -63,7 +63,7 @@ containing that key.
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Binary search trees}
+\section*{Binary search trees}
 \begin{Definition}
 A {binary search tree} (BST) is a binary tree with keys stored in nodes, 
 such that the key of each node is $\geq$ the key of every node in the left subtree and $\leq$ 
@@ -88,7 +88,7 @@ Follow the above steps to delete node $11$ in the BST shown.\\
 \end{Boxample}
 
 
-\paragraph{Analysis of BST operations}
+\section*{Analysis of BST operations}
 
 The running time of all basic operations is proportional to the number of 
 nodes visited. In the worst case, finding/removing/inserting take time in $\Theta(h)$ 
@@ -108,7 +108,7 @@ However always using the same side can lead to unbalance. Alternating sides, or 
 balanced tree.
 
 
-\paragraph{Treesort.}
+\section*{Treesort}
 
 As we did with heapsort, we can build a binary search tree from our initial list, by inserting elements one at a time. 
 We can recover the sorted list by reading the keys according to an inorder traversal (see \cref{fig:inorderTraversal}). 
@@ -125,7 +125,7 @@ As with heapsort, we can do this in place in an array. This is basically quickso
 \end{figure}
 
 
-\paragraph{Relation between Quicksort and BSTs.}
+\section*{Relation between Quicksort and BSTs}
 
 After choosing the pivot and partitioning, we can represent the array as a 
 binary tree: pivot at the root, left subfile on the left, right subfile on the 
@@ -177,22 +177,22 @@ Then perform a left rotation on the resulting BST around the vertices $12$ and $
 \end{Boxample}
 
 
-\paragraph{AVL trees.}
+\section*{AVL trees}
 
 These were the first self-balancing BSTs, introduced in 1962 by Adelson-Velskii and Landis. 
 The \emph{balance of a node} is defined to be the difference between heights of its 
 right subtree and left subtree. AVL trees adjust themselves after each insertion 
 or deletion (via tricky rotations not discussed here --- see Wikipedia for gory details) so that each node has balance $0, 1$ or $-1$.
 
-\begin{figure}[htb]
-  \centering
-  \includegraphics{avlTreeEx}
-  \caption{An AVL tree on the left and a non-AVL tree on the right with node balances shown below the nodes.}
-  \label{fig:avlTreeEx}
-\end{figure} 
+\begin{Boxample} \label{ex:avlTreeEx}
+An AVL tree on the left and a non-AVL tree on the right with node balances shown below the nodes.
+\begin{center}
+  \includegraphics[width=1.0\textwidth]{avlTreeEx}
+\end{center}
+\end{Boxample}
 
-\paragraph{Height of an AVL tree.}
-\begin{Example}
+\section*{Height of an AVL tree}
+\begin{Boxample}
 An AVL tree with $n$ nodes has height at most $1.44 \lg n$, about $44\%$ more 
 than optimal.
 
@@ -202,14 +202,14 @@ because of the balance property. Thus $A_h \geq A_{h-1} + A_{h-2} + 1$ (in fact 
 (can you see why?)). This is similar to the Fibonacci recurrence, and we know that 
 $A_h \sim C \phi^h$ for some $C>0$, where $\phi = (1+\sqrt{5})/2$. 
 Taking logarithms gives $h \sim \lg n / \lg \phi \approx 1.44 \lg n$. 
-\end{Example}
+\end{Boxample}
 
 \begin{Boxample}[2]
 How many types of self-balancing search trees can you find (e.g. Wikipedia)?
 
 \end{Boxample}
 
-\paragraph{Red-black trees}
+\section*{Red-black trees}
 
 Introduced in 1978, these have a balance condition that ensures (via tricky rotations not discussed here --- see Wikipedia for gory details) 
 that the maximum depth of a leaf is no more than twice the minimum depth. 
@@ -220,21 +220,20 @@ They do this by colouring each node red or black (note that we are explicitly us
 \item both children of every red node are black;
 \item every path from a node to a leaf contains the same number of black nodes.
 \end{itemize}
-See \cref{fig:redblackTreeEx} for an example.
 
-\begin{figure}[htb]
-  \centering
-  \includegraphics{redBlackEx}
-  \caption{A red-black tree on the left. The BST on the right is not a red-black tree 
-  because not every path from $14$ to a leaf contains the same number of black nodes.}
-  \label{fig:redblackTreeEx}
-\end{figure} 
+\begin{Boxample} \label{ex:redblackTreeEx}
+A red-black tree on the left. The BST on the right is not a red-black tree 
+  because not every path from $14$ to a leaf contains the same number of black nodes.
+\begin{center}
+  \includegraphics[width=1.0\textwidth]{redBlackEx}
+\end{center}
+\end{Boxample}
 
-\paragraph{Height of a red-black tree}
+\section*{Height of a red-black tree}
 The worst case height is at most $2 \lg n$.
 MCW-TODO add proof or link to it
 
-\paragraph{Balanced search trees in practice (Dec 2018)}
+\section*{Balanced search trees in practice (Dec 2018)}
 \begin{itemize}
 \item Java Collections Framework uses red-black trees to implement \texttt{TreeMap}.
 \item C++  uses red-black trees to implement \texttt{map}.
@@ -276,7 +275,7 @@ should be uniformly distributed.
 A hash function should be deterministic, but appear ``random" - in other 
 words it should pass some statistical tests (similar to pseudorandom number generators). 
 
-\paragraph{Collision resolution policies}
+\section*{Collision resolution policies}
 \begin{itemize}
 \item \defnfont{Open addressing} uses no extra space - every element is stored in 
 the hash table. If it gets overfull, we can reallocate space and 
@@ -299,7 +298,7 @@ evict the latecomer (FCFS) or evict the element furthest from its home location
 
 
 
-\paragraph{Collision resolution via chaining.}
+\section*{Collision resolution via chaining}
 \begin{itemize}
 \item Elements that hash to the same slot are placed in a list. The slot
 contains a pointer to the head of this list. 
@@ -310,7 +309,7 @@ example.
 sizes of lists turns out to be very uneven.
 \end{itemize}
 
-\paragraph{Collision resolution via open addressing.}
+\section*{Collision resolution via open addressing}
 \begin{itemize}
 \item Every key is stored somewhere in the array; no extra space is used.
 \item If a key  $k$ hashes to a value $h(k)$ that is already occupied, 
@@ -334,7 +333,7 @@ However it is prone to \emph{clustering} --- large clusters of filled entries fo
 
 
 
-\paragraph{Analysis of hashing.}
+\section*{Analysis of hashing}
 
 We count cost by number of key comparisons/probes.
 
@@ -355,7 +354,7 @@ will be stated in terms of $\lambda$.
 
 \chapter{Analysis of hashing} %-------------------------------------------------
 
-\paragraph{Analysis of balls in bins.}
+\section*{Analysis of balls in bins}
 Define 
 $$Q(m, n) = \frac{m!}{(m-n)! m^n} = \frac{m}{m} \frac{m-1}{m} \dots 
 \frac{m - n + 1}{m}.$$
@@ -370,7 +369,7 @@ $E(m):=\sum_{n \leq m} Q(m, n)$. Note $E(365) \approx 25$.
 
 jo - TODO improve plots below if needed
 
-\paragraph{Plots of $Q(m, n)$ against $n$, $m=25,100,400,1600$.}
+\section*{Plots of $Q(m, n)$ against $n$, $m=25,100,400,1600$}
 \begin{figure}
 \centering
 \includegraphics[width=4cm]{figs/birthday25.jpg}
@@ -381,7 +380,7 @@ $\quad$
 \includegraphics[width=4cm]{figs/birthday1600.jpg}
 \end{figure}
 
-\paragraph{Results for chaining}
+\section*{Results for chaining}
 
 The worst case for searching is $\Theta(n)$, since there may be only one 
 chain with all the keys. The average cost for unsuccessful search is the average list length, 
@@ -395,7 +394,7 @@ Thus provided the load factor is kept bounded, basic operations all run in
 constant time on average. 
 
 
-\paragraph{Results for open addressing}
+\section*{Results for open addressing}
 
 We assume \defnfont{uniform hashing}: each configuration of 
 $n$ keys in a table of size $m$ is equally likely to occur. In other words, the 
@@ -416,7 +415,7 @@ If the load factor is bounded away from $1$, basic operations
 run in constant time; otherwise performance will be very bad. We should resize!
 
 
-\paragraph{Extra: unsuccessful search under uniform hashing hypothesis.}
+\section*{Extra: unsuccessful search under uniform hashing hypothesis}
 \begin{itemize}
 \item Let $X$ be the number of probes taken for an unsuccessful search. 
 Let $p_i$ be the probability that we need to make $i+1$ probes 
@@ -437,7 +436,7 @@ which is $\Theta(1/(1 - \lambda))$ as $\lambda \to 1$. This agrees with
 intuition.
 \end{itemize}
 
-\paragraph{Statistics for balls in bins: some facts.}
+\section*{Statistics for balls in bins: some facts}
 \begin{itemize}
 \item When do we expect the first collision? This is the 
 {birthday problem}. Answer: $E(m) \approx \sqrt{\pi m/2} + 2/3$.
@@ -454,7 +453,7 @@ Answer: about $(\log n)/(\log \log n)$. Some of the lists may be fairly long.
 references.
 \end{itemize}
 
-\paragraph{Hashing in practice (Dec 2018).}
+\section*{Hashing in practice (Dec 2018)}
 \begin{itemize}
 \item Java Collections Framework uses chaining to implement \texttt{HashMap}, resizing when $\lambda > 0.75$, and table size a power of $2$.
 \item C++  uses chaining to implement \texttt{unordered\_map}, resizing when $\lambda >1$, and prime table size.

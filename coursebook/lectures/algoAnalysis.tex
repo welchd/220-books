@@ -25,7 +25,7 @@ major bugs in programs. The analysis process often results in us discovering sim
 Many algorithms have parameters that must be set before implementation, and analysis allows us to set the optimal values.
 
 
-\begin{Example}
+\begin{Boxample}
 The Fibonacci sequence is recursively defined by 
 $$
 F(n) = 
@@ -36,7 +36,7 @@ F(n) =
   \right.
 $$
 This immediately suggests a recursive algorithm.
-\end{Example}
+\end{Boxample}
 
 \begin{algorithm}[H]
   \caption{Slow method for computing Fibonacci numbers} 
@@ -213,7 +213,7 @@ Here are some easy basic rules.
 
 
 
-% \begin{Example}
+% \begin{Boxample}
 \begin{algorithm}[H]
   \caption{Swapping two elements in an array.
     \label{alg:swap}}
@@ -228,10 +228,10 @@ Here are some easy basic rules.
 \end{algorithmic}
 \end{algorithm}
 \Cref{alg:swap} is a constant time algorithm.
-% \end{Example}
+% \end{Boxample}
 
 
-% \begin{Example}
+% \begin{Boxample}
 \begin{algorithm}[H]
   \caption{Finding the maximum in an array.
     \label{alg:findmax}}
@@ -248,7 +248,7 @@ Here are some easy basic rules.
 \end{algorithmic}
 \end{algorithm}
 \Cref{alg:findmax} is a linear time algorithm, since it makes one pass through the array and does a constant amount of work each time.
-% \end{Example}
+% \end{Boxample}
 
 What happens if the loop variable changes in a more complicated way?
 
@@ -380,7 +380,7 @@ Is the running time of \cref{alg:nest3} quadratic or linear?
 
 \chapter{Asymptotic notation} %-----------------------------------------------
 
-\paragraph{Asymptotic comparison of functions.}
+\section*{Asymptotic comparison of functions}
 In order to compare running times of algorithms we want a way of comparing
 the growth rates of functions. We want to see what happens for large values of $n$ --- small ones are not
  relevant, because almost any algorithm is good enough in practice for very small input. 
@@ -390,7 +390,7 @@ dominant terms in the running time.
 The standard mathematical approach to this is to use \emph{asymptotic notation}
 $O, \Omega, \Theta$ which we will now describe.
 
-\paragraph{Big-O notation.}
+\section*{Big-O notation}
 \begin{Definition}
 
 Suppose that $f$ and $g$ are functions from $\mathbb{N}$ to $\mathbb{R}$, 
@@ -415,20 +415,21 @@ Informally, $f/g$ is bounded away from zero and infinity, and $f$ grows at the s
 
 
 
-\paragraph{Asymptotic comparison --- examples.}
-\begin{Example}
+\section*{Asymptotic comparison --- examples}
+
+\begin{Boxample}
 Every linear function $f(n) = an + b$, $a > 0$, is $O(n)$. Proof: 
 $an + b \leq an + |b| \leq (a + |b|) n$ for $n \geq 1$. 
-\end{Example}
+\end{Boxample}
 
-\begin{Example} 
+\begin{Boxample} 
 \label{eg:asymp-lin-quadrat}
 If $f(n) = n, g(n) = n^2/2$, then $f$ is $O(g)$ and $g$ is not
 in $O(f)$, so $g$ grows asymptotically faster than $f$. Proof: 
 first note that $f(n) \leq 2 \cdot g(n)$ for $n\geq 0$ (because $n\leq n^2$). Conversely, suppose 
 that eventually $n^2 \leq Cn$. Then $n \leq C$ for all sufficiently large $n$, 
 a contradiction.
-\end{Example}
+\end{Boxample}
 
 \begin{Boxample}[4]
 Show that $n \lg n$ is $O(2^{-10} n^2)$.
@@ -442,7 +443,7 @@ $n_0 = 2$ and $C = 1$, because $n\leq n^2/2$ for all $n\geq 2$.
 We don't usually prove such results from the definition but you
 need to know how to, in case the rules (coming up) don't apply.
 
-\paragraph{Rules for asymptotic notation.}
+\section*{Rules for asymptotic notation}
 % old
 % \begin{itemize}
 % \item (irrelevance of constant factors) If $c > 0$ is constant then $cf$ is $\Theta(f)$.
@@ -483,31 +484,31 @@ Then
 Proofs of these rules will be given in lectures. L'H\^{o}pital's rule is often useful for the application of the limit rule. Note that the 
 limit may not exist at all.
 
-\paragraph{Asymptotic comparison --- more examples}
+\section*{Asymptotic comparison --- more examples}
 
 \begin{Boxample}[4]
 \item $\log_a(n)$ is $\Theta(\lg n)$ for each $a > 1$.
 
 \end{Boxample}
 
-\begin{Example}
+\begin{Boxample}
 $n \lg n$ is $O(n^2)$ and $n \lg n$ is not $\Omega(n^2)$, by the limit rule.
-\end{Example}
-\begin{Example}
+\end{Boxample}
+\begin{Boxample}
 $2^n$ is $\Omega(n^{100})$, by the limit rule.
-\end{Example}
+\end{Boxample}
 
 \begin{Boxample}[4]
 Is $10^{-100} n^2 + 10^{100} n$ in $O(n)$?
 
 \end{Boxample}
 
-\begin{Example}
+\begin{Boxample}
 $1 + (-1)^n$ is $O(1)$ but not $\Theta(1)$ since it takes on the value $0$
  infinitely often. Limit rule does not apply either.
- \end{Example}
+\end{Boxample}
  
- \paragraph{Asymptotics via integral approximation}
+\section*{Asymptotics via integral approximation}
 \begin{Boxample}[8]
 We want the asymptotic behaviour of $\log (n!) = \sum_{k=1}^n \log k$.
 
@@ -523,12 +524,12 @@ be obtained, and it turns out that $\lim_{n\to \infty} (\log n!)/(n \log n) = 1$
 \fi
 \end{Boxample}
 
-\begin{Example} 
+\begin{Boxample} 
 By integral approximation we can get $H_n \in \Theta(\log n)$ where 
 $H_n:=1+ 1/2 + 1/3 + \dots + 1/n$ is the $n$\emph{th harmonic number}. 
-\end{Example}
+\end{Boxample}
 
-\paragraph{Summary of results}
+\section*{Summary of results}
 Write $f \prec g$ if $f$ is $O(g)$ but $f$ is not $\Theta(g)$, so $g$ grows at a
  faster rate than $f$. Then, for example, 
 $$
@@ -544,19 +545,19 @@ $$
 
 Here we consider some more subtle questions that have been ignored so far.
 
-\paragraph{Is addition of integers an elementary operation?}
+\section*{Is addition of integers an elementary operation?}
 
 If the integers (and their sum) can fit into a machine word (typically 64 bits, so not bigger than $9$, $223$, $372$, $036$, $854$, $775$, $807$) then 
 adding two of them can be done in constant time. If the integers are much longer, as occurs for example in symbolic algebra systems, cryptography, etc, then to avoid overflow they must be represented another way (``big integers"). Typically these are strings. In this case the addition is done componentwise and the running time grows linearly with the size of the integers. 
 
-\begin{Example}
+\begin{Boxample}
 Assuming that $F(n)$ has the order of $n$ decimal digits (which is true), the amount of work 
 done by \texttt{fastfib} is of order $1+2+\dots + n$ which is order $n^2$, not $n$. 
 So \texttt{fastfib} is technically a quadratic time algorithm!
-\end{Example}
+\end{Boxample}
 
 
-\paragraph{Have we been measuring input size correctly?}
+\section*{Have we been measuring input size correctly?}
 
 We used $n$ to measure the size of the integer $n$. This seems wrong. In fact the number of bits needed to represent $n$ seems a much better 
 idea. If $m$ is the size of the positive integer $n$, then $m = 1+\lfloor\lg n\rfloor$, and $2^{m-1} \leq n < 2^m$.
@@ -564,7 +565,7 @@ This turns \texttt{fastfib} from a polynomial time algorithm to an exponential t
 
 
 
-\paragraph{What happens if there are many inputs of a given size?}
+\section*{What happens if there are many inputs of a given size?}
 
 We usually don't want to have to consider the distribution of
 running time over all possible inputs of a given size. There may be (infinitely)
@@ -575,7 +576,7 @@ We consider statistics of $T(\inp)$ such as \defnfont{worst-case}  or
 \defnfont{average-case} running time for instances $\inp$ of size $n$.
 
 
-\paragraph{What are the pros and cons of worst and average case analysis?}
+\section*{What are the pros and cons of worst and average case analysis?}
 \begin{itemize}
 \item Worst-case bounds are valid for all instances: 
 this is important for mission-critical applications.
@@ -592,9 +593,9 @@ just a first step and we should aim to refine the analysis for important
 algorithms. Average-case analysis is often more practically useful, provided the
  algorithm will be run on ``random" data and we have some tolerance for risk.
 
-\paragraph{Why can constants often be ignored?}
+\section*{Why can constants often be ignored?}
 
-A linear time algorithm when \linebreak[4] implemented will take at most $A
+A linear time algorithm when implemented will take at most $A
 n + B$ seconds to run on an instance of size $n$, for some
 specific constants $A, B$ that depend on the implementation. For large $n$, this is well approximated by $A n$. 
 Small $n$ are not usually of interest anyway, since almost any algorithm is good
@@ -612,7 +613,7 @@ can do more analysis.
 
 
 
-\paragraph{Can we always ignore constants?}
+\section*{Can we always ignore constants?}
 
 When we want to choose between two good algorithms for the same
 problem (``is my linear-time algorithm faster than your linear-time
@@ -634,7 +635,7 @@ of moderate size.
 
 
 
-\paragraph{Summary}
+\section*{Summary}
 \begin{itemize}
 \item Our goal is to find an asymptotic approximation for the (worst or average 
 case) running time of a given algorithm. Ideally we can find a simple function 

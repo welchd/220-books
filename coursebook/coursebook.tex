@@ -99,12 +99,17 @@
 
 \usepackage{mdframed}
 \usepackage{xparse}
-\NewDocumentEnvironment{Boxample}{o}{%
-    \begin{mdframed}\begin{Example}%
-}{%
+\NewDocumentEnvironment{Boxample}{O{0}}{%
+% 	\begin{samepage}
+	\par%
+	\begin{minipage}{\textwidth}%
+	\begin{mdframed}\begin{Example}%
+}{% 
     \end{Example}%
     \vspace*{#1cm}%
     \end{mdframed}%
+%     \end{samepage}
+	\end{minipage}
 }
 
 
@@ -160,7 +165,7 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 % ## refs ## ----------------------------------------------
 \usepackage[colorlinks,linkcolor=blue,urlcolor=blue,citecolor=blue,
  bookmarksopen=true,
- pdfauthor={David Welch, Mark C. Wilson, Jonathan Klawitter}, 
+ pdfauthor={Jonathan Klawitter, David Welch, Mark C. Wilson}, 
  pdfsubject={Coursebook},
  pdftitle={CS220 Algorithms and Data Structures},
  pdfcreator={LaTeX with hyperref package},
@@ -215,8 +220,8 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 % # title page
 %\input{titlepageOld} % <- coursebook version
 \title{CS220 Algorithms and Data Structures}
-\author{David Welch $\quad$ Mark C. Wilson $\quad$ Jonathan Klawitter}
-\date{\today}
+\author{Jonathan Klawitter $\quad$ David Welch $\quad$ Mark C. Wilson}
+\date{Semester 1, 2019}
 
 \begin{titlingpage}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
@@ -233,8 +238,10 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 \HRule\\[0.5cm]
 \Huge{\bfseries COMPSCI 220\\ 
 Algorithms and Data Structures}\\[0.1cm]
-\HRule\\[2.6cm]
+\HRule\\[0.5cm]
+\Large{\thedate}
 
+\vspace*{2.4cm}
 \LARGE{\theauthor}
 
 \end{adjustwidth*}
@@ -258,18 +265,24 @@ Algorithms and Data Structures}\\[0.1cm]
 %\mainmatter
 \chapterstyle{ger}
 
+% preface
+\thispagestyle{empty}
+This is a coursebook.
 
-%\part{Introduction to Algorithm Analysis}
+Use it.
+
+Thanks to Michael and Georgy.
+
 
 \include{lectures/mathsintro} 
 
+%\part{Introduction to Algorithm Analysis}
 \include{lectures/algoAnalysis}
 \include{lectures/sorting}
 \include{lectures/searching}
 
 
 %\part{Introduction to Graph Algorithms}
-
 \include{lectures/graph-adt}
 \include{lectures/traversal}
 \include{lectures/optimization}
@@ -277,18 +290,11 @@ Algorithms and Data Structures}\\[0.1cm]
 
 %\part*{Appendices}
 %\part{Appendices}
-%
 %\appendix
-%
 %\include{appendix/javasortmeth}
-% 
 %\include{appendix/javagraphADT}
-
 %% \include{appendix/javaparse}
-
 %\include{appendix/datastruct}
-%
-%
 %\include{appendix/solutions}
 
 \chapterstyle{section}
