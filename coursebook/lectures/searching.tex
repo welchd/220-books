@@ -249,8 +249,8 @@ MCW-TODO add proof or link to it
 \chapter{Hashing} %-----------------------------------------------------------
 
 \begin{Definition}
-A {hash function} is a function $h$ that outputs an integer
-value for each key. A {hash table} is an array implementation of
+A \defnfont{hash function} is a function $h$ that outputs an integer
+value for each key. A \defnfont{hash table} is an array implementation of
 the table ADT, where each key is mapped via a hash function to an array
 index. 
 \end{Definition}
@@ -258,12 +258,10 @@ index.
 The number of possible keys is usually enormously more than
 the actual number of keys. Thus allocating an array with enough size to
 fit all possible keys would be very inefficient. So hash functions are
-not $1$-to-$1$; that is, two keys may be mapped to the same index (a
-{collision}). 
+not $1$-to-$1$; that is, two keys may be mapped to the same index -- a \defnfont{collision}. 
 
-We need a collision resolution policy to prescribe what to do when 
-collisions occur. We assume the first-come-first served (FCFS) model for resolving
-collisions.
+We need a collision resolution policy to prescribe what to do when collisions occur. 
+We assume the first-come-first served (FCFS) model for resolving collisions.
 
 There are several desirable properties of a hash function:
 \begin{itemize}
@@ -277,10 +275,9 @@ words it should pass some statistical tests (similar to pseudorandom number gene
 
 \section*{Collision resolution policies}
 \begin{itemize}
-\item \defnfont{Open addressing} uses no extra space - every element is stored in 
-the hash table. If it gets overfull, we can reallocate space and 
-{rehash}.
-\item  \defnfont{Chaining} uses an ``overflow" list for each element in 
+\item \defnfont{Open addressing} uses no extra space -- every element is stored in the hash table. 
+If it gets overfull, we can reallocate space and {rehash}.
+\item \defnfont{Chaining} uses an ``overflow" list for each element in 
 the hash table.
 \item When a collision occurs, we can evict the occupant (LCFS), 
 evict the latecomer (FCFS) or evict the element furthest from its home location
@@ -297,7 +294,6 @@ evict the latecomer (FCFS) or evict the element furthest from its home location
 \end{itemize}
 
 
-
 \section*{Collision resolution via chaining}
 \begin{itemize}
 \item Elements that hash to the same slot are placed in a list. The slot
@@ -308,6 +304,14 @@ example.
 \item A drawback is the additional space overhead. Also, the distribution of 
 sizes of lists turns out to be very uneven.
 \end{itemize}
+
+\begin{Boxample}
+A hash table with chaining.
+\begin{center}
+\includegraphics{hashChaining} 
+\end{center}
+\end{Boxample}
+
 
 \section*{Collision resolution via open addressing}
 \begin{itemize}
@@ -325,8 +329,13 @@ we \defnfont{probe} (look for an empty space).
 	\end{itemize}
 \end{itemize}
 
-jo-TODO insert Boxamples of linear probing and double hashing 
-
+\begin{Boxample}
+The hash table on the left uses linear probing, so $d$ is inserted two left of $h(d) = h(a)$, because $h(d)-1$ is already occupied.
+The hash table on the right uses double hashing, so $d$ is moved $p(d)$ to the left of $h(d) = h(a)$. 
+\begin{center}
+\includegraphics{hashProbing} 
+\end{center}
+\end{Boxample}
 
 Linear probing is easy to implement, easier than double hashing.
 However it is prone to \emph{clustering} --- large clusters of filled entries form, and this makes search times longer on average.

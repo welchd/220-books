@@ -2,9 +2,7 @@
 \label{ch:weighted}
 
 
-\chapter{Weighted graphs, the single-source shortest paths problem, Dijkstra}
-
-
+\chapter{Weighted graphs, the single-source shortest paths problem, Dijkstra} %----------
 
 Weighted digrephs encode not only information about  \boldfont{whether} one can get from $A$ to $B$, but
 \boldfont{how much it will cost} to do so.
@@ -48,7 +46,8 @@ Weighted digraphs are represented on a computers using adjacency matrices or lis
 \item The adjacency matrix is modified so that
 each entry of $1$ (signifying that an arc exists) is replaced by the
 cost of that arc.
-\item Care needs to be taken if using 0 to represent the absence of arcs, as 0 may be a legal edge weight. In these cases, \texttt{null}, $\infty$ or some suitable value may be used.
+\item Care needs to be taken if using 0 to represent the absence of arcs, as 0 may be a legal edge weight. 
+In these cases, \texttt{null}, $\infty$ or some suitable value may be used.
 \item we use the convention that 0 or null represents the absence of an arc. 
 \item Another is a double adjacency list. In this case, the
 list associated to a node $v$ contains, alternately, an adjacent node
@@ -328,7 +327,9 @@ jo-TODO: add figures to Dijkstra algo table
 \end{center}
 \end{table}
 
-\chapter{Djikstra proof, Bellman-Ford}
+
+
+\chapter{Djikstra proof, Bellman-Ford} %--------------------------------------
 
 Why does Dijkstra's algorithm work? The proof of correctness is a
 little longer than for previous algorithms. The key observation is the
@@ -601,7 +602,7 @@ all the arc weights are nonnegative?
 
 
 
-\chapter{All-pairs shortest path problem}
+\chapter{All-pairs shortest path problem} %-----------------------------------
 \label{sec:APSP}
 
 The problem is as follows: given a weighted digraph $(G, c)$, determine
@@ -873,7 +874,7 @@ the problem with this additional constraint.
 \end{Exercise}
 \end{samepage}
 
-\chapter{Minimum spanning tree problem}
+\chapter{Minimum spanning tree problem} %-------------------------------------
 \label{sec:MST}
 In this section, we use ``tree" to mean ``free tree" throughout.
 Recall that a tree is a connected acyclic graph. A \defnfont{spanning
@@ -1093,7 +1094,7 @@ expensive edge we can, subject to maintaining connectedness. Does it
 solve the MST problem sometimes? always?
 \end{Exercise}
 
-\chapter{Hard graph problems}
+\chapter{Hard graph problems}%------------------------------------------------
 \label{sec:hardgraph}
 We have presented several efficient algorithms for some common digraph
 problems. All of these algorithms have running time bounded above by a low
