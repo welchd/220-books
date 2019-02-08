@@ -689,17 +689,17 @@ Find a tree arc, cross arc, forward arc and back arc (or say if that type of arc
 \begin{Boxample}[2]
 A graph and its BFS search tree, rooted at node $0$. The dashed arcs indicate the original arcs that are not part of the BFS search tree.
 \begin{center}
-\includegraphics{BFSalgoDigraph}
+\includegraphics{BFSalgoGraph}
 \end{center}
 Find a tree arc, cross arc, forward arc and back arc (or say if that type of arc does not exist for that traversal).
 \end{Boxample}
 
-\begin{figure}[hbtp]
-	\centering
-	\includegraphics{graphEx2BFS}
-	\caption{BFS trees for $G_1$ and $G_2$ of \cref{fig:graphExample2}, rooted at $0$.}
-	\label{fig:graphEx2-BFS}
-\end{figure}
+% \begin{figure}[hbtp]
+% 	\centering
+% 	\includegraphics{graphEx2BFS}
+% 	\caption{BFS trees for $G_1$ and $G_2$ of \cref{fig:graphExample2}, rooted at $0$.}
+% 	\label{fig:graphEx2-BFS}
+% \end{figure}
  
 \section{Pseudocode for breadth-first search}
 % \section{Additional properties of breadth-first search}
@@ -851,12 +851,11 @@ Let $\{v, w\}\in E(G)$. Then exactly one of the following conditions holds.
 %impossible by Theorem~\ref{thm:BFSdist}.
 %\end{proof}
 
-For a given BFS tree, we can uniquely label the vertices of
-a digraph based on the time they were first seen. For the graph
-$G_1$ of \cref{fig:graphExample2}, we label vertex 0 with 1,
-vertices \set{1,2} with labels \set{2,3}, vertices \set{3,4,8} with
-labels \set{4,5,6}, and the last vertex level \set{5,6,7} with labels
-\set{7,8,9}. These are indicated in \cref{fig:graphEx2-BFS}.
+For a given BFS tree, we can uniquely label the vertices of a digraph based on the time they were first seen. 
+For the graph $G_1$ of \cref{fig:graphExample2}, we label vertex 0 with 1,
+vertices \set{1,2} with labels \set{2,3}, vertices \set{3,4,8} with labels \set{4,5,6}, 
+and the last vertex level \set{5,6,7} with labels \set{7,8,9}.  
+These are indicated in \cref{fig:graphEx2-BFS}.
 
 %\subsection*{Exercises}
 %
