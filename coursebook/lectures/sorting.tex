@@ -571,11 +571,11 @@ Quicksort was described briefly in Lecture~\ref{sec:mergesort}. We give the deta
 The exact way in which quicksort works depends on the details of the way we choose the pivot element and how the 
 partition algorithm works. Each choice for these gives a different quicksort algorithm.
 
-\begin{Boxample}
-Illustration of quicksort. First the pivot element 4 is moved into the middle. 
+\begin{Boxample} \label{ex:quicksortSmall}
+Illustration of quicksort. First the array is partitioned and the pivot element 4 moved into the middle. 
 Then the left side (``$< 4$'') and right side (``$> 4$'') are recursively sorted.
 \begin{center}
-  \includegraphics{QuickSortExample}
+  \includegraphics{QuickSortExampleDifPartition}
 \end{center}
 \end{Boxample}
 
@@ -616,6 +616,10 @@ $\geq p$. One method is \cref{alg:partition} (Hoare, 1960). There are others:
 \EndFunction  
 \end{algorithmic}
 \end{algorithm}
+
+\begin{Boxample}[1]
+Does the quicksort algorithm in Example \ref{ex:quicksortSmall} use Hoare's method, \cref{alg:partition}, for partitioning? 
+\end{Boxample}
 
 \begin{Boxample}[1]
 Complete the following example for the partition algorithm \cref{alg:partition}. 
@@ -1058,7 +1062,6 @@ This has a solution that is
 $\Theta(n)$, via the same method used for the quicksort recurrence.
 
 \begin{Boxample}[5]
-
 Solve the quickselect recurrence above.
 \end{Boxample}
 
@@ -1067,6 +1070,9 @@ The worst case running time is still quadratic, for the same reason as for quick
 \section{How can we improve quickselect?}
 
 There is another divide-and-conquer 
-algorithm (see Wikipedia, ``Median of medians")  that is worst-case linear, but much more complicated and never used in practice. Note that if it did work well in practice, we would use it to find an optimal (i.e. median) pivot, and thereby achieve $O(n\log n)$ worst case running time for quicksort.
+algorithm (see Wikipedia, ``Median of medians") that is worst-case linear, 
+but much more complicated and never used in practice. 
+Note that if it did work well in practice, we would use it to find an optimal (i.e. median) pivot, 
+and thereby achieve $O(n\log n)$ worst case running time for quicksort.
 
 
