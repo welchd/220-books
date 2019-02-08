@@ -960,7 +960,6 @@ We do not include any code for \algfont{setKey}.
 	\For{$u \in V(G)$} 
 		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL
 	\EndFor
-	
 	\For{$s \in V(G)$} 
 		\If{$\colour[s] = $ WHITE } 
 			\State \algfont{PFSvisit}$(s)$
@@ -1222,27 +1221,15 @@ For a digraph we use the term girth for its underlying graph and the (maybe non-
 the length of the smallest directed cycle.
 \end{Definition}
 
-\begin{Boxample}[4]
-What is the girth of the following graph?\\
-jo TODO
-
+\begin{Boxample}[0]
+What are the girth and the directed girth of the following graph?
+\begin{center}
+\includegraphics{girthEx}
+\end{center}
 \end{Boxample}
 
-%\begin{Example}
-%\label{eg:cycles}
-%In \cref{fig:cycle} are three (di)graphs.  The first has no cycles 
-%(it is a free tree), the second is a DAG of girth 3, and the third has girth 4.
-%\end{Example}
-%
-%\begin{figure}
-%\centering
-%\includegraphics{graphEx3}
-%\caption{Some (di)graphs with different cycle behaviour.}
-%\label{fig:cycle}
-%\end{figure}
 
 \subsection{Finding the girth of a graph with BFS}
-
 How to compute the girth of a graph? Here is an algorithm for finding
 the length of a shortest cycle containing a given vertex $v$ in a graph
 $G$. Perform \algfont{BFSvisit}. If we meet a grey neighbour (that is,
@@ -1283,19 +1270,18 @@ current level $k$ is explored.
 
 \begin{Boxample}
 An easy-to-implement DFS idea may not work properly. 
-Consider the DFS tree originating from vertex $0$ of the graph below. % third grpah of \cref{fig:cycle}
+Consider the DFS tree originating from vertex $0$ of the graph below. 
 Which is the smallest cycle it finds with the back edges? Which smaller cycle does it miss?
-
-jo TODO
-% finds only $6$-cycles with the back edges (even
-%though a $4$-cycle exists using two of the back edges).
+\begin{center}
+\includegraphics{girthEx2}
+\end{center}
 \end{Boxample}
 
 To compute the girth of a graph, we can simply run the above algorithm
 from each vertex in turn, and take the minimum cycle length achieved.
 
 \subsection{Finding the directed girth of a digraph with DFS}
-
+{\color{red}TODO subsection? or relict?}
 
 
 \chapter{Connectivity, components, strong components} %-----------------------
@@ -1376,15 +1362,16 @@ The intuition of a digraph being `all in one piece" is not as useful as it was f
 
 \begin{Boxample}[0]
 This digraph appears to be ``all in one piece'' as its underlying graph is connected. 
-But can you get from any node to any other node following the direction of the arcs?\\
-
-jo TODO-add in graph here to illustrate
+But can you get from any node to any other node following the direction of the arcs?
+\begin{center}
+\includegraphics{connectedComponentDigraph}
+\end{center}
 \end{Boxample}
 
 This example motivates the following definition.
 
 \begin{Definition}
-A digraph $G$ is \defnfont{strongly connected} if for each pair of nodes $u, v$ 
+A digraph $G$ is \defnfont{strongly connected} if for each pair of nodes $u$, $v$ 
 of $G$, there is a path in $G$ from $u$ to $v$ and from $v$ to $u$ (that is, $u$ and $v$ are reachable from one another).
 \end{Definition}
 
@@ -1422,17 +1409,16 @@ All nodes of $G$ are in exactly one such $G_i$, so the partition into strongly c
 %\end{proof}
 
 \begin{Boxample}[0]\label{eg:scc}
-A digraph and its three strongly connected components. Note that there are
-arcs of the digraph not included in the strongly connected components.\\
-\includegraphics{SCC}
+% A digraph and its three strongly connected components. \\
+%\includegraphics{SCCex}
+
+This digraph has three strongly connected components. Find and draw the two missing ones.\\
+
+\includegraphics{SCCex}
+
+Note that there are arcs of the digraph not included in the strongly connected components.
 \end{Boxample}
 
-%\begin{figure}[htbp]
-%\centering
-%\includegraphics{SCC}
-%\caption{A digraph and its strongly connected components.}
-%\label{fig:scc}
-%\end{figure}
 
 \section{Finding the strongly connected components}
 
@@ -1466,7 +1452,7 @@ arcs of the digraph not included in the strongly connected components.\\
 
 \begin{Boxample}[4]
 Find a counter-example to show that the method for finding connected components of graphs 
-in \cref{thm:trav-comps} fails at finding strongly connected components of digraphs.
+in Theorem \ref{thm:trav-comps} fails at finding strongly connected components of digraphs.
 \end{Boxample}
 
 
@@ -1584,11 +1570,12 @@ two nonempty disjoint subsets $V_0, V_1$ such that each edge of $G$
 has one endpoint in $V_0$ and one in $V_1$.
 \end{Definition}
 
-\begin{Boxample}[0]
-This graph is bipartite.  The isolated
-vertex could be placed on either side.
-\vspace{3mm}\\
+\begin{Boxample} \label{ex:bipartite}
+This graph is bipartite.  
+The isolated vertex could be placed on either side.
+\begin{center}
 \includegraphics{bipartiteEx} 
+\end{center}
 \end{Boxample}
 
 %\begin{figure}
@@ -1598,10 +1585,9 @@ vertex could be placed on either side.
 %\label{fig:bipartite}
 %\end{figure}
 
-There are exponentially many partitions of $V$ into two subsets so
+There are exponentially many partitions of $V$ into two subsets so we
 do not want to have to test all possibilities to determine whether $V$ is bipartite.
 
-We'll 
 \begin{Definition}
 Let $k$ be a positive integer. A graph $G$ has a \defnfont{$k$-colouring}
 if $V(G)$ can be partitioned into $k$ nonempty disjoint subsets such
@@ -1609,7 +1595,7 @@ that each edge of $G$ joins two vertices in different subsets.
 \end{Definition}
 
 \begin{Example}
-The graph in \cref{fig:bipartite} has a 2-colouring as indicated.
+The graph in Example \ref{ex:bipartite} has a 2-colouring as indicated.
 \end{Example}
 
 It is not just a coincidence that our example of a bipartite graph
@@ -1654,6 +1640,7 @@ do not continue to the end of the level, but terminate when the first
 cycle is found, we may find a cycle whose length is one more than the
 shortest possible.
 \end{Exercise}
+% jo asks: do you want this exercise in the cycle lecture?
 
 %\begin{Exercise}
 %\label{ex:shortest-cycle-runtime}
