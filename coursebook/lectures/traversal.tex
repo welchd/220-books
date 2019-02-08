@@ -292,10 +292,10 @@ the adjacency matrix is not clearly ruled out.
 Traversal algorithms differ in the rules for choosing the next grey and next white node, with  different rules leading
 to very different results.
 
-\begin{itemize}
-\item In \defnfont{depth-first search} (DFS) the new grey node chosen is the one
+\begin{Definition}
+In \defnfont{depth-first search} (DFS) the new grey node chosen is the one
 that has been grey for the \boldfont{shortest} time.
-\end{itemize}
+\end{Definition}
  
 %BFS takes us away
 %from the root node as slowly as possible. First we visit the root, then all its neighbours, then all neighbours of its neighbours and so on. The root is the first node to turn black.
@@ -315,7 +315,7 @@ So DFS are linear in the size $+$ order of a digraph.
 If an adjacency matrix is used, the algorithms are quadratic in the size of the graph ($\Omega(n^2)$).
 
 \begin{Boxample}[2]
-A digraph and its DFS search tree, rooted at node $0$. The dashed arcs indicate the original arcs that are not part of the DFS tree.
+A digraph and its DFS search tree, rooted at node $0$. The dashed arcs indicate the original arcs that are not part of the DFS search tree.
 \begin{center}
 \includegraphics{DFSalgoDigraph}
 \end{center}
@@ -324,7 +324,7 @@ Find a tree arc, cross arc, forward arc and back arc (or say if that type of arc
 
 
 \begin{Boxample}[2]
-A graph and its DFS search tree, rooted at vertex $0$. The dashed arcs indicate the original arcs that are not part of the DFS tree.
+A graph and its DFS search tree, rooted at vertex $0$. The dashed arcs indicate the original arcs that are not part of the DFS search tree.
 \begin{center}
 \includegraphics{DFSalgoGraph} 
 \end{center}
@@ -667,11 +667,10 @@ $$\seen[w] < \done[w]  < \seen[v] < \done[v].$$
 
 \chapter{Breadth First Search (BFS) and Priority First Search (PFS)} %--------
 
-\begin{itemize}
-\item in \defnfont{breadth-first
-search} (BFS) the new grey node chosen is the one
+\begin{Definition}
+In \defnfont{breadth-first search} (BFS) the new grey node chosen is the one
 that has been grey for the \boldfont{longest} time
-\end{itemize}
+\end{Definition}
  
 BFS takes us away from the root node as slowly as possible. 
 First we visit the root, then all its neighbours, then all neighbours of its neighbours and so on. 
@@ -679,31 +678,36 @@ The root is the first node to turn black.
 
 As with DFS, the running time of BFS is in $\Theta(n+m)$ when implemented using adjacency lists.
 
+\begin{Boxample}[2]
+A digraph and its BFS search tree, rooted at node $0$. The dashed arcs indicate the original arcs that are not part of the BFS search tree.
+\begin{center}
+\includegraphics{BFSalgoDigraph} 
+\end{center}
+Find a tree arc, cross arc, forward arc and back arc (or say if that type of arc does not exist for that traversal).
+\end{Boxample}
+
+\begin{Boxample}[2]
+A graph and its BFS search tree, rooted at node $0$. The dashed arcs indicate the original arcs that are not part of the BFS search tree.
+\begin{center}
+\includegraphics{BFSalgoDigraph}
+\end{center}
+Find a tree arc, cross arc, forward arc and back arc (or say if that type of arc does not exist for that traversal).
+\end{Boxample}
+
 \begin{figure}[hbtp]
 	\centering
 	\includegraphics{graphEx2BFS}
 	\caption{BFS trees for $G_1$ and $G_2$ of \cref{fig:graphExample2}, rooted at $0$.}
 	\label{fig:graphEx2-BFS}
 \end{figure}
-
-\begin{Example}
-In \cref{fig:graphEx2-BFS} we show the breadth-first search trees based on a BFS traversal of $G_1$ and $G_2$ in \cref{fig:graphExample2} starting at node $0$ . The
-dashed arcs indicate the original arcs that are not part of the BFS trees. The numbering next to the 
-\end{Example}
-
-\begin{Boxample}[2]
-Find a tree arc, cross arc, forward arc and back arc for each of the search trees in \cref{fig:graphEx2-BFS} (or say if that type of arc does not exist for that traversal).
-\end{Boxample}
-
-\section{Additional properties of breadth-first search}
+ 
+\section{Pseudocode for breadth-first search}
+% \section{Additional properties of breadth-first search}
 \label{sec:bfs}
-
-The first-in first-out processing of the grey nodes in BFS is ideally
-handled by a queue. The pseudocode for BFS is in \cref{alg:BFScode,alg:BFSvisitcode}.
+The first-in first-out processing of the grey nodes in BFS is ideally handled by a queue. 
+The pseudocode for BFS is in \cref{alg:BFScode,alg:BFSvisitcode}.
 The timestamps $\seen, \done$ of DFS are of less use here;
-it is more useful to record the number of steps from the root in the
-array $d$.
-
+it is more useful to record the number of steps from the root in the array $d$.
 
 \begin{algorithm}[H]
   \caption{Breadth-first search algorithm.}
@@ -724,6 +728,7 @@ array $d$.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
 \begin{algorithm}[H]
   \caption{Breadth-first search visit algorithm.}
      \label{alg:BFSvisitcode}
@@ -739,22 +744,29 @@ array $d$.
 				\State $Q$.\algfont{insert}$(v)$
 			\EndIf
 		\EndFor
-		\State $Q$.\algfont{delete}()
+		\State $Q$.\algfont{delete}$()$
 		\State $\colour[u] \gets $ BLACK
 	\EndWhile
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
+\begin{Boxample}
+\begin{center}
+\includegraphics{BFSalgoQueue}
+\end{center}
+\end{Boxample}
+
 %A similar analysis to what we did for DFS also holds for BFS: it is also
 %a linear time traversal algorithm, because the next grey and white node 
 %can again be chosen in constant time.
 
+\section{BFS useful results and facts} 
 It is rather obvious that BFS processes all nodes at distance 1, then
-all nodes at distance 2, etc, from the root. The formal theorem stating this is given below without proof (see book for a simple inductive proof).
+all nodes at distance 2, etc, from the root. 
+The formal theorem stating this is given below without proof (see book for a simple inductive proof).
 
-\begin{Theorem}
-\label{thm:BFSdist}
+\begin{Theorem} \label{thm:BFSdist}
 Suppose we run \algfont{BFS} on a digraph $G$.
 Let $v\in V(G)$, and let $r$ be the root of the search tree containing $v$. 
 Then $d[v] = d(r, v)$.
@@ -785,21 +797,17 @@ Suppose that we are performing \algfont{BFS} on a digraph $G$. Let $(v,
 w)\in E(G)$ and suppose that we have just chosen the grey node $v$. 
 Then
 \begin{itemize}
-\item
-if $(v, w)$ is a tree arc then $\colour[w] = $ WHITE, $d[w] = d[v] + 1$
-\item
-if $(v, w)$ is a back arc, then $\colour[w] = $ BLACK, $d[w] \leq d[v] - 1$  
-\item
-There are no forward arcs.
-\item
-if $(v, w)$ is a cross arc then one of the following holds:
-\begin{itemize}
-\item $d[w] < d[v] - 1$, and $\colour[w] = $ BLACK;
-\item $d[w] = d[v]$, and $\colour[w] = $ GREY;
-\item $d[w] = d[v]$, and $\colour[w] = $ BLACK;
-\item $d[w] = d[v] - 1$, and $\colour[w] = $ GREY;
-\item $d[w] = d[v] - 1$, and $\colour[w] = $ BLACK.
-\end{itemize}
+\item if $(v, w)$ is a tree arc then $\colour[w] = $ WHITE, $d[w] = d[v] + 1$;
+\item if $(v, w)$ is a back arc, then $\colour[w] = $ BLACK, $d[w] \leq d[v] - 1$;  
+\item there are no forward arcs; and
+\item if $(v, w)$ is a cross arc then one of the following holds:
+	\begin{itemize}
+		\item $d[w] < d[v] - 1$, and $\colour[w] = $ BLACK;
+		\item $d[w] = d[v]$, and $\colour[w] = $ GREY;
+		\item $d[w] = d[v]$, and $\colour[w] = $ BLACK;
+		\item $d[w] = d[v] - 1$, and $\colour[w] = $ GREY;
+		\item $d[w] = d[v] - 1$, and $\colour[w] = $ BLACK.
+	\end{itemize}
 \end{itemize}
 \end{Theorem}
 
@@ -828,16 +836,12 @@ In the special case of graphs we can say more.
 
 \begin{Theorem}
 \label{thm:BFS-grapharcclass}
-Suppose that we have performed \algfont{BFS} on a graph $G$. Let $\{v,
-w\}\in E(G)$. Then exactly one of the following conditions holds.
-
+Suppose that we have performed \algfont{BFS} on a graph $G$. 
+Let $\{v, w\}\in E(G)$. Then exactly one of the following conditions holds.
 \begin{itemize}
-\item
-$\{v, w\}$ is a tree edge, $| d[w] - d[v] |= 1$;
-\item
-$\{v, w\}$ is a cross edge, $d[w] = d[v]$;
-\item
-$\{v, w\}$ is a cross edge, $| d[w] - d[v] | = 1$.
+	\item $\{v, w\}$ is a tree edge, $| d[w] - d[v] |= 1$;
+	\item $\{v, w\}$ is a cross edge, $d[w] = d[v]$;
+	\item $\{v, w\}$ is a cross edge, $| d[w] - d[v] | = 1$.
 \end{itemize}
 \end{Theorem}
 
@@ -897,19 +901,21 @@ labels \set{4,5,6}, and the last vertex level \set{5,6,7} with labels
 Priority-first search is a more general and sophisticated form of traversal that encompasses both BFS and DFS (and others). 
 
 \begin{itemize}
-\item each grey node has associated with it an
-integer \defnfont{key}. 
-\item The interpretation of the key is of a priority: the
-smaller the key, the higher the priority. 
-\item The rule for choosing a new
-grey node is to choose one with the smallest key.  
-\item The key can either be assigned once when the node is first seen and then left unchanged, or could be updated at other times. We concentrate on unchanging keys here.
-\item To mimic BFS, set the key for the node $v$ to be the time that $v$ turns grey. It will always remain as the lowest key until it turns black.
-\item To mimic DFS, set the key for node $v$ to be $-\seen[v]$, so that the most recently seen node has the lowest key
-\item The running time of PFS depends on how long it takes to find the minimum key value.
-\item The rules described here implemented using an array take $\Omega(n)$ to find the lowest key so the algorithm is $\Theta(n^2)$. Contrast with with $\Theta(m+n)$ for standard traversal.
-\item PFS is best described via the priority
-queue ADT which has more efficient implementations than using a standard array.
+	\item Each grey node has associated with it an integer \defnfont{key}. 
+	\item The interpretation of the key is of a priority: 
+	the smaller the key, the higher the priority. 
+	\item The rule for choosing a new grey node is to choose one with the smallest key.  
+	\item The key can either be assigned once when the node is first seen and then left unchanged, 
+	or could be updated at other times. We concentrate on unchanging keys here.
+	\itm To mimic BFS, set the key for the node $v$ to be the time that $v$ turns grey. 
+	It will always remain as the lowest key until it turns black.
+	\item To mimic DFS, set the key for node $v$ to be $-\seen[v]$, 
+	so that the most recently seen node has the lowest key
+	\item The running time of PFS depends on how long it takes to find the minimum key value.
+	\item The rules described here implemented using an array take $\Omega(n)$ to find the lowest key 
+	so the algorithm is $\Theta(n^2)$. Contrast with with $\Theta(m+n)$ for standard traversal.
+	\item PFS is best described via the priority queue ADT, 
+	which has more efficient implementations than using a standard array.
 \end{itemize}
 
 
@@ -941,14 +947,13 @@ queue ADT which has more efficient implementations than using a standard array.
 %book---the binary heap. In fact PFS is best described via the priority
 %queue ADT (see Section~\ref{sec:app:adt-informal}).
 
-Pseudocode demonstrating the PFS is presented in
-\cref{fig:PFScode}. The subroutine \algfont{setKey} there is the
-rule for giving the key value when a node is inserted. We do not include
-any code for \algfont{setKey}.
+Pseudocode demonstrating the PFS is presented in \cref{alg:PFScode,alg:PFScodeVisit}. 
+The subroutine \algfont{setKey} there is the rule for giving the key value when a node is inserted. 
+We do not include any code for \algfont{setKey}.
 
 \begin{algorithm}[H]
-  \caption{Priority-first search algorithm (first kind)}
-  \label{fig:PFScode}
+  \caption{Priority-first search algorithm (first kind).}
+  \label{alg:PFScode}
 \begin{algorithmic}[1]
 \Function{PFS}{digraph $G$}
 	\State priority queue $Q$  
@@ -964,6 +969,13 @@ any code for \algfont{setKey}.
 	\EndFor
 	\State \Return{$\pred$}
 \EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \caption{Priority-first visit algorithm.}
+  \label{alg:PFScodeVisit}
+  \begin{algorithmic}[1]
 \Function{PFSvisit}{node $s$}
 	\State $\colour[s] \gets $ GREY 
 	\State $Q$.\algfont{insert}$(s$, \algfont{setKey}$(s))$
@@ -973,7 +985,7 @@ any code for \algfont{setKey}.
 			\State $\colour[v] \gets $ GREY
 			\State $Q$.\algfont{insert}$(v$, \algfont{setKey}$(v))$
 		\Else
-			\State $Q$.\algfont{delete}
+			\State $Q$.\algfont{delete}$()$
 			\State $\colour[u] \gets$ BLACK
 		\EndIf
 	\EndWhile
@@ -982,10 +994,13 @@ any code for \algfont{setKey}.
 \end{algorithm}
 
 
-%\subsection*{Exercises}
+
 \chapter{Topological sort, acyclic graphs and girth} %------------------------
 
-Many computer science applications require us to find precedence (or dependencies) among events. If we consider the events to be nodes and an arc $(u,v)$ means that $u$ precedes $v$, that is, that $u$ must be calculated before $v$ can be calculated, deciding the order in which to process events becomes a problem of sorting the nodes of a digraph.
+Many computer science applications require us to find precedence (or dependencies) among events. 
+If we consider the events to be nodes and an arc $(u,v)$ means that $u$ precedes $v$, that is, 
+that $u$ must be calculated before $v$ can be calculated, 
+deciding the order in which to process events becomes a problem of sorting the nodes of a digraph.
 
 %\section{Acyclic digraphs and topological ordering}
 %\label{sec:dag}
@@ -995,20 +1010,14 @@ Many computer science applications require us to find precedence (or dependencie
 %science applications require us to find precedences (or dependencies)
 %among events, 
 \begin{Boxample}[0]
-Consider a complier evaluating sub-expressions of the expression $-(a+b) * (b+c) + ((b+c)+d)$.  The compiler must compute, for example, (a+b) and (b+c) before it could compute $-(a+b) * (b+c)$. This can be shown as a dependency digraph where the arc $(u,v)$ means that $u$ depends on $v$ so that $v$ must be calculated first:\\
+Consider a compiler evaluating sub-expressions of the expression $-(a+b) * (b+c) + ((b+c)+d)$.  
+The compiler must compute, for example, (a+b) and (b+c) before it could compute $-(a+b) * (b+c)$. 
+This can be shown as a dependency digraph where the arc $(u,v)$ means that $u$ depends on $v$ so that $v$ must be calculated first:\\
 \includegraphics{precedence}
 \end{Boxample}
 
-Respecting all precedences/dependencies is equivalent to drawing the digraph with all nodes in a straight line and the arcs all pointing the same direction. The order of calculation is then to starts at one end of the line and proceeds to the other.
-
-
-%\begin{figure}[hbtp]
-%	\centering
-%	\includegraphics{precedence}
-%	\caption{Digraph describing structure of an arithmetic expression.}
-%	\label{fig:prec}
-%\end{figure} 
-
+Respecting all precedences/dependencies is equivalent to drawing the digraph with all nodes in a straight line and the arcs all pointing the same direction. 
+The order of calculation is then to starts at one end of the line and proceeds to the other.
 
 \begin{Definition}
 Let $G$ be a digraph. A \defnfont{topological sort} of $G$ is a linear
@@ -1019,8 +1028,6 @@ then $u$ appears before $v$ in the ordering. It is also known as  a defnfont{top
 For our arithmetic expression example above, a linear
 order of the sub-expression digraph gives us an order (actually the reverse
 of the order) where we can safely evaluate the expression.
-
-
 
 %\begin{Example}
 %\label{eg:toporder}
@@ -1069,8 +1076,7 @@ precedences given, and no scheduling of the tasks is possible.
 
 \begin{Definition}
 A digraph without cycles is commonly called a \defnfont{DAG}, an
-abbreviation for \textbf{d}irected \textbf{a}cyclic
-\textbf{g}raph.  
+abbreviation for \textbf{d}irected \textbf{a}cyclic \textbf{g}raph.  
 \end{Definition}
 
 
@@ -1080,7 +1086,10 @@ A digraph has a topological order if and only if it is a DAG.
 \end{Theorem}
 
 \begin{Boxample}[6]
-It is clear that if a digraph has a topological order it has no cycles, so it a DAG. Show that a DAG always has a topological order by first showing that every DAG has a source and that by removing the source and any out-arcs from the source you still have a DAG. Show that the order in which nodes are removed gives a topological order.
+It is clear that if a digraph has a topological order it has no cycles, so it a DAG. 
+Show that a DAG always has a topological order by first showing that every DAG has a source
+and that by removing the source and any out-arcs from the source you still have a DAG. 
+Show that the order in which nodes are removed gives a topological order.
 \end{Boxample}
 
 This theorem and proof then gives an algorithm (\defnfont{zero-indegree sorting})
@@ -1104,21 +1113,18 @@ What is the running time of a naive implementation of zero-indgree sorting? Coul
 \section{FInding cycles and topological sorting using DFS}
 
 DFS can be used to determine whether or not a digraph is a DAG and, if it is, find a topological sort.
-
 \begin{itemize}
-\item Run DFS on $G$
-\item If $G$ contains a cycle,  the traversal will eventually reach
-a node that points to one that has been seen before. In other words, we
-will detect a back arc. 
-\item If the traversal finds no back arcs, $G$ is a DAG and the listing nodes in reverse order of DFS $\done$ times  is a topological sort of $G$.
+\item Run DFS on $G$.
+\item If $G$ contains a cycle,  the traversal will eventually reach a node that points to one that has been seen before. 
+In other words, we will detect a back arc. 
+\item If the traversal finds no back arcs, $G$ is a DAG 
+and the listing nodes in reverse order of DFS $\done$ times is a topological sort of $G$.
 \end{itemize}
 
 \begin{Theorem}
 \label{thm:findDAG}
-Suppose that DFS is run on a digraph $G$. Then $G$ is acyclic if and
-only if there are no back arcs.
+Suppose that DFS is run on a digraph $G$. Then $G$ is acyclic if and only if there are no back arcs.
 \end{Theorem}
-
 %\begin{proof}
 %Suppose that we run DFS on $G$. Note that if there is a
 %back arc $(v, u)$, then $u$ and $v$ belong to the same tree $T$, with
@@ -1141,7 +1147,6 @@ only if there are no back arcs.
 Let $G$ be a DAG. Then listing the nodes in reverse order of DFS
 finishing times yields a topological order of $G$.
 \end{Theorem}
-
 \begin{proof} 
 Consider any arc $(u,v)\in E(G)$. Since $G$ is a DAG,
 the arc is not a back arc by Theorem~\ref{thm:findDAG}. In the other three
@@ -1210,9 +1215,8 @@ The length of the smallest cycle in a graph is an important quantity.
 For example, in a communication network, short cycles are often something to be
 avoided because they can slow down message propagation.
 
-
 \begin{Definition}
-the \defnfont{girth} of the graph is the length of the shortest cycle. If the graph has no cycles then the
+The \defnfont{girth} of the graph is the length of the shortest cycle. If the graph has no cycles then the
 girth is undefined but may be viewed as $+\infty$. 
 
 For a digraph we use the term girth for its underlying graph and the (maybe non-standard) term \defnfont{directed girth} for
@@ -1220,14 +1224,10 @@ the length of the smallest directed cycle.
 \end{Definition}
 
 \begin{Boxample}[4]
-What is the girth of the following graph?
+What is the girth of the following graph?\\
+jo TODO
 
 \end{Boxample}
-%\begin{note} 
-%For a digraph we use the term girth for its underlying
-%graph and the (maybe non-standard) term \defnfont{directed girth} for
-%the length of the smallest directed cycle.
-%\end{note}
 
 %\begin{Example}
 %\label{eg:cycles}
@@ -1258,7 +1258,6 @@ value of $l$ obtained along the current level.
 \label{thm:BFS-cycle} 
 The above algorithm is correct.
 \end{Theorem}
-
 \begin{proof}
 Suppose that we arrive at vertex $x$, $d(x) = k$, and we have just
 encountered a grey neighbour $y$. Then $d[y] = d[x] + 1$ or $d[y] = d[x]$
@@ -1283,12 +1282,15 @@ this is $2(k+1) + 1 = 2k+3$, so no better cycle can be found after the
 current level $k$ is explored.
 \end{proof}
 
-\begin{note}
-An easy-to-implement DFS idea may not work properly. For example,
-the DFS tree originating from vertex $0$ of the third graph of
-\cref{fig:cycle} finds only $6$-cycles with the back edges (even
-though a $4$-cycle exists using two of the back edges).
-\end{note}
+\begin{Boxample}
+An easy-to-implement DFS idea may not work properly. 
+Consider the DFS tree originating from vertex $0$ of the graph below. % third grpah of \cref{fig:cycle}
+Which is the smallest cycle it finds with the back edges? Which smaller cycle does it miss?
+
+jo TODO
+% finds only $6$-cycles with the back edges (even
+%though a $4$-cycle exists using two of the back edges).
+\end{Boxample}
 
 To compute the girth of a graph, we can simply run the above algorithm
 from each vertex in turn, and take the minimum cycle length achieved.
@@ -1324,9 +1326,9 @@ vertices $u, v\in V(G)$, there is a path between them.
 Let $G$ be a graph. Then $G$ can be uniquely written as a union of
 subgraphs $G_i$ with the following properties:
 \begin{itemize}
-\item each $G_i$ is connected
+\item each $G_i$ is connected,
 \item if $i\neq j$, there are no edges from any vertices in $G_i$ 
-to any vertices in $G_j$
+to any vertices in $G_j$.
 \end{itemize}
 \end{Theorem}
 
@@ -1343,17 +1345,14 @@ The subgraphs $G_i$ above are called the \defnfont{connected components}
 of the graph $G$. Clearly, a graph is connected if and only if it has
 exactly one connected component.
 
-\begin{Example}
-\label{eg:components}
-The graph obtained by deleting two edges from a triangle has 2 connected 
-components.
-\end{Example}
+\begin{Boxample} \label{eg:components}
+The graph obtained by deleting two edges from a triangle has 2 connected components.
+\end{Boxample}
 
 We can determine the connected components of a graph easily by using a
 traversal algorithm. The following obvious theorem explains why.
 
-\begin{Theorem}
-\label{thm:trav-comps}
+\begin{Theorem} \label{thm:trav-comps}
 Let $G$ be a graph and suppose that DFS or BFS is run on $G$. Then the
 connected components of $G$ are precisely the subgraphs spanned by the
 trees in the search forest. 
@@ -1367,29 +1366,27 @@ trees in the search forest.
 
 So to find the components of a graph $G$:
 \begin{itemize}
-\item Run BFS or DFS on $G$ and count
-of the number of times we choose a root --- this is the number of components
-\item Store or print the vertices and edges in each
-component as we explore them.
-\item This is a linear time algorithm, $O(m+n)$
+\item Run BFS or DFS on $G$ and count of the number of times we choose a root -- this is the number of components.
+\item Store or print the vertices and edges in each component as we explore them.
+\item This is a linear time algorithm, $O(m+n)$.
 \end{itemize}
 
 \section{Connectivity in digraphs}
 
-The intuition of a digraph being `all 
-in one piece" is not as useful as it was for graphs. 
+The intuition of a digraph being `all in one piece" is not as useful as it was for graphs. 
 
 \begin{Boxample}[0]
 This digraph appears to be ``all in one piece'' as its underlying graph is connected. 
 But can you get from any node to any other node following the direction of the arcs?\\
-jo TODO-add in graph here to illlustrate
+
+jo TODO-add in graph here to illustrate
 \end{Boxample}
 
 This example motivates the following definition.
 
 \begin{Definition}
 A digraph $G$ is \defnfont{strongly connected} if for each pair of nodes $u, v$ 
-of $G$, there is a path in $G$ from $u$ to $v$ and from $v$ to $u$ (that is, $u$ and $v$ are reachalbe from one another).
+of $G$, there is a path in $G$ from $u$ to $v$ and from $v$ to $u$ (that is, $u$ and $v$ are reachable from one another).
 \end{Definition}
 
 \begin{Boxample}[4]
@@ -1403,7 +1400,10 @@ Show that a strongly connected digraph of order at least two contains at least o
 %each pair of nodes is contained in a cycle, then the digraph is clearly
 %strongly connected.
 
-\begin{Definition} A \defnfont{strongly connected component}, $G_i$, of $G$ is a maximal sub-digraph of $G$ such that $G_i$ is strongly connected. All nodes of $G$ are in exactly one such $G_i$, so the partition into strongly connected components is unique.
+\begin{Definition} 
+A \defnfont{strongly connected component}, $G_i$, of $G$ is a maximal sub-digraph of $G$ 
+such that $G_i$ is strongly connected. 
+All nodes of $G$ are in exactly one such $G_i$, so the partition into strongly connected components is unique.
 \end{Definition}
 
 %%\newpage
@@ -1423,8 +1423,7 @@ Show that a strongly connected digraph of order at least two contains at least o
 %\end{proof}
 
 \begin{Boxample}[0]\label{eg:scc}
-A digraph and its three strongly connected
-components. Note that there are
+A digraph and its three strongly connected components. Note that there are
 arcs of the digraph not included in the strongly connected components.\\
 \includegraphics{SCC}
 \end{Boxample}
@@ -1467,13 +1466,14 @@ arcs of the digraph not included in the strongly connected components.\\
 %search tree to a point, the resulting digraph is also acyclic.
 
 \begin{Boxample}[4]
-Find a counter-example to show that the method for finding connected components of graphs in \cref{thm:trav-comps}  fails at finding strongly connected components of digraphs.
+Find a counter-example to show that the method for finding connected components of graphs 
+in \cref{thm:trav-comps} fails at finding strongly connected components of digraphs.
 \end{Boxample}
 
 
-We can determine if $G$ is strongly connected or not (i.e., has a single strongly connected component) by running  \algfont{BFSvisit} or \algfont{DFSvisit}
-originating from each node in turn. If it is strongly connected, all trees produced will span $G$. The running time of such an
-algorithm is $\Theta(n^2+nm)$.
+We can determine if $G$ is strongly connected or not (i.e., has a single strongly connected component) by running \algfont{BFSvisit} or \algfont{DFSvisit}
+originating from each node in turn. If it is strongly connected, all trees produced will span $G$. 
+The running time of such an algorithm is $\Theta(n^2+nm)$.
 
 {\color{red} TODO: compress and clarify this argument. OK to omit formal proof if decent intuition is given}
 
