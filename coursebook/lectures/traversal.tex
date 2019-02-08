@@ -449,7 +449,7 @@ a recursive version: \cref{alg:DFSreccode}.
 \end{algorithm}
 
 \begin{Boxample}
-DFS with \algofont{recursiveDFSvisit}.
+DFS with \algfont{recursiveDFSvisit}.
 \begin{center}
 \includegraphics{DFSalgoRecursive}
 \end{center}
@@ -907,7 +907,7 @@ Priority-first search is a more general and sophisticated form of traversal that
 	\item The rule for choosing a new grey node is to choose one with the smallest key.  
 	\item The key can either be assigned once when the node is first seen and then left unchanged, 
 	or could be updated at other times. We concentrate on unchanging keys here.
-	\itm To mimic BFS, set the key for the node $v$ to be the time that $v$ turns grey. 
+	\item To mimic BFS, set the key for the node $v$ to be the time that $v$ turns grey. 
 	It will always remain as the lowest key until it turns black.
 	\item To mimic DFS, set the key for node $v$ to be $-\seen[v]$, 
 	so that the most recently seen node has the lowest key
