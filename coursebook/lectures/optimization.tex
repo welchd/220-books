@@ -236,31 +236,35 @@ $s$. For each node $v$ of $G$, we must find the minimum weight of a path
 from $s$ to $v$ (by the weight of a path we mean the sum of the weights
 on the arcs).
 
-\begin{Example}
-\label{eg:SSSP}
-In the weighted digraph of \cref{fig:graphExample5}, we can see by
-considering all possibilities that the unique minimum weight path from
-$0$ to $3$ is $0\, 1\, 3$, of weight $3$.
-\end{Example}
+\begin{Boxample} \label{eg:SSSP}
+In the weighted digraph below, we can see by considering all possibilities 
+that the unique minimum weight path from $0$ to $3$ is $0\, 1\, 3$, of weight $3$.
+What is the minimum weight path from $2$ to $0$, what is its weight?\\
 
+\includegraphics{weightedDigraph}
+\end{Boxample}
+
+\section{Dijkstra's algorithm}
 We first present an algorithm of Dijkstra that gives an optimal
 solution to the SSSP whenever all weights are nonnegative. It
-does not work in general if some weights are negative---see
-Exercise~\ref{ex:dijk-neg-fails}. 
+does not work in general if some weights are negative -- see
+Example~\ref{ex:dijk-neg-fails}. 
 
-Dijkstra's algorithm is an example of a \defnfont{greedy algorithm}. At
-each step it makes the best choice involving only local information,
+Dijkstra's algorithm is an example of a \defnfont{greedy algorithm}. 
+At each step it makes the best choice involving only local information,
 and never regrets its past choices. It is easiest to describe in terms of
 a set $S$ of nodes which grows to equal $V(G)$. 
 
 Initially the only paths available are the one-arc paths from $s$ to
 $v$, of weight $c(s, v)$. At this stage, the set $S$  contains only the
 single node $s$. We choose the neighbour $u$ with $c(s, u)$ minimal and
-add it to $S$. Now the fringe nodes adjacent to $s$ and $u$ must be
+add it to $S$. 
+Now the fringe nodes adjacent to $s$ and $u$ must be
 updated to reflect the new information (it is possible that there
 exists a path from $s$ to $v$, passing through $u$, that is shorter
-than the direct path from $s$). Now we choose the node (at ``level" $1$
-or $2$) whose current best distance to $s$ is smallest, and update
+than the direct path from $s$). 
+Now we choose the node (at ``level" $1$ or $2$) 
+whose current best distance to $s$ is smallest, and update
 again. We continue in this way until all nodes belong to $S$.
 
 The basic structure of the algorithm is presented in
@@ -290,23 +294,30 @@ The basic structure of the algorithm is presented in
 \end{algorithmic}
 \end{algorithm}
 
+\begin{Boxample}
+An application of Dijkstra's algorithm with starting vertex $0$. 
+The distances to 0 at each step are displayed next to each node.
+\begin{center}
+\includegraphics[width=1.0\textwidth]{DijkstraEx}
+\end{center}
+\end{Boxample}
 
-\begin{Example}
-\label{eg:dijkstra}
-An application of Dijkstra's algorithm on the second digraph
-of \cref{fig:graphExample5} is given in \cref{tab:dijkstrarun}
-for each starting vertex $s$.
+\begin{Boxample}\mbox{}\\
+
+\begin{minipage}[c]{0.45\textwidth}
+An application of Dijkstra's algorithm on the digraph below
+for each starting vertex $s$. 
+Complete the table for the starting vertex 2.
+
+\begin{center}
+\includegraphics{weightedDigraph}
+\end{center}
 
 The table illustrates that the distance vector is updated at 
 most $n - 1$ times (only before a new vertex is selected and added to $S$). 
-Thus we could have omitted the lines with $S=\set{0,1,2,3}$ in 
-\cref{tab:dijkstrarun}.
-\end{Example}
-
-jo-TODO: add figures to Dijkstra algo table
-\begin{table}[h]
-\caption{Illustrating Dijkstra's algorithm.}\label{tab:dijkstrarun}
-\begin{center}
+Thus we could have omitted the lines with $S = \set{0,1,2,3}$.
+\end{minipage}$\quad$
+\begin{minipage}[c]{0.45\textwidth}
 \begin{tabular}{|c|c|}\hline
 \textbf{current} $S \subseteq V$ &  \textbf{distance vector} $\dist$  \\ \hline
 \set{0} & $0, 1, 4, \infty$  \\
@@ -317,18 +328,21 @@ jo-TODO: add figures to Dijkstra algo table
 \set{1,3} & $4, 0, \infty, 2$ \\
 \set{0,1,3} & $4, 0, 8, 2$ \\
 \set{0,1,2,3} & $4, 0, 8, 2$ \\ \hline
-\set{2} & $\infty, 2, 0, 5$  \\
-\set{1,2} & $\infty, 2 , 0, 4$ \\
-\set{1,2,3} & $6, 2, 0, 4$  \\
-\set{0,1,2,3} & $6, 2, 0, 4$ \\ \hline
+\set{2} & \\%$\infty, 2, 0, 5$  \\
+&\\
+\set{1,2} & \\%$\infty, 2 , 0, 4$ \\
+&\\
+\set{1,2,3} & \\%$6, 2, 0, 4$  \\
+&\\
+\set{0,1,2,3} & \\ %\hline %$6, 2, 0, 4$ \\ \hline
+&\\ \hline
 \set{3} & $2, \infty, \infty, 0$ \\
 \set{0,3} & $2, 3, 6, 0$ \\
 \set{0,1,3} & $2, 3, 6, 0 $ \\
 \set{0,1,2,3} & $2, 3, 6, 0$ \\ \hline
 \end{tabular}
-\end{center}
-\end{table}
-
+\end{minipage}\\
+\end{Boxample}
 
 
 \chapter{Djikstra proof, Bellman-Ford} %--------------------------------------
@@ -483,8 +497,22 @@ on heaps; some of them are called Fibonacci heaps and 2--3 heaps. The
 best complexity bound for Dijkstra's algorithm, using a Fibonacci heap,
 is $O(m + n\log n)$.
 
-\subsection{Bellman--Ford algorithm}
-\label{subsec:bellford}
+\begin{Boxample}[0.5] \label{ex:dijk-neg-fails}
+Dijkstra's algorithm may fail to give the correct answer if some weights are negative.
+Give weights to the edges of the digraph below such that running Dijkstra's algorithm with starting vertex $0$
+fails. 
+\vspace{0.5cm} 
+\begin{center}
+\includegraphics{DijkstraTriangle}
+\end{center}
+% Give an example to show that Dijkstra's algorithm may fail to give the correct answer 
+% if some weights are negative. Make your example as small as possible. 
+% Then run the Bellman--Ford algorithm on the example and verify that it gives the correct answer.
+\end{Boxample}
+
+
+
+\section{Bellman--Ford algorithm} \label{sec:bellford}
 
 This algorithm, unlike Dijkstra's handles negative weight arcs, but runs
 slower than Dijkstra's when all arcs are nonnegative. The basic idea,
@@ -519,6 +547,16 @@ source.
 \end{algorithmic}
 \end{algorithm}
 
+\begin{Boxample}[1]
+An application of Bellman--Ford algorithm with starting vertex $4$
+when the nodes are processed in the order from $0$ to $4$.
+\begin{center} 
+\includegraphics[width=1.0\textwidth]{BellmanFordEx}
+\end{center}
+
+After how many iterations would the algorithm converge to the exact distance, 
+if the nodes are processed in the order $4$, $3$, $2$, $1$, $0$?
+\end{Boxample}
 
 \begin{Theorem} 
 Suppose that $G$ contains no negative weight cycles. Then after the $i$-th 
@@ -548,59 +586,53 @@ times. Using an adjacency matrix it runs in time $\Theta(n^3)$.
 \subsection*{Exercises}
 
 %\newpage
-\begin{Exercise} 
-\label{ex:do-bellford}
-Run the Bellman--Ford algorithm on the digraph with weighted adjacency 
-matrix given below. Choose each node as the source in turn as in 
-Example~\ref{eg:dijkstra}.
-$$
-\left[
-\begin{matrix}
-0 & 6 & 0 & 0 & 7 \\
-0 & 0 & 5 & -4 & 8 \\
-0 & -2 & 0 & 0 & 0 \\
-2 & 0 & 7 & 0 & 0 \\
-0 & 0 & -3 & 9 & 0 \\
-\end{matrix}
-\right]
-$$
-\end{Exercise}
+% \begin{Exercise} 
+% \label{ex:do-bellford}
+% Run the Bellman--Ford algorithm on the digraph with weighted adjacency 
+% matrix given below. Choose each node as the source in turn as in 
+% Example~\ref{eg:dijkstra}.
+% $$
+% \left[
+% \begin{matrix}
+% 0 & 6 & 0 & 0 & 7 \\
+% 0 & 0 & 5 & -4 & 8 \\
+% 0 & -2 & 0 & 0 & 0 \\
+% 2 & 0 & 7 & 0 & 0 \\
+% 0 & 0 & -3 & 9 & 0 \\
+% \end{matrix}
+% \right]
+% $$
+% \end{Exercise}
 
-\begin{Exercise}\label{ex:SSSP-neg-cycle}
+\begin{Boxample}[2] \label{ex:SSSP-neg-cycle}
 Explain why the SSSP problem makes no sense if we allow digraphs with
 cycles of negative total weight.
-\end{Exercise}
+\end{Boxample}
 
 %\newpage
-\begin{Exercise}\label{ex:dijk-SI}
-The graph shows minimum legal driving times (in multiples of 5 minutes) 
-between various South Island towns. What is the shortest time to drive legally from
-Picton to (a) Wanaka, (b) Queenstown and (c) Invercargill? Explain which
-algorithm you use and show your work.
-\begin{center}
-\includegraphics[width=8cm]{southisland}
-%\verb|\epsfig{figure=figs/SI.xfg.eps, width=12cm}|
-\end{center}
-\end{Exercise}
+% \begin{Exercise}\label{ex:dijk-SI} % maybe use for assignment (on North Island)?
+% The graph shows minimum legal driving times (in multiples of 5 minutes) 
+% between various South Island towns. What is the shortest time to drive legally from
+% Picton to (a) Wanaka, (b) Queenstown and (c) Invercargill? Explain which
+% algorithm you use and show your work.
+% \begin{center}
+% \includegraphics[width=8cm]{southisland}
+% %\verb|\epsfig{figure=figs/SI.xfg.eps, width=12cm}|
+% \end{center}
+% \end{Exercise}
 
-\begin{Exercise}\label{ex:bellman-neg-cycle}
+\begin{Boxample}[2]\label{ex:bellman-neg-cycle}
 Suppose the input to the Bellman--Ford algorithm is a digraph with a
-negative weight cycle. How does the algorithm detect this, so it can
+negative weight cycle. How could the algorithm detect this, so it can
 exit gracefully with an error message?
-\end{Exercise}
+\end{Boxample}
 
-\begin{Exercise}\label{ex:dijk-neg-fails}
-Give an example to show that Dijkstra's algorithm may fail to give the
-correct answer if some weights are negative. Make your example as small as
-possible. Then run the Bellman--Ford algorithm on the example and verify
-that it gives the correct answer.
-\end{Exercise}
 
-\begin{Exercise}
-\label{ex:dijk-proof}
-Where in the proof of Dijkstra's algorithm do we use the fact that 
-all the arc weights are nonnegative?
-\end{Exercise}
+% \begin{Exercise}
+% \label{ex:dijk-proof}
+% Where in the proof of Dijkstra's algorithm do we use the fact that 
+% all the arc weights are nonnegative?
+% \end{Exercise}
 
 
 
@@ -682,6 +714,8 @@ formula. If we already have a weighted adjacency matrix $d$, there is
 no need for the first double loop. We simply overwrite entries in $d$
 via the update formula, and everything works.
 \end{note}
+
+jo TODO make graphical example
 
 \begin{Example}
 \label{eg:floyd}
@@ -899,7 +933,7 @@ find a MST for $G$. There are obvious practical applications of this
 idea. For example, how can we cheaply link sites with communication
 links so that they are all connected?
 
-\begin{Example}
+\begin{Boxample}
 %In the third graph of \cref{fig:graphExample5}, the tree determined by the edges
 In the graph below, the tree determined by the edges
 $$\{0, 2\}, \{1, 3\}, \{3, 5\}, \{4, 5\}, \{2, 4\}$$ 
@@ -908,7 +942,7 @@ It is a tree and has the $5$ smallest weight edges, so must be a MST.
 \begin{center}
   \includegraphics{graphExMST}
 \end{center}
-\end{Example}
+\end{Boxample}
 
 One should not search naively through all possible spanning trees: it is
 known that there are $n^{n-2}$ spanning trees for the complete graph
@@ -1027,6 +1061,8 @@ to do for Dijkstra.
 \end{algorithmic}
 \end{algorithm}
 
+jo TODO make graphical example
+
 
 In Prim's algorithm, we checked whether a cycle would be created by adding
 an edge in the usual way: when exploring $\{u, v\}$ from $u$, if $v$ has
@@ -1065,6 +1101,8 @@ operations efficiently. % (see Section~\ref{sec:app:adt-informal}).
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
+jo TODO make graphical example
 
 The complexity of the algorithm depends to a great extent on the data
 structures used. The best known for Prim is the same as for Dijkstra,
