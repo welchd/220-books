@@ -232,26 +232,27 @@ What is the minimum weight path from $2$ to $0$, what is its weight?\\
 Dijkstra's algorithm solves the SSSP problem whenever \boldfont{all weights are nonnegative}. It may fail in the presence of negative weight arcs.
 
 
-It is easiest to describe in terms of
-a set $S$ of nodes which grows to equal $V(G)$. 
+It is easiest to understand the algorithm in terms of a set of visited nodes, $S$, which eventually includes all nodes in $G$. We'll consider only shortest paths through $S$ and make sure the length of these shortest paths is accurate. Once $S = V(G)$, all shortest path lengths are known. 
 
-Initially the only paths available are the one-arc paths from $s$ to
-$v$, of weight $c(s, v)$. At this stage, the set $S$  contains only the
-single node $s$. We choose the neighbour $u$ with $c(s, u)$ minimal and
+Initially $S$ contains only the
+single node $s$. The only paths available are the one-arc paths from $s$ to neighbours 
+$v$, of weight $c(s, v)$. We choose the neighbour $u$ with $c(s, u)$ minimal and
 add it to $S$. 
+
 Now the fringe nodes adjacent to $s$ and $u$ must be
-updated to reflect the new information (it is possible that there
+updated to reflect possible paths  through $u$ (it is possible that there
 exists a path from $s$ to $v$, passing through $u$, that is shorter
 than the direct path from $s$). 
-Now we choose the node (at ``level" $1$ or $2$) 
+Now we choose the node %(at ``level" $1$ or $2$) 
 whose current best distance to $s$ is smallest, and update
 again. We continue in this way until all nodes belong to $S$.
 
-The basic structure of the algorithm is presented in
-\cref{alg:dijkstra}.
+%The basic structure of the algorithm is presented in
+In \cref{alg:dijkstra}, the set $S$ consists of the BLACK nodes.
+
 
 \begin{algorithm}[H]
-  \caption{Dijkstra's algorithm, first version}
+  \caption{Dijkstra's algorithm (first version)}
     \label{alg:dijkstra}
 \begin{algorithmic}[1]
 \Function{Dijkstra}{weighted digraph $(G, c)$; node $s\in V(G)$}
@@ -325,13 +326,25 @@ Thus we could have omitted the lines with $S = \set{0,1,2,3}$.
 \end{Boxample}
 
 
-\chapter{Djikstra proof, Bellman-Ford} %--------------------------------------
+\begin{Boxample}[0.5] \label{ex:dijk-neg-fails}
+Dijkstra's algorithm may fail to give the correct answer if some weights are negative.
+Give weights to the edges of the digraph below such that running Dijkstra's algorithm with starting vertex $0$
+fails. 
+\vspace{0.5cm} 
+\begin{center}
+\includegraphics{DijkstraTriangle}
+\end{center}
+% Give an example to show that Dijkstra's algorithm may fail to give the correct answer 
+% if some weights are negative. Make your example as small as possible. 
+% Then run the Bellman--Ford algorithm on the example and verify that it gives the correct answer.
+\end{Boxample}
 
-Why does Dijkstra's algorithm work? The proof of correctness is a
-little longer than for previous algorithms. The key observation is the
-following result. By an \defnfont{$S$-path} from $s$ to $w$ we mean a
-path all of whose intermediate nodes belong to $S$. In other words, $w$
-need not belong to $S$, but all other nodes in the path do belong to $S$.
+\chapter{Dijkstra proof and complexity} %--------------------------------------
+
+Proving that Dijkstra's algorithm works is a little more tricky than others we've seen.
+
+Define an \defnfont{$\boldsymbol S$-path} from $s$ to $w$ as a
+path from $s$ to $w$ with all intermediate nodes belonging to $S$. In other words, $w$ may not belong to $S$, but all other nodes in the path do.
 
 \begin{Theorem}
 \label{thm:dijkstra} Suppose that all arc weights are nonnegative. Then
@@ -407,6 +420,8 @@ and never regrets its past choices.
 \label{fig:dijk-proof2}
 \end{figure}
 
+\section{Running time of Dijkstra}
+
 The study of the time complexity of Dijkstra's algorithm leads to many
 interesting topics.
 
@@ -424,14 +439,14 @@ sequentially, so that $a$ is of order $n$, and the running time of
 Dijkstra is therefore $\Theta(n^2)$. Dijkstra himself originally used
 an adjacency matrix and scanning of the $\dist$ array. 
 
-The above analysis is strongly reminiscent of our analysis of graph
-traversals in Section~\ref{sec:trav}, and in fact Dijkstra's algorithm fits
-into the priority-first search framework discussed in
-Section~\ref{sec:PFS}. The key value associated to a node $u$ is simply the
-value $\dist[u]$, the current best distance to that node from the root $s$.
-In \cref{alg:dijkstra2} we present Dijkstra's algorithm in this
-way.
 
+\chapter{Dijkstra and PFS, Bellman-Ford algorithm}
+
+\begin{itemize}
+\item We can implement Dijkstra's algorithm using priority-first search ideas. 
+\item The key value associated to a node $u$ is simply the
+value $\dist[u]$, the current best distance to that node from the root $s$.
+\end{itemize}
 
 \begin{algorithm}[H]
   \caption{Dijkstra's algorithm, PFS version.}
@@ -473,42 +488,33 @@ Section~\ref{sec:heapsort}), we can make Dijkstra's
 algorithm run in time $O((n + m) \log n)$. Thus if every node is reachable 
 from the source, it runs in time $O(m\log n)$.
 
-The quest to improve the complexity of algorithms like Dijkstra's has
-led to some very sophisticated data structures that can implement the
-priority queue in such a way that the decrease-key operation is faster
-than in a heap, without sacrificing the delete-min or other operations.
-Many such data structures have been found, mostly complicated variations
-on heaps; some of them are called Fibonacci heaps and 2--3 heaps. The
-best complexity bound for Dijkstra's algorithm, using a Fibonacci heap,
-is $O(m + n\log n)$.
+%The quest to improve the complexity of algorithms like Dijkstra's has
+%led to some very sophisticated data structures that can implement the
+%priority queue in such a way that the decrease-key operation is faster
+%than in a heap, without sacrificing the delete-min or other operations.
+%Many such data structures have been found, mostly complicated variations
+%on heaps; some of them are called Fibonacci heaps and 2--3 heaps. 
 
-\begin{Boxample}[0.5] \label{ex:dijk-neg-fails}
-Dijkstra's algorithm may fail to give the correct answer if some weights are negative.
-Give weights to the edges of the digraph below such that running Dijkstra's algorithm with starting vertex $0$
-fails. 
-\vspace{0.5cm} 
-\begin{center}
-\includegraphics{DijkstraTriangle}
-\end{center}
-% Give an example to show that Dijkstra's algorithm may fail to give the correct answer 
-% if some weights are negative. Make your example as small as possible. 
-% Then run the Bellman--Ford algorithm on the example and verify that it gives the correct answer.
-\end{Boxample}
+Specialised data structures to implement priority queues can improve the running time of Dijktra's.
+
+The best complexity bound for Dijkstra's algorithm, using a \emph{Fibonacci heap},
+is $O(m + n\log n)$.
 
 
 
 \section{Bellman--Ford algorithm} \label{sec:bellford}
 
-This algorithm, unlike Dijkstra's handles negative weight arcs, but runs
-slower than Dijkstra's when all arcs are nonnegative. The basic idea,
-as with Dijkstra's algorithm, is to solve the SSSP under  restrictions
-that become progressively more relaxed. Dijkstra's algorithm solves the
-problem one node at a time based on their current distance estimate.
-
-In contrast, the Bellman--Ford algorithm solves the problem for all
-nodes at ``level" $0, 1, \dots , n-1$ in turn. By level we mean the
+\begin{itemize}
+\item Bellman--Ford solve the SSSP problem even when there are negative weight arcs
+\item It  runs more slowly than Dijkstra's 
+\item  The basic idea, as with Dijkstra's algorithm, is to solve the SSSP under  restrictions
+that become progressively more relaxed. 
+\item  Bellman--Ford solves the problem for all
+nodes at ``level" $0, 1, \dots , n-1$ in turn.
+\item  By level we mean the
 minimum possible number of arcs in a minimum weight path to that node from the
 source.
+\end{itemize}
 
 \begin{algorithm}[H]
   \caption{Bellman--Ford algorithm.}
@@ -532,15 +538,14 @@ source.
 \end{algorithmic}
 \end{algorithm}
 
-\begin{Boxample}[1]
+\begin{Boxample}[0]
 An application of Bellman--Ford algorithm with starting vertex $4$
 when the nodes are processed in the order from $0$ to $4$.
 \begin{center} 
 \includegraphics[width=1.0\textwidth]{BellmanFordEx}
 \end{center}
-
-After how many iterations would the algorithm converge to the exact distance, 
-if the nodes are processed in the order $4$, $3$, $2$, $1$, $0$?
+%After how many iterations would the algorithm converge to the exact distance, 
+%if the nodes are processed in the order $4$, $3$, $2$, $1$, $0$?
 \end{Boxample}
 
 \begin{Theorem} 
@@ -624,7 +629,7 @@ exit gracefully with an error message?
 \chapter{All-pairs shortest path problem} %-----------------------------------
 \label{sec:APSP}
 
-The problem is as follows: given a weighted digraph $(G, c)$, determine
+In the All-pairs shortest path problem we are given a weighted digraph $(G, c)$, and must determine 
 for each $u, v\in V(G)$ (the length of) a minimum weight path from $u$
 to $v$.
 
@@ -852,54 +857,54 @@ The proof does not use the fact that weights are nonnegative---in
 fact Floyd's algorithm works for negative weights (provided of course
 that a negative weight cycle is not present).
 
-\subsection*{Exercises}
-
-\begin{Exercise}
-\label{do-floyd}
-Run Floyd's algorithm on the matrix of Exercise~\ref{ex:do-bellford}
-and check your answer against what was obtained there.
-\end{Exercise}
-
-\begin{Exercise}
-\label{ex:floyd-neg-cycle}
-Suppose the input to Floyd's algorithm is a digraph with a negative
-weight cycle. How does the algorithm detect this, so it can exit
-gracefully with an error message?
-\end{Exercise}
-
-\begin{samepage}
-\begin{Exercise}
-\label{ex:do-floyd-trick}
-\item The matrix $M$ shows costs of direct flights between towns A,
-B, C, D, E, F (where $\infty$, as usual, means that no direct flight
-exists). You are given the job of finding the cheapest route between
-each pair of towns. Solve this problem. Hint: save your working.
-$$
-M = \left[
-\begin{matrix}
- 0 & 1 & 2 & 6 & 4 & \infty \\
- 1 & 0 & 7 & 4 & 2 & 11 \\
-2 & 7 & 0 & \infty & 6 & 4\\
- 6 & 4 & \infty & 0 & \infty & 1 \\
- 4 & 2 & 6 & \infty & 0 & 3 \\
- \infty &11 & 4 & 1 & 3 & 0
-\end{matrix}
-\right].
-$$
-
-\
-
-The next day, you are told that in towns D, E, F, political troubles
-mean that no passenger is  allowed to both take off and land there. Solve
-the problem with this additional constraint.
-\end{Exercise}
-\end{samepage}
+%\subsection*{Exercises}
+%
+%\begin{Exercise}
+%\label{do-floyd}
+%Run Floyd's algorithm on the matrix of Exercise~\ref{ex:do-bellford}
+%and check your answer against what was obtained there.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:floyd-neg-cycle}
+%Suppose the input to Floyd's algorithm is a digraph with a negative
+%weight cycle. How does the algorithm detect this, so it can exit
+%gracefully with an error message?
+%\end{Exercise}
+%
+%\begin{samepage}
+%\begin{Exercise}
+%\label{ex:do-floyd-trick}
+%\item The matrix $M$ shows costs of direct flights between towns A,
+%B, C, D, E, F (where $\infty$, as usual, means that no direct flight
+%exists). You are given the job of finding the cheapest route between
+%each pair of towns. Solve this problem. Hint: save your working.
+%$$
+%M = \left[
+%\begin{matrix}
+% 0 & 1 & 2 & 6 & 4 & \infty \\
+% 1 & 0 & 7 & 4 & 2 & 11 \\
+%2 & 7 & 0 & \infty & 6 & 4\\
+% 6 & 4 & \infty & 0 & \infty & 1 \\
+% 4 & 2 & 6 & \infty & 0 & 3 \\
+% \infty &11 & 4 & 1 & 3 & 0
+%\end{matrix}
+%\right].
+%$$
+%
+%\
+%
+%The next day, you are told that in towns D, E, F, political troubles
+%mean that no passenger is  allowed to both take off and land there. Solve
+%the problem with this additional constraint.
+%\end{Exercise}
+%\end{samepage}
 
 \chapter{Minimum spanning tree problem} %-------------------------------------
 \label{sec:MST}
-In this section, we use ``tree" to mean ``free tree" throughout.
+%In this section, we use ``tree" to mean ``free tree" throughout.
 Recall that a tree is a connected acyclic graph. A \defnfont{spanning
-tree} of a graph $G$ is a spanning subgraph of $G$ that is itself a tree.
+tree} of a graph $G$ is a subgraph of $G$ that spans $G$ (contains all nodes of $G$) and is a tree.
 
 \begin{Definition}
 Let $G$ be a weighted graph. A \defnfont{minimum spanning tree} (MST) 
@@ -907,16 +912,19 @@ is a spanning tree for $G$ which has minimum total weight
 (sum of all edge weights). 
 \end{Definition}
 
-\begin{note}If all weights are nonnegative and we
-only want a spanning subgraph with minimum total weight, this must be a
-tree anyway (if not, delete an edge from a cycle and keep a spanning
-subgraph).
-\end{note}
+%\begin{note}If all weights are nonnegative and we
+%only want a spanning subgraph with minimum total weight, this must be a
+%tree anyway (if not, delete an edge from a cycle and keep a spanning
+%subgraph).
+%\end{note}
 
-The problem we are concerned with is this: given a weighted graph $G$,
-find a MST for $G$. There are obvious practical applications of this
-idea. For example, how can we cheaply link sites with communication
-links so that they are all connected?
+The \defnfont{minimum spanning tree problem} for weighted graph $G$ is to find a MST for $G$. 
+
+We can assume throughout that $G$ is connected.
+
+%There are obvious practical applications of this
+%idea. For example, how can we cheaply link sites with communication
+%links so that they are all connected?
 
 \begin{Boxample}
 %In the third graph of \cref{fig:graphExample5}, the tree determined by the edges
@@ -929,91 +937,46 @@ It is a tree and has the $5$ smallest weight edges, so must be a MST.
 \end{center}
 \end{Boxample}
 
-One should not search naively through all possible spanning trees: it is
-known that there are $n^{n-2}$ spanning trees for the complete graph
-$K_n$, for example!
+%One should not search naively through all possible spanning trees: it is
+%known that there are $n^{n-2}$ spanning trees for the complete graph
+%$K_n$, for example!
 
-In this section we present two efficient algorithms to find a MST that
-(like Dijkstra's algorithm) fall into the category of greedy algorithms. 
+We look at two simple greedy algorithms that solve the MST problem.
 
-Each builds up a MST by iteratively choosing an edge greedily, that is,
-choosing one with minimum weight, subject to not obviously ruining our
-chance of extending to a spanning tree. It turns out that this simple
-approach works for the MST problem (obviously, not for all graph
-optimization problems!). There are other algorithms with better
-theoretical complexity for the MST problem, but none is as simple to
-understand.
+\section{Prim's algorithm}
 
-The algorithms can be described in an informal way very easily. The
-first, \defnfont{Prim's algorithm}, starts at a root vertex and chooses
-at each step an edge of minimum weight from the remaining edges, subject
-to: (a) adding the edge does not create a cycle in the subgraph built so
-far, and (b) the subgraph built so far is connected. By contrast,
-\defnfont{Kruskal's algorithm} does not start at a root: it follows
-rule (a) and ignores (b). Prim's algorithm is perhaps easier to program,
-but Kruskal's is easier to perform by hand.
+%Each builds up a MST by iteratively choosing an edge greedily, that is,
+%choosing one with minimum weight, subject to not obviously ruining our
+%chance of extending to a spanning tree. It turns out that this simple
+%approach works for the MST problem (obviously, not for all graph
+%optimization problems!). There are other algorithms with better
+%theoretical complexity for the MST problem, but none is as simple to
+%understand.
 
-Each algorithm clearly terminates when no more edges can be found
-that satisfy the above condition(s). Since Prim's algorithm maintains
-acyclicity and connectedness, at each stage it has built a subgraph that
-is a tree. Kruskal's algorithm maintains acyclicity, so it has a forest
-at each step, and the different trees merge as the algorithm progresses.
+The basic idea of  \defnfont{Prim's algorithm} is simple:
+\begin{itemize}
+\item Start at any vertex.
+\item choose at each step an edge of minimum weight from the remaining edges ensuring that
+\begin{enumerate}
+\item adding the edge does not create a cycle in the subgraph built so
+far; and 
+\item the subgraph built so far is connected.
+\end{enumerate}
+\item Stop when the tree is a spanning tree.
+\end{itemize}
 
-We might first ask why does each algorithm even form a spanning tree (see
-Exercise~\ref{ex:spanning-tree}). However, even given that a spanning
-tree is formed, it is not at all obvious that this spanning tree has
-minimum possible weight among all spanning trees of the graph.
+Since the subgraph so built is acyclic and connected at each stage,  it 
+is a tree.
 
-We now show the correctness of these algorithms. We may suppose that the
-graph is connected. If it is not, we cannot find a spanning tree anyway,
-and must be satisfied with a spanning forest. Prim's algorithm will
-terminate when it has explored the first component and must be
-restarted from a new root in another component. Kruskal's algorithm
-will find a spanning forest without modification.
+It is also clear that the algorithm halts and as the tree grows by a node at each stage so will eventually include all nodes of $G$, that is,  be spanning. 
 
-\begin{Theorem}
-\label{thm:prim-kruskal}
-Prim's and Kruskal's algorithms are correct.
-\end{Theorem}
+So the only thing that needs to be proved for correctness is that the tree has the lowest possible weight (is minimum). We will prove this but first look at the code.
 
-\begin{proof}
-Define a set of edges to be \emph{promising} if it can be
-extended in some way to a MST. Then the empty set is promising since
-some MST exists. We claim that at each step, the algorithms above have
-chosen a promising set of edges. When they terminate, no further
-extension of the set  is possible (by rule (a) above), and so we must
-have a MST.
-
-To prove the claim efficiently, we need a technical fact, as follows.
-Suppose that $B$ is a subset of $V(G)$, not containing all the vertices
-of $G$, and $T$ a promising set of edges such that no edge in $T$ leaves
-$B$. In other words, either both endpoints are in $B$ or neither
-endpoint is in $B$. Then if $e$ is a minimum weight edge that does leave
-$B$ (it has one endpoint in $B$ and one outside) then $T\cup\{e\}$ is
-also promising.
-
-To see this fact, note that since $T$ is promising, it is contained in
-some MST, $U$ say. If $e\in U$ there is nothing to prove. Otherwise,
-when we add $e$ to $U$ we create exactly one cycle. There must be at
-least one other edge, say $e'$, that leaves $B$, otherwise the cycle
-could not close. If we remove $e'$ we obtain a new tree that spans $G$
-and whose total weight is no greater than the total weight of $U$. Thus
-$V$ is also a MST, and since it contains $T\cup\{e\}$, that set is
-promising.
-
-Now to prove the claim, suppose that our algorithm has maintained a
-promising set $T$ of edges so far, and it has just chosen edge $e=\{u,v\}$.
-If we take $B$ at each step to be the set of vertices in the tree (Prim)
-or the set of vertices in the tree containing $u$ (Kruskal), then we may
-apply the fact above to conclude that $T \cup \{e\}$ is promising. This
-concludes the proof of correctness.
-\end{proof}
-
-The above informal descriptions of MST algorithms can be converted easily
-to an algorithm. In \cref{alg:primcode} we present the algorithm. Note
-how similar Prim's algorithm is to Dijkstra's. The main difference is
-in the update formula. We also store the PFS tree, which we elected not
+Pseudocode is given in \cref{alg:primcode}. Note how similar Prim's algorithm is to Dijkstra's
+The main difference is in the update formula. 
+ We also store the PFS tree, which we did not
 to do for Dijkstra.
+
 
 \begin{algorithm}[H]
   \caption{Prim's algorithm.}
@@ -1049,23 +1012,70 @@ to do for Dijkstra.
 jo TODO make graphical example
 
 
-In Prim's algorithm, we checked whether a cycle would be created by adding
-an edge in the usual way: when exploring $\{u, v\}$ from $u$, if $v$ has
-already been seen and is not the parent of $u$, then adding $\{u, v\}$
-creates a cycle. With Kruskal's algorithm, we must use another method,
-since the above test does not work. Both $u$ and $v$ may have been seen,
-but may be in different trees.
+%We now show the correctness of these algorithms. We may suppose that the
+%graph is connected. If it is not, we cannot find a spanning tree anyway,
+%and must be satisfied with a spanning forest. Prim's algorithm will
+%terminate when it has explored the first component and must be
+%restarted from a new root in another component. Kruskal's algorithm
+%will find a spanning forest without modification.
 
-Observe that if we try to add an edge both of whose endpoints are in
-the same tree in the Kruskal forest, this will create a cycle, so the
-edge must be rejected. On the other hand, if the endpoints are in two
-different trees, a cycle definitely will not be created; rather, the two
-trees merge into a single one, and we should accept the edge. We need
-a data structure that can handle this efficiently. All we need is to be
-able to find the tree containing an endpoint, and to merge two trees. The
-\defnfont{disjoint sets} or \defnfont{union-find} ADT is precisely what
-is needed. It allows us to perform the \algfont{find} and \algfont{union}
-operations efficiently. % (see Section~\ref{sec:app:adt-informal}).
+\begin{Theorem}
+\label{thm:prim}
+Prim's algorithms is correct.
+\end{Theorem}
+
+\begin{proof}
+Define a set of edges to be \emph{promising} if it can be
+extended in some way to a MST. Then the empty set is promising since
+some MST exists. We claim that at each step, the algorithms above have
+chosen a promising set of edges. When they terminate, no further
+extension of the set  is possible (by rule (a) above), and so we must
+have a MST.
+
+To prove the claim efficiently, we need a technical fact, as follows.
+Suppose that $B$ is a subset of $V(G)$, not containing all the vertices
+of $G$, and $T$ a promising set of edges such that no edge in $T$ leaves
+$B$. In other words, either both endpoints are in $B$ or neither
+endpoint is in $B$. Then if $e$ is a minimum weight edge that does leave
+$B$ (it has one endpoint in $B$ and one outside) then $T\cup\{e\}$ is
+also promising.
+
+To see this fact, note that since $T$ is promising, it is contained in
+some MST, $U$ say. If $e\in U$ there is nothing to prove. Otherwise,
+when we add $e$ to $U$ we create exactly one cycle. There must be at
+least one other edge, say $e'$, that leaves $B$, otherwise the cycle
+could not close. If we remove $e'$ we obtain a new tree that spans $G$
+and whose total weight is no greater than the total weight of $U$. Thus
+$V$ is also a MST, and since it contains $T\cup\{e\}$, that set is
+promising.
+
+Now to prove the claim, suppose that our algorithm has maintained a
+promising set $T$ of edges so far, and it has just chosen edge $e=\{u,v\}$.
+If we take $B$ at each step to be the set of vertices in the tree (Prim)
+or the set of vertices in the tree containing $u$ (Kruskal), then we may
+apply the fact above to conclude that $T \cup \{e\}$ is promising. This
+concludes the proof of correctness.
+\end{proof}
+
+\subsection{running time}
+
+The complexity of the algorithm depends to a great extent on the data
+structures used. The best known for Prim is the same as for Dijkstra,
+namely $O(m + n\log n)$,
+
+\section{Kruskal's algorithm}
+
+\defnfont{Kruskal's algorithm} is even simpler than Prim's to state.
+\begin{itemize}
+\item Start with an empty set of edges.
+\item choose at each step an edge of minimum weight from the remaining edges ensuring that adding the edge does not create a cycle in the subgraph built so
+far. 
+\item Stop when the subgraph is spanning tree.
+\end{itemize}
+
+
+Kruskal's algorithm maintains acyclicity, so it has a forest
+at each step, and the different trees merge as the algorithm progresses.
 
 
 \begin{algorithm}[H]
@@ -1089,9 +1099,29 @@ operations efficiently. % (see Section~\ref{sec:app:adt-informal}).
 
 jo TODO make graphical example
 
-The complexity of the algorithm depends to a great extent on the data
-structures used. The best known for Prim is the same as for Dijkstra,
-namely $O(m + n\log n)$, and for Kruskal $O(m \log n)$. The disjoint sets
+In Prim's algorithm, we checked whether a cycle would be created by adding
+an edge in the usual way: when exploring $\{u, v\}$ from $u$, if $v$ has
+already been seen and is not the parent of $u$, then adding $\{u, v\}$
+creates a cycle. With Kruskal's algorithm, we must use another method,
+since the above test does not work. Both $u$ and $v$ may have been seen,
+but may be in different trees.
+
+Observe that if we try to add an edge both of whose endpoints are in
+the same tree in the Kruskal forest, this will create a cycle, so the
+edge must be rejected. On the other hand, if the endpoints are in two
+different trees, a cycle definitely will not be created; rather, the two
+trees merge into a single one, and we should accept the edge. 
+
+We need a data structure that can handle this efficiently. All we need is to be
+able to find the tree containing an endpoint, and to merge two trees. The
+\defnfont{disjoint sets} or \defnfont{union-find} ADT is precisely what
+is needed. It allows us to perform the \algfont{find} and \algfont{union}
+operations efficiently. % (see Section~\ref{sec:app:adt-informal}).
+
+
+
+
+ and for Kruskal $O(m \log n)$. The disjoint sets
 ADT can be implemented in such a way that the union and find operations
 in Kruskal's algorithm runs in \boldfont{almost} linear time (the exact bound
 is very complicated). So if the edge weights are presorted, or can be
