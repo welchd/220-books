@@ -715,7 +715,6 @@ no need for the first double loop. We simply overwrite entries in $d$
 via the update formula, and everything works.
 \end{note}
 
-jo TODO make graphical example
 
 \begin{Example}
 \label{eg:floyd}
@@ -1061,8 +1060,12 @@ to do for Dijkstra.
 \end{algorithmic}
 \end{algorithm}
 
-jo TODO make graphical example
-
+\begin{Boxample}
+Application of Prim's algorithm on a digraph.
+\begin{center}
+\includegraphics[width=1.0\textwidth]{PrimEx}
+\end{center}
+\end{Boxample}
 
 In Prim's algorithm, we checked whether a cycle would be created by adding
 an edge in the usual way: when exploring $\{u, v\}$ from $u$, if $v$ has
@@ -1102,7 +1105,16 @@ operations efficiently. % (see Section~\ref{sec:app:adt-informal}).
 \end{algorithmic}
 \end{algorithm}
 
-jo TODO make graphical example
+\begin{Boxample}
+Application of Kruskal's algorithm on a graph shown until an MST is found. 
+Note that the edge \set{0, 2} with weight $2$ is not added, 
+because $0$ and $2$ are already in the same set in $A$.
+\begin{center}
+\includegraphics{KruskalEx2}
+% \includegraphics[width=1.0\textwidth]{KruskalEx2}
+\end{center}
+\end{Boxample}
+
 
 The complexity of the algorithm depends to a great extent on the data
 structures used. The best known for Prim is the same as for Dijkstra,
