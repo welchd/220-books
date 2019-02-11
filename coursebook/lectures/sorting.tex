@@ -500,7 +500,7 @@ has solution $n \lg n$ for $n$ a power of $2$.
 
 
 \begin{Boxample}[6]
-How does the solution to Example~\ref{eg:recur-cov} look if we don't do the change of variable?
+How does the solution to \cref{eg:recur-cov} look if we don't do the change of variable?
 
 \end{Boxample}
 
@@ -549,7 +549,7 @@ Thus $F(n)$ is $\Theta(\phi^n)$.
 \chapter{Quicksort} %---------------------------------------------------------
 \label{sec:quicksort}
 
-Quicksort was described briefly in Lecture~\ref{sec:mergesort}. We give the details now.
+Quicksort was described briefly in \cref{sec:mergesort}. We give the details now.
 
 \begin{algorithm}[H]
   \caption{Quicksort - basic}    
@@ -618,7 +618,7 @@ $\geq p$. One method is \cref{alg:partition} (Hoare, 1960). There are others:
 \end{algorithm}
 
 \begin{Boxample}[1]
-Does the quicksort algorithm in Example \ref{ex:quicksortSmall} use Hoare's method, \cref{alg:partition}, for partitioning? 
+Does the quicksort algorithm in \cref{ex:quicksortSmall} use Hoare's method, \cref{alg:partition}, for partitioning? 
 \end{Boxample}
 
 \begin{Boxample}[1]
@@ -716,7 +716,8 @@ gives a \emph{randomized}
 algorithm whose expected running time on every input can be proved to be in 
 $O(n \log n)$. 
 
-No matter how we choose the pivot as above, there is always some chance of quicksort running in quadratic time. Choosing the exact median turns out to be too time-consuming: see Lecture~\ref{sec:qselect}.
+No matter how we choose the pivot as above, there is always some chance of quicksort running in quadratic time. 
+Choosing the exact median turns out to be too time-consuming: see \cref{sec:qselect}.
 
 MCW TODO  timsort
 
@@ -961,7 +962,7 @@ Heap-building algorithm as in the first while-loop of \cref{alg:heapsort}.
 
 \pagebreak[4]
 \begin{Boxample}[0]
-Heapsort on the already build heap from Example~\ref{ex:heapbuild}. 
+Heapsort on the already build heap from \cref{ex:heapbuild}. 
 Complete the last steps.
 \begin{center}
 \includegraphics[width=1.0\textwidth]{heapSort}
@@ -977,7 +978,7 @@ implementations.
 
 TODO add something about sorting in practice, as we do for BST and hashing.
 
-Table~\ref{t:sortchar} gives a summary of results so far on sorting algorithms.
+\Cref{t:sortchar} gives a summary of results so far on sorting algorithms.
 Running times give asymptotic order only. 
 Shellsort analysis depends on the increments used, and is difficult. 
 Quicksort needs a stack of size $\Theta(\log n)$ for the recursion. 

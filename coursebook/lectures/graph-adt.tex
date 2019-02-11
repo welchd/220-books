@@ -88,7 +88,7 @@ In an (undirected) graph $G$, if $\{u, v\} \in E$, then $u$ is a \defnfont{neigh
 
 \begin{Boxample}[2]
 % In the digraph $G_2$ in \cref{fig:graphExample}, find all in-neighbours of node 2.
-In the digraph in Example \ref{ex:digraph}, find all in-neighbours of node 2.
+In the digraph in \cref{ex:digraph}, find all in-neighbours of node 2.
 \end{Boxample}
 
 
@@ -180,12 +180,12 @@ distance is undefined (or $+\infty$).
 For graphs, we have $d(u,v) = d(v,u)$ for all vertices $u, v$. 
 
 \begin{Example}
-In the graph of Example \ref{ex:graph}, we can see by considering
+In the graph of \cref{ex:graph}, we can see by considering
 all possibilities that $d(0, 1) = 1$, $d(0, 2) = 1$, $d(0, 3) = 2$,
 $d(0, 4) = 2$, $d(1, 2) = 1$, $d(1, 3) = 2$, $d(1, 4) = 2$, $d(2, 3) =
 1$, $d(2, 4) = 1$ and $d(3, 4) = 1$.
 
-In the digraph of Example \ref{ex:digraph}, we have, for example, $d(0, 2) = 1, d(3, 2) = 2$. 
+In the digraph of \cref{ex:digraph}, we have, for example, $d(0, 2) = 1, d(3, 2) = 2$. 
 Since node $2$ is a sink, $d(2, v)$ is not defined unless $v = 2$, in which case the value is $0$.
 \end{Example}
 
@@ -750,7 +750,7 @@ them, ($m$ arcs in the worst case), so taking time $\Theta(n+m)$.
 If we wish to compute just one indegree, this might be acceptable, but if all indegrees are required,
 this will be inefficient. It is better to compute the reverse digraph once
 and then read off the outdegrees, this last step taking time $\Theta(n)$ 
-(see Exercise~\ref{exr:compute-reverse}).
+(see \cref{exr:compute-reverse}).
 
 %One way around all this work is to use in
 %our definition of adjacency lists representation, instead of just the

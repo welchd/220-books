@@ -78,41 +78,6 @@
 \usepackage[font=small,labelformat=simple]{caption}
 
 
-% ## math theorems ----------------------------------------------
-\theoremstyle{definition}
-\newtheorem{Lemma}{Lemma}
-\newtheorem{Theorem}[Lemma]{Theorem}
-\newtheorem{Definition}[Lemma]{Definition}
-\newtheorem{Corollary}[Lemma]{Corollary}
-\newtheorem{Example}[Lemma]{Example}
-\newtheorem{Exercise}{Exercise}
-
-\numberwithin{Lemma}{chapter}
-\numberwithin{Exercise}{section}
-
-\theoremstyle{remark}
-
-\newtheorem*{note}{Note}
-\newtheorem*{statement}{Statement}
-\newtheorem*{theorem}{Theorem}
-\newtheorem*{tech}{\textbf{Technique}}
-
-\usepackage{mdframed}
-\usepackage{xparse}
-\NewDocumentEnvironment{Boxample}{O{0}}{%
-% 	\begin{samepage}
-	\par%
-	\begin{minipage}{\textwidth}%
-	\begin{mdframed}\begin{Example}%
-}{% 
-    \end{Example}%
-    \vspace*{#1cm}%
-    \end{mdframed}%
-%     \end{samepage}
-	\end{minipage}
-}
-
-
 % ## definitions & macros ## ----------------------------------------------
 \newcommand{\set}[1]{\mbox{$\{#1\}$}}
 \newcommand{\solution}[1]%
@@ -171,13 +136,49 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
  pdfcreator={LaTeX with hyperref package},
  pagebackref=true,
 ]{hyperref}
-\usepackage[capitalise,noabbrev,nameinlink ]{cleveref}
+\usepackage[capitalise,noabbrev,nameinlink]{cleveref}
+
+% ## math theorems ----------------------------------------------
+\theoremstyle{definition}
+\newtheorem{Lemma}{Lemma}
+\newtheorem{Theorem}[Lemma]{Theorem}
+\newtheorem{Definition}[Lemma]{Definition}
+\newtheorem{Corollary}[Lemma]{Corollary}
+\newtheorem{Example}[Lemma]{Example}
+\newtheorem{Exercise}{Exercise}
+
+\numberwithin{Lemma}{chapter}
+\numberwithin{Exercise}{section}
+
+\theoremstyle{remark}
+
+\newtheorem*{note}{Note}
+\newtheorem*{statement}{Statement}
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{tech}{\textbf{Technique}}
+
+\usepackage{mdframed}
+\usepackage{xparse}
+\NewDocumentEnvironment{Boxample}{O{0}}{%
+% 	\begin{samepage}
+	\par%
+	\begin{minipage}{\textwidth}%
+	\begin{mdframed}\begin{Example}%
+}{% 
+    \end{Example}%
+    \vspace*{#1cm}%
+    \end{mdframed}%
+%     \end{samepage}
+	\end{minipage}
+}
+
 \crefname{Boxample}{Example}{Examples}
 \crefname{Example}{Example}{Examples}
 \crefname{Theorem}{Theorem}{Theorems}
+\crefname{chapter}{Lecture}{Lectures}
 
 
-% headings hacked from memoir package
+% ## headings hacked from memoir package ## -------------------------
 \makeatletter
 \makepagestyle{220book}
 \setlength{\headwidth}{1.1\textwidth}

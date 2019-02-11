@@ -1148,8 +1148,8 @@ finishing times yields a topological order of $G$.
 \end{Theorem}
 \begin{proof} 
 Consider any arc $(u,v)\in E(G)$. Since $G$ is a DAG,
-the arc is not a back arc by Theorem~\ref{thm:findDAG}. In the other three
-cases, Exercise~\ref{ex:DFS-arc-class} shows that $\done[u] > \done[v]$,
+the arc is not a back arc by \cref{thm:findDAG}. In the other three
+cases, \cref{ex:DFS-arc-class} shows that $\done[u] > \done[v]$,
 which means $u$ comes before $v$ in the alleged topological order.
 \end{proof}
 
@@ -1453,7 +1453,7 @@ Note that there are arcs of the digraph not included in the strongly connected c
 
 \begin{Boxample}[4]
 Find a counter-example to show that the method for finding connected components of graphs 
-in Theorem \ref{thm:trav-comps} fails at finding strongly connected components of digraphs.
+in \cref{thm:trav-comps} fails at finding strongly connected components of digraphs.
 \end{Boxample}
 
 
@@ -1596,7 +1596,7 @@ that each edge of $G$ joins two vertices in different subsets.
 \end{Definition}
 
 \begin{Example}
-The graph in Example \ref{ex:bipartite} has a 2-colouring as indicated.
+The graph in \cref{ex:bipartite} has a 2-colouring as indicated.
 \end{Example}
 
 It is not just a coincidence that our example of a bipartite graph
