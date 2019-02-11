@@ -327,6 +327,9 @@ Thus we could have omitted the lines with $S = \set{0,1,2,3}$.
 \end{Boxample}
 
 
+
+\chapter{Dijkstra proof and running time} %--------------------------------------
+
 \begin{Boxample}[0.5] \label{ex:dijk-neg-fails}
 Dijkstra's algorithm may fail to give the correct answer if some weights are negative.
 Give weights to the edges of the digraph below such that running Dijkstra's algorithm with starting vertex $0$
@@ -340,7 +343,6 @@ fails.
 % Then run the Bellman--Ford algorithm on the example and verify that it gives the correct answer.
 \end{Boxample}
 
-\chapter{Dijkstra proof and running time} %--------------------------------------
 
 Proving that Dijkstra's algorithm works is a little more tricky than others we've seen.
 
@@ -443,6 +445,7 @@ an adjacency matrix and scanning of the $\dist$ array.
 
 \chapter{Dijkstra and PFS, Bellman-Ford algorithm}
 
+\section{PFS implementation of Dijkstra}
 \begin{itemize}
 \item We can implement Dijkstra's algorithm using priority-first search ideas. 
 \item The key value associated to a node $u$ is simply the
@@ -482,11 +485,10 @@ value $\dist[u]$, the current best distance to that node from the root $s$.
 \end{algorithm}
 
 
-It is now clear from this formulation that we need to perform $n$
+This formulation makes it clear that we need to perform $n$
 delete-min operations and at most $m$ decrease-key operations, and
-that these dominate the running time. Hence using a binary heap (see
-Section~\ref{sec:heapsort}), we can make Dijkstra's
-algorithm run in time $O((n + m) \log n)$. Thus if every node is reachable 
+that these dominate the running time. Hence using a binary heap, Dijkstra's
+algorithm runs in time $O((n + m) \log n)$. Thus if every node is reachable 
 from the source, it runs in time $O(m\log n)$.
 
 %The quest to improve the complexity of algorithms like Dijkstra's has
@@ -630,8 +632,8 @@ exit gracefully with an error message?
 \chapter{All-pairs shortest path problem} %-----------------------------------
 \label{sec:APSP}
 
-For the \defnfont{all-pairs shortest path} (APSP) problem we are given a weighted digraph $(G, c)$, and must determine 
-for each $u, v\in V(G)$ (the length of) a minimum weight path from $u$
+In the \defnfont{all-pairs shortest path} (APSP) problem we are given a weighted digraph $(G, c)$, and must determine 
+for each $u, v\in V(G)$ the weight of a minimum weight path from $u$
 to $v$.
 
 The solution to all-pairs shortest path can be presented as a distance matrix.
@@ -660,18 +662,16 @@ $$
 \item The APSP problem can be solved by solving the SSSP problem from each node.
 \item If all weights were non-negative, we could run Dijsktra from each of the $n$ nodes, to get a running time of $\Theta(n^3)$.
 \item To be robust to negative weights, using Bellman--Ford gives a $\Theta(n^2 m)$ solution to APSP.
-%There is a simpler method discovered by R. W. Floyd. Like the Bellman-Ford 
-%algorithm, it is an example of an algorithm design technique called 
-%\defnfont{dynamic programming}.
-%This is where smaller, less-difficult subproblems are first solved, and the 
-%solutions recorded, before
-%the full problem is solved. 
-\item Floyd's algorithm computes a distance matrix
+\item \defnfont{Floyd's algorithm} computes a distance matrix
 from a cost matrix (so solves ASPS) in time $\Theta(n^3)$. 
-\item It is robust to negative weights. 
+It is robust to negative weights. 
 \item Floyd's is thus faster than Bellman--Ford for non-sparse digraphs.
-\item It is extremely simple to programme: it is is just a triple for-loop. See \cref{alg:floydcode} for the peudocode.
+\item It is essentially just a triple for-loop so easy to programme.
 \end{itemize}
+
+The basic idea behind Floyd's algorithm is that we find the length of the shortest path between nodes $u$ and $v$ that uses only a fixed set of intermediate nodes. This set of intermediate nodes starts at as the empty set (so only acrs from $u$ to $v$ are allowed) and grows, one node at a time, until it includes all nodes at which point the allgorithm is complete.
+
+We see this in the pseudo-code where the outer-for loop interates through all nodes, essentially adding them to the intermediate set, while the inner two loops cycle through all pairs seeing if a shorter path can be found through the new intermediate node.
 
 \begin{algorithm}[H]
   \caption{Floyd's algorithm.}
@@ -797,7 +797,7 @@ In the above matrices we list the entries that change in bold after each
 increment of $k$. 
 \end{Boxample}
 
-Why does Floyd's algorithm work? The proof is again by induction.
+\section{Proof of Floyd's algorithm}
 
 \begin{Theorem}
 \label{thm:floyd}
@@ -807,11 +807,11 @@ are restricted to using only intermediate nodes that have been seen in
 the outer \boldfont{for} loop. 
 \end{Theorem}
 
-\begin{note}
-Given this fact, when the algorithm terminates, all nodes have been seen
-in the outer \boldfont{for} loop and so $d[u,v]$ is the length of a
-shortest path from $u$ to $v$.
-\end{note}
+%\begin{note}
+%Given this fact, when the algorithm terminates, all nodes have been seen
+%in the outer \boldfont{for} loop and so $d[u,v]$ is the length of a
+%shortest path from $u$ to $v$.
+%\end{note}
 
 \begin{proof}
 To establish the above property, we use induction on the outer for-loop.
@@ -838,9 +838,9 @@ $S_k$-paths and by the inductive hypothesis, $$L \geq |\gamma_1| +
 |\gamma_2| \geq d_k[u,x] + d_k[x,v] \geq d_{k+1}[u,v].$$
 \end{proof}
 
-The proof does not use the fact that weights are nonnegative---in
-fact Floyd's algorithm works for negative weights (provided of course
-that a negative weight cycle is not present).
+%The proof does not use the fact that weights are nonnegative---in
+%fact Floyd's algorithm works for negative weights (provided of course
+%that a negative weight cycle is not present).
 
 %\subsection*{Exercises}
 %
