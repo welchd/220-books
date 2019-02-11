@@ -30,6 +30,7 @@ arc is $1$.
 %each of a pair of antiparallel arcs has the same weight.
 
 \begin{Boxample}
+\label{ex:graphExWeighted}
 A classic unweighted graph
 (called the $3$-cube) of diameter $3$, a digraph with arc weights, and a
 graph with edge weights.
@@ -284,7 +285,7 @@ The distances to 0 at each step are displayed next to each node.
 \end{Boxample}
 
 \begin{Boxample}\mbox{}\\
-
+\label{ex:dijs-all-vert}
 \begin{minipage}[c]{0.45\textwidth}
 An application of Dijkstra's algorithm on the digraph below
 for each starting vertex $s$. 
@@ -339,7 +340,7 @@ fails.
 % Then run the Bellman--Ford algorithm on the example and verify that it gives the correct answer.
 \end{Boxample}
 
-\chapter{Dijkstra proof and complexity} %--------------------------------------
+\chapter{Dijkstra proof and running time} %--------------------------------------
 
 Proving that Dijkstra's algorithm works is a little more tricky than others we've seen.
 
@@ -629,17 +630,20 @@ exit gracefully with an error message?
 \chapter{All-pairs shortest path problem} %-----------------------------------
 \label{sec:APSP}
 
-In the All-pairs shortest path problem we are given a weighted digraph $(G, c)$, and must determine 
+For the \defnfont{all-pairs shortest path} (APSP) problem we are given a weighted digraph $(G, c)$, and must determine 
 for each $u, v\in V(G)$ (the length of) a minimum weight path from $u$
 to $v$.
 
-It is easy to present this information in a distance matrix.
+The solution to all-pairs shortest path can be presented as a distance matrix.
 
-\begin{Example}
+\begin{Boxample}[0]
 \label{eg:APSP}
-For the digraph of \cref{fig:graphExample5}, we have already
-calculated the all-pairs distance matrix in Example~\ref{eg:dijkstra}:
+For the digraph we have already
+calculated the all-pairs distance matrix in \cref{ex:dijs-all-vert}:
 
+jo TODO: how do we use cref for boxamples?
+
+\includegraphics{weightedDigraph}
 $$
 \left(
 \begin{matrix}
@@ -650,45 +654,36 @@ $$
 \end{matrix}
 \right).
 $$
-\end{Example}
+\end{Boxample}
 
-Clearly we may compute this matrix as above by solving the single-source
-shortest path problem with each node taken as the root in turn. The time
-complexity is of course $\Theta(nA)$ where $A$ is the complexity of our
-single-source algorithm. Thus running the adjacency matrix version of
-Dijkstra $n$ times gives a $\Theta(n^3)$ algorithm, and the 
-Bellman--Ford algorithm $\Theta(n^2 m)$.
-
-There is a simpler method discovered by R. W. Floyd. Like the Bellman-Ford 
-algorithm, it is an example of an algorithm design technique called 
-\defnfont{dynamic programming}.
-This is where smaller, less-difficult subproblems are first solved, and the 
-solutions recorded, before
-the full problem is solved. Floyd's algorithm computes a distance matrix
-from a cost matrix in time $\Theta(n^3)$. It is faster than repeated
-Bellman--Ford for dense digraphs and unlike Dijkstra's algorithm,
-it can handle negative costs. For sparse graphs with positive costs
-repeated Dijkstra is competitive with Floyd, but for dense graphs they
-have the same asymptotic complexity. A key point in favour of Floyd's
-algorithm is its simplicity, as can be seen from the algorithm of
-\cref{alg:floydcode}. Floyd's algorithm is basically a simple
-triple for-loop.
+\begin{itemize}
+\item The APSP problem can be solved by solving the SSSP problem from each node.
+\item If all weights were non-negative, we could run Dijsktra from each of the $n$ nodes, to get a running time of $\Theta(n^3)$.
+\item To be robust to negative weights, using Bellman--Ford gives a $\Theta(n^2 m)$ solution to APSP.
+%There is a simpler method discovered by R. W. Floyd. Like the Bellman-Ford 
+%algorithm, it is an example of an algorithm design technique called 
+%\defnfont{dynamic programming}.
+%This is where smaller, less-difficult subproblems are first solved, and the 
+%solutions recorded, before
+%the full problem is solved. 
+\item Floyd's algorithm computes a distance matrix
+from a cost matrix (so solves ASPS) in time $\Theta(n^3)$. 
+\item It is robust to negative weights. 
+\item Floyd's is thus faster than Bellman--Ford for non-sparse digraphs.
+\item It is extremely simple to programme: it is is just a triple for-loop. See \cref{alg:floydcode} for the peudocode.
+\end{itemize}
 
 \begin{algorithm}[H]
   \caption{Floyd's algorithm.}
   \label{alg:floydcode}
 \begin{algorithmic}[1]
 \Function{Floyd}{weighted digraph $(G, c)$}
-	\State array $d[0..n-1,0..n-1]$
-	\For{$u \in V(G)$}
-		\For{$v \in V(G)$}
-			\State $d[u, v] \gets c(u, v)$
-		\EndFor 
-	\EndFor
-	\For{$x \in V(G)$}
+	\State array $d[0..n-1,0..n-1]$ \Comment{initialise distance matrix}
+	\State $d \gets c$ \Comment{distance matrix starts as copy of weight matrix}
+	\For{$x \in V(G)$} \Comment{taking one vertex at a time}
 		\For{$u \in V(G)$}
 			\For{$v \in V(G)$}
-				\State $d[u,v] \gets \min( d[u,v], d[u,x] + d[x,v] )$
+				\State $d[u,v] \gets \min( d[u,v], d[u,x] + d[x,v] )$ \Comment{update distance by looking for a shorter path through $x$}
 			\EndFor
 		\EndFor
 	\EndFor
@@ -698,18 +693,10 @@ triple for-loop.
 \end{algorithm}
 
 
-\begin{note}
-Observe that we are altering the value of $d[u, v]$ in the update
-formula. If we already have a weighted adjacency matrix $d$, there is
-no need for the first double loop. We simply overwrite entries in $d$
-via the update formula, and everything works.
-\end{note}
-
-
-\begin{Example}
+\begin{Boxample}[0]
 \label{eg:floyd}
 An application of Floyd's algorithm on the third graph of
-\cref{fig:graphExample5} is given below.  The initial cost 
+\cref{ex:graphExWeighted} is given below.  The initial cost 
 matrix is as follows.
 
 \[ 
@@ -807,9 +794,8 @@ the number of times we have been through the outer for-loop.
 \end{samepage}
 
 In the above matrices we list the entries that change in bold after each
-increment of $k$. Notice that undirected graphs, as expected, have
-symmetric distance matrices.
-\end{Example}
+increment of $k$. 
+\end{Boxample}
 
 Why does Floyd's algorithm work? The proof is again by induction.
 
