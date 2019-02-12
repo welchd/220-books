@@ -2,13 +2,11 @@
 \chapter{Basic Mathematical Background}
 \label{ch:app:mathtools}
 
-MCW-TODO check whether we need anything else, add more examples and self-quiz questions using stuff from CS120
-
 We list here some important mathematical facts and techniques  that will be used often in this course. It is very important to understand them well - ask for help if your background has substantial holes.
 
 \section{Sets}
 
-A \defnfont{set} is an unordered collection of distinct objects (called \defnfont{elements}). We write $a\in X$ to mean that $a$ is an element of $X$.
+A \defnfont{set} is an unordered collection of distinct objects (repeated elements are not allowed), called \defnfont{elements} of the set. We write $a\in X$ to mean that $a$ is an element of $X$.
 
 Important sets: 
 \begin{itemize}
@@ -26,6 +24,9 @@ Operations:
 \item $|A|$ is the number of elements of $A$, the \defnfont{cardinality} of $A$.
 \end{itemize}
 
+\begin{Boxample}[4]
+What is the cardinality of $\{1,1,4\}$? Of $\{x^2 : x \in \{-1,1,2\}\}$?
+\end{Boxample}
 
 \section{Functions}
 
@@ -102,14 +103,19 @@ Proof: It is true for $n=0$: $1 = 1$. Assume it is true for a given  $n\geq 0$. 
 Thus the result holds for \defnfont{all} $n\geq 0$, by \defnfont{mathematical induction}.
 \end{Example}
 
+\begin{Boxample}[4]
+Consider the sequence defined by $a_0 = 1$ and $a_n = 3a_{n-1} - 4$ for $n>0$. Prove that $a_n$ is odd for all $n\in \mathbb{N}$.
 
+\end{Boxample}
 
 \section{Binary trees}
 
 A \defnfont{binary tree} is an object that is either empty or consists of a \defnfont{root} node connected to an ordered pair of binary trees. 
  
 We can also define them using explicit external nodes (null pointers) to represent empty trees. Then a binary tree is an external node or an internal node connected to an ordered pair of binary trees.
- 
+
+There is a unique path from the root to each node. The length of this path is the \defnfont{depth} of the node. The maximum depth of all nodes is the \defnfont{height} of the tree.
+
 Binary trees can be traversed in several ways,including \defnfont{preorder}, \defnfont{postorder}, \defnfont{inorder}. The latter recursively visits the left child, node, and right child.
 
 \section{Limits}
@@ -125,11 +131,11 @@ $\lim_{x\to\infty} x^2 = \infty$, $\lim_{x\to \infty} 1/x = 0$.
 Important technique: \defnfont{L'H\^{o}pital's rule}: $\lim_{x\to \infty} f(x)/g(x) = \lim_{x\to \infty} f'(x)/g'(x)$ as long as the latter exists. 
 
 \begin{Example}
- $\lim_{x\to\infty} \frac{e^x}{x} = \lim_{x\to\infty} e^x = \infty$; $\lim_{x\to\infty} (\ln x)/x = \lim_{x\to\infty} (1/x)/1 = 0$.
+ $\lim_{x\to\infty} \frac{e^x}{x^2} =  \lim_{x\to\infty} \frac{e^x}{2x} = \lim_{x\to\infty} \frac{e^x}{2} = \infty$.
  \end{Example}
  
  \begin{Boxample}[5]
-What is  $\lim_{x\to\infty} \frac{\log x}{x}$?
+What is  $\lim_{x\to\infty} \frac{\ln x}{x}$?
  
  \end{Boxample}
 

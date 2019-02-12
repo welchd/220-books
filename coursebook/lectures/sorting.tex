@@ -401,7 +401,7 @@ Execute  bottom-up mergesort  on the following input.
 \includegraphics{MergeSortBottomUp2}
 \end{center}
 \end{Boxample}
-
+jo-TODO I am not sure how useful the above example is - what are they supposed to notice?
 
 \if01
 \begin{frame}
@@ -461,7 +461,7 @@ Sometimes a simple change of variable can convert a more difficult-looking recur
 
 \section{Top-down solution method example}
 \begin{Boxample}
-We are given $T(n) = 2 T(n - 1) + 1, T(1) = 0$. We can \emph{iterate} this to obtain 
+We are given $T(n) = 2 T(n - 1) + 1, T(1) = 0$. We can iterate this to obtain 
 \begin{align*}
 T(n) & = 2 T(n - 1) + 1  \\
 & = 2 [2 T(n - 2) + 1] + 1 = 2^2 T(n-2) + (2 + 1) \\
@@ -493,9 +493,9 @@ This makes sense for $n$ a power of $2$.
 Changing variable by $n = 2^i$, $T(n) = U(i)$ 
 gives $U(i) = U(i-1) + 1, U(0) = 0$. 
 By top-down or bottom-up guessing as above, we get 
-$$T(n) = U(i) = U(0) + i = i = \lg n \qquad \text{when } n \text{ is a power of }2\text{.}$$
+$$T(n) = U(i) =  i = \lg n \qquad \text{when } n \text{ is a power of }2\text{.}$$
 Similarly the mergesort recurrence $T(n) = 2T(n/2) + n, T(1)  = 0$ 
-has solution $n \lg n$ for $n$ a power of $2$.
+has solution $T(n) = n \lg n$ for $n$ a power of $2$.
 \end{Boxample}
 
 
@@ -525,8 +525,12 @@ we get the same answer, asymptotically.
 
 Recall $F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2), (n \geq 2)$.
 Such linear homogeneous recurrences can be solved exactly with
-more theory than we have time for in this course. Top-down and bottom-up methods 
-don't work easily. 
+more theory than we have time for in this course. 
+
+\begin{Boxample}
+Try to solve the Fibonacci recurrence using the top-down or bottom-up method. Why does it fail?
+
+\end{Boxample}
 
 To find an asymptotic solution for
 $F(n)$ (which is all we need here), we conjecture, based on examples, that $F(n)$ grows
@@ -534,7 +538,7 @@ exponentially in $n$. In other words, there are $C > 0$ and $r > 1$ such that
 $F(n) \geq C r^n$ for all sufficiently large $n$.
 
 Try to prove this by induction. The obvious method gives 
-$F(n+1) = F(n) + F(n-1) \geq C(r^n + r^{n-1})$, so that we easily obtain
+$F(n+1) = F(n) + F(n-1) \geq C(r^n + r^{n-1}) = Cr^{n+1}(1+r)$, so that we easily obtain
 the conclusion we want if and only if $1 + r \geq r^2$, or $r \leq
 \phi:=(1 + \sqrt{5})/2 \approx 1.618$. 
 
@@ -543,7 +547,6 @@ r^n$ for all sufficiently large $n$. Trying to prove this by induction,
 we require $1 + r \leq r^2$ or $r \geq \phi$. 
 
 Thus $F(n)$ is $\Theta(\phi^n)$.
-
 
 
 \chapter{Quicksort} %---------------------------------------------------------
@@ -663,7 +666,6 @@ We first \emph{eliminate the history}, (a general form of \emph{telescoping}).
 %$a_n = 2 (n + 1) H_n - 4n \approx 2 n \ln n$, where 
 %$$H_n:= \sum_{1\leq j \leq n} 1/j.$$ 
 
-\section{Quicksort recurrence solution details}
 We have for $n>1$
 \begin{align*}
 na_n - (n-1) a_{n-1} & = n(n-1) + 2 \sum_{0\leq j < n} a_j \\
@@ -677,10 +679,7 @@ $$
 $$
 We can iterate to obtain
 $$\frac{a_n}{n+1} = \frac{a_1}{2} + \sum_{j=2}^n \left(\frac{4}{j+1} - 
-\frac{2}{j}\right) = \dots = 2H_n + \frac{4}{n+1}.$$
-
-TODO check $H_n$ defined earlier
-
+\frac{2}{j}\right) = 4(H_{n+1} - (1+1/2)) - 2(H_n - 1)\dots = 2H_n + \frac{4}{n+1}.$$
 
 \section{Which inputs give the best and worst-case?}
 The worst case number of comparisons occurs when the pivot is always at the end of the sublist. For example, if we always choose the first element as the pivot and the input is in sorted order, this will happen. The running time is then $\Theta(n^2)$. The best case occurs when the pivot turns out to be the median element, so that the left and right subarrays are balanced at each level of the recursion, and this gives running time in $\Theta(n\log n)$ as with mergesort.
@@ -813,14 +812,19 @@ This will have applications to problems other than sorting.
 \section{Priority queues}
 \begin{Definition}
 A \defnfont{priority queue} is a container ADT where each element 
-has a key called its priority. There are operations allowing us to insert an 
+has a key (from a totally ordered set, as with sorting) called its priority. There are operations allowing us to insert an 
 element, and to find and delete the element of highest priority. 
 \end{Definition}
-Queues and stacks are special cases that are more efficiently done directly.
+
 Priority queues are important in many areas: discrete event simulation, 
 graph algorithms (later in this course), sorting, \dots .
 Priority queues can be implemented in many ways: unsorted list, sorted 
 list, binary heap, binomial heap, \dots . 
+
+\begin{Boxample}
+Show how (a) a queue and (b) a stack can be interpreted as special cases of a priority queue.
+
+\end{Boxample}
 
 \section{Priority queue sort}
 
@@ -962,7 +966,7 @@ Heap-building algorithm as in the first while-loop of \cref{alg:heapsort}.
 
 \pagebreak[4]
 \begin{Boxample}[0]
-Heapsort on the already build heap from \cref{ex:heapbuild}. 
+Heapsort on the already built heap from \cref{ex:heapbuild}. 
 Complete the last steps.
 \begin{center}
 \includegraphics[width=1.0\textwidth]{heapSort}

@@ -104,7 +104,7 @@ Carry this out for node $11$ in the BST shown in \cref{eg:bstDeleteRight}.
 
 
 The above example shows that if for deletion we instead use choose the maximum key in the left subtree, everything proceeds as expected. 
-However always using the same side can lead to unbalance. Alternating sides, or choosing a side randomly, will more likely  result in a more 
+However, if we always use the same side for deletion, this can lead to unbalance. Alternating sides, or choosing a side randomly, will more likely  result in a more 
 balanced tree.
 
 
@@ -359,9 +359,11 @@ considering a ``balls in bins" model.
 If $n$ is much smaller than $m$, collisions will be few and most slots 
 will be empty. If $n$ is much larger than $m$, collisions will be many and no 
 slots will be empty. The most interesting behaviour is when $m$ and $n$ are 
-of comparable size. We define the \defnfont{load factor} to be $\lambda := n/m$. The results below 
-will be stated in terms of $\lambda$.
+of comparable size. We define the \defnfont{load factor} to be $\lambda := n/m$. 
 
+\begin{Boxample}[4]
+Compute the load factor for the hash tables shown earlier in this section.
+\end{Boxample}
 
 \chapter{Analysis of hashing} %-------------------------------------------------
 
@@ -416,24 +418,24 @@ Uniform hashing can't be implemented practically but seems to be a good
 model when double hashing is used.
 
 It can be shown that the average cost for insertion under this 
-hypothesis is $\Theta(1/(1-\lambda))$ as $m \to \infty$. 
+hypothesis is $\Theta(1/(1-\lambda))$ as $m \to \infty$ (proof given below).
 
 Linear probing is not well described by the uniform hashing model 
 (because of the clustering). A more detailed analysis can be done. 
-The average insertion cost is $\Theta(1 + 1/(1 - \lambda)^2)$.
+The average insertion cost is $\Theta(1 + 1/(1 - \lambda)^2)$ (no proof given here).
 
 If the load factor is bounded away from $1$, basic operations 
 run in constant time; otherwise performance will be very bad. We should resize!
 
 
-\section{Extra: unsuccessful search under uniform hashing hypothesis}
+\section{Unsuccessful search under uniform hashing hypothesis}
 \begin{itemize}
 \item Let $X$ be the number of probes taken for an unsuccessful search. 
 Let $p_i$ be the probability that we need to make $i+1$ probes 
 (exactly $i$ probes hit an occupied cell) and let $q_i$ be the probability 
 that we make at least $i+1$ probes. 
 \item Then 
-$E[X] = \sum_i (i+1) p_i = \sum_i q_i$.
+$E[X] = \sum_i (i+1) p_i = \sum_i q_i$ (why?).
 \item For $i \geq 1$, we have
 $$ q_i = \binom{n}{i}/\binom{m}{i} = \frac{n}{m} \frac{n-1}{m-1} 
 \dots \frac{n - i + 1}{m - i + 1}  \leq \lambda^i.

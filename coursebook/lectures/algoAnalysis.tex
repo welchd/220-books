@@ -149,11 +149,14 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
 
 
 
-%\section{How running time scales with problem size}
+\subsection{How running time scales with problem size}
+In Table~\ref{t:growth} we describe the growth rate of some commonly used functions.
+
 \begin{table}[htb] 
    \centering
    \caption{Growth in running time as problem size grows. Note that 
    there are about $3\times 10^{18}$ nanoseconds in a century.}
+   \label{t:growth}
  % \caption{\label{t:growth} } 
    \begin{tabular}{|c|c|cccc|} \hline 
    \multicolumn{2}{|c|}{\textbf{Running time}} &  
@@ -176,7 +179,7 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
 
 \begin{Boxample}[4]
 \label{exr:time-compl:2}
-A quadratic algorithm with processing time \(T(n)=cn^2 \)
+A quadratic algorithm with running time \(T(n)=cn^2 \)
 uses 500 elementary operations for processing $10$ data items. How many will it 
 use for processing $1000$ data items? 
 \end{Boxample}
@@ -388,7 +391,8 @@ the growth rates of functions. We want to see what happens for large values of $
 dominant terms in the running time.
 
 The standard mathematical approach to this is to use \emph{asymptotic notation}
-$O, \Omega, \Theta$ which we will now describe.
+$O, \Omega, \Theta$ which we will now describe. Note that $O(g)$ is really a class of functions and strictly speaking 
+we should write $f\in O(g)$, but we use the less formal terminology to reduce the overload of symbols.
 
 \section{Big-O notation}
 \begin{Definition}
@@ -425,7 +429,7 @@ $an + b \leq an + |b| \leq (a + |b|) n$ for $n \geq 1$.
 \begin{Boxample} 
 \label{eg:asymp-lin-quadrat}
 If $f(n) = n, g(n) = n^2/2$, then $f$ is $O(g)$ and $g$ is not
-in $O(f)$, so $g$ grows asymptotically faster than $f$. Proof: 
+$O(f)$, so $g$ grows asymptotically faster than $f$. Proof: 
 first note that $f(n) \leq 2 \cdot g(n)$ for $n\geq 0$ (because $n\leq n^2$). Conversely, suppose 
 that eventually $n^2 \leq Cn$. Then $n \leq C$ for all sufficiently large $n$, 
 a contradiction.
