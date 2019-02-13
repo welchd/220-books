@@ -331,7 +331,7 @@ V(G_2) \cup \ldots \cup V(G_k)$ and $E(G) = E(G_1) \cup E(G_2) \cup \ldots
 
 When representing a digraph in a computer, we assume
 that it has nodes given in a fixed order with the
-\boldfont{convention} that the nodes are labelled $0, 1, \dots, n - 1$.
+\boldfont{convention that the nodes are labelled $0, 1, \dots, n - 1$}.
 
 \begin{Definition}
 Let $G$ be a digraph of order $n$. The \defnfont{adjacency matrix} of $G$
@@ -343,12 +343,12 @@ node $i$ to node $j$.
 \begin{Definition}
 For a digraph $G$ of order $n$, an \defnfont{adjacency lists}
 representation is a sequence of $n$ sequences, $L_0, \dots, L_{n-1}$. 
-Sequence $L_i$ contains all nodes of $G$ that are adjacent to node $i$.
+Sequence $L_i$ contains all nodes of $G$ that are out-neighbours of node $i$.
 \end{Definition}
 
-In the adjacency lists representation, only the out-neighbours of node $i$ are listed in the sequence $L_i$. 
-$L_i$ may or may not be sorted in order of increasing node number. 
-Our \boldfont{convention} is to sort them whenever it is convenient. 
+%In the adjacency lists representation, only the out-neighbours of node $i$ are listed in the sequence $L_i$. 
+In the adjacency lists representation, $L_i$ may or may not be sorted in order of increasing node number. 
+Our \boldfont{convention is to sort them whenever convenient}. 
 Many implementations do \emph{not} enforce this convention.
 
 \begin{Boxample}
