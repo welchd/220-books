@@ -331,8 +331,7 @@ Thus we could have omitted the lines with $S = \set{0,1,2,3}$.
 \chapter{Dijkstra proof and running time} %--------------------------------------
 
 \begin{Boxample}[0.5] \label{ex:dijk-neg-fails}
-Dijkstra's algorithm may fail to give the correct answer if some weights are negative.
-Give weights to the edges of the digraph below such that running Dijkstra's algorithm with starting vertex $0$
+Give weights to the edges of the digraph below so that running Dijkstra's algorithm with starting vertex $0$
 fails. 
 \vspace{0.5cm} 
 \begin{center}
@@ -344,10 +343,10 @@ fails.
 \end{Boxample}
 
 
-Proving that Dijkstra's algorithm works is a little more tricky than others we've seen.
+Proving Dijkstra's algorithm works is trickier than for other algorithms we've seen.
 
 Define an \defnfont{$\boldsymbol S$-path} from $s$ to $w$ as a
-path from $s$ to $w$ with all intermediate nodes belonging to $S$. In other words, $w$ may not belong to $S$, but all other nodes in the path do.
+path from $s$ to $w$ with $s$ and all intermediate nodes belonging to $S$. In other words, $w$ may not belong to $S$, but all other nodes in the path do.
 
 \begin{Theorem}
 \label{thm:dijkstra} Suppose that all arc weights are nonnegative. Then
@@ -360,11 +359,11 @@ from $s$ to $w$.
 \end{description}
 \end{Theorem}
 
-\begin{note} Assuming the result to be true for a moment, we can see
-that once a node $u$ is added to $S$ and $\dist[u]$ is updated, $\dist[u]$
-never changes in subsequent iterations. When the algorithm terminates,
-all nodes belong to $S$ and hence $\dist$ holds the correct distance information.
-\end{note}
+%\begin{note} Assuming the result to be true for a moment, we can see
+%that once a node $u$ is added to $S$ and $\dist[u]$ is updated, $\dist[u]$
+%never changes in subsequent iterations. When the algorithm terminates,
+%all nodes belong to $S$ and hence $\dist$ holds the correct distance information.
+%\end{note}
 \begin{proof} 
 Note that at every step, $\dist[x]$ does contain
 the length of \boldfont{some} path from $s$ to $x$; that path is an
