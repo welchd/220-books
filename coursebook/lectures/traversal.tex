@@ -140,6 +140,7 @@ A cross arc may join two nodes in the same tree or point from one tree to anothe
 Tree, forward and back arcs require that $u$ and $v$ be in the same tree.
 
 \begin{Boxample}
+jo TODO: could clean this up so figure is on left, arcs to be named are on right
 Classify the  arcs according to the definitions in the theorem \\
 $(a, e) $ is a tree arc \\  $(d, b)$ is a \\  $(c, a)$ is a  
 
@@ -403,13 +404,13 @@ $u$, and as soon as we find a white one, we add it to the stack.
     \label{alg:DFSvisitcode}
 \begin{algorithmic}[1]
 \Function{DFSvisit}{node $s$}
-	\State $\colour[s] \gets $ GREY
+	\State $\colour[s] \gets $ GREY 
 	\State $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
 	\State $S$.\algfont{insert}$(s)$ \Comment{put $s$ in stack}
 	\While{\textbf{not} $S$.\algfont{isEmpty}$()$}
 		\State $u \gets S$.\algfont{peek}$()$  \Comment{get node at front of stack}
 		\If{there is a neighbour $v$ with $\colour[v] = $ WHITE}
-			\State $\colour[v] \gets $ GREY; $\pred[v] \gets u$  \Comment{visit neighbour, record in tree}
+			\State $\colour[v] \gets $ GREY; $\pred[v] \gets u$  \Comment{visit neighbour, update tree}
 			\State $\seen[v] \gets \timeVar$; $\timeVar \gets \timeVar + 1$  \Comment{record and increment time}
 			\State $S$.\algfont{insert}$(v)$  \Comment{put neighbour in stack}
 		\Else
@@ -438,15 +439,15 @@ a recursive version: %\cref{alg:DFSreccode}.
     \label{alg:DFSreccode}
 \begin{algorithmic}[1]
 \Function{recursiveDFSvisit}{node $s$}
-	\State $\colour[s] \gets $ GREY
+	\State $\colour[s] \gets $ GREY \
 	\State $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
 	\For{each $v$ adjacent to $s$}
-		\If{$\colour[v] = $ WHITE}
-			\State $\pred[v] \gets s$
-			\State \algfont{recursiveDFSvisit}$(v)$ 
+		\If{$\colour[v] = $ WHITE} \Comment{each unvisited neighbour}
+			\State $\pred[v] \gets s$ \Comment{update tree}
+			\State \algfont{recursiveDFSvisit}$(v)$ \Comment{now visit neighbour}
 		\EndIf
 	\EndFor
-	\State $\colour[s] \gets $ BLACK
+	\State $\colour[s] \gets $ BLACK \Comment{visted all white neighbours so done}
 	\State $\done[s] \gets \timeVar $; $\timeVar \gets \timeVar + 1$
 \EndFunction
 \end{algorithmic}
@@ -509,7 +510,7 @@ arise with DFS. The different types of arcs can be easily
 distinguished while the algorithm is running or by looking at the timestamps 
 $\seen$ and $\done$.
 
-\begin{Boxample}[3]
+\begin{Boxample}[5]
 Explain how to determine, at the time when an arc is first explored by
 DFS, whether it is a tree-, back-, forward- or cross-arc.
 \end{Boxample}
