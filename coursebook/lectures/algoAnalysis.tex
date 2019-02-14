@@ -1,19 +1,16 @@
 \part{Algorithm Analysis} \label{ch:alganal}
 
-
 \chapter{What is an algorithm and why analyse it?} %--------------------------
-
 An \emph{algorithm} is a sequence of clearly stated rules that
 specify a step-by-step method for solving a given problem.
-The rules should be unambiguous and
-sufficiently detailed that they can be carried out without creativity.
+The rules should be unambiguous and sufficiently detailed that they can be carried out without creativity.
 Some examples of algorithms are a (sufficiently detailed) cake recipe,
 the usual primary school method for multiplication of decimal integers, quicksort.
 
-Algorithms predate electronic computers by thousands of years --- for example
+Algorithms predate electronic computers by thousands of years -- for example
 Euclid's greatest common divisor algorithm (seen in COMPSCI 225).
 
-Algorithms and programs are different --- a \emph{program} is a sequence of computer instructions implementing 
+Algorithms and programs are different -- a \emph{program} is a sequence of computer instructions implementing 
 the algorithm. A program may implement more than one algorithm.
 
 Experience in computing over many decades shows that more performance gains can be achieved 
@@ -43,22 +40,21 @@ This immediately suggests a recursive algorithm.
   \label{alg:slowfib}
 \begin{algorithmic}[1]
 \Function{slowfib}{integer $n$}
-\If{$n < 0$} 
-\Return{$0$}
-\ElsIf{$n = 0$} 
-\Return{$0$}
-\ElsIf{$n = 1$} 
-\Return{$1$}
-\Else{ \Return{\Call{slowfib}{$n-1$} + \Call{slowfib}{$n-2$}}}
-\EndIf
+	\If{$n < 0$} 
+		\Return{$0$}
+	\ElsIf{$n = 0$} 
+		\Return{$0$}
+	\ElsIf{$n = 1$} 
+		\Return{$1$}
+	\Else{ \Return{\Call{slowfib}{$n - 1$} + \Call{slowfib}{$n - 2$}}}
+	\EndIf
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
-The algorithm \texttt{slowfib} %(\cref{alg:slowfib}) 
-is obviously correct, but does a lot of repeated computation. 
-With a small (fixed) amount of extra space, we can do better, by 
-working from the bottom up instead of from the top down.
+The algorithm \algfont{slowfib} is obviously correct, but does a lot of repeated computation. 
+With a small (fixed) amount of extra space, we can do better, 
+by working from the bottom up instead of from the top down.
 
 \begin{algorithm}[H]
   \caption{Fast method for computing Fibonacci numbers
@@ -85,34 +81,31 @@ working from the bottom up instead of from the top down.
 \end{algorithmic}
 \end{algorithm}
  
-Proving correctness of \texttt{fastfib} is done by induction on $n$.  We omit the proof here.
+Proving correctness of \algfont{fastfib} is done by induction on $n$.  We omit the proof here.
 %\item In fact even a bad implementation in a slow interpreted language on an 
 %ancient machine of \texttt{fastfib} will beat the best implementation of 
 %\texttt{slowfib}, once $n$ becomes big enough.
 \begin{Boxample}[6]
 It is easy to see that the number of additions, function calls, etc needed by 
-\texttt{fastfib} to compute $F(n)$ has the form $An+B$ for some constants $A, B$.
-What about \texttt{slowfib}?
-
+\algfont{fastfib} to compute $F(n)$ has the form $An + B$ for some constants $A, B$.
+What about \algfont{slowfib}?
 \end{Boxample}
 
 
 \chapter{How to measure running time} %---------------------------------------
-
-There are three main characteristics of an algorithm designed to solve a given 
-problem.
+There are three main characteristics of an algorithm designed to solve a given problem.
 \begin{itemize}
-\item Domain of definition: the set of legal inputs. 
-\item Correctness: it gives correct output for each legal input. 
-This depends on the problem we are trying to solve, and can be tricky to prove. 
-\item Resource use: usually computing time and memory space. 
-\begin{itemize} 
-\item This depends on the input, and on the implementation 
-(hardware, programmer skill, compiler, language, ...). 
-\item It usually grows as the input size grows. 
-\item There is a tradeoff between resources (for example, time vs space). 
-\item Running time is usually more important than space use. 
-\end{itemize}
+	\item Domain of definition: the set of legal inputs. 
+	\item Correctness: it gives correct output for each legal input. 
+	This depends on the problem we are trying to solve, and can be tricky to prove. 
+	\item Resource use: usually computing time and memory space. 
+	\begin{itemize} 
+		\item This depends on the input, and on the implementation 
+		(hardware, programmer skill, compiler, language, ...). 
+		\item It usually grows as the input size grows. 
+		\item There is a trade-off between resources (for example, time vs space). 
+		\item Running time is usually more important than space use. 
+	\end{itemize}
 \end{itemize}
 
 In this course we mainly consider how to estimate resource use of an algorithm, 
@@ -128,17 +121,18 @@ inputs that cause problems if the algorithm is inefficient.
 %running time over all possible inputs of a given size. There may be (infinitely)
 % many inputs of a given size, and running time may vary widely on these. 
 
-We use a clean mathematical model of the problem. Example: sorting 
-distinct records is really the same problem as computing the inverse of a 
-permutation. 
+We use a clean mathematical model of the problem. 
+For example, sorting distinct records is really the same problem as computing the inverse of a permutation. 
 
-We define a notion of  \emph{input size} on the data. This is a positive integer. 
-Example: number of records in a database to be sorted.
+\begin{Definition}
+We define a notion of \defnfont{input size} on the data. 
+This is a positive integer; for example, the number of records in a database to be sorted.
 
-We use the concept of \emph{elementary operation} as our basic measuring 
-unit of running time. This is any operation whose execution time does not depend on the size of the input.
+We use the concept of \defnfont{elementary operation} as our basic measuring unit of running time. 
+This is any operation whose execution time does not depend on the size of the input.
 The running time $T(\inp)$ of algorithm $\algo$ on input $\inp$ is the 
 number of elementary operations used when $\inp$ is fed into $\algo$.
+\end{Definition}
 %\item We usually don't want to have to consider the distribution of
 %running time over all possible inputs of a given size. There may be (infinitely)
 % many inputs of a given size, and running time may vary widely on these. 
@@ -148,9 +142,8 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
 %time.
 
 
-
 \subsection{How running time scales with problem size}
-In Table~\ref{t:growth} we describe the growth rate of some commonly used functions.
+In \cref{t:growth} we describe the growth rate of some commonly used functions.
 
 \begin{table}[htb] 
    \centering
@@ -186,35 +179,29 @@ use for processing $1000$ data items?
 
 \begin{Boxample}[4]
 Algorithm $A$ takes $n^2$ elementary operations to sort a file of $n$ lines, while Algorithm $B$ takes $50n\lg n$. 
-Which algorithm is better when $n = 10$? when $n=10^6$? How do we decide which algorithm to use?
+Which algorithm is better when $n = 10$? When $n=10^6$? How do we decide which algorithm to use?
 \end{Boxample}
 
 \begin{Boxample}[4]
 \label{exr:time-compl:7A}
-Algorithms \textbf{A} and \textbf{B} use exactly \(T_\mathrm{A}(n) = c_\mathrm{A} n \lg n\)
-and \(T_\mathrm{B}(n) = c_\mathrm{B} n^{2}\) elementary operations, 
-respectively, for a problem of size \(n\).
-Find the fastest algorithm for processing \(n=2^{20}\) data items if
-\textbf{A} and \textbf{B} spend 10 and 1 operations,
-respectively, to process \(2^{10}\equiv 1024\) items.
+Algorithms \boldfont{A} and \boldfont{B} use exactly $T_\mathrm{A}(n) = c_\mathrm{A} n \lg n$
+and $T_\mathrm{B}(n) = c_\mathrm{B} n^{2}$ elementary operations, respectively, for a problem of size $n$.
+Find the fastest algorithm for processing $n = 2^{20}$ data items if
+\boldfont{A} and \boldfont{B} spend 10 and 1 operations, respectively, to process $2^{10} \equiv 1024$ items.
 \end{Boxample}
 
 
-\chapter{Techniques for estimating running time}
-
+\chapter{Techniques for estimating running time} %----------------------------------------
 Here are some easy basic rules.
 \begin{itemize}
 \item Running time of disjoint blocks adds.
-\item Running time of nested  loops with non-interacting variables multiplies.
+\item Running time of nested loops with non-interacting variables multiplies.
 %\item An algorithm consisting of a fixed number $k$ of nested loops going from $1$ to $n$,
 %with a constant number of elementary operations each time, has running
 %time of the form $C n^k$ for some constant $C$; if $k = 2$ or $k=3$, this is a 
 %\alert{quadratic} or \alert{cubic} time algorithm. 
-\item Example: single, double, triple loops with fixed number of elementary operations inside the inner loop yields linear, quadratic, cubic running time.
+\item For example, single, double, and triple loops with fixed number of elementary operations inside the inner loop yield linear, quadratic, and cubic running time.
 \end{itemize}
-
-
-
 
 % \begin{Boxample}
 \begin{algorithm}[H]
@@ -230,7 +217,7 @@ Here are some easy basic rules.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-\Cref{alg:swap} is a constant time algorithm.
+\Cref{alg:swap} \defnfont{swap} is a constant time algorithm.
 % \end{Boxample}
 
 
@@ -261,7 +248,7 @@ What happens if the loop variable changes in a more complicated way?
 \begin{algorithmic}[0]
 \State \Let{$i$}{1}
 \While{$i < n$}
-	\State $i \gets 2*i$
+	\State $i \gets 2 i$
 	\State \text{print} $i$
 \EndWhile
 \end{algorithmic}
@@ -284,7 +271,7 @@ What is the running time for \cref{alg:runtime1} and why?
 \end{algorithmic}
 \end{algorithm}
 \begin{Boxample}[4]
-What is the running time for  \cref{alg:nestloop} and why?
+What is the running time for \cref{alg:nestloop} and why?
 \end{Boxample}
 
 What do we do if the control flow of the algorithm is more complicated? For example, how do we handle \textbf{if} statements?
@@ -293,14 +280,14 @@ What do we do if the control flow of the algorithm is more complicated? For exam
   \caption{Snippet: If statements.}
   \label{alg:ifstatements}
 \begin{algorithmic}[0]
-\For {$i = 1; i < n; i\gets 2*i$} 
-	\For {$j = 1; j < n; j \gets 2*j$}
-		\If{$j = 2*i$}
-			\For{$k = 0; k < n; k\gets k+1$} 
+\For {$i = 1; i < n; i \gets 2 i$} 
+	\For {$j = 1; j < n; j \gets 2 j$}
+		\If{$j = 2 i$}
+			\For{$k = 0; k < n; k \gets k + 1$} 
 				\State \{ constant number of operations \} 
 			\EndFor
 		\Else
-			\For{$k = 1; k < n; k\gets 3*k$} 
+			\For{$k = 1; k < n; k \gets 3 k$} 
 				\State \{ constant number of operations \}
 			\EndFor
 		\EndIf
@@ -312,25 +299,16 @@ What do we do if the control flow of the algorithm is more complicated? For exam
 What is the running time for \cref{alg:ifstatements} and why? 
 \end{Boxample}
 
-\if01
-The $i$-loop has $l:=\lfloor \lg n \rfloor$ iterations, as does the $j$-loop. 
-For each $i$ (except the last value, $i = 2^l$) the if-statement executes for 
-exactly one value of $j$. The number of elementary operations is roughly 
-proportional to $\lg n (n + (\lg n - 1)\log_3 n)$. 
-\fi
+% The $i$-loop has $l := \lfloor \lg n \rfloor$ iterations, as does the $j$-loop. 
+% For each $i$ (except the last value, $i = 2^l$) the if-statement executes for 
+% exactly one value of $j$. The number of elementary operations is roughly 
+% proportional to $\lg n (n + (\lg n - 1)\log_3 n)$. 
 
-
-
-\if01
-\begin{frame}
-\begin{itemize}[<+->]
-\item \texttt{slowfib} makes $F(n)$ function calls each of which involves a
-constant number of elementary operations. It turns out that $F(n)$ grows
-exponentially in $n$, so this is an \alert{exponential time algorithm}.
-\end{itemize}
-\end{frame}
-\fi
-
+% \begin{itemize}
+% \item \texttt{slowfib} makes $F(n)$ function calls each of which involves a
+% constant number of elementary operations. It turns out that $F(n)$ grows
+% exponentially in $n$, so this is an \alert{exponential time algorithm}.
+% \end{itemize}
 
 \begin{algorithm}[H]
   \caption{Snippet: Nested loops 2.}
@@ -348,13 +326,12 @@ exponentially in $n$, so this is an \alert{exponential time algorithm}.
 \end{algorithmic}
 \end{algorithm}
 
-\begin{Boxample}[6]
-\label{exm:nest2}
+\begin{Boxample}[6] \label{exm:nest2}
 Let us roughly estimate the running time of \cref{alg:nest2}.
 
-The inner loop is executed $k$ times for $j=2, 4, \ldots, 2^{k}$
-where $k < \lg n \le k+1$. The total time for the elementary operations is 
-proportional to $kn$, that is, $T(n)=  n  \lfloor \lg n \rfloor \approx n\lg n$.
+The inner loop is executed $k$ times for $j = 2, 4, \ldots, 2^{k}$
+where $k < \lg n \le k + 1$. The total time for the elementary operations is 
+proportional to $kn$, that is, $T(n) =  n  \lfloor \lg n \rfloor \approx n \lg n$.
 \end{Boxample}
 
 
@@ -363,10 +340,10 @@ proportional to $kn$, that is, $T(n)=  n  \lfloor \lg n \rfloor \approx n\lg n$.
   \label{alg:nest3}
 \begin{algorithmic}[0]
 \State $m \leftarrow 1$
-\For{$j \leftarrow 1$ \textbf{step} $j \leftarrow j+1$ \textbf{to} $n$}
+\For{$j \leftarrow 1$ \textbf{step} $j \leftarrow j + 1$ \textbf{to} $n$}
 	\If{$j = m$}
-		\State $m \leftarrow m \cdot (n-1)$
-		\For{$i \leftarrow  0$  \textbf{step} $i \leftarrow i+1$ \textbf{to} $n - 1$}
+		\State $m \leftarrow m \,(n - 1)$
+		\For{$i \leftarrow  0$  \textbf{step} $i \leftarrow i + 1$ \textbf{to} $n - 1$}
 			\State $\ldots$ \Comment{constant number of elementary operations}
 		\EndFor
 	\EndIf
@@ -374,8 +351,7 @@ proportional to $kn$, that is, $T(n)=  n  \lfloor \lg n \rfloor \approx n\lg n$.
 \end{algorithmic}
 \end{algorithm}
 
-\begin{Boxample}[6]
-\label{exm:nest1}
+\begin{Boxample}[6] \label{exm:nest1}
 Is the running time of \cref{alg:nest3} quadratic or linear?
 \end{Boxample}
 
@@ -385,18 +361,17 @@ Is the running time of \cref{alg:nest3} quadratic or linear?
 
 \section{Asymptotic comparison of functions}
 In order to compare running times of algorithms we want a way of comparing
-the growth rates of functions. We want to see what happens for large values of $n$ --- small ones are not
- relevant, because almost any algorithm is good enough in practice for very small input. 
- We are not usually interested in constant factors and only want to consider the 
-dominant terms in the running time.
+the growth rates of functions. We want to see what happens for large values of $n$ 
+-- small ones are not relevant, because almost any algorithm is good enough in practice for very small input. 
+We are not usually interested in constant factors and only want to consider the dominant terms in the running time.
 
-The standard mathematical approach to this is to use \emph{asymptotic notation}
-$O, \Omega, \Theta$ which we will now describe. Note that $O(g)$ is really a class of functions and strictly speaking 
-we should write $f\in O(g)$, but we use the less formal terminology to reduce the overload of symbols.
+The standard mathematical approach to this is to use \defnfont{asymptotic notation}
+$O, \Omega, \Theta$ which we will now describe. 
+Note that $O(g)$ is really a class of functions and strictly speaking 
+we should write $f \in O(g)$, but we use the less formal terminology to reduce the overload of symbols.
 
 \section{Big-O notation}
 \begin{Definition}
-
 Suppose that $f$ and $g$ are functions from $\mathbb{N}$ to $\mathbb{R}$, 
 which take on nonnegative values. 
 \begin{itemize}
@@ -418,21 +393,20 @@ Informally, $f/g$ is bounded away from zero and infinity, and $f$ grows at the s
 \end{Definition}
 
 
-
-\section{Asymptotic comparison --- examples}
-
+%\section{Asymptotic comparison --- examples}
+\section{Examples}
 \begin{Boxample}
-Every linear function $f(n) = an + b$, $a > 0$, is $O(n)$. Proof: 
-$an + b \leq an + |b| \leq (a + |b|) n$ for $n \geq 1$. 
+Every linear function $f(n) = an + b$, $a > 0$, is $O(n)$.\\
+Proof: $an + b \leq an + |b| \leq (a + |b|) n$ for $n \geq 1$. 
 \end{Boxample}
 
 \begin{Boxample} 
 \label{eg:asymp-lin-quadrat}
 If $f(n) = n, g(n) = n^2/2$, then $f$ is $O(g)$ and $g$ is not
-$O(f)$, so $g$ grows asymptotically faster than $f$. Proof: 
-first note that $f(n) \leq 2 \cdot g(n)$ for $n\geq 0$ (because $n\leq n^2$). Conversely, suppose 
-that eventually $n^2 \leq Cn$. Then $n \leq C$ for all sufficiently large $n$, 
-a contradiction.
+$O(f)$, so $g$ grows asymptotically faster than $f$.\\
+Proof: First note that $f(n) \leq 2 g(n)$ for $n \geq 0$ (because $n \leq n^2$). 
+Conversely, suppose that eventually $n^2 \leq Cn$. 
+Then $n \leq C$ for all sufficiently large $n$, a contradiction.
 \end{Boxample}
 
 \begin{Boxample}[4]
@@ -467,16 +441,16 @@ need to know how to, in case the rules (coming up) don't apply.
 % \end{itemize}
 
 % alternative
-\setlist[description]{font=\normalfont\space}
+%\setlist[description]{font=\normalfont\space}
 \begin{description}
-\item[(Irrelevance of constant factors)] If $c > 0$ is constant then $cf$ is $\Theta(f)$.
-\item[(Transitivity)] If $f$ is $O(g)/\Omega(g)/\Theta(g)$ and $g$ is 
+\item[Irrelevance of constant factors] If $c > 0$ is constant then $cf$ is $\Theta(f)$.
+\item[Transitivity] If $f$ is $O(g)/\Omega(g)/\Theta(g)$ and $g$ is 
 in $O(h)/\Omega(h)/\Theta(h)$, then $f$\\ is $O(h)/\Omega(h)/\Theta(h)$.
-\item[(Sum rule)] If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 + f_2$ is 
+\item[Sum rule] If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 + f_2$ is 
 in $O(\max\{g_1, g_2\})$.
-\item[(Product rule)] If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 f_2$ 
+\item[Product rule] If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 f_2$ 
 is $O(g_1 g_2)$.
-\item[(Limit rule)] \emph{Suppose that $L:=\lim_{n\to\infty} f(n)/g(n)$ exists}. 
+\item[Limit rule] \emph{Suppose that $L:=\lim_{n\to\infty} f(n)/g(n)$ exists}. 
 Then
 \begin{itemize}
 \item if $L = 0$ then $f$ is $O(g)$ and $f$ is not $\Omega(g)$;
@@ -485,10 +459,13 @@ Then
 \end{itemize}
 \end{description}
 
-Proofs of these rules will be given in lectures. L'H\^{o}pital's rule is often useful for the application of the limit rule. Note that the 
+Proofs of these rules will be given in lectures. 
+L'H\^{o}pital's rule is often useful for the application of the limit rule. Note that the 
 limit may not exist at all.
 
-\section{Asymptotic comparison --- more examples}
+
+% \section{Asymptotic comparison --- more examples}
+\section{More examples}
 
 \begin{Boxample}[4]
 \item $\log_a(n)$ is $\Theta(\lg n)$ for each $a > 1$.
@@ -530,29 +507,28 @@ be obtained, and it turns out that $\lim_{n\to \infty} (\log n!)/(n \log n) = 1$
 
 \begin{Boxample} 
 By integral approximation we can get $H_n \in \Theta(\log n)$ where 
-$H_n:=1+ 1/2 + 1/3 + \dots + 1/n$ is the $n$\emph{th harmonic number}. 
+$H_n:=1+ 1/2 + 1/3 + \dots + 1/n$ is the $n$\boldfont{th harmonic number}. 
 \end{Boxample}
 
 \section{Summary of results}
 Write $f \prec g$ if $f$ is $O(g)$ but $f$ is not $\Theta(g)$, so $g$ grows at a
- faster rate than $f$. Then, for example, 
-$$
- \log n \prec (\log n)^2 \prec \sqrt{n} \prec n \prec n \log n 
+ faster rate than $f$. 
+\begin{Boxample}
+$\log n \prec (\log n)^2 \prec \sqrt{n} \prec n \prec n \log n 
  \prec n (\log n)^2 \prec n^2 
-\prec n^3 \prec \dots \prec (1.5)^n \prec 2^n \prec n! \prec n^n.
-$$
-
-
+\prec n^3 \prec \dots \prec (1.5)^n \prec 2^n \prec n! \prec n^n$.
+\end{Boxample}
 
 
 \chapter{Q\&A} %--------------------------------------------------------------
-
 Here we consider some more subtle questions that have been ignored so far.
 
 \section{Is addition of integers an elementary operation?}
-
 If the integers (and their sum) can fit into a machine word (typically 64 bits, so not bigger than $9$, $223$, $372$, $036$, $854$, $775$, $807$) then 
-adding two of them can be done in constant time. If the integers are much longer, as occurs for example in symbolic algebra systems, cryptography, etc, then to avoid overflow they must be represented another way (``big integers"). Typically these are strings. In this case the addition is done componentwise and the running time grows linearly with the size of the integers. 
+adding two of them can be done in constant time. 
+If the integers are much longer, as occurs for example in symbolic algebra systems, cryptography, etc, 
+then to avoid overflow they must be represented another way (``big integers"). Typically these are strings. 
+In this case the addition is done componentwise and the running time grows linearly with the size of the integers. 
 
 \begin{Boxample}
 Assuming that $F(n)$ has the order of $n$ decimal digits (which is true), the amount of work 
@@ -560,25 +536,21 @@ done by \texttt{fastfib} is of order $1+2+\dots + n$ which is order $n^2$, not $
 So \texttt{fastfib} is technically a quadratic time algorithm!
 \end{Boxample}
 
-
 \section{Have we been measuring input size correctly?}
-
-We used $n$ to measure the size of the integer $n$. This seems wrong. In fact the number of bits needed to represent $n$ seems a much better 
-idea. If $m$ is the size of the positive integer $n$, then $m = 1+\lfloor\lg n\rfloor$, and $2^{m-1} \leq n < 2^m$.
-This turns \texttt{fastfib} from a polynomial time algorithm to an exponential time algorithm! The input size measure \emph{must} be specified in algorithm analysis.
-
-
+We used $n$ to measure the size of the integer $n$. This seems wrong. 
+In fact the number of bits needed to represent $n$ seems a much better idea. 
+If $m$ is the size of the positive integer $n$, then $m = 1+\lfloor\lg n\rfloor$, and $2^{m-1} \leq n < 2^m$.
+This turns \texttt{fastfib} from a polynomial time algorithm to an exponential time algorithm! 
+The input size measure \boldfont{must} be specified in algorithm analysis.
 
 \section{What happens if there are many inputs of a given size?}
-
 We usually don't want to have to consider the distribution of
-running time over all possible inputs of a given size. There may be (infinitely)
-many inputs of a given size, and running time may vary widely on these. 
+running time over all possible inputs of a given size. 
+There may be (infinitely) many inputs of a given size, and running time may vary widely on these. 
 For example, for sorting the integers $1, \dots, n$, there are $n!$ possible inputs, and this is large even for $n=10$.
 
 We consider statistics of $T(\inp)$ such as \defnfont{worst-case}  or 
 \defnfont{average-case} running time for instances $\inp$ of size $n$.
-
 
 \section{What are the pros and cons of worst and average case analysis?}
 \begin{itemize}
@@ -595,38 +567,32 @@ distribution of the inputs.
 Conclusion: a good worst-case bound is always useful, but it is
 just a first step and we should aim to refine the analysis for important 
 algorithms. Average-case analysis is often more practically useful, provided the
- algorithm will be run on ``random" data and we have some tolerance for risk.
+algorithm will be run on ``random" data and we have some tolerance for risk.
 
 \section{Why can constants often be ignored?}
-
-A linear time algorithm when implemented will take at most $A
-n + B$ seconds to run on an instance of size $n$, for some
-specific constants $A, B$ that depend on the implementation. For large $n$, this is well approximated by $A n$. 
-Small $n$ are not usually of interest anyway, since almost any algorithm is good
- enough for tiny instances. 
+A linear time algorithm when implemented will take at most $An + B$ seconds to run on an instance of size $n$, 
+for some specific constants $A, B$ that depend on the implementation. 
+For large $n$, this is well approximated by $An$. 
+Small $n$ are not usually of interest anyway, since almost any algorithm is good enough for tiny instances. 
  
 No matter what $A$ is, we can easily work out how the running time
 scales with increasing problem size (linearly!). The difference between a linear and a quadratic time algorithm is
 usually huge, no matter what the constants are. For large enough $n$, a
 linear time algorithm will always beat a quadratic time one. 
 
-Conclusion: in practice we often need to make only crude
-distinctions. We only need to know whether the running time scales like 
-$n, n^2, n^3, n \log n, 2^n, \dots$. If we need finer distinctions, we 
-can do more analysis.
-
-
+Conclusion: in practice we often need to make only crude distinctions. 
+We only need to know whether the running time scales like $n, n^2, n^3, n \log n, 2^n, \dots$. 
+If we need finer distinctions, we can do more analysis.
 
 \section{Can we always ignore constants?}
-
 When we want to choose between two good algorithms for the same
 problem (``is my linear-time algorithm faster than your linear-time
 algorithm?"), we may need to know constants. These must be determined
 empirically. 
 
 For important algorithms that will be used many times, it is worth
-being more precise about the constants. Even small savings will be worth
-the trouble. 
+being more precise about the constants. 
+Even small savings will be worth the trouble. 
 
 An algorithm with running time $10^{-10} n^2$ is probably better
 in practice than one with running time $10^{10} n$, since the latter
@@ -637,8 +603,6 @@ Conclusion: we should have at least a rough feel for the constants
 of competing algorithms. However, in practice the constants are usually
 of moderate size. 
 
-
-
 \section{Summary}
 \begin{itemize}
 \item Our goal is to find an asymptotic approximation for the (worst or average 
@@ -646,5 +610,5 @@ case) running time of a given algorithm. Ideally we can find a simple function
 $f$ and prove that the running time is $\Theta(f(n))$.
 \item The main $f(n)$ occurring in applications are $\log n, n, n \log n, n^2, n^3, 2^n$, and 
 each grows considerably faster than the previous one. The gap between $n$ and 
-$n\log n$ is the smallest.
+$n \log n$ is the smallest.
 \end{itemize}

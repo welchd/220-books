@@ -34,6 +34,16 @@
 \newcommand{\boldfont}[1]{\textbf{#1}}
 \newcommand{\algfont}[1]{\texttt{#1}\index{algorithm!#1}}
 
+\DeclareMathOperator{\pred}{\text{\texttt{pred}}}
+\DeclareMathOperator{\colour}{\text{\texttt{colour}}}
+\DeclareMathOperator{\done}{\text{\texttt{done}}}
+\DeclareMathOperator{\seen}{\text{\texttt{seen}}}
+\DeclareMathOperator{\status}{\text{\texttt{status}}}
+\DeclareMathOperator{\timeVar}{\text{\texttt{time}}}
+\DeclareMathOperator{\algo}{\text{\texttt{algo}}}
+\DeclareMathOperator{\inp}{\text{\texttt{inp}}}
+\DeclareMathOperator{\dist}{\text{\texttt{dist}}}
+
 % ## tikz ## ----------------------------------------------
 \usepackage{tikz}
 \usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit}
@@ -83,16 +93,6 @@
 \newcommand{\solution}[1]%
 {\medskip \noindent{\textsc{\textbf{Solution to \cref{#1} on
 page~\pageref{#1}}}}:\newline }
-
-\DeclareMathOperator{\pred}{\text{\algfont{pred}}}
-\DeclareMathOperator{\colour}{\text{\algfont{colour}}}
-\DeclareMathOperator{\done}{\text{\algfont{done}}}
-\DeclareMathOperator{\seen}{\text{\algfont{seen}}}
-\DeclareMathOperator{\status}{\text{\algfont{status}}}
-\DeclareMathOperator{\timeVar}{\text{\algfont{time}}}
-\DeclareMathOperator{\algo}{\text{\algfont{algo}}}
-\DeclareMathOperator{\inp}{\text{\algfont{inp}}}
-\DeclareMathOperator{\dist}{\text{\algfont{dist}}}
 
 \usepackage{mathtools}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
