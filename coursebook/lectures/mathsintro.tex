@@ -30,7 +30,7 @@ What is the cardinality of $\{1,1,4\}$? Of $\{x^2 : x \in \{-1,1,2\}\}$?
 
 \section{Functions}
 
-A \defnfont{function} is a mapping $f$ from a set $X$ (the \defnfont{domain}) to a set $Y$ (the \defnfont{codomain}) such that every $x\in X$ maps to a unique $y\in Y$.
+A \defnfont{function} is a mapping $f$ from a set $X$ (the \defnfont{domain}) to a set $Y$ (the \defnfont{codomain}) such that every $x\in X$ maps to a unique $y\in Y$. We write $f:X\to Y$. A function $f:X\to Y$ is \defnfont{1--1} if whenever $x\neq x'$, we have $f(x) \neq f(x')$. It is \defnfont{onto} if every element of $Y$ has the form $f(x)$ for some $x\in X$. A function that is both 1--1 and onto has an \defnfont{inverse}: $f(x) = y$ if and only if $g(y) = x$. 
 
 Important functions from $\mathbb{R}$ to $\mathbb{R}$: 
 \begin{itemize}
@@ -46,15 +46,16 @@ Other useful functions:
 \end{itemize}
 
 
-
 \section{Basic properties of important functions}
 \begin{itemize}
-\item For fixed $a>1$ the exponential $f(x) = a^x$ is \defnfont{increasing} and positive, and satisfies $$a^{x+y} = a^x a^y$$ for all $x,y\in \mathbb{R}$. 
-\item For fixed $a>1$ the logarithm $\log_a$ is increasing and satisfies 
+\item For fixed $a>1$ the exponential $f(x) = a^x$ is \defnfont{strictly increasing} and positive, and satisfies $$a^{x+y} = a^x a^y$$ for all $x,y\in \mathbb{R}$. 
+\item For fixed $a>1$ the logarithm $\log_a$ is strictly increasing and satisfies 
 $$\log_a(xy) = \log_a x + \log_a y$$ for all $x,y>0$.
 \item We write $\ln = \log_e$ and $\lg = \log_2$. Note that $\log_a x = \log_a b \log_b x$ and $a^x = e^{x\ln a}$.
 \item Derivatives: $\frac{d}{dx} e^x = e^x, \frac{d}{dx} \ln x = \frac{1}{x},  \frac{d}{dx} x^a = ax^{a-1}$ if $a$ is a constant.
 \end{itemize}
+
+
 
 \begin{Boxample}[4]
 Prove that for every $n\in \mathbb{N}$ such that $n\geq 1$,
