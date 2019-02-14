@@ -460,8 +460,9 @@ $\left[
 \right]$
 \end{Boxample}
 
-\begin{Boxample}[1]
+\begin{Boxample}[0]
 Here are two digraphs in the adjacency lists format.  Draw the corresponding digraphs.
+\label{ex:adjlist}
 
 \vspace{1cm}
 $\lightgraybox{\begin{array}{c|c}
@@ -481,40 +482,40 @@ $\lightgraybox{\begin{array}{c|ccc}
 
 \section{Representing multiple graphs in a single file}
 
-It is often useful to input several digraphs from a single file. Our
-standard format is as follows. The file consists of several digraphs 
-one after the other. To distinguish the beginning of one and the end of
-the other we have a single line giving the order at the beginning of
-each graph. If the order is $n$ then the next $n$ lines give the
-adjacency matrix or adjacency lists representation of the digraph. 
-The end of the file is marked with a line denoting a digraph of order
+We can store several digraphs one after the other  in a single file as follows: 
+\begin{itemize}
+\item we have a single line giving the order at the beginning of
+each digraph.
+\item If the order is $n$ then the next $n$ lines give the
+adjacency matrix or adjacency lists representation of the digraph. Node labels are omitted.
+\item The end of the file is marked with a line denoting a digraph of order
 $0$.
+\end{itemize}
 
-% \begin{tabular}{lll}
-% 4 \\
-% 1 & 2  \\
-% 3 & \\
-% &  \\
-% 0 & 1 & 2 \\
-% 3 \\
-% 2 \\
-% 0 \\
-% 1 \\
-% 0\\
-% \end{tabular}
+\begin{Example} The two digraphs from \cref{ex:adjlist} could be put in a single file as 
+
+ \begin{tabular}{lll}
+ 3 \\
+2  \\
+ 0 \\
+ 1  \\
+ 4 \\
+ 1 & 2 \\
+ 3 \\
+  \\
+ 0 & 1 & 2 \\
+ 0\\
+ \end{tabular}
+ \end{Example}
 
 
 \section{Using other structures to represent graphs}
 
-There are also other specialized (di)graph representations besides the
-two mentioned in this section.  These data structures take advantage of
-special structure for improved storage or access time, often for
-families of graphs sharing a common property or to optimise certain operations. For such specialized
-purposes they may be better than either the adjacency matrix or lists
-representations.
+Other specialized digraph representations may be used take advantage of
+special structure in a family of digraphs for improved storage or access time. For such specialized
+purposes they may be better adjacency matrices or lists.
 
-For example, trees can be stored more efficiently. We have already
-seen in \cref{sec:heapsort} how a complete binary tree can be
+For example, trees can be stored more efficiently. In \cref{sec:heapsort} we saw how a complete binary tree can be
 stored in an array. A general rooted tree of $n$ nodes can be stored in
 an array $\pred$ of size $n$. The value $\pred[i]$ gives the parent of
 node $i$. The root is a special case and can be given value $-1$
@@ -625,11 +626,11 @@ Draw the tree represented by the array $\pred = [-,0,0,1,2,2,2,3]$
 %\end{Exercise}
 %
 
-\section{Implementation of digraph ADT operations}
+\section{Implementation of digraph ADT}
 \label{sec:graphadtimpl}
 
-In this section we discuss implementing basic operations on digraphs such as checking the existence of an arc or deleting a node.
-%and compare the performance of different data structures.
+%We discuss implementing basic operations on digraphs such as checking the existence of an arc or deleting a node.
+%%and compare the performance of different data structures.
 
 An adjacency matrix is simply a matrix which is an array of arrays. 
 
@@ -639,7 +640,7 @@ example by an array,  or singly- or doubly-linked lists using pointers.  These h
 Searching for a value that may or may not be in the list requires sequential search
 and takes $\Theta(n)$ time in the worst case. 
 
-More complex data structures such as binary trees or heaps can be used to represent lists often with some benefits but we do not consider them here. 
+We do not consider other  data structures (e.g. heaps) that can be used to represent lists. 
 
 \section{Complexity of basic digraph operations}
 The basic operations we consider are checking for the existence of an arc between two nodes, finding the outdegree of a node, 
@@ -777,8 +778,7 @@ What is the storage requirement for a complete digraph on $n$ nodes, that is, a 
 occurs?
 \end{Boxample}
 
-For small, sparse digraphs,
-it is true that lists use less space than a matrix, whereas for small
+For small, sparse digraphs, lists use less space than a matrix, whereas for small
 dense digraphs the space requirements are comparable. For large sparse
 digraphs, a matrix can still be more efficient, but this happens rarely.
 
@@ -786,9 +786,8 @@ digraphs, a matrix can still be more efficient, but this happens rarely.
 Find a large sparse digraph where the matrix representation uses less space than the lists representation.
 \end{Boxample}
 
-As with most implementation considerations, the representation that is best will depend on the application and we cannot make general rules.  We will mostly use adjacency lists, which are
-clearly superior for many common tasks (such as graph traversals, covered
-in the next lectures) and generally better for sparse digraphs.
+The representation that is best will depend on the application and we cannot make general rules.  We will mostly use adjacency lists, which are
+clearly superior for many common tasks and generally better for sparse digraphs.
 
 %Any implementation of an abstract data type (for example as a Java class)
 %must include objects and ``methods".  While most people would include
