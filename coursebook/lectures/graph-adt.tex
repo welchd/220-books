@@ -65,17 +65,17 @@ Graphs vs Digraphs
   \item In order to save writing ``(di)graph" too many times, we treat the digraph as the fundamental concept.
   \item When we say something about digraphs, nodes and arcs, it is understood to also hold for graphs, nodes and edges unless explicitly stated otherwise. 
   \item However, if we talk about graphs, edges, and vertices, our statement is not necessarily true for digraphs. 
-  \item Some authors use ``undirected graph'' to mean graph and use the term ``graph" to mean what we call a directed graph. We will always use digraph and graph.
+  \item Some authors use ``undirected graph'' to mean graph and use the term ``graph" to mean what we call a directed graph. We always use digraph and graph.
   \item $E$ is a set so there are no multiple arcs between a pair of nodes.
  \item  An arc that begins and ends at the same node is called a \defnfont{loop}. 
   We make the convention that \boldfont{loops are not allowed in our digraphs}. 
-  \item For digraph $G$ we sometimes denote the set of nodes by $V(G)$
-  and the set of arcs by $E(G)$ for clarity.
+  \item For digraph $G$ we may denote the node set $V(G)$
+  and arc set $E(G)$ for clarity.
   \item A graph can be viewed as a digraph where every unordered edge $\{u, v\}$ 
   is replaced by two directed arcs $(u, v)$ and $(v, u)$.  
   This works in most instances and has the advantage of allowing us to consider only digraphs.
-  \item Sometimes we must know whether our object is really a graph or just a symmetric digraph. Whenever there
-  is a potential ambiguity, we shall point it out.
+%  \item Sometimes we must know whether our object is really a graph or just a symmetric digraph. Whenever there
+%  is a potential ambiguity, we shall point it out.
  \end{itemize}
 \end{note}
 
@@ -130,14 +130,12 @@ A \defnfont{cycle} is a walk in which $v_0 = v_l$ and no other nodes
 are repeated.
 \end{Definition}
 
-Note: In a graph, a walk of the form $u\, v\, u$ is not considered a cycle 
-(going back and forth along the same edge should not count as a cycle). 
-A cycle in a graph must be of length at least $3$.
+In a graph, a walk of the form $u\, v\, u$ --- going back and forth along the same edge --- is not considered a cycle.  A cycle in a graph must be of length at least $3$.
 
 
 \begin{Boxample}
 For the graph on the left the following
-sequences of vertices are classified as being walks, paths, or cycles. Fill out the last line.
+sequences of vertices are classified as being walks, paths, or cycles. Complete the table.
 
 \begin{minipage}[c]{0.3\textwidth}
 \centering
@@ -146,10 +144,10 @@ sequences of vertices are classified as being walks, paths, or cycles. Fill out 
 \begin{minipage}[c]{0.65\textwidth}
 \begin{tabular}{|l|c|c|c|}\hline
 \textbf{vertex sequence} & \textbf{walk?} & \textbf{path?} & \textbf{cycle?} \\ \hline
-$0\, 3\, 2$                  & no  & no  & no  \\
-$0\, 1\, 2\, 3\, 4$          & yes & yes & no  \\
+$0\, 3\, 2$                  & no  & no  &   \\
+$0\, 1\, 2\, 3\, 4$          &  & yes & no  \\
 $0\, 1\,  2\,  0$            & yes & no  & yes  \\
-$0 \, 1\,  0$                & yes & no  & no \\
+$0 \, 1\,  0$                & yes & no  &  \\
 $1\,  2\,  3\,  4\,  2\,  0$ &     &     &  \\
 \hline
 \end{tabular}
@@ -173,13 +171,14 @@ A node of indegree $0$ is called a \defnfont{source} and a node of outdegree $0$
 
 \begin{Definition}
 The \defnfont{distance} from $u$ to $v$ in $G$, denoted by $d(u,v)$, is 
-the minimum length of a path from $u$ to $v$. If no path exists, the 
+the number of arc on the shortest path from $u$ to $v$. If no path exists, the 
 distance is undefined (or $+\infty$).
 \end{Definition}
 
 For graphs, we have $d(u,v) = d(v,u)$ for all vertices $u, v$. 
 
-\begin{Example}
+\begin{Boxample}[2]
+jo TODO: make this a do it yourself example \\
 In the graph of \cref{ex:graph}, we can see by considering
 all possibilities that $d(0, 1) = 1$, $d(0, 2) = 1$, $d(0, 3) = 2$,
 $d(0, 4) = 2$, $d(1, 2) = 1$, $d(1, 3) = 2$, $d(1, 4) = 2$, $d(2, 3) =
@@ -187,7 +186,7 @@ $d(0, 4) = 2$, $d(1, 2) = 1$, $d(1, 3) = 2$, $d(1, 4) = 2$, $d(2, 3) =
 
 In the digraph of \cref{ex:digraph}, we have, for example, $d(0, 2) = 1, d(3, 2) = 2$. 
 Since node $2$ is a sink, $d(2, v)$ is not defined unless $v = 2$, in which case the value is $0$.
-\end{Example}
+\end{Boxample}
 
 
 
@@ -195,9 +194,9 @@ Since node $2$ is a sink, $d(2, v)$ is not defined unless $v = 2$, in which case
 
 There are several ways to create new digraphs from old ones.
 
-One way is to delete (possibly zero) nodes and arcs in such a way that the 
-resulting object is still a digraph (there are no arcs missing any
-endpoints!).
+One way is to delete nodes and arcs in such a way that the 
+resulting object is still a digraph (no arcs missing
+endpoints).
 
 \begin{Definition}
 A \defnfont{subdigraph} of a digraph $G = (V, E)$ is a digraph $G' = (V', E')$ 
@@ -224,13 +223,14 @@ The subdigraph \defnfont{induced} by a subset $V'$ of $V$ is the digraph
 $G' = (V', E')$ where $E' = \set{(u, v) \in E \mid u \in V' \mbox{ and } v\in V'}$.
 \end{Definition}
 
-\begin{Example}
+\begin{Boxample}
 % \Cref{fig:induced} shows the subdigraph of the  digraph $G_2$ of \cref{fig:graphExample} induced by  \set{1, 2, 3}.
-A digraph and a its subdigraph induced by  \set{1, 2, 3}.
+jo TODO: change figure by removing arrows \\
+For the digraph shown on the left, draw the subdigraph induced by  \set{1, 2, 3} on the right.
 \begin{center}
 \includegraphics{graphExInduced}
 \end{center}
-\end{Example}
+\end{Boxample}
 
 % \begin{figure}[h]
 % \centering
@@ -239,7 +239,7 @@ A digraph and a its subdigraph induced by  \set{1, 2, 3}.
 % \label{fig:induced}
 % \end{figure}
 
-It is sometimes useful to ``reverse all the arrows''. This produces the ``reverse digraph''.
+%It is sometimes useful to ``reverse all the arrows''. This produces the ``reverse digraph''.
 
 \begin{Definition}
 The \defnfont{reverse digraph} of the digraph $G = (V, E)$, is the digraph $G_r = (V, E')$ where $(u, v)\in E'$ if and only if $(v, u)\in E$.
@@ -248,7 +248,7 @@ The \defnfont{reverse digraph} of the digraph $G = (V, E)$, is the digraph $G_r 
 \begin{samepage}
 \begin{Example}
 % \Cref{fig:reverse} shows the reverse of the digraph $G_2$ of \cref{fig:graphExample}.
-A digraph $G$ and its reverse digraph $G_r$.
+Digraph $G$ and its reverse $G_r$. We simply reverse all the arrows.
 \begin{center}
 \includegraphics{graphExReverse}
 \end{center}
@@ -271,7 +271,7 @@ $G' = (V, E')$ where $E' = \set{\{u, v\} \mid (u, v)\in E}$.
 
 Note: The underlying graph does not have multiple edges even when there are arcs $(u, v)$ and $(v, u)$. 
 In that case, only one edge joins $u$ and $v$ in the underlying graph $G'$.  
-This is because $\{u, v\}$ and $\{v, u\}$ are equal as sets, so appear only once in the set $E'$.
+%This is because $\{u, v\}$ and $\{v, u\}$ are equal as sets, so appear only once in the set $E'$.
 
 \begin{Example}
 %\Cref{fig:underly} shows the underlying graph of the digraph $G_2$ of \cref{fig:graphExample}.
@@ -331,7 +331,7 @@ V(G_2) \cup \ldots \cup V(G_k)$ and $E(G) = E(G_1) \cup E(G_2) \cup \ldots
 
 When representing a digraph in a computer, we assume
 that it has nodes given in a fixed order with the
-\boldfont{convention} that the nodes are labelled $0, 1, \dots, n - 1$.
+\boldfont{convention that the nodes are labelled $0, 1, \dots, n - 1$}.
 
 \begin{Definition}
 Let $G$ be a digraph of order $n$. The \defnfont{adjacency matrix} of $G$
@@ -343,12 +343,12 @@ node $i$ to node $j$.
 \begin{Definition}
 For a digraph $G$ of order $n$, an \defnfont{adjacency lists}
 representation is a sequence of $n$ sequences, $L_0, \dots, L_{n-1}$. 
-Sequence $L_i$ contains all nodes of $G$ that are adjacent to node $i$.
+Sequence $L_i$ contains all nodes of $G$ that are out-neighbours of node $i$.
 \end{Definition}
 
-In the adjacency lists representation, only the out-neighbours of node $i$ are listed in the sequence $L_i$. 
-$L_i$ may or may not be sorted in order of increasing node number. 
-Our \boldfont{convention} is to sort them whenever it is convenient. 
+%In the adjacency lists representation, only the out-neighbours of node $i$ are listed in the sequence $L_i$. 
+In the adjacency lists representation, $L_i$ may or may not be sorted in order of increasing node number. 
+Our \boldfont{convention is to sort them whenever convenient}. 
 Many implementations do \emph{not} enforce this convention.
 
 \begin{Boxample}
