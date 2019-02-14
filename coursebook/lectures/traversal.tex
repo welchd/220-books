@@ -91,10 +91,10 @@ Most of the work is done in \cref{alg:visit} (\algfont{visit}) which takes a sta
 \end{algorithmic}
 \end{algorithm}
 
-After the first call to \algfont{visit} we have created a subdigraph of $G$ that is a tree: the
+A call to \algfont{visit} creates a subdigraph of $G$ that is a tree: the
 nodes are precisely the black nodes (all nodes reachable from the initial node), and the arcs are those arcs followed when we found a white neighbour of a grey node. 
 
-Each white node chosen in \algfont{traverse} becomes the root of a tree in the call to \algfont{visit}. Eventually, we obtain a
+Each white node chosen in \algfont{traverse} is the root of a tree in the call to \algfont{visit}. Eventually, we obtain a
 set of disjoint trees spanning the digraph (that is, it includes all the nodes of the digraph), which we call the
 \defnfont{search forest}. The search forest  is returned by \algfont{traverse} in the array $\pred$.
 
@@ -120,7 +120,7 @@ jo TODO: can you organise these figures a bit better? Is it possible to save spa
 
 \section{Classifying arcs after a traversal}
 
-For the analysis of the traversal algorithm, it is useful to classify the arcs of $G$ based on their relationships in the search forest.  
+It helps in analysing the traversal algorithm to classify the arcs of $G$ based on their relationships in the search forest.  
 
 \begin{Definition}\label{defn:arc-types}
 Suppose we have performed a traversal of a digraph $G$, resulting in a
@@ -140,10 +140,12 @@ A cross arc may join two nodes in the same tree or point from one tree to anothe
 Tree, forward and back arcs require that $u$ and $v$ be in the same tree.
 
 \begin{Boxample}
-The edge $(a, e)$ is a tree arc, the edge $(d, b)$ is a back arc, and the edge $(c, a)$ is a cross arc.
-\begin{center}
+Classify the  arcs according to the definitions in the theorem \\
+$(a, e) $ is a tree arc \\  $(d, b)$ is a \\  $(c, a)$ is a  
+
+%\begin{center}
 \includegraphics{traversalAlgoResult} 
-\end{center}
+%\end{center}
 \end{Boxample}
 
 
@@ -200,7 +202,7 @@ $G$. Then $v$ and $w$ belong to the same tree of $F$.
 %or the entering arc will contradict the first part.
 %\end{proof}
 
-\begin{Boxample}[3]
+\begin{Boxample}[5]
 Assuming the first statement, prove the third statement
 \end{Boxample}
 
@@ -313,9 +315,8 @@ There still remains the choice of which white neighbour of the chosen grey node 
 It does not matter what choice is made but our \defnfont{convention is to choose the one with
 lowest index} (recall nodes have indices $0, \dots, n - 1$). 
 
-These choices can be made in constant time so that the running time is  $\Omega(n + m)$ (assuming adjacency lists). 
-So DFS are linear in the size $+$ order of a digraph. 
-If an adjacency matrix is used, the algorithms are quadratic in the size of the graph ($\Omega(n^2)$).
+These choices can be made in constant time so that the running time is  $\Omega(n + m)$ (assuming adjacency lists) and DFS is linear in the size $+$ order of a digraph. 
+%If an adjacency matrix is used, the algorithms are quadratic in the size of the graph ($\Omega(n^2)$).
 
 \begin{Boxample}[2]
 A digraph and its DFS search tree, rooted at node $0$. The dashed arcs indicate the original arcs that are not part of the DFS search tree.
@@ -335,8 +336,8 @@ Find a tree arc, cross arc, forward arc and back arc (or say if that type of arc
 \end{Boxample}
 
 For a general digraph, and unlike the examples given here, all nodes may not be reachable from the starting node. 
-In this case, each call to \algfont{DFSvisit} (a special case of \algfont{visit}) produces a single search tree, 
-while the algorithm \algfont{DFS} (a special case of \algfont{traverse}) repeatedly chooses a root and runs the associated visit algorithm, producing the search forest.
+In this case, we get a search forest where the number of trees in the forest is the number of calls made to \algfont{DFSvisit}. %produces a single search tree
+%while the algorithm \algfont{DFS} (a special case of \algfont{traverse}) repeatedly chooses a root and runs the associated visit algorithm, producing the search forest.
 
 %\section*{Exercises}
 %
@@ -363,7 +364,7 @@ while the algorithm \algfont{DFS} (a special case of \algfont{traverse}) repeate
 \section{Pseudocode for depth-first search}
 \label{ss: DFS}
 
-This ``last in, first out" order of choosing grey nodes that we see in DFS is mimicked by a \boldfont{stack} data structure. 
+The ``last in, first out" order of choosing grey nodes in DFS is mimicked by a \boldfont{stack} data structure. 
 We thus store grey nodes in a stack as they are discovered. 
 
 The pseudocode for DFS and DFS visit is in \cref{alg:DFScode,alg:DFSvisitcode}. 
@@ -381,15 +382,15 @@ $u$, and as soon as we find a white one, we add it to the stack.
     \label{alg:DFScode}
 \begin{algorithmic}[1]
 \Function{DFS}{digraph $G$}
-	\State stack $S$  
+	\State stack $S$ 
 	\State array $\colour[0..n-1], \pred[0..n-1], \seen[0..n-1], \done[0..n-1]$
-	\For{$u \in V(G)$} 
-		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL
+	\For{$u \in V(G)$}  
+		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL \Comment{initialise arrays}
 	\EndFor
-	\State $\timeVar \gets 0$
+	\State $\timeVar \gets 0$ \Comment{Time will increment at every niode colour change}
 	\For{$s \in V(G)$} 
-		\If{$\colour[s] = $ WHITE} 
-			\State \algfont{DFSvisit}$(s)$
+		\If{$\colour[s] = $ WHITE}  \Comment{find a WHITE node}
+			\State \algfont{DFSvisit}$(s)$ \Comment{start traversal from $s$}
 		\EndIf
 	\EndFor
 	\State \Return{$\pred, \seen, \done$}
@@ -404,17 +405,17 @@ $u$, and as soon as we find a white one, we add it to the stack.
 \Function{DFSvisit}{node $s$}
 	\State $\colour[s] \gets $ GREY
 	\State $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
-	\State $S$.\algfont{insert}$(s)$
+	\State $S$.\algfont{insert}$(s)$ \Comment{put $s$ in stack}
 	\While{\textbf{not} $S$.\algfont{isEmpty}$()$}
-		\State $u \gets S$.\algfont{peek}$()$
+		\State $u \gets S$.\algfont{peek}$()$  \Comment{get node at front of stack}
 		\If{there is a neighbour $v$ with $\colour[v] = $ WHITE}
-			\State $\colour[v] \gets $ GREY; $\pred[v] \gets u$
-			\State $\seen[v] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
-			\State $S$.\algfont{insert}$(v)$
+			\State $\colour[v] \gets $ GREY; $\pred[v] \gets u$  \Comment{visit neighbour, record in tree}
+			\State $\seen[v] \gets \timeVar$; $\timeVar \gets \timeVar + 1$  \Comment{record and increment time}
+			\State $S$.\algfont{insert}$(v)$  \Comment{put neighbour in stack}
 		\Else
-			\State $S$.\algfont{delete}$()$
-			\State $\colour[u] \gets $ BLACK
-			\State $\done[u] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
+			\State $S$.\algfont{delete}$()$  \Comment{delete node from stack}
+			\State $\colour[u] \gets $ BLACK  \Comment{colour it done}
+			\State $\done[u] \gets \timeVar$; $\timeVar \gets \timeVar + 1$  \Comment{record and increment time}
 		\EndIf
 	\EndWhile
 \EndFunction
@@ -430,7 +431,7 @@ $u$, and as soon as we find a white one, we add it to the stack.
 %In summary, \algfont{DFS} is a linear-time traversal algorithm.
 
 Given the relationship between stacks and recursion, we can replace the \algfont{DFSvisit} procedure by
-a recursive version: \cref{alg:DFSreccode}.
+a recursive version: %\cref{alg:DFSreccode}.
 
 \begin{algorithm}[H]
   \caption{Recursive DFS visit algorithm.}
