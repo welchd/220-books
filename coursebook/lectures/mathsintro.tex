@@ -2,25 +2,27 @@
 \chapter{Basic Mathematical Background}
 \label{ch:app:mathtools}
 
-We list here some important mathematical facts and techniques  that will be used often in this course. It is very important to understand them well - ask for help if your background has substantial holes.
+We list here some important mathematical facts and techniques  that will be used often in this course. 
+It is very important to understand them well - ask for help if your background has substantial holes.
+
 
 \section{Sets}
-
-A \defnfont{set} is an unordered collection of distinct objects (repeated elements are not allowed), called \defnfont{elements} of the set. We write $a\in X$ to mean that $a$ is an element of $X$.
+A \defnfont{set} is an unordered collection of distinct objects (repeated elements are not allowed), called \defnfont{elements} of the set. 
+We write $a \in X$ to mean that $a$ is an element of $X$.
 
 Important sets: 
 \begin{itemize}
-\item $\mathbb{N} = \{0,1,2,\dots \}$, the set of \defnfont{natural numbers}.
+\item $\mathbb{N} = \{0, 1, 2, \dots\}$, the set of \defnfont{natural numbers}.
 \item $\mathbb{R}$, the set of \defnfont{real numbers}.
 \item $\varnothing = \{\}$, the \defnfont{empty set} having no elements.
 \end{itemize}
 
-Notation: list elements, e.g. $X = \{2,3,5,7,11\}$ or use set-builder notation $X = \{x\in \mathbb{N} : \text{$x$ is prime and $x< 12$}\}$. Note that $\{a, a, b\} = \{a, b\}$ because elements cannot be repeated in a set.
+Notation: list elements, e.g. $X = \{2,3,5,7,11\}$ or use set-builder notation $X = \{x \in \mathbb{N} : x \text{ is prime and } x < 12\}$. Note that $\{a, a, b\} = \{a, b\}$ because elements cannot be repeated in a set.
 
 Operations: 
 \begin{itemize}
-\item $A\cap B = \{x: x\in A \text{ and } x\in B\}$, the \defnfont{intersection} of $A$ and $B$;
-\item $A\cup B = \{x: x\in A \text{ or  } x\in B\}$, the \defnfont{union} of $A$ and $B$;
+\item $A\cap B = \{x: x \in A \text{ and } x \in B\}$, the \defnfont{intersection} of $A$ and $B$.
+\item $A\cup B = \{x: x \in A \text{ or  } x \in B\}$, the \defnfont{union} of $A$ and $B$.
 \item $|A|$ is the number of elements of $A$, the \defnfont{cardinality} of $A$.
 \end{itemize}
 
@@ -28,45 +30,45 @@ Operations:
 What is the cardinality of $\{1,1,4\}$? Of $\{x^2 : x \in \{-1,1,2\}\}$?
 \end{Boxample}
 
-\section{Functions}
 
-A \defnfont{function} is a mapping $f$ from a set $X$ (the \defnfont{domain}) to a set $Y$ (the \defnfont{codomain}) such that every $x\in X$ maps to a unique $y\in Y$. We write $f:X\to Y$. A function $f:X\to Y$ is \defnfont{1--1} if whenever $x\neq x'$, we have $f(x) \neq f(x')$. It is \defnfont{onto} if every element of $Y$ has the form $f(x)$ for some $x\in X$. A function that is both 1--1 and onto has an \defnfont{inverse}: $f(x) = y$ if and only if $g(y) = x$. 
+\section{Functions}
+A \defnfont{function} is a mapping $f$ from a set $X$ (the \defnfont{domain}) to a set $Y$ (the \defnfont{codomain}) such that every $x \in X$ maps to a unique $y \in Y$. 
+We write $f \colon X \to Y$. A function $f \colon X \to Y$ is \defnfont{1--1} if whenever $x \neq x'$, we have $f(x) \neq f(x')$.
+ It is \defnfont{onto} if every element of $Y$ has the form $f(x)$ for some $x\in X$. 
+ A function that is both 1--1 and onto has an \defnfont{inverse}: $f(x) = y$ if and only if $g(y) = x$. 
 
 Important functions from $\mathbb{R}$ to $\mathbb{R}$: 
 \begin{itemize}
-\item Power functions $f(x) = x$, $f(x) = x^2$, $f(x) = x^3$, etc
-\item Exponential functions $f(x) = 2^x$, $f(x) = (1.5)^x$, etc
-\item Logarithm (inverse of exponential) is defined by $\log_a (y) = x$ if and only if $y = a^x$. Its domain is $\{x\in \mathbb{R} : x > 0\}$. We usually just write $\log_a y$, omitting parentheses, if there is no confusion about what is meant.
+\item Power functions $f(x) = x$, $f(x) = x^2$, $f(x) = x^3$, etc.
+\item Exponential functions $f(x) = 2^x$, $f(x) = (1.5)^x$, etc.
+\item Logarithm (inverse of exponential) is defined by $\log_a (y) = x$ if and only if $y = a^x$. 
+Its domain is $\{x\in \mathbb{R} : x > 0\}$. We usually just write $\log_a y$, omitting parentheses, if there is no confusion about what is meant.
 \end{itemize}
 
 Other useful functions: 
 \begin{itemize}
-\item \defnfont{Ceiling} rounds up to nearest integer, e.g. $\lceil 3.7 \rceil = 4 = \lceil 4 \rceil$. 
-\item \defnfont{Floor} rounds down, e.g. $\lfloor 3.7 \rfloor= 3 = \lfloor 3 \rfloor$.
+\item \defnfont{Ceiling} rounds up to nearest integer, e.g. $\lceil 3.7 \rceil = 4 = \lceil 4 \rceil$.
+\item \defnfont{Floor} rounds down, e.g. $\lfloor 3.7 \rfloor = 3 = \lfloor 3 \rfloor$.
 \end{itemize}
 
 
 \section{Basic properties of important functions}
 \begin{itemize}
-\item For fixed $a>1$ the exponential $f(x) = a^x$ is \defnfont{strictly increasing} and positive, and satisfies $$a^{x+y} = a^x a^y$$ for all $x,y\in \mathbb{R}$. 
+\item For fixed $a>1$ the exponential $f(x) = a^x$ is \boldfont{strictly increasing} and positive, 
+and satisfies $$a^{x+y} = a^x a^y$$ for all $x,y\in \mathbb{R}$. 
 \item For fixed $a>1$ the logarithm $\log_a$ is strictly increasing and satisfies 
 $$\log_a(xy) = \log_a x + \log_a y$$ for all $x,y>0$.
 \item We write $\ln = \log_e$ and $\lg = \log_2$. Note that $\log_a x = \log_a b \log_b x$ and $a^x = e^{x\ln a}$.
 \item Derivatives: $\frac{d}{dx} e^x = e^x, \frac{d}{dx} \ln x = \frac{1}{x},  \frac{d}{dx} x^a = ax^{a-1}$ if $a$ is a constant.
 \end{itemize}
 
-
-
 \begin{Boxample}[4]
 Prove that for every $n\in \mathbb{N}$ such that $n\geq 1$,
-$$
-\lceil \lg (n+1) \rceil = 1 + \lfloor \lg n \rfloor.
-$$
-
+$$ \lceil \lg (n+1) \rceil = 1 + \lfloor \lg n \rfloor\text{.}$$
 \end{Boxample}
 
-\section{Sums}
 
+\section{Sums}
 A \defnfont{sequence} is a function $f:\mathbb{N} \to \mathbb{R}$. 
 
 Notation: $f_0, f_1, f_2, \cdots$ where $f_i = f(i)$.
@@ -75,70 +77,71 @@ Sum notation: $f_m+f_{m+1}+\cdots +f_n = \sum_{i=m}^n f_i$.
 
 Some important sums: 
 \begin{align*}
-\sum_{i=1}^n i & = \frac{n(n+1)}{2} \\
-\sum_{i=m}^n a^n&  = \frac{a^{n+1}-a^m}{a-1}.
+	\sum_{i=1}^n i & = \frac{n(n + 1)}{2} \\
+	\sum_{i=m}^n a^n&  = \frac{a^{n+1} - a^m}{a - 1}.
 \end{align*}
 
 \begin{Boxample}[4]
-Simplify 
-$$
-\sum_{i=1}^{2n} 2^i.
-$$
+Simplify $$\sum_{i=1}^{2n} 2^i\text{.}$$
 \end{Boxample}
 
-\section{Proof by induction}
-A standard technique for proving a collection of results, one for each natural number. If we can prove for $n=0$, and also show that whenever the result we want is true for $n$, it is true for $n+1$, then we know it must be true for all $n\in \mathbb{N}$.
 
-\begin{Example}
+\section{Proof by induction}
+\defnfont{Mathematical induction} is a standard technique for proving a collection of results, one for each natural number. 
+If we can prove for $n = 0$, and also show that whenever the result we want is true for $n$, it is true for $n+1$,
+then we know it must be true for all $n \in \mathbb{N}$.
+
+\begin{Boxample}
 Prove that if $a\neq 1$ then for all  $n\geq 0$
 $$
-\sum_{i=0}^n a^n = \frac{a^{n+1} - 1}{a - 1}.
+	\sum_{i=0}^n a^n = \frac{a^{n+1} - 1}{a - 1}.
 $$
 Proof: It is true for $n=0$: $1 = 1$. Assume it is true for a given  $n\geq 0$. Then
 \begin{align*}
-\sum_{i=0}^{n+1} a^i & = a^{n+1} + \sum_{i=0}^n a^i 
-= a^{n+1} + \frac{a^{n+1} - 1}{a-1} \\
-& = \frac{a^{n+1} (a - 1) + a^{n+1} - 1}{a-1}\\
-& = \frac{a^{n+2} - 1}{a-1}.
+\sum_{i=0}^{n+1} a^i 
+	& = a^{n+1} + \sum_{i=0}^n a^i = a^{n+1} + \frac{a^{n+1} - 1}{a - 1} \\
+	& = \frac{a^{n+1} (a - 1) + a^{n+1} - 1}{a - 1}\\
+	& = \frac{a^{n+2} - 1}{a - 1}.
 \end{align*}
-Thus the result holds for \defnfont{all} $n\geq 0$, by \defnfont{mathematical induction}.
-\end{Example}
-
-\begin{Boxample}[4]
-Consider the sequence defined by $a_0 = 1$ and $a_n = 3a_{n-1} - 4$ for $n>0$. Prove that $a_n$ is odd for all $n\in \mathbb{N}$.
-
+Thus the result holds for \boldfont{all} $n \geq 0$, by \boldfont{mathematical induction}.
 \end{Boxample}
 
-\section{Binary trees}
+\begin{Boxample}[4]
+Consider the sequence defined by $a_0 = 1$ and $a_n = 3a_{n-1} - 4$ for $n > 0$. Prove that $a_n$ is odd for all $n \in \mathbb{N}$.
+\end{Boxample}
 
+
+\section{Binary trees}
 A \defnfont{binary tree} is an object that is either empty or consists of a \defnfont{root} node connected to an ordered pair of binary trees. 
  
 We can also define them using explicit external nodes (null pointers) to represent empty trees. Then a binary tree is an external node or an internal node connected to an ordered pair of binary trees.
 
 There is a unique path from the root to each node. The length of this path is the \defnfont{depth} of the node. The maximum depth of all nodes is the \defnfont{height} of the tree.
 
-Binary trees can be traversed in several ways,including \defnfont{preorder}, \defnfont{postorder}, \defnfont{inorder}. The latter recursively visits the left child, node, and right child.
+Binary trees can be traversed in several ways,including \defnfont{preorder}, \defnfont{postorder}, \defnfont{inorder}. 
+The latter recursively visits the left child, node, and right child.
+
 
 \section{Limits}
+Write $\lim_{x \to \infty} f(x) = \infty$ if for \boldfont{all} $N>0$ there is \boldfont{some} point past which $f(x) > N$ for \boldfont{all} $x$, 
+and write $\lim_{x\to\infty} f(x) = 0$ if for \boldfont{all} $\varepsilon>0$ there is \boldfont{some} point past which $f(x) < \varepsilon$ for \boldfont{all} $x$.
 
-Write $\lim_{x\to \infty} f(x) = \infty$ if for \defnfont{all} $N>0$ there is \defnfont{some} point past which $f(x) > N$ for \defnfont{all} $x$, and write $\lim_{x\to\infty} f(x) = 0$ if for \defnfont{all} $\varepsilon>0$ there is \defnfont{some} point past which $f(x) < \varepsilon$ for \defnfont{all} $x$.
+If $0 < L < \infty$ we say $\lim_{x \to \infty} f(x) = L$ if for all $\varepsilon > 0$ there is \boldfont{some} point 
+beyond which $L - \varepsilon < f(x) < L + \varepsilon$ for \boldfont{all} $x$.
 
-If $0 < L < \infty$ we say $\lim_{x\to\infty} f(x) = L$ if for all $\varepsilon > 0$ there is \defnfont{some} point beyond which $L - \varepsilon < f(x) < L + \varepsilon$ for \defnfont{all} $x$.
+\begin{Boxample}
+$\lim_{x \to \infty} x^2 = \infty$, $\lim_{x \to \infty} 1/x = 0$.
+\end{Boxample}
 
-\begin{Example}
-$\lim_{x\to\infty} x^2 = \infty$, $\lim_{x\to \infty} 1/x = 0$.
-\end{Example}
+An important technique is the \defnfont{L'H\^{o}pital's rule}: $$\lim_{x\to \infty} f(x)/g(x) = \lim_{x\to \infty} f'(x)/g'(x)$$ as long as the latter exists. 
 
-Important technique: \defnfont{L'H\^{o}pital's rule}: $\lim_{x\to \infty} f(x)/g(x) = \lim_{x\to \infty} f'(x)/g'(x)$ as long as the latter exists. 
-
-\begin{Example}
- $\lim_{x\to\infty} \frac{e^x}{x^2} =  \lim_{x\to\infty} \frac{e^x}{2x} = \lim_{x\to\infty} \frac{e^x}{2} = \infty$.
- \end{Example}
+\begin{Boxample}
+$\lim_{x\to\infty} \frac{e^x}{x^2} =  \lim_{x\to\infty} \frac{e^x}{2x} = \lim_{x\to\infty} \frac{e^x}{2} = \infty$.
+\end{Boxample}
  
- \begin{Boxample}[5]
+\begin{Boxample}[5]
 What is  $\lim_{x\to\infty} \frac{\ln x}{x}$?
- 
- \end{Boxample}
+\end{Boxample}
 
 
 
