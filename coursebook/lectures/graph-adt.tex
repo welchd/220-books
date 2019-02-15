@@ -1,14 +1,12 @@
 \part{The Graph Abstract Data Type}
-\label{ch:graphadt}
+\label{ch:graphadt} 
 
 
 \chapter{Graph definitions} %-------------------------------------------------
 \label{sec:graphdefs}
 
 Graphs are important and general mathematical objects that are widely used in theory and practice. 
-
-Graphs distill the basic idea of a relationship among a set of objects. 
-
+They distill the basic idea of a relationship among a set of objects. 
 Informally we can think of a graph as a collection of dots (the set of objects) with lines connecting them (describing the relationship). 
 The lines can be either directed (arrows) or undirected.
 
@@ -22,12 +20,10 @@ The lines can be either directed (arrows) or undirected.
 We are interested in the algorithmic aspects of graph theory (``how can we do it efficiently and systematically?").  
 To talk about this precisely, we must start with precise definitions.
 
-We start with the concept a \textbf{di}rected \textbf{graph}, or digraph. 
-
 \begin{Definition}\label{def:digraph} 
 A \defnfont{digraph} $G=(V,E)$ is a  finite nonempty set $V$ of \defnfont{nodes} 
 together with a (possibly empty) set $E$ of ordered pairs of nodes of $G$ called \defnfont{arcs}. 
-Digraph stands for \textbf{di}rected \textbf{graph}.
+Digraph stands for \boldfont{di}rected \boldfont{graph}.
 \end{Definition}
 
 \begin{Boxample}[0] \label{ex:digraph}
@@ -35,7 +31,6 @@ For the digraph shown below, write down the sets $V$ and $E$.\\
 \newline 
 \includegraphics{graphExDirectedVE}
 \end{Boxample}
-
 
 \begin{Definition}\label{def:graph}
 A \defnfont{graph} $G = (V, E)$ is a finite nonempty  set $V$ of 
@@ -49,8 +44,6 @@ For the graph shown below, write down the sets $V$ and $E$.\\
 \newline 
 \includegraphics{graphExUndirectedVE}
 \end{Boxample}
-
-
 % \begin{figure}
 %   \centering
 %   \includegraphics{graphEx}
@@ -59,26 +52,22 @@ For the graph shown below, write down the sets $V$ and $E$.\\
 % \end{figure}
 
 
-\begin{note}
-Graphs vs Digraphs
+Some notes on graphs vs digraphs.
 \begin{itemize}
   \item In order to save writing ``(di)graph" too many times, we treat the digraph as the fundamental concept.
-  \item When we say something about digraphs, nodes and arcs, it is understood to also hold for graphs, nodes and edges unless explicitly stated otherwise. 
-  \item However, if we talk about graphs, edges, and vertices, our statement is not necessarily true for digraphs. 
+  \item When we say something about digraphs, nodes and arcs, it is understood to also hold for graphs, vertices and edges unless explicitly stated otherwise. 
+  \item However, if we talk about graphs, vertices and edges, our statement is not necessarily true for digraphs. 
   \item Some authors use ``undirected graph'' to mean graph and use the term ``graph" to mean what we call a directed graph. We always use digraph and graph.
   \item $E$ is a set so there are no multiple arcs between a pair of nodes.
- \item  An arc that begins and ends at the same node is called a \defnfont{loop}. 
+  \item An arc that begins and ends at the same node is called a \defnfont{loop}. 
   We make the convention that \boldfont{loops are not allowed in our digraphs}. 
-  \item For digraph $G$ we may denote the node set $V(G)$
-  and arc set $E(G)$ for clarity.
+  \item For a digraph $G$ we may denote the node set $V(G)$ and arc set $E(G)$ for clarity.
   \item A graph can be viewed as a digraph where every unordered edge $\{u, v\}$ 
   is replaced by two directed arcs $(u, v)$ and $(v, u)$.  
   This works in most instances and has the advantage of allowing us to consider only digraphs.
 %  \item Sometimes we must know whether our object is really a graph or just a symmetric digraph. Whenever there
 %  is a potential ambiguity, we shall point it out.
- \end{itemize}
-\end{note}
-
+\end{itemize}
 
 \begin{Definition}\label{def:adjacent}  
 If $(u, v)\in E$ (that is, if there is an arc going from $u$ to $v$) we say that $v$ is \defnfont{adjacent} 
@@ -88,7 +77,7 @@ In an (undirected) graph $G$, if $\{u, v\} \in E$, then $u$ is a \defnfont{neigh
 
 \begin{Boxample}[2]
 % In the digraph $G_2$ in \cref{fig:graphExample}, find all in-neighbours of node 2.
-In the digraph in \cref{ex:digraph}, find all in-neighbours of node 2.
+In the digraph in \cref{ex:digraph}, find all in-neighbours of node 2 and all out-neighbours of node 0.
 \end{Boxample}
 
 
@@ -106,7 +95,6 @@ The \defnfont{size} of $G$ is $\abs{E}$, the number of arcs.
 We usually use $n$ to denote $\abs{V}$ and $m$ to denote $\abs{E}$.
 \end{Definition}
  
-
 For a given order $n$, the size $m$ can be as low as $0$ (a digraph consisting of $n$ nodes and no arcs)  
 and as high as $n(n-1)$ (each node can point to each other node; recall that we do not allow loops).
 
@@ -130,7 +118,9 @@ A \defnfont{cycle} is a walk in which $v_0 = v_l$ and no other nodes
 are repeated.
 \end{Definition}
 
-In a graph, a walk of the form $u\, v\, u$ --- going back and forth along the same edge --- is not considered a cycle.  A cycle in a graph must be of length at least $3$.
+In a graph, a walk of the form $u\, v\, u$ -- going back and forth along the same edge -- is not considered a cycle. 
+A cycle in a graph must be of length at least $3$.
+Note that a walk and a path can have length 0.
 
 
 \begin{Boxample}
@@ -145,10 +135,11 @@ sequences of vertices are classified as being walks, paths, or cycles. Complete 
 \begin{tabular}{|l|c|c|c|}\hline
 \textbf{vertex sequence} & \textbf{walk?} & \textbf{path?} & \textbf{cycle?} \\ \hline
 $0\, 3\, 2$                  & no  & no  &   \\
-$0\, 1\, 2\, 3\, 4$          &  & yes & no  \\
-$0\, 1\,  2\,  0$            & yes & no  & yes  \\
+$0\, 1\, 2\, 3\, 4$          &     & yes & no  \\
+$0\, 1\,  2\,  0$            & yes &     & yes  \\
 $0 \, 1\,  0$                & yes & no  &  \\
 $1\,  2\,  3\,  4\,  2\,  0$ &     &     &  \\
+$3$							 & yes &     &  \\
 \hline
 \end{tabular}
 \end{minipage}
@@ -161,42 +152,34 @@ Show that if there is a walk from $u$ to $v$, then we can find a path from $u$ t
 
 \begin{Definition} 
 In a graph, the \defnfont{degree} of a vertex $v$ is the number of edges meeting $v$. 
-
 In a digraph, the \defnfont{outdegree} of a node $v$ is the number of out-neighbours of $v$, 
 and the \defnfont{indegree} of $v$ is the number of in-neighbours of $v$.
 
 A node of indegree $0$ is called a \defnfont{source} and a node of outdegree $0$ is called a \defnfont{sink}.
 \end{Definition}
 
-
 \begin{Definition}
 The \defnfont{distance} from $u$ to $v$ in $G$, denoted by $d(u,v)$, is 
-the number of arc on the shortest path from $u$ to $v$. If no path exists, the 
+the number of arc on a shortest path from $u$ to $v$. If no path from $u$ to $v$ exists, the 
 distance is undefined (or $+\infty$).
 \end{Definition}
 
 For graphs, we have $d(u,v) = d(v,u)$ for all vertices $u, v$. 
 
 \begin{Boxample}[2]
-jo TODO: make this a do it yourself example \\
-In the graph of \cref{ex:graph}, we can see by considering
-all possibilities that $d(0, 1) = 1$, $d(0, 2) = 1$, $d(0, 3) = 2$,
-$d(0, 4) = 2$, $d(1, 2) = 1$, $d(1, 3) = 2$, $d(1, 4) = 2$, $d(2, 3) =
-1$, $d(2, 4) = 1$ and $d(3, 4) = 1$.
+Give the following distances for the digraph on the left.\\
+\newline
+\includegraphics{distancesDirected}
+\newline
 
-In the digraph of \cref{ex:digraph}, we have, for example, $d(0, 2) = 1, d(3, 2) = 2$. 
-Since node $2$ is a sink, $d(2, v)$ is not defined unless $v = 2$, in which case the value is $0$.
+Why are the values $d(4, v)$ not defined unless $v = 4$?
 \end{Boxample}
 
 
-
 \section{Creating new digraphs from old ones}
-
 There are several ways to create new digraphs from old ones.
-
 One way is to delete nodes and arcs in such a way that the 
-resulting object is still a digraph (no arcs missing
-endpoints).
+resulting object is still a digraph (no arcs missing endpoints).
 
 \begin{Definition}
 A \defnfont{subdigraph} of a digraph $G = (V, E)$ is a digraph $G' = (V', E')$ 
@@ -204,13 +187,13 @@ where $V'\subseteq V$ and $E'\subseteq E$.
 A \defnfont{spanning} subdigraph is one with $V' = V$; that is, it contains all nodes.
 \end{Definition}
 
-\begin{Example}
+\begin{Boxample}
 %\Cref{fig:sub+span} shows (on the left) a subdigraph and (on the right) a spanning subdigraph of the digraph $G_2$ of \cref{fig:graphExample}.
 A digraph (on the left) with a subdigraph (in the middle) and a spanning subdigraph (on the right).
 \begin{center}
 \includegraphics{graphExSubSpan} 
 \end{center}
-\end{Example}
+\end{Boxample}
 % \begin{figure}[h]
 % \centering
 % \includegraphics{graphExSubSpan} 
@@ -224,14 +207,11 @@ $G' = (V', E')$ where $E' = \set{(u, v) \in E \mid u \in V' \mbox{ and } v\in V'
 \end{Definition}
 
 \begin{Boxample}
-% \Cref{fig:induced} shows the subdigraph of the  digraph $G_2$ of \cref{fig:graphExample} induced by  \set{1, 2, 3}.
-jo TODO: change figure by removing arrows \\
 For the digraph shown on the left, draw the subdigraph induced by  \set{1, 2, 3} on the right.
 \begin{center}
-\includegraphics{graphExInduced}
+\includegraphics{graphExInducedEx}
 \end{center}
 \end{Boxample}
-
 % \begin{figure}[h]
 % \centering
 % \includegraphics{graphExInduced}
@@ -239,21 +219,16 @@ For the digraph shown on the left, draw the subdigraph induced by  \set{1, 2, 3}
 % \label{fig:induced}
 % \end{figure}
 
-%It is sometimes useful to ``reverse all the arrows''. This produces the ``reverse digraph''.
-
 \begin{Definition}
 The \defnfont{reverse digraph} of the digraph $G = (V, E)$, is the digraph $G_r = (V, E')$ where $(u, v)\in E'$ if and only if $(v, u)\in E$.
 \end{Definition}
 
-\begin{samepage}
-\begin{Example}
-% \Cref{fig:reverse} shows the reverse of the digraph $G_2$ of \cref{fig:graphExample}.
+\begin{Boxample}
 Digraph $G$ and its reverse $G_r$. We simply reverse all the arrows.
 \begin{center}
 \includegraphics{graphExReverse}
 \end{center}
-\end{Example}
-\end{samepage}
+\end{Boxample}
 % \begin{figure}[h]
 % \centering
 % \includegraphics{graphExReverse}
@@ -273,14 +248,14 @@ Note: The underlying graph does not have multiple edges even when there are arcs
 In that case, only one edge joins $u$ and $v$ in the underlying graph $G'$.  
 %This is because $\{u, v\}$ and $\{v, u\}$ are equal as sets, so appear only once in the set $E'$.
 
-\begin{Example}
-%\Cref{fig:underly} shows the underlying graph of the digraph $G_2$ of \cref{fig:graphExample}.
-A digraph $G$ and its underlying graph $G'$.
-Note that there is only a single edge between vertices 1 and 3.
+\begin{Boxample}
+% A digraph $G$ and its underlying graph $G'$.
+Draw the underlying graph $G'$ of the digraph $G$.
 \begin{center}
-\includegraphics{graphExUnderlying}
+\includegraphics{graphExUnderlyingEx}
 \end{center}
-\end{Example}
+Note that there should be only a single edge between vertices 1 and 3.
+\end{Boxample}
 % \begin{figure}
 % \centering
 % \includegraphics{graphExUnderlying}
