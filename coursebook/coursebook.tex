@@ -47,7 +47,6 @@
 % ## tikz ## ----------------------------------------------
 \usepackage{tikz}
 \usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,fit}
-
  
 % ## style ## ----------------------------------------------
 \usepackage{enumitem}
@@ -79,10 +78,10 @@
 	Lecture \thechapter\\
 	\huge
 }[
-	\vspace{-0.5ex}%
+	\vspace{-0.6ex}%
 	\rule{\textwidth}{1pt}
 ]
-\titlespacing*{\chapter}{0pt}{-120pt}{30pt}
+\titlespacing*{\chapter}{0pt}{-120pt}{20pt}
  
 % ## customizing captions ## ----------------------------------------------
 \usepackage[font=small,labelformat=simple]{caption}
@@ -309,6 +308,15 @@ Thanks to Michael Dinneen and Georgy Gimel'farb for their past help with materia
 %\part{Bibliography/Index}
 %\include{reference/reference}
 
+\titleformat{\chapter}[display]{\bfseries\Huge}{}{0.9ex} 
+{    
+	\rule{\textwidth}{1pt}
+    \vspace{1ex}
+	\huge
+}[
+	\vspace{-1.6ex}%
+	\rule{\textwidth}{1pt}
+]
 \printindex
 
 \end{document}
