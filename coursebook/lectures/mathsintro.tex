@@ -59,7 +59,7 @@ and satisfies $$a^{x+y} = a^x a^y$$ for all $x,y\in \mathbb{R}$.
 \item For fixed $a>1$ the logarithm $\log_a$ is strictly increasing and satisfies 
 $$\log_a(xy) = \log_a x + \log_a y$$ for all $x,y>0$.
 \item We write $\ln = \log_e$ and $\lg = \log_2$. Note that $\log_a x = \log_a b \log_b x$ and $a^x = e^{x\ln a}$.
-\item Derivatives: $\frac{d}{dx} e^x = e^x, \frac{d}{dx} \ln x = \frac{1}{x},  \frac{d}{dx} x^a = ax^{a-1}$ if $a$ is a constant.
+\item Derivatives: $(e^x)' := \frac{d}{dx} e^x = e^x, \frac{d}{dx} \ln x = \frac{1}{x},  \frac{d}{dx} x^a = ax^{a-1}$ if $a$ is a constant.
 \end{itemize}
 
 \begin{Boxample}[4]
@@ -130,7 +130,7 @@ If $0 < L < \infty$ we say $\lim_{x \to \infty} f(x) = L$ if for all $\varepsilo
 beyond which $L - \varepsilon < f(x) < L + \varepsilon$ for \boldfont{all} $x$.
 
 \begin{Boxample}
-$\lim_{x \to \infty} x^2 = \infty$, $\lim_{x \to \infty} 1/x = 0$.
+$\lim_{x \to \infty} x^2 = \infty$, $\lim_{x \to \infty} 1/x = 0$, $\lim_{x\to \infty} \frac{x-1}{x+1} = 1$.
 \end{Boxample}
 
 An important technique is the \defnfont{L'H\^{o}pital's rule}: $$\lim_{x\to \infty} f(x)/g(x) = \lim_{x\to \infty} f'(x)/g'(x)$$ as long as the latter exists. 
