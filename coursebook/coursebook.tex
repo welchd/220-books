@@ -18,7 +18,7 @@
 
 % ## packages for graphics, etc ## ----------------------------------------------
 \usepackage{ipe} % remove when figures replaced
-\usepackage[usenames,dvipsnames,table]{xcolor}
+% \usepackage[usenames,dvipsnames,table]{xcolor}
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.pdf,.png,.eps}
 \graphicspath{{figs/}} 
@@ -215,9 +215,11 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 \makeevenfoot{plain}{}{}{}
 \makeoddfoot{plain}{}{}{}
 
-% --- ### BEGIN DOCUMENT ### ---
-\begin{document}   
+% ## stop warning
+\hbadness=99999
 
+% --- ### BEGIN DOCUMENT ### ---
+\begin{document}
 
 % # title page
 %\input{titlepageOld} % <- coursebook version

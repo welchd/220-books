@@ -1,21 +1,12 @@
 \part{The Graph Abstract Data Type}
 \label{ch:graphadt} 
 
-
 \chapter{Graph definitions} %-------------------------------------------------
 \label{sec:graphdefs}
-
 Graphs are important and general mathematical objects that are widely used in theory and practice. 
 They distill the basic idea of a relationship among a set of objects. 
 Informally we can think of a graph as a collection of dots (the set of objects) with lines connecting them (describing the relationship). 
 The lines can be either directed (arrows) or undirected.
-
-% \begin{Example}\label{ex:graphExample}
-% A graph $G_1$ and a directed graph (digraph) $G_2$.
-% \begin{center}
-% \includegraphics{graphEx}
-% \end{center}
-% \end{Example}
 
 We are interested in the algorithmic aspects of graph theory (``how can we do it efficiently and systematically?").  
 To talk about this precisely, we must start with precise definitions.
@@ -44,20 +35,15 @@ For the graph shown below, write down the sets $V$ and $E$.\\
 \newline 
 \includegraphics{graphExUndirectedVE}
 \end{Boxample}
-% \begin{figure}
-%   \centering
-%   \includegraphics{graphEx}
-%   \caption{A graph $G_1$ and a digraph $G_2$.}
-%   \label{fig:graphExample}
-% \end{figure}
-
 
 Some notes on graphs vs digraphs.
 \begin{itemize}
   \item In order to save writing ``(di)graph" too many times, we treat the digraph as the fundamental concept.
-  \item When we say something about digraphs, nodes and arcs, it is understood to also hold for graphs, vertices and edges unless explicitly stated otherwise. 
+  \item When we say something about digraphs, nodes and arcs, it is understood to also hold for graphs, 
+  vertices and edges unless explicitly stated otherwise. 
   \item However, if we talk about graphs, vertices and edges, our statement is not necessarily true for digraphs. 
-  \item Some authors use ``undirected graph'' to mean graph and use the term ``graph" to mean what we call a directed graph. We always use digraph and graph.
+  \item Some authors use ``undirected graph'' to mean graph and use the term ``graph" to mean what we call a directed graph. 
+  We always use digraph and graph.
   \item $E$ is a set so there are no multiple arcs between a pair of nodes.
   \item An arc that begins and ends at the same node is called a \defnfont{loop}. 
   We make the convention that \boldfont{loops are not allowed in our digraphs}. 
@@ -76,18 +62,8 @@ In an (undirected) graph $G$, if $\{u, v\} \in E$, then $u$ is a \defnfont{neigh
 \end{Definition}
 
 \begin{Boxample}[2]
-% In the digraph $G_2$ in \cref{fig:graphExample}, find all in-neighbours of node 2.
 In the digraph in \cref{ex:digraph}, find all in-neighbours of node 2 and all out-neighbours of node 0.
 \end{Boxample}
-
-
-%\begin{Example}
-%Every rooted tree (see Section~\ref{sec:app:trees}) 
-%can be interpreted as a digraph: there is an arc from
-%each node to each of its children. \index{rooted tree} 
-%
-%\end{Example}
-
 
 \begin{Definition} 
 The \defnfont{order} of a digraph $G = (V, E)$ is $\abs{V}$, the number of nodes. 
@@ -104,7 +80,6 @@ and if $m$ is toward the high end, then the digraph is called \defnfont{dense}.
 These terms are obviously very informal. 
 For our purposes we will call a class of digraphs sparse if $m$ is $O(n)$ and dense if $m$ is $\Omega(n^2)$.
 \end{Definition}
-
 
 \begin{Definition} 
 A \defnfont{walk} in a digraph $G$ is a sequence of nodes $v_0\, v_1\, \ldots\, v_l$ 
@@ -145,10 +120,9 @@ $3$							 & yes &     &  \\
 \end{minipage}
 \end{Boxample}
 
-\begin{Boxample}[8]
+\begin{Boxample}[7]
 Show that if there is a walk from $u$ to $v$, then we can find a path from $u$ to $v$.
 \end{Boxample}
-
 
 \begin{Definition} 
 In a graph, the \defnfont{degree} of a vertex $v$ is the number of edges meeting $v$. 
@@ -157,6 +131,11 @@ and the \defnfont{indegree} of $v$ is the number of in-neighbours of $v$.
 
 A node of indegree $0$ is called a \defnfont{source} and a node of outdegree $0$ is called a \defnfont{sink}.
 \end{Definition}
+
+%\begin{Boxample}[3]
+%Prove that in a digraph, the sum of all outdegrees equals the sum of all 
+%indegrees. What is the analogous statement for a graph? 
+%\end{Boxample}
 
 \begin{Definition}
 The \defnfont{distance} from $u$ to $v$ in $G$, denoted by $d(u,v)$, is 
@@ -175,7 +154,6 @@ Give the following distances for the digraph on the left.\\
 Why are the values $d(4, v)$ not defined unless $v = 4$?
 \end{Boxample}
 
-
 \section{Creating new digraphs from old ones}
 There are several ways to create new digraphs from old ones.
 One way is to delete nodes and arcs in such a way that the 
@@ -188,18 +166,11 @@ A \defnfont{spanning} subdigraph is one with $V' = V$; that is, it contains all 
 \end{Definition}
 
 \begin{Boxample}
-%\Cref{fig:sub+span} shows (on the left) a subdigraph and (on the right) a spanning subdigraph of the digraph $G_2$ of \cref{fig:graphExample}.
 A digraph (on the left) with a subdigraph (in the middle) and a spanning subdigraph (on the right).
 \begin{center}
 \includegraphics{graphExSubSpan} 
 \end{center}
 \end{Boxample}
-% \begin{figure}[h]
-% \centering
-% \includegraphics{graphExSubSpan} 
-% \caption{A subdigraph and a spanning subdigraph of $G_2$.}
-% \label{fig:sub+span}
-% \end{figure}
 
 \begin{Definition}
 The subdigraph \defnfont{induced} by a subset $V'$ of $V$ is the digraph
@@ -212,56 +183,36 @@ For the digraph shown on the left, draw the subdigraph induced by  \set{1, 2, 3}
 \includegraphics{graphExInducedEx}
 \end{center}
 \end{Boxample}
-% \begin{figure}[h]
-% \centering
-% \includegraphics{graphExInduced}
-% \caption{The subdigraph of $G_2$ induced by \set{1, 2, 3}.}
-% \label{fig:induced}
-% \end{figure}
 
 \begin{Definition}
 The \defnfont{reverse digraph} of the digraph $G = (V, E)$, is the digraph $G_r = (V, E')$ where $(u, v)\in E'$ if and only if $(v, u)\in E$.
 \end{Definition}
 
-\begin{Boxample}
+\begin{Boxample}\label{exr:compute-reverse}
 Digraph $G$ and its reverse $G_r$. We simply reverse all the arrows.
 \begin{center}
 \includegraphics{graphExReverse}
 \end{center}
 \end{Boxample}
-% \begin{figure}[h]
-% \centering
-% \includegraphics{graphExReverse}
-% \caption{The reverse of digraph $G_2$.}
-% \label{fig:reverse}
-% \end{figure}
 
 It is sometimes useful to ignore the direction of arcs in a digraph to find the associated `underlying graph''.
 
-\begin{Definition}
+\begin{Definition} 
 The \defnfont{underlying graph} of a digraph $G = (V, E)$ is the graph 
 $G' = (V, E')$ where $E' = \set{\{u, v\} \mid (u, v)\in E}$.
 \end{Definition}
 
-
-Note: The underlying graph does not have multiple edges even when there are arcs $(u, v)$ and $(v, u)$. 
+Note that the underlying graph does not have multiple edges even when there are arcs $(u, v)$ and $(v, u)$. 
 In that case, only one edge joins $u$ and $v$ in the underlying graph $G'$.  
 %This is because $\{u, v\}$ and $\{v, u\}$ are equal as sets, so appear only once in the set $E'$.
 
 \begin{Boxample}
-% A digraph $G$ and its underlying graph $G'$.
 Draw the underlying graph $G'$ of the digraph $G$.
 \begin{center}
 \includegraphics{graphExUnderlyingEx}
 \end{center}
 Note that there should be only a single edge between vertices 1 and 3.
 \end{Boxample}
-% \begin{figure}
-% \centering
-% \includegraphics{graphExUnderlying}
-% \caption{The underlying graph of $G_2$. Note that there is only a single edge between vertices 1 and 3.}
-% \label{fig:underly}
-% \end{figure}
 
 \begin{Definition} 
 We can combine two or more digraphs $G_1, G_2$, \ldots $G_k$ into a
@@ -272,38 +223,19 @@ V(G_2) \cup \ldots \cup V(G_k)$ and $E(G) = E(G_1) \cup E(G_2) \cup \ldots
 \cup E(G_k)$.
 \end{Definition}
 
-
-
-
-%\subsection*{Exercises}
-%
-%\begin{Exercise}
-%\label{ex:degree}
-%Prove that in a digraph, the sum of all outdegrees equals the sum of all 
-%indegrees. What is the analogous statement for a graph? 
-%\end{Exercise}
-%
-%\begin{Exercise}
-%\label{ex:distbound}
+%\begin{Boxample}[3] \label{ex:distbound}
 %Let $G$ be a digraph of order $n$ and $u, v$ nodes of $G$. 
 %Show that $d(u, v) \leq n - 1$ if there is a walk from $u$ to $v$.
-%\end{Exercise}
-%
-%
-%\begin{Exercise}
-%\label{ex:sparse-deg}
-%Prove that in a sparse digraph, the average indegree of a node is
-%$O(1)$, while in a dense digraph, the average indegree of a node is
-%$\Omega(n)$.
-%\end{Exercise}
+%\end{Boxample}
 
-
-
+%\begin{Boxample}[3] \label{ex:sparse-deg}
+%Prove that in a sparse digraph, the average indegree of a node is $O(1)$, 
+% while in a dense digraph, the average indegree of a node is $\Omega(n)$.
+%\end{Boxample}
 
  
 
-\chapter{Graph data structures} \label{sec:graph-reps} %----------------------
-
+\chapter{Graph data structures} \label{sec:graph-reps} %---------------------------------
 When representing a digraph in a computer, we assume
 that it has nodes given in a fixed order with the
 \boldfont{convention that the nodes are labelled $0, 1, \dots, n - 1$}.
@@ -324,7 +256,7 @@ Sequence $L_i$ contains all nodes of $G$ that are out-neighbours of node $i$.
 %In the adjacency lists representation, only the out-neighbours of node $i$ are listed in the sequence $L_i$. 
 In the adjacency lists representation, $L_i$ may or may not be sorted in order of increasing node number. 
 Our \boldfont{convention is to sort them whenever convenient}. 
-Many implementations do \emph{not} enforce this convention.
+Many implementations do \boldfont{not} enforce this convention.
 
 \begin{Boxample}
 A graph and its adjacency matrix and adjacency list.\\
@@ -352,11 +284,10 @@ $\quad \left[
 	3 & 2 & 4 &   &   \\
 	4 & 2 & 3 &   &   \\
 	\end{array}
-}
-$
+}$
 \end{minipage}
 \end{center}
-Notice that the number of $1$'s in a row in the adjacency matrix is the out-degree of the corresponding node, 
+Notice that the number of $1$'s in a row in the adjacency matrix is the outdegree of the corresponding node, 
 while the number of $1$'s in a column is the indegree.
 \end{Boxample}
 
@@ -369,15 +300,14 @@ A digraph and its adjacency matrix and adjacency list.\\
 \includegraphics{graphExDirected}
 \end{minipage}
 \begin{minipage}[c]{0.65\textwidth}
-$\quad 
-\left[
-\begin{matrix}
-0 & 0 & 1 & 0 & 0 \\
-1 & 0 & 1 & 1 & 0 \\
-0 & 0 & 0 & 0 & 0 \\
-0 & 1 & 0 & 0 & 1 \\
-0 & 0 & 1 & 0 & 0 
-\end{matrix}
+$\quad\left[
+	\begin{matrix}
+	0 & 0 & 1 & 0 & 0 \\
+	1 & 0 & 1 & 1 & 0 \\
+	0 & 0 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 0 & 1 \\
+	0 & 0 & 1 & 0 & 0 
+	\end{matrix}
 \right]
 \qquad \qquad
 \lightgraybox{
@@ -388,16 +318,14 @@ $\quad
 	3 & 1 & 4  \\
 	4 & 2 \\
 	\end{array}
-}
-$
+}$
 \end{minipage}
 \end{center}
 An empty sequence occurs in the adjacency list where a node has no out-neighbours (for example, sequence $2$). 
 \end{Boxample}
 
 Sometimes the node labels in adjacency lists are omitted.
-$$
-\lightgraybox{
+$$\lightgraybox{
 	\begin{array}{ccc}
 	2 &   &   \\
 	0 & 2 & 3 \\
@@ -405,83 +333,80 @@ $$
 	1 & 4 &   \\
 	2 &   &   \\
 	\end{array}
-}
-$$
-
-
+}$$
 
 \begin{Boxample}[2]
 Here are two digraphs in the adjacency matrix format. Draw the corresponding digraphs.
 
-\vspace{1.5cm}
-$\left[
-\begin{matrix}
-0 & 0 & 0 & 0  \\
-0 & 0 & 0 & 1  \\
-1 & 1 & 0 & 0  \\
-0 & 0 & 1 & 0  \\
-\end{matrix}
-\right]$
-
-\vspace{2.5cm}
-$\left[
-\begin{matrix}
-0 & 1 & 0 & 1 & 0 \\
-1 & 0 & 0 & 0 & 1 \\
-0 & 1 & 0 & 0 & 1 \\
-1 & 0 & 1 & 0 & 0 \\
-0 & 0 & 1 & 1 & 0 
-\end{matrix}
-\right]$
+	\vspace{1.5cm}
+	$\left[
+	\begin{matrix}
+	0 & 0 & 0 & 0  \\
+	0 & 0 & 0 & 1  \\
+	1 & 1 & 0 & 0  \\
+	0 & 0 & 1 & 0  \\
+	\end{matrix}
+	\right]$
+	
+	\vspace{2.5cm}
+	$\left[
+	\begin{matrix}
+	0 & 1 & 0 & 1 & 0 \\
+	1 & 0 & 0 & 0 & 1 \\
+	0 & 1 & 0 & 0 & 1 \\
+	1 & 0 & 1 & 0 & 0 \\
+	0 & 0 & 1 & 1 & 0 
+	\end{matrix}
+	\right]$
 \end{Boxample}
 
-\begin{Boxample}[0]
+\begin{Boxample}[0] \label{ex:adjlist}
 Here are two digraphs in the adjacency lists format.  Draw the corresponding digraphs.
-\label{ex:adjlist}
 
-\vspace{1cm}
-$\lightgraybox{\begin{array}{c|c}
-0 & 2  \\
-1 & 0  \\
-2 & 1 \\
-\end{array}}$
-
-\vspace{1.5cm}
-$\lightgraybox{\begin{array}{c|ccc}
-0 & 1 & 2  \\
-1 & 3  \\
-2  \\
-3 & 0 & 1 & 2 \\
-\end{array}}$
+	\vspace{1cm}
+	$\lightgraybox{\begin{array}{c|c}
+	0 & 2  \\
+	1 & 0  \\
+	2 & 1 \\
+	\end{array}}$
+	
+	\vspace{1.5cm}
+	$\lightgraybox{\begin{array}{c|ccc}
+	0 & 1 & 2  \\
+	1 & 3  \\
+	2  \\
+	3 & 0 & 1 & 2 \\
+	\end{array}}$
 \end{Boxample}
 
 \section{Representing multiple graphs in a single file}
-
-We can store several digraphs one after the other  in a single file as follows: 
+We can store several digraphs one after the other in a single file as follows: 
 \begin{itemize}
-\item we have a single line giving the order at the beginning of
-each digraph.
-\item If the order is $n$ then the next $n$ lines give the
-adjacency matrix or adjacency lists representation of the digraph. Node labels are omitted.
-\item The end of the file is marked with a line denoting a digraph of order
-$0$.
+  \item We have a single line giving the order at the beginning of each digraph.
+  \item If the order is $n$ then the next $n$ lines give the adjacency matrix 
+  or adjacency lists representation of the digraph. Node labels are omitted.
+  \item The end of the file is marked with a line denoting a digraph of order $0$.
 \end{itemize}
 
-\begin{Example} The two digraphs from \cref{ex:adjlist} could be put in a single file as 
-
- \begin{tabular}{lll}
- 3 \\
-2  \\
- 0 \\
- 1  \\
- 4 \\
- 1 & 2 \\
- 3 \\
-  \\
- 0 & 1 & 2 \\
- 0\\
- \end{tabular}
- \end{Example}
+\begin{Boxample} 
+The two digraphs from \cref{ex:adjlist} could be put in a single file:
+$$
+\lightgraybox{
+	\begin{array}{ccc}
+	3 &   &   \\
+	2 &   &   \\
+	0 &   &   \\
+	1 &   &   \\
+	4 &   &   \\
+	1 & 2 &   \\
+	3 &   &   \\
+	  &   &   \\
+	0 & 1 &  2 \\
+	0 &   &   \\
+	\end{array}
+}
+$$
+\end{Boxample}
 
 
 \section{Using other structures to represent graphs}
@@ -499,168 +424,79 @@ to $n-1$ in the usual way. This of course is a form of adjacency lists
 representation, where we use in-neighbours instead of out-neighbours.
 
 \begin{Boxample}[4]
-Draw the tree represented by the array $\pred = [-,0,0,1,2,2,2,3]$
+Draw the tree represented by the array $$\pred = [-1,0,0,1,2,2,2,3]\text{.}$$
 \end{Boxample}
-%We will sometimes need to represent $\infty$ when processing graphs. For
-%example, it may be more convenient to define $d(u, v) = \infty$ than to
-%say it is undefined. From a programming point of view, we can use any
-%positive integer that can not be confused with any other that might
-%legitimately arise. For example, the distance between 2 nodes in a
-%digraph on $n$ nodes cannot be more than $n - 1$ (see
-%Exercise~\ref{ex:distbound}). Thus in this case we may use $n$ to
-%represent the fact that there is no path between a given pair of nodes.
-%We shall return to this subject in Chapter~\ref{ch:weighted}.
 
-%\subsection*{Exercises}
-%
-%\begin{Exercise}
-%\label{ex:list2matrix}
-%
-%Write down the adjacency matrix of the digraph of order $7$ whose 
-%adjacency lists representation is given below.
-%\newline
-%$$
-%\AdjLists{
-%\begin{tabular}{cccc}
-%2 &  & \\
-%0 & &\\
-%0 & 1&\\
-%4 & 5 & 6\\
-%5 & &\\
-%3 & 4 & 6 \\
-%1 & 2 & \\
-%\end{tabular}
-%}
-%$$
-%
-%\end{Exercise}
-%
-%\begin{Exercise}
-%\label{ex:matrix2list}
-%
-%Consider the digraph $G$ of order $7$ whose adjacency matrix 
-%representation is given below. 
-%\newline
-%$$
-%\left[
-%\begin{matrix}
-%0 & 1 & 0 & 0 & 1 & 1 & 0 \\
-%1 & 0 & 0 & 1 & 0 & 0 & 0 \\
-%1 & 0 & 0 & 0 & 0 & 0 & 1 \\
-%1 & 0 & 0 & 0 & 0 & 1 & 0 \\
-%0 & 0 & 0 & 0 & 0 & 1 & 0 \\
-%0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-%0 & 0 & 0 & 0 & 0 & 1 & 0 \\
-%\end{matrix}
-%\right]
-%$$
-%
-%Write down the adjacency lists representation of $G$.
-%
-%\end{Exercise}
-%
-%\begin{Exercise}
-%\label{ex:listreverse}
-%
-%Consider the digraph $G$ of order $7$ given by the following 
-%adjacency lists representation.
-%$$
-%\AdjLists{
-%\begin{tabular}{cccc}
-%2 &  & \\
-%0 & &\\
-%0 & 1&\\   
-%4 & 5 & 6\\
-%5 & &\\
-%3 & 4 & 6 \\
-%1 & 2 & \\
-%\end{tabular}
-%}
-%$$
-%
-%Write down the adjacency matrix representation of the reverse digraph
-%$G_r$.
-%
-%\end{Exercise}
-%
-%\begin{Exercise}
-%\label{ex:divisible}
-%
+%\begin{Boxample}[5]
 %Consider the digraph $G$ whose nodes are the integers from $1$ to $12$
 %inclusive and such that $(i, j)$ is an arc if and only if $i$ is a
-%proper divisor of $j$ (that is, $i$ divides $j$ and $i\neq j$).
-%
+%proper divisor of $j$ (that is, $i$ divides $j$ and $i \neq j$).
 %Write down the adjacency matrix representation of $G$ and of $G_r$.
-%\end{Exercise}
-%
-%\begin{Exercise} \label{ex:heaprep} 
-%Write the adjacency lists
-%and adjacency matrix representation for a complete binary tree
-%with $7$ vertices, assuming they are ordered $1, \dots, 7$ as in
-%Section~\ref{sec:heapsort}.
-%\end{Exercise}
-%
+%\end{Boxample}
 
-\section{Implementation of digraph ADT}
-\label{sec:graphadtimpl}
-
-%We discuss implementing basic operations on digraphs such as checking the existence of an arc or deleting a node.
-%%and compare the performance of different data structures.
-
+\section{Implementation of digraph ADT} \label{sec:graphadtimpl}
 An adjacency matrix is simply a matrix which is an array of arrays. 
 
-Adjacency lists are a list of lists. There are several ways in which a list can be implemented, for
-example by an array,  or singly- or doubly-linked lists using pointers.  These have different properties, for example, accessing the middle element is $\Theta(1)$ for an array but $\Theta(n)$ for a linked list. 
-
+Adjacency lists are a list of lists. 
+There are several ways in which a list can be implemented, for
+example by an array, or singly- or doubly-linked lists using pointers.  
+These have different properties, for example, accessing the middle element is $\Theta(1)$ f
+or an array but $\Theta(n)$ for a linked list. 
 Searching for a value that may or may not be in the list requires sequential search
 and takes $\Theta(n)$ time in the worst case. 
-
-We do not consider other  data structures (e.g. heaps) that can be used to represent lists. 
+%
+We do not consider other data structures (e.g. heaps) that can be used to represent lists. 
 
 \section{Complexity of basic digraph operations}
 The basic operations we consider are checking for the existence of an arc between two nodes, finding the outdegree of a node, 
-finding the indegree of a nodes, adding an arc between two nodes, deleting an arc between two nodes, adding a node, and deleting a node. 
+finding the indegree of a node, adding an arc between two nodes, deleting an arc between two nodes, adding a node, and deleting a node. 
 
 For the two data structures, consider the steps we need to carry out various basic operations and the cost of all steps. 
 
-\begin{Boxample}[0]
-Compare the matrix and lists data structures for checking whether arc $(i,j)$ exists.
- 
-Adjacency matrix representation: we need to check whether element $(i,j)$ is 1. This requires accessing
-an array element twice, to first find the $i$th array then its $j$th element. Each array access is in $\Theta(1)$ so overall it is in $\Theta(1)$.
+\begin{Boxample}
+Compare the matrix and lists data structures for checking whether arc $(i,j)$ exists.\\
 
-Adjacency lists representation: we need to search for $j$ in list $i$. The complexity then depends on the length of list $i$. 
-List $i$ is length $d$ where $d$ is the outdegree of node $i$ so searching for $j$ is in $\Theta(d)$. 
-But how large is $d$? Even when the graph is sparse, it could still be the case that $d$ is $O(n)$, though typically in a sparse graph $d$ is $O(1)$.  
-In a dense graph $d$ is $O(n)$.
+	\boldfont{Adjacency matrix representation}: 
+	We need to check whether element $(i,j)$ is 1. 
+	This requires accessing an array element twice, to first find the $i$th array then its $j$th element. 
+	Each array access is in $\Theta(1)$ so overall it is in $\Theta(1)$.
+	
+	\boldfont{Adjacency lists representation}: We need to search for $j$ in list $i$. 
+	The complexity then depends on the length of list $i$. 
+	List $i$ is length $d$ where $d$ is the outdegree of node $i$ so searching for $j$ is in $\Theta(d)$. 
+	But how large is $d$? 
+	Even when the graph is sparse, it could still be the case that $d$ is $O(n)$,
+	though typically in a sparse graph $d$ is $O(1)$.  
+	In a dense graph $d$ is $O(n)$.
 \end{Boxample}
 
-\begin{Boxample}[0]
-Compare the matrix and lists data structures for deleting a node.
+\begin{Boxample}
+Compare the matrix and lists data structures for deleting a node.\\
 
-Adjacency matrix representation: In the matrix case, we must delete a row and column, 
-and move up some elements so there are no gaps in the matrix. 
-In the worst case, we need to move all remaining elements in the matrix and since there are now $(n-1)$s rows and columns, it takes time $\Theta(n^2)$.
-
-Adjacency lists representation: we must remove a list and also all references to the deleted node in other lists. 
-This requires scanning each list for the offending entry and deleting it. 
-We thus need to visit $n$ lists and the combined length of all remaining lists which is (in the worst case) $m$, requiring $\Theta(n+m)$ work in total.
+	\boldfont{Adjacency matrix representation}: 
+	We must delete a row and column, and move up some elements so there are no gaps in the matrix. 
+	In the worst case, we need to move all remaining elements in the matrix 
+	and since there are now $(n-1)$s rows and columns, it takes time $\Theta(n^2)$.
+	
+	\boldfont{Adjacency lists representation}: 
+	We must remove a list and also all references to the deleted node in other lists. 
+	This requires scanning each list for the offending entry and deleting it. 
+	We thus need to visit $n$ lists and the combined length of all remaining lists which is (in the worst case) $m$, 
+	requiring $\Theta(n + m)$ work in total.
 \end{Boxample}
 
-This following two tables  show the steps required (the first table) 
-and the time required (the second table) for basic graph operations when using adjacency matrix or lists representations.  
+The following two tables show the steps required (\cref{tbl:basicOpsSteps}) 
+and the time required (\cref{tbl:basicOpsPerformance}) for basic graph operations 
+when using adjacency matrix or lists representations.  
 Performance for the adjacency list representation is based on using doubly linked lists.
 
-\begin{samepage}
-\begin{center}
-Steps required to perform basic digraph operations by data structure.
-
-\begin{tabular}{|l|l|l|l|l|}
+\begin{table}[H]\label{tbl:basicOpsSteps}
+\centering
+\caption{Steps required to perform basic digraph operations by data structure.}
+\begin{tabular}{|l|l|l|}
 \hline
-
 \textbf{Operation} & \textbf{Adjacency Matrix} & \textbf{Adjacency Lists} \\
 \hline
-
 arc $(i, j)$ exists? & is entry $(i,j)$ 0 or 1  & find $j$ in  list $i$ \\
 \hline
 outdegree  of $i$ & scan row, count $1$'s & size of  list  $i$\\
@@ -674,26 +510,18 @@ delete arc $(i, j)$ & change entry $(i ,j)$ & delete $j$ from list $i$ \\
 add node & create new row and column & add new list at end\\
 \hline
 delete node $i$ & delete row/column $i$  & delete list $i$ \\
-& shuffle other entries & for $j\neq i$, delete  $i$ from list $j$ \\ 
+& shuffle other entries & for $j\neq i$, delete  $i$ from list $j$ \\
 \hline
 \end{tabular}
-\end{center}
-\end{samepage}
+\end{table}
 
-%\begin{table}
-%\caption{Comparative worst-case performance of adjacency lists and matrices.}
-%\label{table:list-vs-matrix}
-
-\begin{samepage}
-\begin{center}
-Comparative worst-case performance of adjacency lists and matrices.
-
+\begin{table}[H]\label{tbl:basicOpsPerformance}
+\centering
+\caption{Comparative worst-case performance of adjacency lists and matrices.}
 \begin{tabular}{|l|c|c|}
 \hline
-
-\textbf{Operation} 	& \textbf{matrix} & \textbf{lists} \\
+\textbf{Operation} 	& \textbf{Matrix} & \textbf{Lists} \\
 \hline
-
 arc $(i, j)$ exists? & $\Theta(1)$  & $\Theta(d)$ \\
 \hline
 outdegree  of $i$ 	& $\Theta(n)$ & $\Theta(1)$ \\
@@ -709,44 +537,32 @@ add node 			& $\Theta(n)$ & $\Theta(1)$  \\
 delete node $i$ 	& $\Theta(n^2)$  & $\Theta(n+m)$  \\
 \hline
 \end{tabular}
-\end{center}
-\end{samepage}
+\end{table}
 
-Notice that apparently similar problems like finding the outdegree and indegree have very different time complexity in the lists representation but not in the matrix representation. 
-
-Finding outdegree with the lists representation merely requires accessing
-the correct list (constant time) plus finding the size of  that list
+Notice that apparently similar problems like finding the outdegree and indegree 
+have very different time complexity in the lists representation but not in the matrix representation. 
+\begin{itemize}
+  \item Finding the outdegree with the lists representation merely requires accessing
+the correct list (constant time) plus finding the size of that list
 (constant time). 
-
-Finding indegree with the  lists representation requires
+\item Finding the indegree with the lists representation requires
 scanning all lists except one ($n-1$ of them), and looking at every arc in
 them, ($m$ arcs in the worst case), so taking time $\Theta(n+m)$. 
+\end{itemize}
 
-
-If we wish to compute just one indegree, this might be acceptable, but if all indegrees are required,
-this will be inefficient. It is better to compute the reverse digraph once
-and then read off the outdegrees, this last step taking time $\Theta(n)$ 
-(see \cref{exr:compute-reverse}).
-
-%One way around all this work is to use in
-%our definition of adjacency lists representation, instead of just the
-%out-neighbours, a list of in-neighbours also. This may be useful in some
-%contexts but in general requires more space than is needed.
-
-
+If we wish to compute just one indegree, this might be acceptable, 
+but if all indegrees are required, this will be inefficient. 
+It is better to compute the reverse digraph once
+and then read off the outdegrees, this last step taking time $\Theta(n)$.
 
 \section{Space requirements}
+The adjacency matrix representation requires $\Theta(n^2)$ storage 
+as we simply need a matrix of $n^2$ bits. 
 
-%We also need to consider the space requirements for each implementation. 
-
-The adjacency matrix
-representation requires $\Theta(n^2)$ storage as we simply need a matrix of $n^2$
-bits 
-
-At first guess we might say adjacency lists require
-$\Theta(n+m)$ storage, since we need $n$ lists and the combined length of all the lists is $m$.
-But node numbers require more than one bit of storage each: the number $k$ uses about  $\Theta(\log k)$ bits. The average entry in a list is $\frac n 2$, so the total space requirement is more like $\Theta(n+m \log(n))$ 
-
+At first guess we might say adjacency lists require $\Theta(n + m)$ storage, 
+since we need $n$ lists and the combined length of all the lists is $m$.
+But node numbers require more than one bit of storage each; the number $k$ uses about $\Theta(\log k)$ bits.
+The average entry in a list is $\frac n 2$, so the total space requirement is more like $\Theta(n + m \log(n))$ 
 
 \begin{Boxample}[2]
 What is the storage requirement for a complete digraph on $n$ nodes, that is, a digraph where every possible arc
@@ -761,23 +577,7 @@ digraphs, a matrix can still be more efficient, but this happens rarely.
 Find a large sparse digraph where the matrix representation uses less space than the lists representation.
 \end{Boxample}
 
-The representation that is best will depend on the application and we cannot make general rules.  We will mostly use adjacency lists, which are
+The representation that is best will depend on the application and we cannot make general rules.  
+We will mostly use adjacency lists, which are
 clearly superior for many common tasks and generally better for sparse digraphs.
-
-%Any implementation of an abstract data type (for example as a Java class)
-%must include objects and ``methods".  While most people would include
-%methods for adding nodes, deleting arcs, and so on, it is not clear where
-%to draw the line. In Appendix~\ref{app:javagraph}, one way of writing Java
-%classes to deal with graphs is presented in detail. There are obviously a
-%lot of different choices one can make. In particular 
-%for our Java lists representation we use 
-%\verb|ArrayList<ArrayList<Integer>>|. 
-
-%\section*{Exercises}
-%
-%\begin{Exercise}\label{exr:compute-reverse}
-%Show how to compute the (sorted) adjacency lists representation of the 
-%reverse digraph of $G$ from the (sorted) adjacency lists representation of 
-%$G$ itself. It should take time $\Theta(n+m)$.
-%\end{Exercise}
 
