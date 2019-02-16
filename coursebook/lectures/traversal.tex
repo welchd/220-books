@@ -69,7 +69,7 @@ and explores the portion of the subgraph reachable from that node.
 \begin{algorithmic}[1]
 \Function{visit}{node $s$ of digraph $G$}
 	\State  $\colour[s] \gets$ GREY 
-	\State $\pred[s] \gets$ NULL \Comment{make start node the root of the tree}
+	\State $\pred[s] \gets$ \texttt{null} \Comment{make start node the root of the tree}
 	\While{there is a GREY node} \Comment{continues until all nodes are black}
 		\State choose a GREY node $u$ 
 		\If{$u$ has a WHITE neighbour}
@@ -257,7 +257,7 @@ The pseudocode for \algfont{DFS} and \algfont{DFSvisit} is in \cref{alg:DFScode,
 	\State stack $S$ 
 	\State array $\colour[0..n-1]$, $\pred[0..n-1]$, $\seen[0..n-1]$, $\done[0..n-1]$
 	\For{$u \in V(G)$}  
-		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL \Comment{initialise arrays}
+		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ \texttt{null} \Comment{initialise arrays}
 	\EndFor
 	\State $\timeVar \gets 0$ \Comment{Time will increment at every niode colour change}
 	\For{$s \in V(G)$} 
@@ -278,7 +278,7 @@ The pseudocode for \algfont{DFS} and \algfont{DFSvisit} is in \cref{alg:DFScode,
 	\State $\colour[s] \gets $ GREY 
 	\State $\seen[s] \gets \timeVar$; $\timeVar \gets \timeVar + 1$
 	\State $S$.\texttt{insert}$(s)$ \Comment{put $s$ in stack}
-	\While{\textbf{not} $S$.\algfont{isEmpty}$()$}
+	\While{\textbf{not} $S$.\texttt{isEmpty}$()$}
 		\State $u \gets S$.\texttt{peek}$()$  \Comment{get node at front of stack}
 		\If{there is a neighbour $v$ with $\colour[v] = $ WHITE}
 			\State $\colour[v] \gets $ GREY; $\pred[v] \gets u$  \Comment{visit neighbour, update tree}
@@ -295,7 +295,7 @@ The pseudocode for \algfont{DFS} and \algfont{DFSvisit} is in \cref{alg:DFScode,
 \end{algorithm}
 
 Given the relationship between stacks and recursion, we can replace the \texttt{DFSvisit} procedure by
-a recursive version (\algfont{recursiveDFSvisit}): 
+a recursive version \algfont{recursiveDFSvisit}: 
 
 \begin{algorithm}[H]
   \caption{Recursive DFS visit algorithm.}
@@ -317,7 +317,7 @@ a recursive version (\algfont{recursiveDFSvisit}):
 \end{algorithm}
 
 \begin{Boxample}
-DFS with \algfont{recursiveDFSvisit}.
+DFS with \texttt{recursiveDFSvisit}.
 \begin{center}
   \includegraphics{DFSalgoRecursive}
 \end{center}
@@ -344,7 +344,7 @@ $$\seen[v] < \done[v]  < \seen[w] < \done[w].$$
 %is obviously also not an ancestor of $v$. 
 %%Let $x$ be the root of the tree of $F$ containing $v$. 
 %Thus $v$ lives in a subtree that is completely explored before the 
-%subtree of $w$ is visited by \algfont{recursiveDFSvisit}.
+%subtree of $w$ is visited by \texttt{recursiveDFSvisit}.
 %\end{proof}
 
 Note that this result rules out  the timestamps $\seen[v] < \seen[w] < \done[v] < \done[w]$.
@@ -421,7 +421,7 @@ It is more useful to record the number of steps from the root in the array $d$.
 	\State queue $Q$  
 	\State array $\colour[0..n-1]$, $\pred[0..n-1]$, $d[0..n-1]$
 	\For{$u \in V(G)$} 
-		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL
+		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ \texttt{null}
 	\EndFor
 	\For{$s \in V(G)$} 
 		\If{$\colour[s] = $ WHITE } 
@@ -440,7 +440,7 @@ It is more useful to record the number of steps from the root in the array $d$.
 \Function{BFSvisit}{node $s$}
 	\State $\colour[s] \gets $ GREY; $d[s] \gets 0$ 
 	\State $Q$.\texttt{insert}$(s)$
-	\While{\textbf{not} $Q$.\algfont{isEmpty}$()$}
+	\While{\textbf{not} $Q$.\texttt{isEmpty}$()$}
 		\State $u \gets Q$.\texttt{peek}$()$
 		\For{each $v$ adjacent to $u$}
 			\If{$\colour[v] = $ WHITE}
@@ -597,7 +597,7 @@ We do not include any code for \texttt{setKey}.
 	\State priority queue $Q$  
 	\State array $\colour[0..n-1]$, $\pred[0..n-1]$
 	\For{$u \in V(G)$} 
-		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ NULL
+		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ \texttt{null}
 	\EndFor
 	\For{$s \in V(G)$} 
 		\If{$\colour[s] = $ WHITE } 
@@ -616,7 +616,7 @@ We do not include any code for \texttt{setKey}.
 \Function{PFSvisit}{node $s$}
 	\State $\colour[s] \gets $ GREY 
 	\State $Q$.\texttt{insert}$(s$, \texttt{setKey}$(s))$
-	\While{\textbf{not} $Q$.\algfont{isEmpty}$()$}
+	\While{\textbf{not} $Q$.\texttt{isEmpty}$()$}
 		\State $u \gets Q$.\texttt{peek}$()$
 		\If{$u$ has a neighbour $v$ with $\colour[v] = $ WHITE}
 			\State $\colour[v] \gets $ GREY
@@ -1254,7 +1254,7 @@ $2$-colouring of $G$. This of course runs in linear time.
 %%	\State queue $Q$
 %%	\State array $\status[0..n-1]$, $\pred[0..n-1]$
 %%	\For{$u \in V(G)$}
-%%  		\State $\status[u] \gets $ WHITE; $\pred[u] \gets $ NULL 
+%%  		\State $\status[u] \gets $ WHITE; $\pred[u] \gets $ \texttt{null} 
 %%	\EndFor
 %%	\State $\status[x] \gets $ EVEN
 %%	\State $Q$.\algfont{insert}$(x)$

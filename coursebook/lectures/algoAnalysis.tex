@@ -1,8 +1,8 @@
 \part{Algorithm Analysis} \label{ch:alganal}
 
 \chapter{What is an algorithm and why analyse it?} %--------------------------
-An \emph{algorithm} is a sequence of clearly stated rules that
-specify a step-by-step method for solving a given problem.
+An \defnfont{algorithm} is a sequence of clearly stated rules that
+specify a step-by-step\linebreak[4] method for solving a given problem.
 The rules should be unambiguous and sufficiently detailed that they can be carried out without creativity.
 Some examples of algorithms are a (sufficiently detailed) cake recipe,
 the usual primary school method for multiplication of decimal integers, quicksort.
@@ -87,8 +87,8 @@ Proving correctness of \algfont{fastfib} is done by induction on $n$.  We omit t
 %\texttt{slowfib}, once $n$ becomes big enough.
 \begin{Boxample}[6]
 It is easy to see that the number of additions, function calls, etc needed by 
-\algfont{fastfib} to compute $F(n)$ has the form $An + B$ for some constants $A, B$.
-What about \algfont{slowfib}?
+\texttt{fastfib} to compute $F(n)$ has the form $An + B$ for some constants $A, B$.
+What about \texttt{slowfib}?
 \end{Boxample}
 
 
@@ -373,7 +373,7 @@ we should write $f \in O(g)$, but we use the less formal terminology to reduce t
 \section{Big-O notation}
 \begin{Definition}
 Suppose that $f$ and $g$ are functions from $\mathbb{N}$ to $\mathbb{R}$, 
-which take on nonnegative values. 
+which take on non-negative values. 
 \begin{itemize}
 \item Say \defnfont{$f$ is $O(g)$} (``$f$ is Big-Oh of $g$") if there is
 some $C > 0$ and some $n_0 \in \mathbb{N}$ such that for all $n \geq
