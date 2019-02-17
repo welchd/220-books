@@ -280,9 +280,9 @@ Shellsort is easy to program and useful in practice for fairly large arrays (say
 It is substantially  better than insertion sort.
 
 
-\chapter{Divide and conquer sorting algorithms}  %----------------------------
+\chapter{Mergesort}  %----------------------------
 \label{sec:mergesort}
-Here we look at two ``industrial strength" sorting algorithms, \defnfont{Mergesort} and \defnfont{Quicksort}.
+Here we discuss two ``industrial strength" sorting algorithms, \defnfont{Mergesort} and \defnfont{Quicksort}, and look at the first one in more detail.
 \begin{itemize}
 \item Each algorithm splits the input list into two sublists, 
 recursively sorts each sublist, and then combines the sorted sublists to sort 
@@ -696,8 +696,6 @@ $O(n \log n)$.
 No matter how we choose the pivot as above, there is always some chance of quicksort running in quadratic time. 
 Choosing the exact median turns out to be too time-consuming: see \cref{sec:qselect}.
 
-MCW TODO  timsort
-
 It is best to use insertion sort once the sublists become very small, to 
 avoid excessive overhead owing to recursion. 
 Choosing the cutoff point requires more detailed analysis; somewhere around 10 is often used. 
@@ -776,7 +774,7 @@ What can we conclude about radix sort? Look it up and check your guess.
 
 
 
-\chapter{Heapsort} %-------------------------------------------------
+\chapter{Priority queues and heapsort} %-------------------------------------------------
 \label{sec:heapsort}
 In selection sort, finding the minimum of $a[i..n-1]$ by sequential search is slow, 
 and it dominates the running time. 
@@ -942,7 +940,7 @@ There is still serious research being done on better priority queue
 implementations.
 
 
-\chapter{Data selection} %-------------------------------------------
+\chapter{Data selection and quickselect} %-------------------------------------------
 \label{sec:qselect}
 
 TODO add something about sorting in practice, as we do for BST and hashing.
