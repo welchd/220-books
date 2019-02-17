@@ -2,7 +2,6 @@
 \makeindex
 \checkandfixthelayout
 
-
 % ## pagestyle ## ----------------------------------------------
 %\usepackage[papersize={5.4in,7.2in},hmargin=0.1in,vmargin={0.1in,0.1in}]{geometry}  % page geometry
 %\special{papersize=5.4in,7.2in}
@@ -30,10 +29,9 @@
 \usepackage{newtxmath} % Times New Roman math font
 
 \usepackage{utopia}
-\newcommand{\defnfont}[1]{\textbf{\textit{#1}}\index{#1}}
-\newcommand{\defnfontX}[1]{\textbf{\textit{#1}}}
+\newcommand{\defnfont}[1]{\textbf{\textit{#1}}}
 \newcommand{\boldfont}[1]{\textbf{#1}}
-\newcommand{\algfont}[1]{\texttt{#1}\index{algorithm!#1}}
+\newcommand{\algfont}[1]{\texttt{#1}}
 
 \DeclareMathOperator{\pred}{\text{\texttt{pred}}}
 \DeclareMathOperator{\colour}{\text{\texttt{colour}}}
@@ -84,9 +82,6 @@
 ]
 \titlespacing*{\chapter}{0pt}{-120pt}{20pt}
  
-% ## customizing captions ## ----------------------------------------------
-\usepackage[font=small,labelformat=simple]{caption}
-
 
 % ## definitions & macros ## ----------------------------------------------
 \newcommand{\set}[1]{\mbox{$\{#1\}$}}
@@ -105,26 +100,6 @@ page~\pageref{#1}}}}:\newline }
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \newcommand*\Let[2]{\State #1 $\gets$ #2}
-
-% below obsolete, remove when algos converted
-\newcommand{\Algorbody}[1]{
-\begin{tabbing}
-xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
-
-#1
-\end{tabbing}
-}
-
-\newcommand{\Algorithm}[4]{ 
-\begin{tabbing}
-xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
-\textbf{algorithm } \algfont{#1} \\
-\> {\textit{\textbf{Input: }} #2}\\
-\textbf{begin} \\
-#4
-\textbf{end}
-\end{tabbing}
-} 
 
 
 % ## refs ## ----------------------------------------------
@@ -222,103 +197,59 @@ xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill
 \begin{document}
 
 % # title page
-%\input{titlepageOld} % <- coursebook version
 \title{CS220 Algorithms and Data Structures}
 \author{Jonathan Klawitter $\quad$ David Welch $\quad$ Mark C. Wilson}
 \date{2019}
 
 \begin{titlingpage}
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
-\aliaspagestyle{titlingpage}{plain}
-\setlength{\droptitle}{30pt} 
-\begin{adjustwidth*}{1cm}{-2cm}
-\centering
-
-\hfill \includegraphics[height = 2cm]{qrcode}
-
-\vspace*{0.4cm}
-\textsc{\LARGE The University of Auckland}\\[3cm]
-
-\textsc{\Large Coursebook for}\\[0.4cm]
-
-\HRule\\[0.5cm]
-\Huge{\bfseries COMPSCI 220\\ 
-Algorithms and Data Structures}\\[0.1cm]
-\HRule\\[0.5cm]
-\Large{\thedate}
-
-\vspace*{2.4cm}
-\LARGE{\theauthor}
-
-\end{adjustwidth*}
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+	\aliaspagestyle{titlingpage}{plain}
+	\setlength{\droptitle}{30pt} 
+	\begin{adjustwidth*}{1cm}{-2cm}
+	\centering
+	
+	\hfill \includegraphics[height = 2cm]{qrcode}
+	
+	\vspace*{0.4cm}
+	\textsc{\LARGE The University of Auckland}\\[3cm]
+	
+	\textsc{\Large Coursebook for}\\[0.4cm]
+	
+	\HRule\\[0.5cm]
+	\Huge{\bfseries COMPSCI 220\\ 
+	Algorithms and Data Structures}\\[0.1cm]
+	\HRule\\[0.5cm]
+	\Large{\thedate}
+	
+	\vspace*{2.4cm}
+	\LARGE{\theauthor}
+	
+	\end{adjustwidth*}
 \end{titlingpage}
-
 
 
 % - ### front matter ### -
 \setcounter{page}{1}
 
-
-
-%\newpage
-%\listoffigures
-
-%\newpage
-%\listoftables
-
-
-% - ### main matter ### -
-%\mainmatter
-\chapterstyle{ger}
-
-% preface
 \thispagestyle{empty}
-This is the official coursebook for COMPSCI 220. The lecture schedule will follow this coursebook closely. However small variations are always possible, because lecturers must react to events and student needs. It is strongly recommended to bring a paper copy of this book to each lecture. Many of the examples in the book will be worked through in lectures.
+This is the official coursebook for COMPSCI 220. The lecture schedule will follow this coursebook closely. 
+However small variations are always possible, because lecturers must react to events and student needs. 
+It is strongly recommended to bring a paper copy of this book to each lecture. Many of the examples in the book will be worked through in lectures.
 
-Thanks to Michael Dinneen and Georgy Gimel'farb for their past help with materials for this course. In particular, the textbook written by Dinneen, Gimel'farb and Wilson covers topics in this coursebook in more detail and is strongly recommended.
+Thanks to Michael Dinneen and Georgy Gimel'farb for their past help with materials for this course. 
+In particular, the textbook written by Dinneen, Gimel'farb and Wilson covers topics in this coursebook in more detail and is strongly recommended.
 
 \clearpage
 \setcounter{tocdepth}{0}
 \tableofcontents*
 
+% - ### main matter ### -
 \include{lectures/mathsintro} 
-
 \include{lectures/algoAnalysis}
 \include{lectures/sorting}
 \include{lectures/searching}
-
-
 \include{lectures/graph-adt}
 \include{lectures/traversal}
 \include{lectures/optimization}
-
-
-%\part*{Appendices}
-%\part{Appendices}
-%\appendix
-%\include{appendix/javasortmeth}
-%\include{appendix/javagraphADT}
-%% \include{appendix/javaparse}
-%\include{appendix/datastruct}
-%\include{appendix/solutions}
-
-\chapterstyle{section}
-
-% - ### backmatter ### -
-%\backmatter
-
-%\part{Bibliography/Index}
-%\include{reference/reference}
-
-\titleformat{\chapter}[display]{\bfseries\Huge}{}{0.9ex} 
-{    
-	\rule{\textwidth}{1pt}
-    \vspace{1ex}
-	\huge
-}[
-	\vspace{-1.6ex}%
-	\rule{\textwidth}{1pt}
-]
-\printindex
 
 \end{document}
