@@ -280,9 +280,9 @@ Shellsort is easy to program and useful in practice for fairly large arrays (say
 It is substantially  better than insertion sort.
 
 
-\chapter{Divide and conquer sorting algorithms}  %----------------------------
+\chapter{Mergesort}  %----------------------------
 \label{sec:mergesort}
-Here we look at two ``industrial strength" sorting algorithms, \defnfont{Mergesort} and \defnfont{Quicksort}.
+Here we discuss two ``industrial strength" sorting algorithms, \defnfont{Mergesort} and \defnfont{Quicksort}, and look at the first one in more detail.
 \begin{itemize}
 \item Each algorithm splits the input list into two sublists, 
 recursively sorts each sublist, and then combines the sorted sublists to sort 
@@ -698,8 +698,6 @@ $O(n \log n)$.
 
 No matter how we choose the pivot as above, there is always some chance of quicksort running in quadratic time. 
 Choosing the exact median turns out to be too time-consuming: see \cref{sec:qselect}.
-
-MCW TODO  timsort
 
 It is best to use insertion sort once the sublists become very small, to 
 avoid excessive overhead owing to recursion. 
