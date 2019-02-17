@@ -38,7 +38,7 @@ described by a decision tree called a (static) \defnfont{binary search tree}.
 The number of comparisons required to find the key is the depth of the leaf containing that key.
 
 \begin{algorithm}[H]
-  \caption{Binary search}
+  \caption{Binary search.}
     \label{alg:binsearch}
 \begin{algorithmic}[1]
 %\Require{$0 \leq i \leq j \leq n-1$}
@@ -104,16 +104,12 @@ Alternating sides, or choosing a side randomly, will more likely result in a mor
 
 \section{Treesort}
 As we did with heapsort, we can build a binary search tree from our initial list, by inserting elements one at a time. 
-We can recover the sorted list by reading the keys according to an inorder traversal (see \cref{fig:inorderTraversal}). 
+We can recover the sorted list by reading the keys according to an inorder traversal (as shown below). 
 This takes time in $\Theta(n \log n)$.
-
-\begin{figure}[htb]
-  \centering
-  \includegraphics{inorderTraversal}
+\begin{center}
   % \includegraphics{inorderTraversal2} % alternative version with arrows
-  \caption{An inorder traversal of a BST.}
-  \label{fig:inorderTraversal}
-\end{figure}
+  \includegraphics{inorderTraversal}
+\end{center}
 
 As with heapsort, we can do this in place in an array. This is basically quicksort!
 
@@ -127,12 +123,15 @@ note that the cost of constructing the tree (measured by key comparisons) is
 the same as the number of comparisons used by quicksort in sorting the file.
 This is equal to the internal path length, the sum of all depths of nodes.
 
-\begin{figure}[htb]
-  \centering
+\begin{center}
   \includegraphics{bstQuicksort}
-  \caption{Illustration of the relation between quicksort and BSTs.}
-  \label{fig:bstQuicksort}
-\end{figure}
+\end{center}
+% \begin{figure}[htb]
+%   \centering
+%   \includegraphics{bstQuicksort}
+%   \caption{Illustration of the relation between quicksort and BSTs.}
+%   \label{fig:bstQuicksort}
+% \end{figure}
 
 Thus the average search cost in a BST built by random insertions is $\Theta(\log n)$ .
 
@@ -147,20 +146,19 @@ close to $\lg n$.
 How many types of self-balancing search trees can you find (e.g. Wikipedia)?
 \end{Boxample}
 
-These operations are based on local \defnfont{rotations} of the tree.
-Analysis of performance is fairly difficult.
-The average-case height is not really known.
+These operations are based on local \defnfont{rotations} of the tree. 
+A right and left rotation of a BST is shown below.
 
-\begin{figure}[htb]
-  \centering
+\begin{center}
   \includegraphics{rotationNumbers}
   %\includegraphics{rotationVariables} % alternative with p, q, a, b, c instead of numbers 
-  \caption{Right and left rotation of a BST.}
-  \label{fig:rotation}
-\end{figure} 
+\end{center}
+
+An analysis of the performance is fairly difficult.
+The average-case height is not really known.
 
 \begin{Boxample}[7]
-Perform a right rotation on the BST around the vertices $p = 50$ and $q = 74$ like in \cref{fig:rotation}.
+Perform a right rotation on the BST around the vertices $p = 50$ and $q = 74$ as shown above.
 Then perform a left rotation on the resulting BST around the vertices $12$ and $50$.\\
 \newline 
 \includegraphics{rotationBoxample}
@@ -265,9 +263,9 @@ We assume the first-come-first served (FCFS) model for resolving collisions.
 
 \section{Collision resolution policies}
 \begin{itemize}
-\item \defnfont{Open addressing} uses no extra space. Every element is stored in the hash table. 
+\item \defnfontX{Open addressing}\index{open addressing} uses no extra space. Every element is stored in the hash table. 
 If it gets overfull, we can reallocate space and rehash.
-\item \defnfont{Chaining} uses an ``overflow" list for each element in the hash table.
+\item \defnfontX{Chaining}\index{chaining} uses an ``overflow" list for each element in the hash table.
 %\item When a collision occurs, we can evict the occupant (LCFS), 
 %evict the latecomer (FCFS) or evict the element furthest from its home location
 % (\defnfont{Robin Hood} hashing).
@@ -363,7 +361,7 @@ The expected number of balls until the first collision is equal to
 $E(m):=\sum_{n \leq m} Q(m, n)$. Note $E(365) \approx 25$.
 
 
-\section{Plots of $Q(m, n)$ against $n$, $m=25,100,400,1600$}
+\subsection{Plots of $Q(m, n)$ against $n$, $m=25,100,400,1600$}
 \begin{figure}[htb]
 \centering
 \includegraphics[width=4cm]{figs/birthday25.jpg}
@@ -391,7 +389,7 @@ $n$ keys in a table of size $m$ is equally likely to occur. In other words, the
 hash function produces a random permutation of the keys, and the slots are 
 probed in random order for each key.
 
-Uniform hashing can't be implemented practically but seems to be a good 
+Uniform hashing cannot be implemented practically but seems to be a good 
 model when double hashing is used.
 
 It can be shown that the average cost for insertion under this 
@@ -415,8 +413,7 @@ that we make at least $i+1$ probes.
 $E[X] = \sum_i (i+1) p_i = \sum_i q_i$ (why?).
 \item For $i \geq 1$, we have
 $$ q_i = \binom{n}{i}/\binom{m}{i} = \frac{n}{m} \frac{n-1}{m-1} 
-\dots \frac{n - i + 1}{m - i + 1}  \leq \lambda^i.
-$$
+\dots \frac{n - i + 1}{m - i + 1}  \leq \lambda^i\text{.}$$
 The exact value is then
 $$
 E[X] = \frac{1}{\binom{m}{n}} \sum_{j=0}^n \binom{(m-n)+j}{m-n} = 
@@ -508,7 +505,7 @@ Hash table & $n$ & $n$ & $n$ & $n$ \\
 
 \begin{Boxample}[6]
 If we want to print out all items of a table in sorted order, what is the best data structure?
-If we don't mind an occasional long wait and mostly do lookups, which is best?
+If we do not mind an occasional long wait and mostly do lookups, which is best?
 If we do a lot of insertions and deletions and few lookups, and are risk-averse, which is best?
 \end{Boxample}
 

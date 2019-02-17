@@ -166,7 +166,7 @@ We continue in this way until all nodes belong to $S$.
 In \cref{alg:dijkstra}, the set $S$ consists of the BLACK nodes.
 
 \begin{algorithm}[H]
-  \caption{Dijkstra's algorithm (first version)}
+  \caption{Dijkstra's algorithm, first version.}
     \label{alg:dijkstra}
 \begin{algorithmic}[1]
 \Function{Dijkstra}{weighted digraph $(G, c)$; node $s \in V(G)$}
@@ -507,7 +507,7 @@ until it includes all nodes at which point the algorithm is complete.
   \item It is robust to negative weights. 
 \end{itemize}
 
-We see how this works in \cre{alg:floydcode} where the outer-for loop iterates through all nodes, essentially adding them to the intermediate set, 
+We see how this works in \cref{alg:floydcode} where the outer-for loop iterates through all nodes, essentially adding them to the intermediate set, 
 while the inner two loops cycle through all pairs seeing if a shorter path can be found through the new intermediate node.
 
 \begin{algorithm}[H]
@@ -678,10 +678,8 @@ $S_k$-paths and by the inductive hypothesis, $$L \geq |\gamma_1| +
 
 \chapter{Minimum spanning tree problem} %-------------------------------------
 \label{sec:MST}
-Recall that a tree is a connected acyclic graph.
-
 \begin{Definition}
-A \defnfont{spanning tree} of a graph $G$ is a subgraph of $G$ that spans $G$ (contains all nodes of $G$) and is a tree.
+A \defnfont{spanning tree} of a graph $G$ is a subgraph of $G$ that spans $G$ (contains all nodes of $G$) and is a tree (a connected, acyclic graph).
 
 Let $G$ be a weighted graph. 
 A \defnfont{minimum spanning tree} (MST) is a spanning tree for $G$ which has minimum total weight 
@@ -704,7 +702,6 @@ It is a tree and has the $5$ smallest weight edges, so must be a MST.
   \includegraphics{graphExMST}
 \end{center}
 \end{Boxample}
-
 
 We look at two simple greedy algorithms that solve the MST problem.
 %Each builds up a MST by iteratively choosing an edge greedily, that is,
@@ -879,7 +876,7 @@ operations efficiently. % (see Section~\ref{sec:app:adt-informal}).
 
 
 
-
+\textcolor{red}{TODO broken sentences}
  and for Kruskal $O(m \log n)$. The disjoint sets
 ADT can be implemented in such a way that the union and find operations
 in Kruskal's algorithm runs in \boldfont{almost} linear time (the exact bound

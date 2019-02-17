@@ -36,7 +36,7 @@ This immediately suggests a recursive algorithm.
 \end{Boxample}
 
 \begin{algorithm}[H]
-  \caption{Slow method for computing Fibonacci numbers} 
+  \caption{Slow method for computing Fibonacci numbers.} 
   \label{alg:slowfib}
 \begin{algorithmic}[1]
 \Function{slowfib}{integer $n$}
@@ -57,8 +57,8 @@ With a small (fixed) amount of extra space, we can do better,
 by working from the bottom up instead of from the top down.
 
 \begin{algorithm}[H]
-  \caption{Fast method for computing Fibonacci numbers
-    \label{alg:fastfib}}
+  \caption{Fast method for computing Fibonacci numbers.}
+    \label{alg:fastfib}
 \begin{algorithmic}[1]
 \Function{fastfib}{integer $n$}
 	\If{$n < 0$} 
@@ -94,11 +94,11 @@ What about \texttt{slowfib}?
 
 \chapter{How to measure running time} %---------------------------------------
 There are three main characteristics of an algorithm designed to solve a given problem.
-\begin{itemize}
-	\item Domain of definition: the set of legal inputs. 
-	\item Correctness: it gives correct output for each legal input. 
+\begin{description}
+	\item[Domain of definition:] The set of legal inputs. 
+	\item[Correctness:] The algorithm gives correct output for each legal input. 
 	This depends on the problem we are trying to solve, and can be tricky to prove. 
-	\item Resource use: usually computing time and memory space. 
+	\item[Resource use:] This is usually the computing time and memory space. 
 	\begin{itemize} 
 		\item This depends on the input, and on the implementation 
 		(hardware, programmer skill, compiler, language, ...). 
@@ -106,7 +106,7 @@ There are three main characteristics of an algorithm designed to solve a given p
 		\item There is a trade-off between resources (for example, time vs space). 
 		\item Running time is usually more important than space use. 
 	\end{itemize}
-\end{itemize}
+\end{description}
 
 In this course we mainly consider how to estimate resource use of an algorithm, 
 ignoring implementation as much as possible.  
@@ -205,8 +205,8 @@ Here are some easy basic rules.
 
 % \begin{Boxample}
 \begin{algorithm}[H]
-  \caption{Swapping two elements in an array.
-    \label{alg:swap}}
+  \caption{Swapping two elements in an array.}
+  \label{alg:swap}
 \begin{algorithmic}[0]
 \Require{$0 \leq i \leq j \leq n-1$}
 \Function{swap}{array $a[0..n-1]$, integer $i$, integer $j$}
@@ -217,7 +217,7 @@ Here are some easy basic rules.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-\Cref{alg:swap} \defnfont{swap} is a constant time algorithm.
+\Cref{alg:swap} \algfont{swap} is a constant time algorithm.
 % \end{Boxample}
 
 
@@ -243,8 +243,8 @@ Here are some easy basic rules.
 What happens if the loop variable changes in a more complicated way?
 
 \begin{algorithm}[H]
-  \caption{Example: exponential change of variable in loop.
-    \label{alg:runtime1}}
+  \caption{Example: exponential change of variable in loop.}
+    \label{alg:runtime1}
 \begin{algorithmic}[0]
 \State \Let{$i$}{1}
 \While{$i < n$}
@@ -274,7 +274,8 @@ What is the running time for \cref{alg:runtime1} and why?
 What is the running time for \cref{alg:nestloop} and why?
 \end{Boxample}
 
-What do we do if the control flow of the algorithm is more complicated? For example, how do we handle \textbf{if} statements?
+What do we do if the control flow of the algorithm is more complicated? 
+For example, how do we handle \textbf{if} statements?
 
 \begin{algorithm}[H]
   \caption{Snippet: If statements.}
@@ -418,39 +419,19 @@ Note that we could always reduce $n_0$ at the expense of a bigger $C$ but
 it is often easier not to. For example, in \cref{eg:asymp-lin-quadrat}, we could have used 
 $n_0 = 2$ and $C = 1$, because $n\leq n^2/2$ for all $n\geq 2$.
 
-We don't usually prove such results from the definition but you
-need to know how to, in case the rules (coming up) don't apply.
+We usually do not prove such results from the definition but you
+need to know how to, in case the rules (coming up) do not apply.
 
 \section{Rules for asymptotic notation}
-% old
-% \begin{itemize}
-% \item (irrelevance of constant factors) If $c > 0$ is constant then $cf$ is $\Theta(f)$.
-% \item (transitivity) If $f$ is $O(g)/\Omega(g)/\Theta(g)$ and $g$ is 
-% in $O(h)/\Omega(h)/\Theta(h)$, then $f$ is $O(h)/\Omega(h)/\Theta(h)$.
-% \item (sum rule) If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 + f_2$ is 
-% in $O(\max\{g_1, g_2\})$.
-% \item (product rule) If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 f_2$ 
-% is $O(g_1 g_2)$.
-% \item (limit rule) \emph{Suppose that $L:=\lim_{n\to\infty} f(n)/g(n)$ exists}. 
-% Then
-% \begin{itemize}
-% \item if $L = 0$ then $f$ is $O(g)$ and $f$ is not $\Omega(g)$;
-% \item if $0 < L < \infty$ then $f$ is $\Theta(g)$;
-% \item if $L = \infty$ then $f$ is $\Omega(g)$ and $f$ is not $O(g)$.
-% \end{itemize}
-% \end{itemize}
-
-% alternative
-%\setlist[description]{font=\normalfont\space}
 \begin{description}
-\item[Irrelevance of constant factors] If $c > 0$ is constant then $cf$ is $\Theta(f)$.
-\item[Transitivity] If $f$ is $O(g)/\Omega(g)/\Theta(g)$ and $g$ is 
+\item[Irrelevance of constant factors:] If $c > 0$ is constant then $cf$ is $\Theta(f)$.
+\item[Transitivity:] If $f$ is $O(g)/\Omega(g)/\Theta(g)$ and $g$ is 
 in $O(h)/\Omega(h)/\Theta(h)$, then $f$\\ is $O(h)/\Omega(h)/\Theta(h)$.
-\item[Sum rule] If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 + f_2$ is 
+\item[Sum rule:] If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 + f_2$ is 
 in $O(\max\{g_1, g_2\})$.
-\item[Product rule] If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 f_2$ 
+\item[Product rule:] If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$ then $f_1 f_2$ 
 is $O(g_1 g_2)$.
-\item[Limit rule] \emph{Suppose that $L:=\lim_{n\to\infty} f(n)/g(n)$ exists}. 
+\item[Limit rule:] \emph{Suppose that $L:=\lim_{n\to\infty} f(n)/g(n)$ exists}. 
 Then
 \begin{itemize}
 \item if $L = 0$ then $f$ is $O(g)$ and $f$ is not $\Omega(g)$;
@@ -459,7 +440,7 @@ Then
 \end{itemize}
 \end{description}
 
-Proofs of these rules will be given in lectures. 
+% Proofs of these rules will be given in lectures. 
 L'H\^{o}pital's rule is often useful for the application of the limit rule. Note that the 
 limit may not exist at all.
 
@@ -468,25 +449,24 @@ limit may not exist at all.
 \section{More examples}
 
 \begin{Boxample}[4]
-\item $\log_a(n)$ is $\Theta(\lg n)$ for each $a > 1$.
-
+$\log_a(n)$ is $\Theta(\lg n)$ for each $a > 1$.
 \end{Boxample}
 
 \begin{Boxample}
 $n \lg n$ is $O(n^2)$ and $n \lg n$ is not $\Omega(n^2)$, by the limit rule.
 \end{Boxample}
+
 \begin{Boxample}
 $2^n$ is $\Omega(n^{100})$, by the limit rule.
 \end{Boxample}
 
 \begin{Boxample}[4]
 Is $10^{-100} n^2 + 10^{100} n$ in $O(n)$?
-
 \end{Boxample}
 
 \begin{Boxample}
 $1 + (-1)^n$ is $O(1)$ but not $\Theta(1)$ since it takes on the value $0$
- infinitely often. Limit rule does not apply either.
+ infinitely often. The limit rule does not apply either.
 \end{Boxample}
  
 \section{Asymptotics via integral approximation}
@@ -495,14 +475,13 @@ We want the asymptotic behaviour of $\log (n!) = \sum_{k=1}^n \log k$.
 
 Clearly there is an upper bound $\log n! \leq n \log n$, because each term in the sum is at most $\log n$. 
 How can we get a lower bound? We use approximation by an integral.
-\if01
-For a lower bound, we can approximate by an integral (``upper and lower rectangles") to get 
-$\log n! \geq \int_1^{n+1} \log x \, dx$. Integration by parts shows that 
-$\log n! \in \Omega(n \log n)$.
 
-\item Note that the base of the logarithm is not important. More precise estimates can 
-be obtained, and it turns out that $\lim_{n\to \infty} (\log n!)/(n \log n) = 1$.
-\fi
+% For a lower bound, we can approximate by an integral (``upper and lower rectangles") to get 
+% $\log n! \geq \int_1^{n+1} \log x \, dx$. 
+% Integration by parts shows that $\log n! \in \Omega(n \log n)$.
+
+% Note that the base of the logarithm is not important. More precise estimates can 
+% be obtained, and it turns out that $\lim_{n\to \infty} (\log n!)/(n \log n) = 1$.
 \end{Boxample}
 
 \begin{Boxample} 
@@ -511,8 +490,7 @@ $H_n:=1+ 1/2 + 1/3 + \dots + 1/n$ is the $n$\boldfont{th harmonic number}.
 \end{Boxample}
 
 \section{Summary of results}
-Write $f \prec g$ if $f$ is $O(g)$ but $f$ is not $\Theta(g)$, so $g$ grows at a
- faster rate than $f$. 
+Write $f \prec g$ if $f$ is $O(g)$ but $f$ is not $\Theta(g)$, so $g$ grows at a  faster rate than $f$. 
 \begin{Boxample}
 $\log n \prec (\log n)^2 \prec \sqrt{n} \prec n \prec n \log n 
  \prec n (\log n)^2 \prec n^2 
@@ -544,7 +522,7 @@ This turns \texttt{fastfib} from a polynomial time algorithm to an exponential t
 The input size measure \boldfont{must} be specified in algorithm analysis.
 
 \section{What happens if there are many inputs of a given size?}
-We usually don't want to have to consider the distribution of
+We usually do not want to have to consider the distribution of
 running time over all possible inputs of a given size. 
 There may be (infinitely) many inputs of a given size, and running time may vary widely on these. 
 For example, for sorting the integers $1, \dots, n$, there are $n!$ possible inputs, and this is large even for $n=10$.
@@ -599,7 +577,7 @@ in practice than one with running time $10^{10} n$, since the latter
 will eventually beat the former, but only on instances of size at least $10^{20}$, 
 which is rarely met in practice. 
 
-Conclusion: we should have at least a rough feel for the constants
+Conclusion: We should have at least a rough feel for the constants
 of competing algorithms. However, in practice the constants are usually
 of moderate size. 
 

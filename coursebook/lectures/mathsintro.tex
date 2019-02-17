@@ -8,18 +8,17 @@ It is very important to understand them well - ask for help if your background h
 
 \section{Sets}
 A \defnfont{set} is an unordered collection of distinct objects (repeated elements are not allowed), called \defnfont{elements} of the set. 
-We write $a \in X$ to mean that $a$ is an element of $X$.
-
-Important sets: 
+We write $a \in X$ to mean that $a$ is an element of $X$. Some important sets are 
 \begin{itemize}
-\item $\mathbb{N} = \{0, 1, 2, \dots\}$, the set of \defnfont{natural numbers}.
-\item $\mathbb{R}$, the set of \defnfont{real numbers}.
+\item $\mathbb{N} = \{0, 1, 2, \dots\}$, the set of \defnfont{natural numbers},
+\item $\mathbb{R}$, the set of \defnfont{real numbers}, and
 \item $\varnothing = \{\}$, the \defnfont{empty set} having no elements.
 \end{itemize}
 
-Notation: list elements, e.g. $X = \{2,3,5,7,11\}$ or use set-builder notation $X = \{x \in \mathbb{N} : x \text{ is prime and } x < 12\}$. Note that $\{a, a, b\} = \{a, b\}$ because elements cannot be repeated in a set.
+Notation: List elements, e.g. $X = \{2,3,5,7,11\}$ or use set-builder notation $X = \{x \in \mathbb{N} : x \text{ is prime and } x < 12\}$. 
+Note that $\{a, a, b\} = \{a, b\}$ because elements cannot be repeated in a set.
 
-Operations: 
+Operations on sets: 
 \begin{itemize}
 \item $A\cap B = \{x: x \in A \text{ and } x \in B\}$, the \defnfont{intersection} of $A$ and $B$.
 \item $A\cup B = \{x: x \in A \text{ or  } x \in B\}$, the \defnfont{union} of $A$ and $B$.
@@ -47,8 +46,8 @@ Its domain is $\{x\in \mathbb{R} : x > 0\}$. We usually just write $\log_a y$, o
 
 Other useful functions: 
 \begin{itemize}
-\item \defnfont{Ceiling} rounds up to nearest integer, e.g. $\lceil 3.7 \rceil = 4 = \lceil 4 \rceil$.
-\item \defnfont{Floor} rounds down, e.g. $\lfloor 3.7 \rfloor = 3 = \lfloor 3 \rfloor$.
+\item \defnfontX{Ceiling}\index{ceiling} rounds up to nearest integer, e.g. $\lceil 3.7 \rceil = 4 = \lceil 4 \rceil$.
+\item \defnfontX{Floor}\index{floor} rounds down, e.g. $\lfloor 3.7 \rfloor = 3 = \lfloor 3 \rfloor$.
 \end{itemize}
 
 
@@ -69,7 +68,7 @@ $$ \lceil \lg (n+1) \rceil = 1 + \lfloor \lg n \rfloor\text{.}$$
 
 
 \section{Sums}
-A \defnfont{sequence} is a function $f:\mathbb{N} \to \mathbb{R}$. 
+A \defnfont{sequence} is a function $f \colon \mathbb{N} \to \mathbb{R}$. 
 
 Notation: $f_0, f_1, f_2, \cdots$ where $f_i = f(i)$.
 
@@ -87,7 +86,7 @@ Simplify $$\sum_{i=1}^{2n} 2^i\text{.}$$
 
 
 \section{Proof by induction}
-\defnfont{Mathematical induction} is a standard technique for proving a collection of results, one for each natural number. 
+\defnfontX{Mathematical induction}\index{mathematical induction} is a standard technique for proving a collection of results, one for each natural number. 
 If we can prove for $n = 0$, and also show that whenever the result we want is true for $n$, it is true for $n+1$,
 then we know it must be true for all $n \in \mathbb{N}$.
 

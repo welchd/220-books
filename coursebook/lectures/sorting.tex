@@ -5,8 +5,8 @@
 \label{sec:sortingproblem}
 Sorting (especially integers or words) is ubiquitous in computing.
 Sorting also makes many other problems easier, e.g., selection and finding duplicates.
-
 The problem of sorting is as follows. 
+
 \begin{Definition}
 Given $n$ \defnfont{keys} $a_1, \dots , a_n$ from a totally ordered set, put them in increasing order. 
 The keys may be just part of a larger data record.
@@ -71,8 +71,8 @@ so may be useful if data moves are VERY expensive.
 Is it clearly inefficient, since useful comparison information gathered in each pass is forgotten.
 
 \begin{algorithm}[H]
-  \caption{Selection sort
-    \label{alg:selsort}}
+  \caption{Selection sort.}
+    \label{alg:selsort}
 \begin{algorithmic}[1]
 \Function{Selsort}{list $a[0..n-1]$}
 %\State $n \gets \texttt{a.size()}$ 
@@ -141,13 +141,13 @@ This is the sorting method used by card players to arrange cards in a hand.
 It works well on small lists, or lists that are nearly sorted.
 
 \begin{algorithm}[H]
-  \caption{Insertion sort}
+  \caption{Insertion sort.}
   \label{alg:insort}
 \begin{algorithmic}[1]
 \Function{Insort}{list $a[0..n-1]$}
 	%\State $n \gets \texttt{a.size()}$  
 	\For{$i\gets 1$ \text{to} $n-1$}  
-		\State $k \gets a[i]$ \Comment{save value so we don't overwrite}
+		\State $k \gets a[i]$ \Comment{save value so we do not overwrite}
 		\State $j \gets i - 1$
 		\While{$a[j] > k$ and $j \geq 0$} 
 			\State \Comment{scan backward to find correct insertion position}
@@ -169,7 +169,7 @@ It works well on small lists, or lists that are nearly sorted.
 \end{algorithm}
 
 \begin{algorithm}[H]
-  \caption{Insertion sort swap version}
+  \caption{Insertion sort swap version.}
     \label{alg:insort2}
 \begin{algorithmic}[1]
 \Function{Insort2}{list $a[0..n-1]$}
@@ -255,7 +255,7 @@ We can improve by changing the algorithm somewhat.
 We can move elements to the left using big steps, gradually reducing the 
 step size to 1. This is called \defnfont{Shellsort} (D. Shell, 1959). 
 \begin{itemize}
-\item Fix $h = n/2$. Run insertion sort on the sublists formed by taking 
+  \item Fix $h = n/2$. Run insertion sort on the sublists formed by taking 
 every $h$th element. Iterate, reducing $h$ to $1$ systematically. 
 \end{itemize}
 The key property is that each run removes inversions and none are 
@@ -272,11 +272,11 @@ Empirically, behaviour that looks like $O(n^{7/6})$ has been obtained.
 \begin{Boxample}
 An example of ShellSort with $h = 5, 3, 1$.
 \begin{center}
-\includegraphics{ShellSort} 
+  \includegraphics[width=0.55\linewidth]{ShellSort} 
 \end{center}
 \end{Boxample}
 
-Shellsort is easy to program and useful in practice for fairly large arrays (say $10^5$) especially if the data is partially sorted. 
+Shellsort is easy to program and useful in practice for fairly large arrays (say $10^5$) especially for partially sorted data. 
 It is substantially  better than insertion sort.
 
 
@@ -302,8 +302,8 @@ Each is used as the basis for
 built-in sorting algorithms in common programming languages.
 
 \begin{algorithm}[H]
-  \caption{Mergesort
-    \label{alg:mergesort}}
+  \caption{Mergesort.}
+    \label{alg:mergesort}
 \begin{algorithmic}[0]
 \Require{$0 \leq i \leq j \leq n-1$}
 \Function{mergesort}{list $a[0..n-1]$, integer $i$, integer $j$}
@@ -323,36 +323,34 @@ The key is an efficient merge algorithm.
 If $L_1$ and $L_2$ are sorted lists, they can be merged into one sorted 
 list in linear time.
 \begin{itemize}
-\item Start pointers at the beginning of each list. 
-\item Compare the elements being pointed 
-to and choose the lesser one to start the sorted list. Increment that pointer. 
-\item Iterate until one pointer reaches the end of its list, then 
-copy remainder of other list to the end of the sorted list.
+  \item Start pointers at the beginning of each list. 
+  \item Compare the elements being pointed to 
+  and choose the lesser one to start the sorted list. Increment that pointer. 
+  \item Iterate until one pointer reaches the end of its list, 
+  then copy remainder of other list to the end of the sorted list.
 \end{itemize} 
 If the list is implemented as an array, this merging takes linear extra 
-space (can't be done in place). But if linked lists are used, it can be done in 
+space (cannot be done in place). But if linked lists are used, it can be done in 
 place. In any case the number of comparisons is in $\Theta(n)$.
 
+% \begin{algorithm}[H]
+%   \caption{Merge.}
+%     \label{alg:merge}
+% \begin{algorithmic}[0]
+% %\Require{$0 \leq i \leq j \leq n-1$}
+% \Function{merge}{list $a[1..m]$, list $b[1..n]$}
+% 	\State list $c[]$
+% 	\While{$a$ is not empty and $b$ is not empty}
+% 		\If{$a < b$}
+% 			\State \Return $c$
+% 		\EndIf
+%  	\EndWhile
+% \EndFunction  
+% \end{algorithmic}
+% \end{algorithm}
 
-\if01
-\begin{algorithm}[H]
-  \caption{Merge}
-    \label{alg:merge}
-\begin{algorithmic}[0]
-%\Require{$0 \leq i \leq j \leq n-1$}
-\Function{merge}{list $a[1..m]$, list $b[1..n]$}
-	\State list $c[]$
-	\While{$a$ is not empty and $b$ is not empty}
-		\If{$a < b$}
-			\State \Return $c$
-		\EndIf
- 	\EndWhile
-\EndFunction  
-\end{algorithmic}
-\end{algorithm}
-\fi
 \begin{Boxample}[0]
-Execute mergesort on the following input, showing all details.
+Execute mergesort on the following input.
 \begin{center}
 \includegraphics{MergeSort} 
 \end{center}
@@ -369,8 +367,10 @@ Thus if $n$ is a power of 2 we have $C_n = 2C_{n/2} + n$. We need to develop too
 
 \section{Which inputs give the best and worst case?}
 Mergesort is not very sensitive to the input order. 
-If the input is already sorted, the merge operation does the fewest possible comparisons. The worst case occurs when the input looks like 5,1,7,3,6,2,8,4 (every possible comparison is made at every level of the merge). However the input only affects lower order terms - it turns out 
-(next lecture)  that mergesort does about $n\lg n$ comparisons on every input.
+If the input is already sorted, the merge operation does the fewest possible comparisons. 
+The worst case occurs when the input looks like 5,1,7,3,6,2,8,4 (every possible comparison is made at every level of the merge). 
+However the input only affects lower order terms -- it turns out 
+(next lecture)  that mergesort does about $n \lg n$ comparisons on every input.
 
 \section{Is mergesort in-place?}
 \begin{Boxample}[4]
@@ -429,16 +429,13 @@ sufficiently large $n$. The smaller values of $n$ are called the
 
 \section{Important special cases}
 \begin{description}
-\item[Tower of Hanoi] $T(n) = 2 T(n - 1) + 1, T(1) = 0$;
-\item[Searching a linked list] $T(n) = T(n - 1) + 1, T(0) = 0$;
-\item[Insertion sort] $T(n) = T(n-1) + n$, T(0) = 0;
-\item[Binary search] $T(n) = T(n/2) + 1, T(1) = 0$ makes sense when $n$ is 
-a power of $2$. 
-\item[Mergesort] $T(n) = 2T(n/2) + n, T(1) = 0$ makes sense when $n$ is 
-a power of $2$.
-\item[Quicksort] $T(n) = (2/n)\sum_{i<n} T(i) + n-1, T(1) = 0$.
+  \item[Tower of Hanoi:] $T(n) = 2 T(n - 1) + 1, T(1) = 0$;
+  \item[Searching a linked list:] $T(n) = T(n - 1) + 1, T(0) = 0$;
+  \item[Insertion sort:] $T(n) = T(n-1) + n$, T(0) = 0;
+  \item[Binary search:] $T(n) = T(n/2) + 1, T(1) = 0$ makes sense when $n$ is a power of $2$. 
+  \item[Mergesort:] $T(n) = 2T(n/2) + n, T(1) = 0$ makes sense when $n$ is a power of $2$.
+  \item[Quicksort:] $T(n) = (2/n)\sum_{i<n} T(i) + n-1, T(1) = 0$.
 \end{description}
-
 
 Important examples  in this course are \defnfont{constant coefficient linear recurrences} which have the form 
 $F(n) = \sum_{k=1}^K a_k F(n - k)$ for some fixed $K$ and some constants $a_k$. 
@@ -500,7 +497,7 @@ We can solve the mergesort recurrence $T(n) = T(\lceil n/2 \rceil) + T(\lfloor n
 as above $\hat{T}(n) = n \lg n$ for $n$ a power of $2$. We can then show that $T(n)
 \in O(n \lg n)$. A similar argument gives $T(n) \in \Omega(n \lg n)$.
 
-In real life we usually don't have exactly an additive term $n$
+In real life we usually do not have exactly an additive term $n$
 but just some $f(n)$ where $f(n)$ is $\Theta(n)$. Similar techniques show that 
 we get the same answer, asymptotically. 
 
@@ -534,10 +531,10 @@ Thus $F(n)$ is $\Theta(\phi^n)$.
 \chapter{Quicksort} %---------------------------------------------------------
 \label{sec:quicksort}
 
-Quicksort was described briefly in \cref{sec:mergesort}. We give the details now.
+\defnfont{Quicksort} was described briefly in \cref{sec:mergesort}. We give the details now.
 
 \begin{algorithm}[H]
-  \caption{Quicksort - basic}    
+  \caption{Quicksort - basic.}    
   \label{alg:quicksort}
 \begin{algorithmic}[0]
 	\Require{$0 \leq i \leq j \leq n-1$}
@@ -577,7 +574,7 @@ $\geq p$. One method is \cref{alg:partition} (Hoare, 1960) and it works as follo
 \end{itemize}
 
 \begin{algorithm}[H]
-  \caption{Partition - Hoare's method}
+  \caption{Partition - Hoare's method.}
     \label{alg:partition}
 \begin{algorithmic}[0]
 \Require{$0 \leq i \leq j \leq n-1$}
@@ -755,9 +752,9 @@ $n$ nodes?
 Suppose that $T$ is a binary tree with $n$ nodes. 
 Going from the root, the number of nodes at each level at most doubles.
 So if the maximum depth (height) is $h$ then the number of leaves is at most $2^h$. 
- 
+
 In our sorting decision tree we have $n!$ leaves. 
-Thus we must have $2^h \geq n!$ so that $h \geq \lg n!$. 
+Thus we must have $2^h \geq n!$ and therefore $h \geq \lg n!$. 
 
 \section{Worst case running time of comparison-based sorting algorithm}
 We have already shown that $\log n!$ is $\Omega (n \lg n)$. Thus the 
@@ -805,7 +802,7 @@ Show how (a) a queue and (b) a stack can be interpreted as special cases of a pr
 
 \section{Priority queue sort}
 Suppose we are given an input list. Start with an empty priority queue $Q$
-and:
+and
 \begin{itemize}
 \item successively insert all elements into $Q$, using the sorting keys as the 
 priority;
@@ -820,7 +817,7 @@ Insertion takes $\Theta(1)$ time but deletion time is $\Theta(n)$. The total is 
 \item If we use a sorted list to implement $Q$, we obtain insertion sort. 
 Insertion takes $\Theta(n)$ time but deletion is $\Theta(1)$. The total is quadratic.
 \item We can do better with an implementation in which insertion and deletion 
-each take time $O(\log n)$. The simplest is the {binary heap}.
+each take time $O(\log n)$. The simplest is the binary heap.
 \end{itemize}
 
 \section{Priority queue: binary heap implementation}
@@ -876,16 +873,15 @@ because the tree structure is so restricted.
 
 \section{Array representation of binary heap}
 \begin{itemize}
-\item  A binary heap can be represented \emph{implicitly} (without pointers) in 
-an array. 
-\begin{itemize}
-\item Each node corresponds to an array index (starting with $1$). 
-\item The  children of the node corresponding to index $k$ are in positions $2k$ 
-(left) and $2k+1$ (right). The keys are stored directly in the array.
-\end{itemize}
-\item To insert a key $x$, put it in position $n+1$ and swap as above.
-\item To delete the root, swap $a[1]$ with $a[n]$, and swap as above. Note that
- deleted elements end up at the end of the array.
+  \item A binary heap can be represented \boldfont{implicitly} (without pointers) in an array. 
+  \begin{itemize}
+	\item Each node corresponds to an array index (starting with $1$). 
+	\item The children of the node corresponding to index $k$ are in positions $2k$ (left) 
+	and $2k+1$ (right). The keys are stored directly in the array.
+  \end{itemize}
+  \item To insert a key $x$, put it in position $n+1$ and swap as above.
+  \item To delete the root, swap $a[1]$ with $a[n]$, and swap as above. 
+  Note that deleted elements end up at the end of the array.
 \end{itemize}
 
 \begin{Boxample}[0]
@@ -897,9 +893,9 @@ Give the array representation of the binary heap.
 
 Note that for heapsort we only need the heap property at the end, but our method keeps it after inserting every element. 
 Can we be more efficient? Yes - one way is to build a complete binary tree without the heap property, then
- recursively heapify the left and right subtrees, and then let the root swap 
- down to the right position. The recursion $T(n) = 2T(n/2) + \lg n$ describes the running time of the 
- latter method: solution is $\Theta(n)$ (exact formula is tricky to guess).
+recursively heapify the left and right subtrees, and then let the root swap 
+down to the right position. The recursion $T(n) = 2T(n/2) + \lg n$ describes the running time of the 
+latter method: solution is $\Theta(n)$ (exact formula is tricky to guess).
  
 This method can be rewritten to avoid recursion (``bottom-up") and to work 
 in place in the array implementation. 
@@ -912,8 +908,8 @@ Heap-building algorithm as in the first while-loop of \cref{alg:heapsort}.
 \end{Boxample}
 
 \begin{algorithm}[H]
-  \caption{Heapsort}
-    \label{alg:heapsort}
+  \caption{Heapsort.}
+  \label{alg:heapsort}
 \begin{algorithmic}[1]
 \Function{Heapsort}{array $a[0..n-1]$}
 \State $k \gets n-1$ \Comment{index of last leaf in heap}
@@ -990,17 +986,17 @@ What is the asymptotic running time in terms of $n$ and $r$?
 \section{Quickselect}
 One good approach is to use the quicksort idea. At each stage we only need to 
 make a recursive call on one half of the array because we know where the pivot 
-is relative to the desired element. This algorithm is called \defnfont{quickselect}.
+is relative to the desired element. This algorithm is called \defnfont{Quickselect}.
 
 \begin{algorithm}[H]
-  \caption{Quickselect
-     \label{alg:quickselect}}
+  \caption{Quickselect.}
+  \label{alg:quickselect}
 \begin{algorithmic}[0]
 \Require{$0 \leq i \leq j \leq n-1$, $1\leq r \leq j-i+1$}
 \Function{quickselect}{list $a[0..n-1]$, int $i$, int $j$, int $r$}
 	\If{$i < j$}
 		\State $p \gets a[i]$ \Comment{pivot element}
-		\State $q \gets  \Call{partition}{a, i,j,p}$ \Comment{put $p$ in correct position}
+		\State $q \gets \Call{partition}{a, i,j,p}$ \Comment{put $p$ in correct position}
 		\If{$q-i=r-1$}
 			\State \Return{$a[r-1]$}
 		\ElsIf{$q-i > r-1$}
@@ -1028,7 +1024,6 @@ Execute quickselect on the array below. Hint: You have to make one recursive cal
 % \end{itemize}
 
 \section{Quickselect analysis}
-
 The recurrence for the average number of comparisons has the form 
 $$E(n) = n + \frac{1}{n} \sum_{i=0}^{n-1} E(p)\text{.}$$
 
@@ -1041,8 +1036,7 @@ Solve the quickselect recurrence above.
 The worst case running time is still quadratic, for the same reason as for quicksort.
 
 \section{How can we improve quickselect?}
-There is another divide-and-conquer 
-algorithm (see Wikipedia, ``Median of medians") that is worst-case linear, 
+There is another divide-and-conquer algorithm (see Wikipedia, ``Median of medians") that is worst-case linear, 
 but much more complicated and never used in practice. 
 Note that if it did work well in practice, we would use it to find an optimal (i.e. median) pivot, 
 and thereby achieve $O(n\log n)$ worst case running time for quicksort.

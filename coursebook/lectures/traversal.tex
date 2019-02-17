@@ -3,17 +3,17 @@
 
 \chapter{Graph traversal algorithms} %----------------------------------------
 Traversals involve visiting each node of a digraph in a systematic way following only the arcs in the digraph. 
-This is a very common task when dealing with digraphs and we'll cover several applications in later lectures.
+This is a very common task when dealing with digraphs and we will cover several applications in later lectures.
 
 \section{The general graph traversal algorithm} \label{sec:trav}
 All graph traversal algorithms have the same basic structure that relies on keeping track of which nodes have been visited 
 and whether they may be adjacent to nodes that have not yet been visited. We use a system of three colours:
 \begin{itemize} 
-  \item \defnfont{White nodes} have not yet been visited;
-  \item \defnfont{Grey nodes} (or \defnfont{frontier nodes}) have been visited but may have
+  \item \defnfontX{White nodes}\index{white node} have not yet been visited;
+  \item \defnfontX{Grey nodes}\index{grey node} (or \boldfont{frontier nodes}) have been visited but may have
   out-neighbours that are white;
-  \item \defnfont{Black nodes} have been visited and all their out-neighbours have been visited too (so are not white). 
-\end{itemize}
+  \item \defnfontX{Black nodes}\index{black node} have been visited and all their out-neighbours have been visited too (so are not white). 
+\end{itemize} 
 
 \begin{Boxample}
 Node states during a digraph traversal.
@@ -317,12 +317,11 @@ a recursive version \algfont{recursiveDFSvisit}:
 \end{algorithm}
 
 \begin{Boxample}
-DFS with \texttt{recursiveDFSvisit}.
+DFS with \texttt{recursiveDFSvisit}. 
 \begin{center}
-  \includegraphics{DFSalgoRecursive}
+  \includegraphics[width=1.0\linewidth]{DFSalgoRecursive2}
 \end{center}
 \end{Boxample}
-
 
 \section{DFS useful results and facts}
 \begin{Theorem}
@@ -377,7 +376,7 @@ Suppose that we have performed \texttt{DFS} on a digraph $G$.
 %\end{Boxample}
 
 
-\chapter{Breadth First Search (BFS) and Priority First Search (PFS)} %------------------
+\chapter{Breadth First Search (BFS) and Priority\\ First Search (PFS)} %------------------
 \begin{Definition}
 In \defnfont{breadth-first search} (BFS) the new grey node chosen is the one
 that has been grey for the \boldfont{longest} time
@@ -456,8 +455,9 @@ It is more useful to record the number of steps from the root in the array $d$.
 \end{algorithm}
 
 \begin{Boxample}
+BFS on a digraph.
 \begin{center}
-\includegraphics{BFSalgoQueue}
+  \includegraphics{BFSalgoQueue2}
 \end{center}
 \end{Boxample}
 
@@ -697,7 +697,7 @@ and that by removing the source and any out-arcs from the source you still have 
 Show that the order in which nodes are removed gives a topological order.
 \end{Boxample}
 
-This theorem and proof then gives an algorithm \algfont{zero-indegree sorting}
+This theorem and proof then gives an algorithm \defnfont{zero-indegree sorting}
 for topologically sorting a DAG. 
 If we apply zero-indegree sorting to a digraph that is not a DAG, 
 eventually it will stop because no source node can be found at some point.
@@ -1024,7 +1024,7 @@ visited. Proceed in this way until we have visited all strong
 components.
 
 We have shown that if we can choose the roots correctly, then we can
-find all strong components. Now of course we don't know these components
+find all strong components. Now of course we do not know these components
 \boldfont{a priori}, so how do we identify the roots to choose?
 
 Whenever there is a choice for the root of a new search tree, it must
