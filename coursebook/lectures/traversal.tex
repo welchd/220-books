@@ -360,7 +360,7 @@ Explain how to determine, at the time when an arc is first explored by
 
 \begin{Boxample}[5] \label{ex:DFS-arc-class}
 Suppose that we have performed \texttt{DFS} on a digraph $G$.
- Let $(v, w)\in E(G)$. Show that the following statements are true.
+ Let $(v, w)\in E$. The following statements are true. Prove the first statement.
 \begin{itemize}
   \item $(v, w)$ is a tree or forward arc if and only if  
 	$$\seen[v] < \seen[w] < \done[w] < \done[v]\text{;}$$
@@ -388,7 +388,7 @@ The root is the first node to turn black.
 
 As with DFS, the running time of BFS is in $\Theta(n+m)$ when implemented using adjacency lists.
 
-\begin{Boxample}[2]
+\begin{Boxample}[4]
 A digraph and its BFS search tree, rooted at node $0$. 
 The dashed arcs indicate the original arcs that are not part of the BFS search tree.
 \begin{center}
@@ -647,7 +647,7 @@ that $u$ depends on $v$ so that $v$ must be calculated first:\\
 
 Respecting all precedences/dependencies is equivalent to drawing the digraph 
 with all nodes in a straight line and the arcs all pointing the same direction. 
-The order of calculation is then to starts at one end of the line and proceeds to the other.
+The order of calculation starts at one end of the line and proceeds to the other.
 
 \section{Topological sort}
 \begin{Definition}
@@ -690,7 +690,7 @@ abbreviation for \textbf{d}irected \textbf{a}cyclic \textbf{g}raph.
 A digraph has a topological order if and only if it is a DAG.
 \end{Theorem}
 
-\begin{Boxample}[6]
+\begin{Boxample}[8]
 It is clear that if a digraph has a topological order it has no cycles, so it a DAG. 
 Show that a DAG always has a topological order by first showing that every DAG has a source
 and that by removing the source and any out-arcs from the source you still have a DAG. 
@@ -798,7 +798,12 @@ What are the girth and the directed girth of the following graph?
 \end{center}
 \end{Boxample}
 
-\subsection{Finding the girth of a graph with BFS}
+
+
+
+\chapter{Finding girth, connectivity, components, strong components} %-----------------------
+
+\section{Finding the girth of a graph with BFS}
 How to compute the girth of a graph? Here is an algorithm for finding
 the length of a shortest cycle containing a given vertex $v$ in a graph $G$. 
 \begin{itemize}
@@ -812,32 +817,33 @@ the length of a shortest cycle containing a given vertex $v$ in a graph $G$.
   \item Report the minimum value of $l$ obtained along the current level.
 \end{itemize}
 
-\begin{Theorem} \label{thm:BFS-cycle} 
-The above algorithm is correct.
-\end{Theorem}
-\begin{proof}
-Suppose that we arrive at vertex $x$, $d(x) = k$, and we have just
-encountered a grey neighbour $y$. Then $d[y] = d[x] + 1$ or $d[y] = d[x]$
-(note that $d[x] = d[y] + 1$ is ruled out because then $x$ would be a
-child of $y$ and $y$ would be black). This means that there is definitely
-a cycle containing $x, y$ and $z$, where $z$ is the lowest common ancestor
-of $x$ and $y$ in the BFS tree. Note that $z\neq x, z\neq y$ since neither
-$x$ nor $y$ is an ancestor of the other. The cycle consists of the tree
-edges from $z$ to $x$, the cross edge $\set{x,y}$ and the tree edges
-from $z$ to $y$. The length of the cycle is $l=d[x] + d[y] - 2 d[z] + 1$.
-
-Conversely, let $C$ be any cycle and let $z$ be the first vertex of
-the cycle reached by the search. Let $x$ and $y$ be two vertices in $C$
-whose distance  from $z$ is greatest, with $d[x] \leq d[y]$. Then the
-lowest common ancestor of  $x$ and $y$ is exactly $z$, and the cycle
-found in the first paragraph is exactly $C$.
-
-The vertex $v$ belongs to the cycle $C$ if and only if $v = z$. The
-length of the cycle is $2k+1$ if $d[x] = d[y]$ and $2k+2$ if $d[y] =
-d[x] - 1$. The minimum length of any cycle containing $v$ found after
-this is $2(k+1) + 1 = 2k+3$, so no better cycle can be found after the
-current level $k$ is explored.
-\end{proof}
+\begin{Boxample}[8] \label{ex:BFS-cycle} 
+Prove above algorithm is correct.
+{\color{red} TODO: need to proide some pointers here on how to prove}
+%\end{Theorem}
+%\begin{proof}
+%Suppose that we arrive at vertex $x$, $d(x) = k$, and we have just
+%encountered a grey neighbour $y$. Then $d[y] = d[x] + 1$ or $d[y] = d[x]$
+%(note that $d[x] = d[y] + 1$ is ruled out because then $x$ would be a
+%child of $y$ and $y$ would be black). This means that there is definitely
+%a cycle containing $x, y$ and $z$, where $z$ is the lowest common ancestor
+%of $x$ and $y$ in the BFS tree. Note that $z\neq x, z\neq y$ since neither
+%$x$ nor $y$ is an ancestor of the other. The cycle consists of the tree
+%edges from $z$ to $x$, the cross edge $\set{x,y}$ and the tree edges
+%from $z$ to $y$. The length of the cycle is $l=d[x] + d[y] - 2 d[z] + 1$.
+%
+%Conversely, let $C$ be any cycle and let $z$ be the first vertex of
+%the cycle reached by the search. Let $x$ and $y$ be two vertices in $C$
+%whose distance  from $z$ is greatest, with $d[x] \leq d[y]$. Then the
+%lowest common ancestor of  $x$ and $y$ is exactly $z$, and the cycle
+%found in the first paragraph is exactly $C$.
+%
+%The vertex $v$ belongs to the cycle $C$ if and only if $v = z$. The
+%length of the cycle is $2k+1$ if $d[x] = d[y]$ and $2k+2$ if $d[y] =
+%d[x] - 1$. The minimum length of any cycle containing $v$ found after
+%this is $2(k+1) + 1 = 2k+3$, so no better cycle can be found after the
+%current level $k$ is explored.
+\end{Boxample}
 
 To compute the girth of a graph, we can simply run the above algorithm
 from each vertex in turn, and take the minimum cycle length achieved.
@@ -859,18 +865,18 @@ Which is the smallest cycle it finds with the back edges? Which smaller cycle do
 % \end{Boxmaple}
 % TODO: include this?
 
-\subsection{Finding the directed girth of a digraph with DFS}
-{\color{red}TODO subsection? or relict?}
+\section{Finding the directed girth of a digraph with DFS}
+{\color{red}TODO section}
 
-
-\chapter{Connectivity, components, strong components} %-----------------------
-For many purposes it is useful to know whether a digraph is ``all in one
-piece", and if not, to decompose it into pieces.
 
 \section{Connectivity in graphs}
 %For many purposes it is useful to know whether a digraph is ``all in one
 %piece", and if not, to decompose it into pieces. We now formalize these
 %notions. The situation for graphs is easier than that for digraphs.
+
+For many purposes it is useful to know whether a digraph is ``all in one
+piece", and if not, to decompose it into pieces.
+
 
 \begin{Definition} 
 A graph is \defnfont{connected} if for each pair of 
@@ -971,6 +977,31 @@ This digraph has three strongly connected components. Find and draw the two miss
 Note that there are arcs of the digraph not included in the strongly connected components.
 \end{Boxample}
 
+\begin{Boxample}[4]
+Find a counter-example to show that the method for finding connected components of graphs 
+in \cref{thm:trav-comps} fails at finding strongly connected components of digraphs.
+\end{Boxample}
+
+
+
+%\subsection*{Exercises}
+%
+%\begin{Exercise}
+%\label{ex:DFSfails}
+%Give an example to show that a single use of DFS does not in general
+%find the strongly connected components of a digraph.
+%\end{Exercise}
+%
+%\begin{Exercise}
+%\label{ex:dolinscc}
+%Carry out the above  algorithm by hand on the digraph of
+%\cref{eg:scc} and verify that the components given there are
+%correct. Then run it again on the reverse digraph and verify that the
+%answers are the same.
+%\end{Exercise}
+
+
+\chapter{Finding Strong components, bipartite graphs} %--------------------------------------------------
 
 \section{Finding the strongly connected components}
 
@@ -995,10 +1026,6 @@ Note that there are arcs of the digraph not included in the strongly connected c
 %in \cref{fig:travdecomp}. In that case, if we shrink each
 %search tree to a point, the resulting digraph is also acyclic.
 
-\begin{Boxample}[4]
-Find a counter-example to show that the method for finding connected components of graphs 
-in \cref{thm:trav-comps} fails at finding strongly connected components of digraphs.
-\end{Boxample}
 
 We can determine if $G$ is strongly connected or not (i.e., has a single strongly connected component) 
 by running \texttt{BFSvisit} or \texttt{DFSvisit} originating from each node in turn. 
@@ -1083,24 +1110,8 @@ DFS and the creation of the reverse digraph take linear time. We only
 need to remember  while performing the first DFS to store the nodes in
 an array in order of finishing time. 
 
-%\subsection*{Exercises}
-%
-%\begin{Exercise}
-%\label{ex:DFSfails}
-%Give an example to show that a single use of DFS does not in general
-%find the strongly connected components of a digraph.
-%\end{Exercise}
-%
-%\begin{Exercise}
-%\label{ex:dolinscc}
-%Carry out the above  algorithm by hand on the digraph of
-%\cref{eg:scc} and verify that the components given there are
-%correct. Then run it again on the reverse digraph and verify that the
-%answers are the same.
-%\end{Exercise}
+\section{Bipartite graphs}
 
-
-\chapter{Bipartite graphs} %--------------------------------------------------
 Many graphs in applications have two different types of nodes, and no
 relations between nodes of the same type (this is a model of sexually
 reproducing organisms, for example).
