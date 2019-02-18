@@ -166,7 +166,7 @@ A \defnfont{spanning} subdigraph is one with $V' = V$; that is, it contains all 
 \end{Definition}
 
 \begin{Boxample}
-A digraph (on the left) with a subdigraph (in the middle) and a spanning subdigraph (on the right).
+A digraph (left) with a subdigraph (middle) and a spanning subdigraph (right).
 \begin{center}
 \includegraphics{graphExSubSpan} 
 \end{center}
@@ -211,7 +211,7 @@ Draw the underlying graph $G'$ of the digraph $G$.
 \begin{center}
 \includegraphics{graphExUnderlyingEx}
 \end{center}
-Note that there should be only a single edge between vertices 1 and 3.
+%Note that there should be only a single edge between vertices 1 and 3.
 \end{Boxample}
 
 \begin{Definition} 
@@ -292,7 +292,9 @@ while the number of $1$'s in a column is the indegree.
 \end{Boxample}
 
 
+
 \begin{Boxample}
+\label{ex:adjlist}
 A digraph and its adjacency matrix and adjacency list.\\
 \begin{center}
 \begin{minipage}[c]{0.3\textwidth}
@@ -324,7 +326,7 @@ $\quad\left[
 An empty sequence occurs in the adjacency list where a node has no out-neighbours (for example, sequence $2$). 
 \end{Boxample}
 
-Sometimes the node labels in adjacency lists are omitted.
+Sometimes the node labels in adjacency lists are omitted, so the digraph in \cref{ex:adjlist} would be written as:
 $$\lightgraybox{
 	\begin{array}{ccc}
 	2 &   &   \\
@@ -335,7 +337,7 @@ $$\lightgraybox{
 	\end{array}
 }$$
 
-\begin{Boxample}[2]
+\begin{Boxample}[1]
 Here are two digraphs in the adjacency matrix format. Draw the corresponding digraphs.
 
 	\vspace{1.5cm}
@@ -360,7 +362,7 @@ Here are two digraphs in the adjacency matrix format. Draw the corresponding dig
 	\right]$
 \end{Boxample}
 
-\begin{Boxample}[0] \label{ex:adjlist}
+\begin{Boxample}[0] \label{ex:drawadjlist}
 Here are two digraphs in the adjacency lists format.  Draw the corresponding digraphs.
 
 	\vspace{1cm}
@@ -389,7 +391,7 @@ We can store several digraphs one after the other in a single file as follows:
 \end{itemize}
 
 \begin{Boxample} 
-The two digraphs from \cref{ex:adjlist} could be put in a single file:
+The two digraphs from \cref{ex:drawadjlist} could be put in a single file:
 $$
 \lightgraybox{
 	\begin{array}{ccc}
@@ -415,13 +417,14 @@ Other specialized digraph representations may be used take advantage of
 special structure in a family of digraphs for improved storage or access time. For such specialized
 purposes they may be better adjacency matrices or lists.
 
-For example, trees can be stored more efficiently. In \cref{sec:heapsort} we saw how a complete binary tree can be
-stored in an array. A general rooted tree of $n$ nodes can be stored in
-an array $\pred$ of size $n$. The value $\pred[i]$ gives the parent of
-node $i$. The root is a special case and can be given value $-1$
-(representing a null pointer), for example, if we number nodes from $0$
-to $n-1$ in the usual way. This of course is a form of adjacency lists
-representation, where we use in-neighbours instead of out-neighbours.
+For example, trees can be stored more efficiently (c.f. \cref{sec:heapsort}).  
+\begin{itemize}
+\item A general rooted tree of $n$ nodes can be stored in array $\pred$ of size $n$. 
+\item $\pred[i]$ is the parent of node $i$. 
+\item The root has no parent, so assign it \texttt{null} or $-1$ if we number nodes from $0$
+to $n-1$ in the usual way. 
+\item This is a form of adjacency lists, using in-neighbours instead of out-neighbours.
+\end{itemize}
 
 \begin{Boxample}[4]
 Draw the tree represented by the array $$\pred = [-1,0,0,1,2,2,2,3]\text{.}$$
@@ -440,8 +443,7 @@ An adjacency matrix is simply a matrix which is an array of arrays.
 Adjacency lists are a list of lists. 
 There are several ways in which a list can be implemented, for
 example by an array, or singly- or doubly-linked lists using pointers.  
-These have different properties, for example, accessing the middle element is $\Theta(1)$ f
-or an array but $\Theta(n)$ for a linked list. 
+These have different properties, for example, accessing the middle element is $\Theta(1)$ for an array but $\Theta(n)$ for a linked list. 
 Searching for a value that may or may not be in the list requires sequential search
 and takes $\Theta(n)$ time in the worst case. 
 %
@@ -455,7 +457,6 @@ For the two data structures, consider the steps we need to carry out various bas
 
 \begin{Boxample}
 Compare the matrix and lists data structures for checking whether arc $(i,j)$ exists.\\
-
 	\boldfont{Adjacency matrix representation}: 
 	We need to check whether element $(i,j)$ is 1. 
 	This requires accessing an array element twice, to first find the $i$th array then its $j$th element. 
@@ -470,29 +471,29 @@ Compare the matrix and lists data structures for checking whether arc $(i,j)$ ex
 	In a dense graph $d$ is $O(n)$.
 \end{Boxample}
 
-\begin{Boxample}
-Compare the matrix and lists data structures for deleting a node.\\
-
-	\boldfont{Adjacency matrix representation}: 
-	We must delete a row and column, and move up some elements so there are no gaps in the matrix. 
-	In the worst case, we need to move all remaining elements in the matrix 
-	and since there are now $(n-1)$s rows and columns, it takes time $\Theta(n^2)$.
+\begin{Boxample}[3]
+Compare the matrix/lists data structures for deleting a node.\\
+	\boldfont{Adjacency matrix representation}: \vspace{3cm}
+%	We must delete a row and column, and move up some elements so there are no gaps in the matrix. 
+%	In the worst case, we need to move all remaining elements in the matrix 
+%	and since there are now $(n-1)$s rows and columns, it takes time $\Theta(n^2)$.
 	
 	\boldfont{Adjacency lists representation}: 
-	We must remove a list and also all references to the deleted node in other lists. 
-	This requires scanning each list for the offending entry and deleting it. 
-	We thus need to visit $n$ lists and the combined length of all remaining lists which is (in the worst case) $m$, 
-	requiring $\Theta(n + m)$ work in total.
+%	We must remove a list and also all references to the deleted node in other lists. 
+%	This requires scanning each list for the offending entry and deleting it. 
+%	We thus need to visit $n$ lists and the combined length of all remaining lists which is (in the worst case) $m$, 
+%	requiring $\Theta(n + m)$ work in total.
 \end{Boxample}
 
-The following two tables show the steps required (\cref{tbl:basicOpsSteps}) 
-and the time required (\cref{tbl:basicOpsPerformance}) for basic graph operations 
+\cref{tbl:basicOpsSteps} shows the steps required  
+and \cref{tbl:basicOpsPerformance} the time required for basic graph operations 
 when using adjacency matrix or lists representations.  
 Performance for the adjacency list representation is based on using doubly linked lists.
 
-\begin{table}[H]\label{tbl:basicOpsSteps}
+\begin{table}[H]
 \centering
 \caption{Steps required to perform basic digraph operations by data structure.}
+\label{tbl:basicOpsSteps}
 \begin{tabular}{|l|l|l|}
 \hline
 \textbf{Operation} & \textbf{Adjacency Matrix} & \textbf{Adjacency Lists} \\
@@ -515,9 +516,10 @@ delete node $i$ & delete row/column $i$  & delete list $i$ \\
 \end{tabular}
 \end{table}
 
-\begin{table}[H]\label{tbl:basicOpsPerformance}
+\begin{table}[H]
 \centering
 \caption{Comparative worst-case performance of adjacency lists and matrices.}
+\label{tbl:basicOpsPerformance}
 \begin{tabular}{|l|c|c|}
 \hline
 \textbf{Operation} 	& \textbf{Matrix} & \textbf{Lists} \\
@@ -539,21 +541,22 @@ delete node $i$ 	& $\Theta(n^2)$  & $\Theta(n+m)$  \\
 \end{tabular}
 \end{table}
 
-Notice that apparently similar problems like finding the outdegree and indegree 
-have very different time complexity in the lists representation but not in the matrix representation. 
-\begin{itemize}
-  \item Finding the outdegree with the lists representation merely requires accessing
-the correct list (constant time) plus finding the size of that list
-(constant time). 
-\item Finding the indegree with the lists representation requires
-scanning all lists except one ($n-1$ of them), and looking at every arc in
-them, ($m$ arcs in the worst case), so taking time $\Theta(n+m)$. 
-\end{itemize}
+Using lists, apparently similar problems like finding the outdegree ($\Theta(1)$) and indegree ($\Theta(n+m)$)
+have very different time complexity. 
+%\begin{itemize}
+%  \item Finding the outdegree with lists merely requires accessing
+%the correct list (constant time) plus finding the size of that list
+%(constant time). 
+%\item Finding the indegree with lists requires
+%scanning all lists except one ($n-1$ of them), and looking at every arc in
+%them, ($m$ arcs in the worst case), so taking time $\Theta(n+m)$. 
+%\end{itemize}
 
-If we wish to compute just one indegree, this might be acceptable, 
-but if all indegrees are required, this will be inefficient. 
-It is better to compute the reverse digraph once
-and then read off the outdegrees, this last step taking time $\Theta(n)$.
+Clearly finding all indegrees would be slow if we just used multiple calls to a method designed for getting the in-degree of a single node. 
+
+\begin{Boxample}[8]
+Show that that sorted adjacency lists represention of the reverse digraph of $G$ can be found in time $\Theta(n+m)$ given the sorted adjacncy lits of $G$. Also show how this can be used to find in-degrees for all nodes of $G$ in time $\Theta(n+m)$.
+\end{Boxample}
 
 \section{Space requirements}
 The adjacency matrix representation requires $\Theta(n^2)$ storage 
@@ -564,7 +567,7 @@ since we need $n$ lists and the combined length of all the lists is $m$.
 But node numbers require more than one bit of storage each; the number $k$ uses about $\Theta(\log k)$ bits.
 The average entry in a list is $\frac n 2$, so the total space requirement is more like $\Theta(n + m \log(n))$ 
 
-\begin{Boxample}[2]
+\begin{Boxample}[4]
 What is the storage requirement for a complete digraph on $n$ nodes, that is, a digraph where every possible arc
 occurs?
 \end{Boxample}
@@ -573,7 +576,7 @@ For small, sparse digraphs, lists use less space than a matrix, whereas for smal
 dense digraphs the space requirements are comparable. For large sparse
 digraphs, a matrix can still be more efficient, but this happens rarely.
 
-\begin{Boxample}[2]
+\begin{Boxample}[4]
 Find a large sparse digraph where the matrix representation uses less space than the lists representation.
 \end{Boxample}
 
