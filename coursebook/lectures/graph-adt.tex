@@ -18,7 +18,7 @@ Digraph stands for \boldfont{di}rected \boldfont{graph}.
 \end{Definition}
 
 \begin{Boxample}[0] \label{ex:digraph}
-For the digraph shown below, write down the sets $V$ and $E$.\\
+For the digraph shown, write down the sets $V$ and $E$.\\
 \newline 
 \includegraphics{graphExDirectedVE}
 \end{Boxample}
@@ -31,7 +31,7 @@ Note that the singular of vertices is \defnfont{vertex}.
 \end{Definition}
 
 \begin{Boxample}[0] \label{ex:graph}
-For the graph shown below, write down the sets $V$ and $E$.\\
+For the graph shown, write down the sets $V$ and $E$.\\
 \newline 
 \includegraphics{graphExUndirectedVE}
 \end{Boxample}
@@ -62,7 +62,7 @@ In an (undirected) graph $G$, if $\{u, v\} \in E$, then $u$ is a \defnfont{neigh
 \end{Definition}
 
 \begin{Boxample}[2]
-In the digraph in \cref{ex:digraph}, find all in-neighbours of node 2 and all out-neighbours of node 0.
+In the digraph in \cref{ex:digraph}, find all in-neighbours of node~2 and all out-neighbours of node 0.
 \end{Boxample}
 
 \begin{Definition} 
@@ -195,7 +195,7 @@ Digraph $G$ and its reverse $G_r$. We simply reverse all the arrows.
 \end{center}
 \end{Boxample}
 
-It is sometimes useful to ignore the direction of arcs in a digraph to find the associated `underlying graph''.
+It is sometimes useful to ignore the direction of arcs in a digraph to find the associated `underlying graph'.
 
 \begin{Definition} 
 The \defnfont{underlying graph} of a digraph $G = (V, E)$ is the graph 
@@ -552,10 +552,10 @@ have very different time complexity.
 %them, ($m$ arcs in the worst case), so taking time $\Theta(n+m)$. 
 %\end{itemize}
 
-Clearly finding all indegrees would be slow if we just used multiple calls to a method designed for getting the in-degree of a single node. 
+Clearly finding all indegrees would be slow if we just used multiple calls to a method designed for getting the indegree of a single node. 
 
 \begin{Boxample}[8]
-Show that that sorted adjacency lists represention of the reverse digraph of $G$ can be found in time $\Theta(n+m)$ given the sorted adjacncy lits of $G$. Also show how this can be used to find in-degrees for all nodes of $G$ in time $\Theta(n+m)$.
+Show that that sorted adjacency lists represention of the reverse digraph of $G$ can be found in time $\Theta(n+m)$ given the sorted adjacncy lits of $G$. Also show how this can be used to find indegrees for all nodes of $G$ in time $\Theta(n+m)$.
 \end{Boxample}
 
 \section{Space requirements}

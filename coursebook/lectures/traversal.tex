@@ -39,12 +39,12 @@ We keep track of the order in which nodes are visited by recording which arc was
 As we will see, this creates a sub-digraph of the original digraph which has a tree structure.
 
 The traversal algorithm is formalised in the pseudocode of \cref{alg:traverse,alg:visit}.  
-\algfont{traverse} (\cref{alg:traverse}) initialises the process and is tasked with finding white nodes to start from. 
-Most of the work is done in \algfont{visit} (\cref{alg:visit}) which takes a starting node 
+\cref{alg:traverse} (\algfont{traverse}) initialises the process and is tasked with finding white nodes to start from. 
+Most of the work is done in \cref{alg:visit} (\algfont{visit}) which takes a starting node 
 and explores the portion of the subgraph reachable from that node.
 
 \begin{algorithm}[H]
-  \caption{Basic graph traversal main routine: traverse.}
+  \caption{Basic graph traversal main routine: \algfont{traverse}}
   \label{alg:traverse}
 \begin{algorithmic}[1]
 \Function{traverse}{digraph $G$}
@@ -64,7 +64,7 @@ and explores the portion of the subgraph reachable from that node.
 \end{algorithm}
 
 \begin{algorithm}[H]
-  \caption{Basic graph traversal subroutine: visit.}
+  \caption{Basic graph traversal subroutine: \algfont{visit}}
    \label{alg:visit}
 \begin{algorithmic}[1]
 \Function{visit}{node $s$ of digraph $G$}
@@ -259,7 +259,7 @@ The pseudocode for \algfont{DFS} and \algfont{DFSvisit} is in \cref{alg:DFScode,
 	\For{$u \in V(G)$}  
 		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ \texttt{null} \Comment{initialise arrays}
 	\EndFor
-	\State $\timeVar \gets 0$ \Comment{Time will increment at every niode colour change}
+	\State $\timeVar \gets 0$ \Comment{time will increment at every node colour change}
 	\For{$s \in V(G)$} 
 		\If{$\colour[s] = $ WHITE}  \Comment{find a WHITE node}
 			\State \texttt{DFSvisit}$(s)$ \Comment{start traversal from $s$}
@@ -590,7 +590,7 @@ The subroutine \algfont{setKey} there is the rule for giving the key value when 
 We do not include any code for \texttt{setKey}.
 
 \begin{algorithm}[H]
-  \caption{Priority-first search algorithm (first kind).}
+  \caption{Priority-first search algorithm (first kind)}
   \label{alg:PFScode}
 \begin{algorithmic}[1]
 \Function{PFS}{digraph $G$}
@@ -610,7 +610,7 @@ We do not include any code for \texttt{setKey}.
 \end{algorithm}
 
 \begin{algorithm}[H]
-  \caption{Priority-first visit algorithm.}
+  \caption{Priority-first visit algorithm (second kind)}
   \label{alg:PFScodeVisit}
   \begin{algorithmic}[1]
 \Function{PFSvisit}{node $s$}
@@ -792,7 +792,7 @@ the length of the smallest directed cycle.
 \end{Definition}
 
 \begin{Boxample}[0]
-What are the girth and the directed girth of the following graph?
+What are the girth and the directed girth of the following digraph?
 \begin{center}
 \includegraphics{girthEx}
 \end{center}
