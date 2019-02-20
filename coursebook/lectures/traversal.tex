@@ -652,7 +652,7 @@ We do not include any code for \texttt{setKey}.
 \end{algorithm}
 
 \begin{Boxample}
-Execute PFS on the graph below with the priority given by the degree of a vertex; that is, a vertex with higher degree has higher priority. 
+Execute PFS on the graph below with the key for node $v$ is the degree of $v$. 
 Start the traversal at vertex 0 and break ties by choosing the vertex with the lower index first.
 In each step add one vertex and edge to the search tree. 
 \begin{center}
@@ -874,12 +874,12 @@ Which is the smallest cycle it finds with the back edges? Which smaller cycle do
 \end{center}
 \end{Boxample}
 
-% \begin{Boxmaple} \label{ex:shortest-cycle-thm}
+% \begin{Boxample} \label{ex:shortest-cycle-thm}
 % Give an example to show that in the shortest cycle algorithm, if we
 % do not continue to the end of the level, but terminate when the first
 % cycle is found, we may find a cycle whose length is one more than the
 % shortest possible.
-% \end{Boxmaple}
+% \end{Boxample}
 % TODO: include this?
 
 \section{Finding the directed girth of a digraph with DFS}
@@ -887,18 +887,15 @@ Which is the smallest cycle it finds with the back edges? Which smaller cycle do
 A similar idea can be applied to finding the directed girth of a digraph.
 
 \begin{Boxample}[2.5]
-Convince yourself that the following procedure finds the shortest directed cycle through node $v$ in a digraph.
-
+Convince yourself the the following procedure finds the (length of the) shortest directed cycle through node $v$ in a digraph.
 \begin{enumerate}
 \item Run \algfont{DFSvisit} starting at node $v$.
-\item Whenever a back-arc of the form $(x,v)$ is found, record the depth of $x$.
-\item Stop when all nodes at depth less than or equal to $x$ are $\done$.
-\end{enumerate}
+\item Whenever a back-arc of the form $(x,v)$ is found, we have found a cycle of length equal to $(1 + \mbox{the depth of }x\mbox{ in the search tree})$. 
+\item When  \algfont{DFSvisit} completes, return the shortest length found.\\
 
 \vspace{2.5cm}
 How can this be used to find the directed girth of the digraph? What is the running time for doing so?
-
-TODO: clean this up.
+\end{enumerate}
 \end{Boxample}
 
 \section{Connectivity in graphs}
@@ -936,8 +933,8 @@ subgraphs $G_i$ with the following properties:
 The subgraphs $G_i$ above are called the \defnfont{connected components} of the graph $G$. 
 Clearly, a graph is connected if and only if it has exactly one connected component.
 
-\begin{Boxample} \label{eg:components}
-The graph obtained by deleting two edges from a triangle has 2 connected components.
+\begin{Boxample}[2] \label{eg:components}
+The graph obtained by deleting two edges from a triangle has 2 connected components. Draw a graph with 5 vertices, 5 edges and 2 connected components.
 \end{Boxample}
 
 We can determine the connected components of a graph easily by using a
