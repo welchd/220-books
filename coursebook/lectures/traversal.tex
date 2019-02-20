@@ -651,7 +651,14 @@ We do not include any code for \texttt{setKey}.
 \end{algorithmic}
 \end{algorithm}
 
-jo TODO: PFS boxample
+\begin{Boxample}
+Execute PFS on the graph below with the priority given by the degree of a vertex; that is, a vertex with higher degree has higher priority. 
+Start the traversal at vertex 0 and break ties by choosing the vertex with the lower index first.
+In each step add one vertex and edge to the search tree. 
+\begin{center}
+  \includegraphics{PFSex}
+\end{center}
+\end{Boxample}
 
 \chapter{Topological sort, acyclic graphs and girth} %------------------------
 Many computer science applications require us to find precedence (or dependencies) among events. 
@@ -773,12 +780,12 @@ which means $u$ comes before $v$ in the alleged topological order.
 
 
 
-\begin{Boxample}[0] 
-Find the topological order for the graph shown by running DFS starting at node $0$.  Is it the same order you produced for this graph in \cref{ex:topoorders}?
+\begin{Boxample}[1] 
+Find the topological order for the graph shown by running DFS starting at node $0$.  
+Is it the same order you produced for this graph in \cref{ex:topoorders}?
 \begin{center}
-\includegraphics{topologicalOrder2}
+\includegraphics{topologicalOrder2b}
 \end{center}
-jo TODO: I think for this example best to clip figure so only have graph (without)not blank nodes on right) 
 \end{Boxample}
 
 %\begin{Boxample} \label{ex:sillytopsort}
@@ -879,12 +886,14 @@ Which is the smallest cycle it finds with the back edges? Which smaller cycle do
 
 A similar idea can be applied to finding the directed girth of a digraph.
 
-\begin{Boxample}[5]
-Convince yourself the the following procedure finds the (length of the) shortest directed cycle through node $v$ in a digraph, state how it can be used to find the directed girth and find the running time for doing so.
+\begin{Boxample}[2.5]
+Convince yourself the the following procedure finds the (length of the) shortest directed cycle through node $v$ in a digraph.
 \begin{enumerate}
 \item Run \algfont{DFSvisit} starting at node $v$.
 \item Whenever a back-arc of the form $(x,v)$ is found, we have found a cycle of length equal to $(1 + \mbox{the depth of }x\mbox{ in the search tree})$. 
 \item When  \algfont{DFSvisit} completes, return the shortest length found.
+\vspace{2.5cm}
+How can this be used to find the directed girth of the digraph? What is the running time for doing so?
 \end{enumerate}
 \end{Boxample}
 

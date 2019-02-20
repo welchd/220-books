@@ -337,20 +337,16 @@ $$\lightgraybox{
 	\end{array}
 }$$
 
-\begin{Boxample}[1]
-Here are two digraphs in the adjacency matrix format. Draw the corresponding digraphs.
+\begin{Boxample}[2]
+Give the adjacency matrix of the digraph below.
 
-	\vspace{1.5cm}
-	$\left[
-	\begin{matrix}
-	0 & 0 & 0 & 0  \\
-	0 & 0 & 0 & 1  \\
-	1 & 1 & 0 & 0  \\
-	0 & 0 & 1 & 0  \\
-	\end{matrix}
-	\right]$
+	\vspace{1cm}
+	\includegraphics{graphEx4}
+	\vspace{1cm}
 	
-	\vspace{2.5cm}
+Draw the digraph corresponding to the given adjacency matrix.
+
+	\vspace{1cm}
 	$\left[
 	\begin{matrix}
 	0 & 1 & 0 & 1 & 0 \\
@@ -362,17 +358,16 @@ Here are two digraphs in the adjacency matrix format. Draw the corresponding dig
 	\right]$
 \end{Boxample}
 
-\begin{Boxample}[0] \label{ex:drawadjlist}
-Here are two digraphs in the adjacency lists format.  Draw the corresponding digraphs.
+\begin{Boxample}[1] \label{ex:drawadjlist}
+Give the adjacency lists of the digraph below.
 
 	\vspace{1cm}
-	$\lightgraybox{\begin{array}{c|c}
-	0 & 2  \\
-	1 & 0  \\
-	2 & 1 \\
-	\end{array}}$
+	\includegraphics{graphEx5}
+	\vspace{1cm}
 	
-	\vspace{1.5cm}
+Draw the digraph corresponding to the given adjacency lists.
+
+	\vspace{1cm}
 	$\lightgraybox{\begin{array}{c|ccc}
 	0 & 1 & 2  \\
 	1 & 3  \\
@@ -391,7 +386,25 @@ We can store several digraphs one after the other in a single file as follows:
 \end{itemize}
 
 \begin{Boxample} 
-The two digraphs from \cref{ex:drawadjlist} could be put in a single file:
+The two digraphs on the left could be put in a single file:\\
+
+\begin{minipage}[c]{0.5\textwidth}
+\centering
+	$\lightgraybox{\begin{array}{c|c}
+	0 & 2  \\
+	1 & 0  \\
+	2 & 1 \\
+	\end{array}}$
+	
+	\vspace{1cm}
+	$\lightgraybox{\begin{array}{c|ccc}
+	0 & 1 & 2  \\
+	1 & 3  \\
+	2  \\
+	3 & 0 & 1 & 2 \\
+	\end{array}}$
+\end{minipage}
+\begin{minipage}[c]{0.5\textwidth}
 $$
 \lightgraybox{
 	\begin{array}{ccc}
@@ -408,6 +421,7 @@ $$
 	\end{array}
 }
 $$
+\end{minipage}
 \end{Boxample}
 
 
