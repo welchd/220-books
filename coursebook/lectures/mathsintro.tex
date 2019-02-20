@@ -57,8 +57,7 @@ Other useful functions:
 and satisfies $$a^{x+y} = a^x a^y$$ for all $x,y\in \mathbb{R}$. 
 \item For fixed $a>1$ the logarithm $\log_a$ is strictly increasing and satisfies 
 $$\log_a(xy) = \log_a x + \log_a y$$ for all $x,y>0$.
-\item We write $\ln = \log_e$ and $\lg = \log_2$. Note that $\log_a x = \log_a b \log_b x$ and $a^x = e^{x\ln a}$.
-\item Derivatives: $(e^x)' := \frac{d}{dx} e^x = e^x, \frac{d}{dx} \ln x = \frac{1}{x},  \frac{d}{dx} x^a = ax^{a-1}$ if $a$ is a constant.
+\item We write $\ln = \log_e$ and $\lg = \log_2$. Note that $\log_a x = \log_a b \log_b x$ and $a^x = e^{x\ln a}$. If the base of the logarithm does not matter (for example when we do asymptotic analysis) e often just write $\log$.
 \end{itemize}
 
 \begin{Boxample}[4]
@@ -93,7 +92,7 @@ then we know it must be true for all $n \in \mathbb{N}$.
 \begin{Boxample}
 Prove that if $a\neq 1$ then for all  $n\geq 0$
 $$
-	\sum_{i=0}^n a^n = \frac{a^{n+1} - 1}{a - 1}.
+	\sum_{i=0}^n a^i = \frac{a^{n+1} - 1}{a - 1}.
 $$
 Proof: It is true for $n=0$: $1 = 1$. Assume it is true for a given  $n\geq 0$. Then
 \begin{align*}
@@ -132,9 +131,19 @@ beyond which $L - \varepsilon < f(x) < L + \varepsilon$ for \boldfont{all} $x$.
 $\lim_{x \to \infty} x^2 = \infty$, $\lim_{x \to \infty} 1/x = 0$, $\lim_{x\to \infty} \frac{x-1}{x+1} = 1$.
 \end{Boxample}
 
-An important technique is the \defnfont{L'H\^{o}pital's rule}: $$\lim_{x\to \infty} f(x)/g(x) = \lim_{x\to \infty} f'(x)/g'(x)$$ as long as the latter exists. 
+An important use of limits is to compute the \defnfont{derivative} of a function. This gives the instantaneous rate of change, and is defined by 
+$$
+f'(x) = \lim_{h\to 0} \frac{f(x+h) - f(x)}{h}
+$$
+when this limit exists.
+\begin{Boxample}[4]
+If $f(x)$ is respectively $e^x, \ln x, x^a$ for some constant $a$, then $f'(x)$ is respectively $e^x, 1/x, ax^{a-1}$.
+\end{Boxample}
+There are some basic rules for derivatives, for example $(f+g)' = f'+g', (fg)' = fg'+f'g$.
 
-\begin{Boxample}
+An important technique is \defnfont{L'H\^{o}pital's rule}: $$\lim_{x\to \infty} f(x)/g(x) = \lim_{x\to \infty} f'(x)/g'(x)$$ as long as the latter exists. 
+
+\begin{Boxample}[2]
 $\lim_{x\to\infty} \frac{e^x}{x^2} =  \lim_{x\to\infty} \frac{e^x}{2x} = \lim_{x\to\infty} \frac{e^x}{2} = \infty$.
 \end{Boxample}
  
@@ -142,5 +151,8 @@ $\lim_{x\to\infty} \frac{e^x}{x^2} =  \lim_{x\to\infty} \frac{e^x}{2x} = \lim_{x
 What is  $\lim_{x\to\infty} \frac{\ln x}{x}$?
 \end{Boxample}
 
-
+Another use of limits is to define the definite \defnfont{integral} of a function, which gives the area under the curve $y=f(x)$. We compute them usually using the Fundamental Theorem of Calculus: if we can find $F$ such that $F' = f$, then 
+$$
+\int_a^b f(x) \, dx = F(b) - F(a).
+$$
 
