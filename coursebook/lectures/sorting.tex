@@ -16,9 +16,6 @@ Sort the integers $\set{42, 7, 911, -2}$ with $\leq$
 and the words $\{$\textit{banana, computer, Auckland, bamboo}$\}$ with  alphabetical (lexicographic) order.
 \end{Boxample}
 
-Note that the data structure used for sorting is important. 
-Sorting an array is a different problem from sorting a linked list. 
-However, these differences affect  only efficiency, not correctness.  
 
 
 \section{Properties of sorting algorithms}
@@ -29,7 +26,10 @@ A sorting algorithm is \defnfont{comparison-based} if it only uses the order rel
 This is consistent with the ADT (Abstract Data Type), object-oriented approach. 
 There are other algorithms like bucket sort, radix sort, etc. that do not do this. 
 They use properties of the data representation such as the decimal expansion of keys.
-We only analyse comparison-based algorithms, since they work for general data.
+We only analyse comparison-based algorithms, since they work for general data. Note that the data structure used for sorting is important. 
+Sorting an array is a different problem from sorting a linked list. 
+However, these differences affect  only efficiency, not correctness, and for correctness we can (and should) consider the algorithm as acting on a general list. 
+
 
 We consider only two elementary operations: a \boldfont{comparison} of two items and a \boldfont{move} of an item.
 For a comparison, we choose keys $x$ and $y$ and answer the question ``is $x<y$?" (or maybe we ask which of $x < y, x = y, y < x$ is true). 
