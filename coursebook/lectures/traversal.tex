@@ -876,8 +876,18 @@ Which is the smallest cycle it finds with the back edges? Which smaller cycle do
 % TODO: include this?
 
 \section{Finding the directed girth of a digraph with DFS}
-{\color{red}TODO section}
 
+A similar idea can be applied to finding the directed girth of a digraph.
+
+\begin{Boxample}[4]
+Convince yourself the the following procedure finds the shortest directed cycle through node $v$ in a digraph, state how it can be used to find the directed girth and find the running time for doing so.
+\begin{enumerate}
+\item Run \algfont{DFSvisit} starting at node $v$
+\item whenever a back-arc of the form $(x,v)$ is found, record the depth of $x$
+\item stop when all nodes at depth less than or equal to $x$ are $\done$.
+\end{enumerate}
+TODO: clean this up.
+\end{Boxample}
 
 \section{Connectivity in graphs}
 %For many purposes it is useful to know whether a digraph is ``all in one
