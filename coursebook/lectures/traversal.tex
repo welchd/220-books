@@ -886,14 +886,18 @@ Which is the smallest cycle it finds with the back edges? Which smaller cycle do
 
 A similar idea can be applied to finding the directed girth of a digraph.
 
-\begin{Boxample}[4]
-Convince yourself the the following procedure finds the shortest directed cycle through node $v$ in a digraph, 
-state how it can be used to find the directed girth and find the running time for doing so.
+\begin{Boxample}[2.5]
+Convince yourself that the following procedure finds the shortest directed cycle through node $v$ in a digraph.
+
 \begin{enumerate}
-\item Run \algfont{DFSvisit} starting at node $v$
-\item whenever a back-arc of the form $(x,v)$ is found, record the depth of $x$
-\item stop when all nodes at depth less than or equal to $x$ are $\done$.
+\item Run \algfont{DFSvisit} starting at node $v$.
+\item Whenever a back-arc of the form $(x,v)$ is found, record the depth of $x$.
+\item Stop when all nodes at depth less than or equal to $x$ are $\done$.
 \end{enumerate}
+
+\vspace{2.5cm}
+How can this be used to find the directed girth of the digraph? What is the running time for doing so?
+
 TODO: clean this up.
 \end{Boxample}
 
