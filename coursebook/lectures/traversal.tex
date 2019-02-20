@@ -652,7 +652,7 @@ We do not include any code for \texttt{setKey}.
 \end{algorithm}
 
 \begin{Boxample}
-Execute PFS on the graph below with the priority given by the degree of a vertex; that is, a vertex with higher degree has higher priority. 
+Execute PFS on the graph below with the key for node $v$ is the degree of $v$. 
 Start the traversal at vertex 0 and break ties by choosing the vertex with the lower index first.
 In each step add one vertex and edge to the search tree. 
 \begin{center}
@@ -891,7 +891,8 @@ Convince yourself the the following procedure finds the (length of the) shortest
 \begin{enumerate}
 \item Run \algfont{DFSvisit} starting at node $v$.
 \item Whenever a back-arc of the form $(x,v)$ is found, we have found a cycle of length equal to $(1 + \mbox{the depth of }x\mbox{ in the search tree})$. 
-\item When  \algfont{DFSvisit} completes, return the shortest length found.
+\item When  \algfont{DFSvisit} completes, return the shortest length found.\\
+
 \vspace{2.5cm}
 How can this be used to find the directed girth of the digraph? What is the running time for doing so?
 \end{enumerate}
