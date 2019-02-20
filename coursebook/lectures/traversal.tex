@@ -317,6 +317,8 @@ a recursive version \algfont{recursiveDFSvisit}:
 \end{algorithm}
 
 \begin{Boxample}
+jo TODO: this and the equiavlent BFS example are great. How about another one with just the first full grpah, nodes elsewhere and empty seen/done boxes arrays the epolpe can fill out themselves?
+
 DFS with \texttt{recursiveDFSvisit}. 
 \begin{center}
   \includegraphics[width=1.0\linewidth]{DFSalgoRecursive2}
@@ -409,7 +411,7 @@ Find a tree arc, cross arc, forward arc and back arc (or say if that type of arc
 \section{Pseudocode for breadth-first search} \label{sec:bfs}
 The first-in first-out processing of the grey nodes in BFS is ideally handled by a queue. 
 The pseudocode for \algfont{BFS} and \algfont{BFSvisit} is in \cref{alg:BFScode,alg:BFSvisitcode}.
-The timestamps $\seen$ and $\done$ of DFS are of less use here. 
+The time\-stamps $\seen$ and $\done$ of DFS are of less use here. 
 It is more useful to record the number of steps from the root in the array $d$.
 
 \begin{algorithm}[H]
@@ -455,6 +457,7 @@ It is more useful to record the number of steps from the root in the array $d$.
 \end{algorithm}
 
 \begin{Boxample}
+jo TODO: see request in DFS boxample. Would be good to get another of these that students can do in class.
 BFS on a digraph.
 \begin{center}
   \includegraphics{BFSalgoQueue2}
@@ -492,6 +495,11 @@ Then
   \end{itemize}
 \end{itemize}
 \end{Theorem}
+
+\begin{Boxample}[6]
+Explain why there are no forward arcs when performing BFS on a digraph.
+\end{Boxample}
+
 %\begin{proof}
 %The arc is added to the tree if and only if $w$ is white. If the arc is
 %a back arc, then $w$ is an ancestor of $v$; the FIFO queue structure
@@ -610,7 +618,7 @@ We do not include any code for \texttt{setKey}.
 \end{algorithm}
 
 \begin{algorithm}[H]
-  \caption{Priority-first visit algorithm (second kind)}
+  \caption{Priority-first visit algorithm (first kind)}
   \label{alg:PFScodeVisit}
   \begin{algorithmic}[1]
 \Function{PFSvisit}{node $s$}
