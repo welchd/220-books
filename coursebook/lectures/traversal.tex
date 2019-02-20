@@ -316,12 +316,19 @@ a recursive version \algfont{recursiveDFSvisit}:
 \end{algorithmic}
 \end{algorithm}
 
-\begin{Boxample}
-jo TODO: this and the equiavlent BFS example are great. How about another one with just the first full grpah, nodes elsewhere and empty seen/done boxes arrays the epolpe can fill out themselves?
-
+\begin{Boxample} \label{ex:DFSrecursive}
 DFS with \texttt{recursiveDFSvisit}. 
 \begin{center}
   \includegraphics[width=1.0\linewidth]{DFSalgoRecursive2}
+\end{center}
+\end{Boxample}
+
+\begin{Boxample}
+Execute DFS with \texttt{recursiveDFSvisit} and following \cref{ex:DFSrecursive} fill out the values for $\seen$ and $\done$, give the current $\time$, 
+and highlight the DFS search tree after each step. 
+
+\begin{center}
+  \includegraphics[width=1.0\linewidth]{DFSalgoRecursiveEx}
 \end{center}
 \end{Boxample}
 
@@ -399,7 +406,7 @@ The dashed arcs indicate the original arcs that are not part of the BFS search t
 Find a tree arc, cross arc, forward arc and back arc (or say if that type of arc does not exist for that traversal).
 \end{Boxample}
 
-\begin{Boxample}[2]
+\begin{Boxample}[4]
 Use the nodes on the right to draw the search tree you obtain by running BFS on the graph on the left, starting at vertex $0$. 
 Use dashed edges to indicate edges that are not arcs in the search tree.
 \begin{center}
@@ -456,11 +463,17 @@ It is more useful to record the number of steps from the root in the array $d$.
 \end{algorithmic}
 \end{algorithm}
 
-\begin{Boxample}
-jo TODO: see request in DFS boxample. Would be good to get another of these that students can do in class.
+\begin{Boxample} \label{ex:BFSqueue}
 BFS on a digraph.
 \begin{center}
   \includegraphics{BFSalgoQueue2}
+\end{center}
+\end{Boxample}
+
+\begin{Boxample}
+Execute BFS and following \cref{ex:BFSqueue} fill out the values for $Q$ and $d$, and highlight the BFS search tree after each step. 
+\begin{center}
+  \includegraphics{BFSalgoQueueEx}
 \end{center}
 \end{Boxample}
 
