@@ -409,6 +409,11 @@ when the nodes are processed in the order from $0$ to $4$.
 %if the nodes are processed in the order $4$, $3$, $2$, $1$, $0$?
 \end{Boxample}
 
+\begin{Boxample}[0]
+jo TODO: Bellman-Ford example
+\end{Boxample}
+
+
 \begin{Theorem} 
 Suppose that $G$ contains no negative weight cycles. Then after the $i$-th 
 iteration of the outer for-loop, $\dist[v]$ contains the minimum weight of a 
@@ -636,6 +641,10 @@ In the above matrices we list the entries that change in bold after each
 increment of $k$. 
 \end{Boxample}
 
+\begin{Boxample}[0]
+jo TODO: Floyd's practice example
+\end{Boxample}
+
 \section{Proof of Floyd's algorithm}
 \begin{Theorem} \label{thm:floyd}
 At the bottom of the outer \boldfont{for} loop, for all nodes $u$ and $v$,
@@ -766,6 +775,7 @@ The main difference is in the update formula. We also store the PFS tree, which 
 \end{algorithmic}
 \end{algorithm}
 
+
 \begin{Boxample}
 Application of Prim's algorithm on a digraph.
 \begin{center}
@@ -773,6 +783,9 @@ Application of Prim's algorithm on a digraph.
 \end{center}
 \end{Boxample}
 
+\begin{Boxample}[0]
+jo TODO: Prim's practice example
+\end{Boxample}
 
 \begin{Theorem} \label{thm:prim}
 Prim's algorithms is correct.
@@ -854,6 +867,9 @@ because $0$ and $2$ are already in the same set in $A$.
 \end{center}
 \end{Boxample}
 
+\begin{Boxample}[0]
+jo TODO: Kruskal's practice example
+\end{Boxample}
 
 In Prim's algorithm, we checked whether a cycle would be created by adding
 an edge in the usual way: when exploring $\{u, v\}$ from $u$, if $v$ has
