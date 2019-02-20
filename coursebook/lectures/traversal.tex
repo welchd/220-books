@@ -324,7 +324,7 @@ DFS with \texttt{recursiveDFSvisit}.
 \end{Boxample}
 
 \begin{Boxample}
-Execute DFS with \texttt{recursiveDFSvisit} and following \cref{ex:DFSrecursive} fill out the values for $\seen$ and $\done$, give the current $\time$, 
+Execute DFS with \texttt{recursiveDFSvisit} and following \cref{ex:DFSrecursive} fill out the values for $\seen$ and $\done$, give the current \texttt{time}, 
 and highlight the DFS search tree after each step. 
 
 \begin{center}
@@ -773,11 +773,12 @@ which means $u$ comes before $v$ in the alleged topological order.
 
 
 
-\begin{Boxample}[1] 
+\begin{Boxample}[0] 
 Find the topological order for the graph shown by running DFS starting at node $0$.  Is it the same order you produced for this graph in \cref{ex:topoorders}?
 \begin{center}
 \includegraphics{topologicalOrder2}
 \end{center}
+jo TODO: I think for this example best to clip figure so only have graph (without)not blank nodes on right) 
 \end{Boxample}
 
 %\begin{Boxample} \label{ex:sillytopsort}
@@ -828,13 +829,13 @@ What are the girth and the directed girth of the following digraph?
 
 
 
-\chapter{Finding girth, connectivity, components, strong components} %-----------------------
+\chapter{Finding girth using BFS, connectivity, components, and strong components} %-----------------------
 
 \section{Finding the girth of a graph with BFS}
 How to compute the girth of a graph? Here is an algorithm for finding
 the length of a shortest cycle containing a given vertex $v$ in a graph $G$. 
 \begin{itemize}
-  \item Perform \texttt{BFSvisit}. 
+  \item Perform \texttt{BFSvisit} starting at $v$. 
   \item If we meet a grey neighbour 
   (that is, we are exploring edge $\{x, y\}$ from $x$ and we find that $y$ is already grey), 
   continue only to the end of the current level and then stop.
@@ -844,32 +845,14 @@ the length of a shortest cycle containing a given vertex $v$ in a graph $G$.
   \item Report the minimum value of $l$ obtained along the current level.
 \end{itemize}
 
-\begin{Boxample}[8] \label{ex:BFS-cycle} 
-Prove above algorithm is correct.
-{\color{red} TODO: need to proide some pointers here on how to prove}
-%\end{Theorem}
-%\begin{proof}
-%Suppose that we arrive at vertex $x$, $d(x) = k$, and we have just
-%encountered a grey neighbour $y$. Then $d[y] = d[x] + 1$ or $d[y] = d[x]$
-%(note that $d[x] = d[y] + 1$ is ruled out because then $x$ would be a
-%child of $y$ and $y$ would be black). This means that there is definitely
-%a cycle containing $x, y$ and $z$, where $z$ is the lowest common ancestor
-%of $x$ and $y$ in the BFS tree. Note that $z\neq x, z\neq y$ since neither
-%$x$ nor $y$ is an ancestor of the other. The cycle consists of the tree
-%edges from $z$ to $x$, the cross edge $\set{x,y}$ and the tree edges
-%from $z$ to $y$. The length of the cycle is $l=d[x] + d[y] - 2 d[z] + 1$.
-%
-%Conversely, let $C$ be any cycle and let $z$ be the first vertex of
-%the cycle reached by the search. Let $x$ and $y$ be two vertices in $C$
-%whose distance  from $z$ is greatest, with $d[x] \leq d[y]$. Then the
-%lowest common ancestor of  $x$ and $y$ is exactly $z$, and the cycle
-%found in the first paragraph is exactly $C$.
-%
-%The vertex $v$ belongs to the cycle $C$ if and only if $v = z$. The
-%length of the cycle is $2k+1$ if $d[x] = d[y]$ and $2k+2$ if $d[y] =
-%d[x] - 1$. The minimum length of any cycle containing $v$ found after
-%this is $2(k+1) + 1 = 2k+3$, so no better cycle can be found after the
-%current level $k$ is explored.
+\begin{Boxample}[7] \label{ex:BFS-cycle} 
+Prove above algorithm is correct by showing that:
+\begin{enumerate}
+\item meeting a grey neighbour means that you have indeed found a cycle;
+\item any cycle that exists will be found in such a way; and 
+\item the cycle found in this way will be the shortest going through $v$.
+\end{enumerate}
+
 \end{Boxample}
 
 To compute the girth of a graph, we can simply run the above algorithm
