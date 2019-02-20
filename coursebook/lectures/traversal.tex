@@ -650,7 +650,7 @@ deciding the order in which to process events becomes a problem of sorting the n
 Consider a compiler evaluating sub-expressions of the expression $-(a+b) * (b+c) + ((b+c)+d)$.  
 The compiler must compute, for example, (a+b) and (b+c) before it could compute $-(a+b) * (b+c)$. 
 This can be shown as a dependency digraph where the arc $(u,v)$ means 
-that $u$ depends on $v$ so that $v$ must be calculated first:\\
+that $u$ depends on $v$ so that $v$ must be calculated first (this is the opposite of a precedence digraph discussed above).\\
 \includegraphics{precedence}
 \end{Boxample}
 
@@ -670,7 +670,8 @@ For our arithmetic expression example above, a linear
 order of the sub-expression digraph gives us an order (actually the reverse
 of the order) where we can safely evaluate the expression.
 
-\begin{Boxample}[1]
+\begin{Boxample}[0]
+\label{ex:topoorders}
 A graph with all possible topological orders and drawn with topological order $0, 1, 2, 3, 4$.  
 Draw the graph for the topological order $0, 2, 1, 4, 3$. 
 \begin{center}
@@ -686,9 +687,9 @@ Topological orders are not unique. List all possible topological orders of the f
 \end{center}
 \end{Boxample}
 
-Clearly if the digraph contains a cycle, it is not possible to find
+If the digraph contains a cycle, it is not possible to find
 such a linear ordering. This corresponds to inconsistencies in the
-precedences given, and no scheduling of the tasks is possible.
+precedences given (for example, $a$ precedes $b$ precedes $c$ precedes $a$) and no scheduling of the tasks is possible.
 
 \begin{Definition}
 A digraph without cycles is commonly called a \defnfont{DAG}, an
@@ -712,7 +713,7 @@ If we apply zero-indegree sorting to a digraph that is not a DAG,
 eventually it will stop because no source node can be found at some point.
 
 \begin{Boxample}[3]
-What is the running time of a naive implementation of zero-indgree sorting? Could this be improved upon?
+What is the running time of a naive implementation of zero-indegree where a zero degree node is found and then removed at each step? How could this idea be made more efficient?
 \end{Boxample}
 
 \section{Finding cycles and topological sorting using DFS}
@@ -755,12 +756,15 @@ In the other three cases, \cref{ex:DFS-arc-class} shows that $\done[u] > \done[v
 which means $u$ comes before $v$ in the alleged topological order.
 \end{proof}
 
-Note that printing the nodes in order of finishing time gives a topological order of the reverse digraph $G_r$.
+%Note that printing the nodes in order of finishing time gives a topological order of the reverse digraph $G_r$.
 
-%\begin{Boxample}[2] \label{ex:DAG-vs-tree}
-%Give an example of a DAG whose underlying graph contains a cycle. Make
-%your example as small as possible.
-%\end{Boxample}
+
+
+\begin{Boxample}[1] 
+Find the topological order for the graph shown by running DFS starting at node $0$.  Is it the same order you produced for this graph in \cref{ex:topoorders}
+\begin{center}
+\includegraphics{topologicalOrder2}
+\end{center}\end{Boxample}
 
 %\begin{Boxample} \label{ex:sillytopsort}
 %Show that the following method for topologically sorting a DAG does not work in 
