@@ -261,3 +261,4 @@ coursebook/.project
 coursebook/.texlipse
 coursebook/.gitignore
 .DS_Store
+coursebook/figs/.Rhistory
