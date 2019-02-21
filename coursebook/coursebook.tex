@@ -1,4 +1,4 @@
-\documentclass[11pt,oneside]{memoir}   
+\documentclass[11pt,twoside,openany]{memoir}   
 \makeindex
 \checkandfixthelayout
 
@@ -125,25 +125,16 @@ page~\pageref{#1}}}}:\newline }
 \numberwithin{Lemma}{chapter}
 \numberwithin{Exercise}{section}
 
-\theoremstyle{remark}
-
-\newtheorem*{note}{Note}
-\newtheorem*{statement}{Statement}
-\newtheorem*{theorem}{Theorem}
-\newtheorem*{tech}{\textbf{Technique}}
-
 \usepackage{mdframed}
 \usepackage{xparse}
 \NewDocumentEnvironment{Boxample}{O{0}}{%
-% 	\begin{samepage}
 	\par%
-	\begin{minipage}{\textwidth}%
+	\begin{minipage}[h]{\textwidth}%
 	\begin{mdframed}\begin{Example}%
 }{% 
     \end{Example}%
     \vspace*{#1cm}%
     \end{mdframed}%
-%     \end{samepage}
 	\end{minipage}
 }
 
@@ -154,39 +145,28 @@ page~\pageref{#1}}}}:\newline }
 
 
 % ## headings hacked from memoir package ## -------------------------
+\nouppercaseheads
+\makepagestyle{220coursebook}
+\setlength{\headwidth}{1\textwidth}
+\makerunningwidth{220coursebook}{\headwidth}
+\makeheadrule{220coursebook}{\headwidth}{\normalrulethickness}
+\makeheadposition{220coursebook}{flushright}{flushleft}{}{}
 \makeatletter
-\makepagestyle{220book}
-\setlength{\headwidth}{1.1\textwidth}
-\makerunningwidth{220book}{\headwidth}
-\makeheadrule{220book}{\headwidth}{\normalrulethickness}
-\makeheadposition{220book}{flushright}{flushleft}{}{}
-\makepsmarks{220book}{%
+\makepsmarks{220coursebook}{%
   \let\@mkboth\markboth
   \def\chaptermark##1{%
         \markboth{{%\MakeUppercase{%
-          \ifnum \c@secnumdepth >\m@ne
-            \if@mainmatter
-              \@chapapp\ \thechapter: \ %
-            \fi
-          \fi
+             Lecture~\thechapter: \ %
           ##1}}{}}%
-  \def\sectionmark##1{\markright{%
-    \ifnum \c@secnumdepth>\z@
-      Section~\thesection: \ %
-    \fi
-    ##1}}
-  \def\tocmark{\markboth{\contentsname}{\contentsname}}
-  \def\lofmark{\markboth{\listfigurename}{\listfigurename}}
-  \def\lotmark{\markboth{\listtablename}{\listtablename}}
-  \def\bibmark{\markboth{\bibname}{\bibname}}
- \def\indexmark{\markboth{\indexname}{\indexname}}
 }
-\makeevenhead{220book}
-{{\normalfont\large\bfseries\thepage} \quad \footnotesize\rightmark}
-{} {}
-\makeoddhead{220book}{}{}%
-{\footnotesize\leftmark \quad {\normalfont\large\bfseries\thepage}}
 \makeatother
+\makeevenhead{220coursebook}{\thepage}{}{\rightmark}
+\makeoddhead{220coursebook}{\leftmark}{}{\thepage}
+\makeevenfoot{220coursebook}{}{}{}
+\makeoddfoot{220coursebook}{}{}{}
+
+\raggedbottom
+
 \makeevenfoot{plain}{}{}{}
 \makeoddfoot{plain}{}{}{}
 
@@ -195,6 +175,7 @@ page~\pageref{#1}}}}:\newline }
 
 % --- ### BEGIN DOCUMENT ### ---
 \begin{document}
+
 
 % # title page
 \title{CS220 Algorithms and Data Structures}
@@ -225,6 +206,7 @@ page~\pageref{#1}}}}:\newline }
 	\LARGE{\theauthor}
 	
 	\end{adjustwidth*}
+	
 \end{titlingpage}
 
 
@@ -244,6 +226,8 @@ Thanks also to Simone Linz for help with proofreading.
 \clearpage
 \setcounter{tocdepth}{0}
 \tableofcontents*
+
+\pagestyle{220coursebook}
 
 % - ### main matter ### -
 \include{lectures/mathsintro} 

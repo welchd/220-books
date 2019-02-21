@@ -141,16 +141,12 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
 %\item We consider only \emph{asymptotic} (large-$n$) comparison of running 
 %time.
 
-
+\pagebreak[4]
 \subsection{How running time scales with problem size}
-In \cref{t:growth} we describe the growth rate of some commonly used functions.
+The table below describes the growth rate of some commonly used functions as the problem size grows.
+Note that there are about $3 \times 10^{18}$ nanoseconds in a century.
 
-\begin{table}[htb] 
-   \centering
-   \caption{Growth in running time as problem size grows. Note that 
-   there are about $3\times 10^{18}$ nanoseconds in a century.}
-   \label{t:growth}
- % \caption{\label{t:growth} } 
+\begin{center}
    \begin{tabular}{|c|c|cccc|} \hline 
    \multicolumn{2}{|c|}{\textbf{Running time}} &  
    \multicolumn{4}{c|}{\textbf{Input size}} 
@@ -165,10 +161,8 @@ In \cref{t:growth} we describe the growth rate of some commonly used functions.
    Cubic        & $n^{3}$ & 1 & 1000 & $10^6$ &  $10^{18}$ \\ \hline 
    Exponential  & $2^{n}$ & 1 & $10^{27}$ & $10^{298} $ & $10^{3010296}$  \\ \hline 
    \end{tabular}
-\end{table} 
+\end{center}
  
-
-
 
 \begin{Boxample}[4]
 \label{exr:time-compl:2}
