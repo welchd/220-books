@@ -1052,11 +1052,14 @@ This generalises to all strongly connected components (\cref{fig:sccdecomp}). By
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.7\textwidth]{decomposition2}
-\caption{decomposing a graph into its strongly connected components, $C_1, \ldots, C_m$. If each $C_i$ is considered a single node, this decomposiion is a DAG.}
+\caption{Decomposing a graph into its strongly connected components, $C_1, \ldots, C_m$. If each $C_i$ is considered a single node, this decomposiion is a DAG.}
  \label{fig:sccdecomp}
 \end{figure}
 
 If we started a DFS in $C_1$, we'd reach only nodes in $C_1$ and no other nodes. If we then started a DFS in $C_2$, we'd see only those in $C2$ and so on. The question is, how do we know to start in $C_1$, the $C_2$ etc.?
+
+Since $H$ is a DAG, we can find a topological order of it using the reverse order of finishing times of a DFS. WE also note that the the strong components of $G$ are the same as the strong components of its reverse, $G_r$. So, as before, starting a DFS in $C_m$ in $G_r$ means we would only visit nodes in $C_m$ and so on. This leads to the following solution, due to Tarjan.
+
 
 \begin{itemize}
 \item Run a DFS on $G$ starting at an arbitrary node and record the finishing ($\done$) times for each node.
@@ -1136,7 +1139,7 @@ If we started a DFS in $C_1$, we'd reach only nodes in $C_1$ and no other nodes.
 %strong component, another contradiction.
 %\end{proof} 
 
-The above algorithm runs in linear time with adjacency lists, since each
+The above algorithm runs in linear time with adjacency lists, since
 DFS and the creation of the reverse digraph take linear time. 
 %We only
 %need to remember  while performing the first DFS to store the nodes in

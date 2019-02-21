@@ -500,7 +500,7 @@ The APSP problem can be solved by solving the SSSP problem from each node.
   \item To be robust to negative weights, using Bellman--Ford gives a $\Theta(n^2 m)$ solution to APSP.
 \end{itemize}
 
-\defnfont{Floyd's algorithm} computes a distance matrix from a cost matrix (so solves ASPS) in time $\Theta(n^3)$. 
+\defnfont{Floyd's algorithm} computes a distance matrix from a cost matrix (so solves APSP) in time $\Theta(n^3)$. 
 \begin{itemize}
   \item The basic idea is that we find the length of the shortest path between nodes $u$ and $v$ that uses only a fixed set of intermediate nodes. 
   \item This set of intermediate nodes starts at as the empty set (so only arcs from $u$ to $v$ are allowed) and grows, one node at a time, 
@@ -823,7 +823,7 @@ concludes the proof of correctness.
 \subsection{Running time}
 The complexity of the algorithm depends to a great extent on the data
 structures used. The best known for Prim is the same as for Dijkstra
-ans so we also get a running time in $O(m + n\log n)$.
+and so we also get a running time in $O(m + n\log n)$.
 
 \section{Kruskal's algorithm}
 \defnfont{Kruskal's algorithm} is even simpler than Prim's to state.
@@ -869,12 +869,12 @@ because $0$ and $2$ are already in the same set in $A$.
 jo TODO: Kruskal's practice example
 \end{Boxample}
 
-In Prim's algorithm, we checked whether a cycle would be created by adding
-an edge in the usual way: when exploring $\{u, v\}$ from $u$, if $v$ has
-already been seen and is not the parent of $u$, then adding $\{u, v\}$
-creates a cycle. With Kruskal's algorithm, we must use another method,
-since the above test does not work. Both $u$ and $v$ may have been seen,
-but may be in different trees.
+%In Prim's algorithm, we checked whether a cycle would be created by adding
+%an edge in the usual way: when exploring $\{u, v\}$ from $u$, if $v$ has
+%already been seen and is not the parent of $u$, then adding $\{u, v\}$
+%creates a cycle. With Kruskal's algorithm, we must use another method,
+%since the above test does not work. Both $u$ and $v$ may have been seen,
+%but may be in different trees.
 
 Observe that if we try to add an edge both of whose endpoints are in
 the same tree in the Kruskal forest, this will create a cycle, so the
@@ -886,7 +886,7 @@ We need a data structure that can handle this efficiently. All we need is to be
 able to find the tree containing an endpoint, and to merge two trees. The
 \defnfont{disjoint sets} or \defnfont{union-find} ADT is precisely what
 is needed. It allows us to perform the \texttt{find} and \texttt{union}
-operations efficiently. % (see Section~\ref{sec:app:adt-informal}).
+operations efficiently. We do not look at the details of this ADT here.
 
 
 
