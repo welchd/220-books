@@ -125,7 +125,7 @@ $$\left[
 \end{minipage} 
 \end{Boxample}
 
-\begin{Boxample}[2]
+\begin{Boxample}[6]
 Give an example of a weighted digraph in which the BFS approach
 does not find the shortest path from the root to a node.
 \end{Boxample}
@@ -141,7 +141,7 @@ This is like finding row $s$ in a weighted distance matrix.
 
 \begin{Boxample} \label{eg:SSSP}
 In the weighted digraph pictured, the unique shortest path from $0$ to $3$ is $0, 1, 3$ with weight $3$.
-What is the path with minimum weight from $2$ to $0$, what is its weight?\\
+What is the path with minimum weight from $2$ to $0$, and what is its weight?\\
 
 \includegraphics{weightedDigraph}
 \end{Boxample}
@@ -151,7 +151,7 @@ What is the path with minimum weight from $2$ to $0$, what is its weight?\\
 It may fail in the presence of negative weight arcs.
 
 It is easiest to understand the algorithm in terms of a set of visited nodes $S$, which eventually includes all nodes in $G$. 
-We'll consider only shortest paths through $S$ and make sure the length of these shortest paths is accurate.
+We'll consider only shortest paths through $S$.% and make sure the length of these shortest paths is accurate.
 Once $S = V(G)$, all shortest path lengths are known. 
 
 Initially $S$ contains only the single node $s$. 
@@ -161,9 +161,7 @@ We choose the neighbour $u$ with $c(s, u)$ minimal and add it to $S$.
 Now the fringe nodes adjacent to $s$ and $u$ must be updated to reflect possible paths through $u$ 
 (it is possible that there exists a path from $s$ to $v$, passing through $u$, that is shorter than the direct path from $s$). 
 Now we choose the node whose current best distance to $s$ is smallest, and update again. 
-We continue in this way until all nodes belong to $S$.
-
-In \cref{alg:dijkstra}, the set $S$ consists of the BLACK nodes.
+We continue in this way until all nodes belong to $S$. In \cref{alg:dijkstra}, the set $S$ consists of the BLACK nodes.
 
 \begin{algorithm}[H]
   \caption{Dijkstra's algorithm, first version.}
@@ -315,7 +313,7 @@ taken to find the node with minimum value of $\dist$.
 The obvious method of finding the minimum is simply to scan through array $\dist$
 sequentially, so that $a$ is of order $n$, and the running time of
 Dijkstra is therefore $\Theta(n^2)$. 
-Dijkstra himself originally used an adjacency matrix and scanning of the $\dist$ array. 
+%Dijkstra himself originally used an adjacency matrix and scanning of the $\dist$ array. 
 
 
 \chapter{Dijkstra and PFS, Bellman-Ford algorithm} % -----------------------------------
@@ -934,16 +932,16 @@ hopeless ones. In some special cases (for example, graphs that are
 \defnfont{planar} (they can be drawn in the plane without edges crossing) 
 or are in some sense ``close to" trees, much faster algorithms can be developed.
 
-\subsection*{Exercises}
-
-\begin{Exercise}\label{exr:tsp}
-Find a Hamiltonian cycle of the graph in \cref{ex:dijk-SI}. Try to solve
-the TSP for this graph.
-\end{Exercise}
-
-\begin{Exercise}\label{exr:indset}
-What is the exact relation between the independent set and vertex cover problems?
-\end{Exercise}
+%\subsection*{Exercises}
+%
+%\begin{Exercise}\label{exr:tsp}
+%Find a Hamiltonian cycle of the graph in \cref{ex:dijk-SI}. Try to solve
+%the TSP for this graph.
+%\end{Exercise}
+%
+%\begin{Exercise}\label{exr:indset}
+%What is the exact relation between the independent set and vertex cover problems?
+%\end{Exercise}
 
 %\section{Notes}
 %
