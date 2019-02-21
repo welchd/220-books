@@ -243,23 +243,21 @@ A \defnfont{hash table} is an array implementation of the table ADT,
 where each key is mapped via a hash function to an array index. 
 \end{Definition}
 
-There are several desirable properties of a hash function:
+A hash function should:
 \begin{itemize}
-\item it should be computable quickly (constant time);
-\item if keys are drawn uniformly at random, then the hashed values
-should be uniformly distributed;
-\item keys that are ``close" should have their hash values ``spread out". 
+\item be computable quickly (constant time);
+\item produce hashed values that are uniformly distributed if keys are drawn uniformly at random;
+\item produce hash values that are ``spread out'' for keys that are ``close". 
 \end{itemize}
 A hash function should be deterministic, but appear ``random" -- in other 
 words it should pass some statistical tests (similar to pseudorandom number generators). 
 
 \section{Collisions}
-The number of possible keys is usually enormously more than the actual number of keys. 
-Thus allocating an array with enough size to fit all possible keys would be very inefficient. 
-So hash functions are not $1$-to-$1$; that is, two keys may be mapped to the same index -- a \defnfont{collision}. 
+The number of possible keys is usually much large than the actual number of keys so we do not want to allocate an array lerge enough to fit all possible keys. 
+But this means that hash functions are not $1$-to-$1$; two keys may be mapped to the same index -- a \defnfont{collision}. 
 
 We need a \defnfont{collision resolution policy} to prescribe what to do when collisions occur. 
-We assume the first-come-first served (FCFS) model for resolving collisions.
+We assume the first-come-first served model for resolving collisions.
 
 \section{Collision resolution policies}
 \begin{itemize}
@@ -294,6 +292,7 @@ A hash table with chaining.
 \begin{center}
 \includegraphics{hashChaining} 
 \end{center}
+\label{ex:chaining}
 \end{Boxample}
 
 
@@ -319,6 +318,7 @@ The hash table on the right uses double hashing, so $d$ is moved $p(d)$ to the l
 \begin{center}
 \includegraphics{hashProbing} 
 \end{center}
+\label{ex:probing}
 \end{Boxample}
 
 Linear probing is easy to implement, easier than double hashing.
@@ -341,21 +341,22 @@ The most interesting behaviour is when $m$ and $n$ are of comparable size.
 We define the \defnfont{load factor} to be $\lambda := n/m$. 
 
 \begin{Boxample}[4]
-Compute the load factor for the hash tables shown earlier in this section.
+Compute the load factor for the hash tables shown in \cref{ex:chaining,ex:probing}.
 \end{Boxample}
 
 
 \chapter{Analysis of hashing} %-------------------------------------------------
 
 \section{Analysis of balls in bins}
-Define 
+
+The probability of no collisions when $n$ balls are thrown into $m$ boxes 
+uniformly at random is $Q(m, n)$ where 
 $$Q(m, n) = \frac{m!}{(m-n)! m^n} = \frac{m}{m} \frac{m-1}{m} \dots 
 \frac{m - n + 1}{m}\text{.}$$
 Note that $Q(m,0) = 1, Q(m, n) = 0$ unless $0 \leq n \leq m$.
 
-The probability of no collisions when $n$ balls are thrown into $m$ boxes 
-uniformly at random is $Q(m, n)$. For example, $Q(366, 180) \approx 0.4487
- \times 10^{-23}$, $Q(366, 24) \approx  0.4627$. 
+For example, $Q(366, 180) \approx 0.4487
+ \times 10^{-23}$  (negligible chance of no collision when 180 balls thrown into 366 boxes) while $Q(366, 24) \approx  0.4627$ (slightly more likely than not to have a collision when throwing 24 balls in 366 boxes).
 
 The expected number of balls until the first collision is equal to 
 $E(m):=\sum_{n \leq m} Q(m, n)$. Note $E(365) \approx 25$.
@@ -364,12 +365,12 @@ $E(m):=\sum_{n \leq m} Q(m, n)$. Note $E(365) \approx 25$.
 \subsection{Plots of $Q(m, n)$ against $n$, $m=25,100,400,1600$}
 \begin{figure}[htb]
 \centering
-\includegraphics[width=4cm]{figs/birthday25.jpg}
+\includegraphics[width=4cm]{figs/birthday25.pdf}
 $\quad$
-\includegraphics[width=4cm]{figs/birthday100.jpg}\\
-\includegraphics[width=4cm]{figs/birthday400.jpg}
+\includegraphics[width=4cm]{figs/birthday100.pdf}\\
+\includegraphics[width=4cm]{figs/birthday400.pdf}
 $\quad$
-\includegraphics[width=4cm]{figs/birthday1600.jpg}
+\includegraphics[width=4cm]{figs/birthday1600.pdf}
 \end{figure}
 
 \section{Results for chaining}
