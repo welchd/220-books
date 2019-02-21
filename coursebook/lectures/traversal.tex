@@ -1060,10 +1060,10 @@ If we started a DFS in $C_1$, we'd reach only nodes in $C_1$ and no other nodes.
 
 \begin{itemize}
 \item Run a DFS on $G$ starting at an arbitrary node and record the finishing ($\done$) times for each node.
-\item List the nodes of $G$ in the reverse order of finishing (those that finish first listed last).
-\item Find $G_r$, the reverse of $G$. 
-\item Run DFS on $G_r$ always choosing a root (starting) node from the unvisited node that occurs first on the list. 
-\item This produces a forest $F_r$ and each tree in the forest is a strongly connected component of $G$.
+\item List nodes of $G$ in reverse order of finishing (from last finished to first).
+%\item Find $G_r$, the reverse of $G$. 
+\item Run DFS on $G_r$, the reverse of $G$, always choosing a root (starting) node as the unvisited node that occurs first on the list in the previous step.
+\item This produces a forest $F_r$ where each tree in the forest is a strongly connected component of $G$ (and of $G_r$).
 \end{itemize}
 
 
