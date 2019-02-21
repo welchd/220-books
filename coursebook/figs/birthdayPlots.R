@@ -11,7 +11,8 @@ for (i in 1:4){
     q[j] = qmn(m[i],j) 
   }
   pdf(file = paste("birthday",m[i],".pdf", sep = ""))
-  plot(n,q, type = "l", ylab = "Q", xlab = "n", cex.axis = 1.5, cex.lab = 1.5, col = 2)
+  par(mar=c(6,7,4,1)+.1)
+  plot(n,q, type = "l", ylab = "Q", xlab = "n", cex.axis = 2, cex.lab = 2, col = 2)
   dev.off()
 }
 
