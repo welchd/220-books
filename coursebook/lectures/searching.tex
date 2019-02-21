@@ -253,11 +253,13 @@ A hash function should be deterministic, but appear ``random" -- in other
 words it should pass some statistical tests (similar to pseudorandom number generators). 
 
 \begin{Boxample}[4]
-{\color{red} TODO: active example of a hash function}
+Suppose that we hash dictionary words by letting $h(w)$ be the address of the last letter of $w$, converted to lower case (so there are 26 slots in the hash table, numbered $0,\dots , 25$ to correspond to $a, b, \dots, z$ respectively. 
+
+List two words that are very ``different" yet have the same hash value. Which of the criteria listed above are satisfied by this hash function?
 \end{Boxample}
 
 \section{Collisions}
-The number of possible keys is usually much large than the actual number of keys so we do not want to allocate an array lerge enough to fit all possible keys. 
+The number of possible keys is usually much large than the actual number of keys so we do not want to allocate an array large enough to fit all possible keys. 
 But this means that hash functions are not $1$-to-$1$. When two keys may be mapped to the same index we call it a \defnfont{collision}. 
 
 We need a \defnfont{collision resolution policy} to prescribe what to do when collisions occur. 
@@ -302,7 +304,10 @@ A hash table with chaining.
 \end{Boxample}
 
 \begin{Boxample}[4]
-{\color{red} TODO: active example of chaining}
+If we use the hash function for dictionary words given above, and hash the following 14 words using chaining, what is the length of the longest chain formed?
+The words are:
+abacus, abaci, acrid, grampus, radii, celery, homely, comely, xylitol, animal, seminar, seminal, radar, box
+
 \end{Boxample}
 
 \section{Collision resolution via open addressing}
@@ -331,7 +336,9 @@ The hash table on the right uses double hashing, so $d$ is moved $p(d)$ to the l
 \end{Boxample}
 
 \begin{Boxample}[4]
-{\color{red} TODO: active example of open addressing}
+If we use the hash function for dictionary words, open addressing with linear probing, and the list of 14 words as above,
+where does the word ``comely" hash to in the table?
+If instead of linear probing we use double hashing with $p(w)$ defined to be the number of vowels in $w$, where does ``comely" end up?
 \end{Boxample}
 
 
