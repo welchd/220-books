@@ -252,32 +252,38 @@ A hash function should:
 A hash function should be deterministic, but appear ``random" -- in other 
 words it should pass some statistical tests (similar to pseudorandom number generators). 
 
+\begin{Boxample}[4]
+{\color{red} TODO: active example of a hash function}
+\end{Boxample}
+
 \section{Collisions}
 The number of possible keys is usually much large than the actual number of keys so we do not want to allocate an array lerge enough to fit all possible keys. 
-But this means that hash functions are not $1$-to-$1$; two keys may be mapped to the same index -- a \defnfont{collision}. 
+But this means that hash functions are not $1$-to-$1$. When two keys may be mapped to the same index we call it a \defnfont{collision}. 
 
 We need a \defnfont{collision resolution policy} to prescribe what to do when collisions occur. 
 We assume the first-come-first served model for resolving collisions.
 
-\section{Collision resolution policies}
-\begin{itemize}
+We consider two collision resolution policies:
+\begin{enumerate}
+\item \defnfont{Chaining} uses an ``overflow" list for each element in the hash table.
 \item \defnfont{Open addressing} uses no extra space. Every element is stored in the hash table. 
 If it gets overfull, we can reallocate space and rehash.
-\item \defnfont{Chaining} uses an ``overflow" list for each element in the hash table.
+\end{enumerate}
 %\item When a collision occurs, we can evict the occupant (LCFS), 
 %evict the latecomer (FCFS) or evict the element furthest from its home location
 % (\defnfont{Robin Hood} hashing).
-\item When a collision occurs in open addressing, we can 
+When a collision occurs in open addressing, we can 
 	\begin{itemize}
 		\item \defnfont{probe} nearby for a free position (linear probing, quadratic probing, \ldots);
 		\item go to a ``random" position by using a second-level hash function 
 		(\defnfont{double hashing}).
+		\item we \boldfont{employ the convention that we always probe to the left}.
 		%\item try a position given by a second, third, \dots hash function (this plus 
 		%LCFS gives \emph{cuckoo hashing}). 
 	\end{itemize}
-\end{itemize}
 
-\subsection{Collision resolution via chaining}
+
+\section{Collision resolution via chaining}
 \begin{itemize}
 \item Elements that hash to the same slot are placed in a list. 
 The slot contains a pointer to the head of this list. 
@@ -295,8 +301,11 @@ A hash table with chaining.
 \label{ex:chaining}
 \end{Boxample}
 
+\begin{Boxample}[4]
+{\color{red} TODO: active example of chaining}
+\end{Boxample}
 
-\subsection{Collision resolution via open addressing}
+\section{Collision resolution via open addressing}
 \begin{itemize}
 	\item Every key is stored somewhere in the array; no extra space is used.
 	\item If a key  $k$ hashes to a value $h(k)$ that is already occupied, 
@@ -320,6 +329,11 @@ The hash table on the right uses double hashing, so $d$ is moved $p(d)$ to the l
 \end{center}
 \label{ex:probing}
 \end{Boxample}
+
+\begin{Boxample}[4]
+{\color{red} TODO: active example of open addressing}
+\end{Boxample}
+
 
 Linear probing is easy to implement, easier than double hashing.
 However it is prone to \emph{clustering} -- large clusters of filled entries form, 
@@ -353,13 +367,13 @@ The probability of no collisions when $n$ balls are thrown into $m$ boxes
 uniformly at random is $Q(m, n)$ where 
 $$Q(m, n) = \frac{m!}{(m-n)! m^n} = \frac{m}{m} \frac{m-1}{m} \dots 
 \frac{m - n + 1}{m}\text{.}$$
-Note that $Q(m,0) = 1, Q(m, n) = 0$ unless $0 \leq n \leq m$.
+Note that $Q(m,0) = 1, Q(m, n) = 0$ for $n > m$.
 
 For example, $Q(366, 180) \approx 0.4487
  \times 10^{-23}$  (negligible chance of no collision when 180 balls thrown into 366 boxes) while $Q(366, 24) \approx  0.4627$ (slightly more likely than not to have a collision when throwing 24 balls in 366 boxes).
 
-The expected number of balls until the first collision is equal to 
-$E(m):=\sum_{n \leq m} Q(m, n)$. Note $E(365) \approx 25$.
+%The expected number of balls until the first collision is equal to 
+%$E(m):=\sum_{n \leq m} Q(m, n)$. Note $E(365) \approx 25$.
 
 
 \begin{figure}[htb]
@@ -370,11 +384,11 @@ $\quad$
 \includegraphics[width=4cm]{figs/birthday400.pdf}
 $\quad$
 \includegraphics[width=4cm]{figs/birthday1600.pdf}
-\caption{Plots of $Q(m, n)$ against $n$, $m=25,100,400,1600$}
+\caption{Plots of $Q(m, n)$ against $n$ for $m=25,100,400,1600$}
 
 \end{figure}
 
-\section{Results for chaining}
+\section{Analysis of chaining}
 The worst case for searching is $\Theta(n)$, since there may be only one chain with all the keys. 
 The average cost for an unsuccessful search is the average list length, namely $\lambda$.
 
@@ -385,7 +399,7 @@ $$
 Thus provided the load factor is kept bounded, basic operations all run in 
 constant time on average. 
 
-\section{Results for open addressing}
+\section{Analysis of open addressing}
 We assume \defnfont{uniform hashing}: each configuration of 
 $n$ keys in a table of size $m$ is equally likely to occur. In other words, the 
 hash function produces a random permutation of the keys, and the slots are 
@@ -402,7 +416,7 @@ Linear probing is not well described by the uniform hashing model
 The average insertion cost is $\Theta(1 + 1/(1 - \lambda)^2)$ (no proof given here).
 
 If the load factor is bounded away from $1$, basic operations 
-run in constant time; otherwise performance will be very bad. We should resize!
+run in constant time; otherwise performance will be very bad. We should resize as $\lambda$ grows!
 
 
 \section{Unsuccessful search under uniform hashing hypothesis}
@@ -467,26 +481,30 @@ A nice way to use randomization is to choose the hash function at runtime random
 Ideally,  the probability of a collision between two elements is only $1/m$, which is what a random guess would yield, so malicious users cannot 
 force collisions. A family satisfying this is called \defnfont{universal}.
 
-More formally, if $F$ is a family of hash functions then for any keys $k\neq k'$, we have
+Formally, if $F$ is a universal family of hash functions then for any keys $k\neq k'$,
 $$
 \frac{1}{|F|} \left|\{ h\in F : h(k) = h(k') \}\right| \leq \frac{1}{m}.
 $$
 
-\begin{Boxample}[6]
-One way of constructing such an $F$ is to take a prime $p\geq m$  and for $0<a <p, 0\leq b < p$ define 
+\begin{Boxample}[12]
+Construct the family of hash function $F = \{ h_{ab} \}$ by taking a prime $p\geq m$  and for $0<a <p, 0\leq b < p$ define 
 $$h_{ab}(x) = ax+b \mod p \mod m\text{.}$$ 
 Prove that this is a universal family.
+
 \end{Boxample}
 
-\begin{Boxample}[6]
-Java programming language String \texttt{hashcode} function computes the address of a string 
-$s=s[0]\cdots s[n-1]$ using integer arithmetic via the formula 
-$s[0]*31^{n-1} + s[1]*31^{n-2} + ... + s[n-1]$. Can you find two 2-character strings with the same hashcode? 
-Why might this cause a security problem in practice?
-\end{Boxample}
+%\begin{Boxample}[6]
+%Java String \texttt{hashcode} function computes the address of a string 
+%$s=s[0]\cdots s[n-1]$ using integer arithmetic via the formula 
+%$s[0]*31^{n-1} + s[1]*31^{n-2} + ... + s[n-1]$. Can you find two 2-character strings with the same hashcode? 
+%Why might this cause a security problem in practice?
+%\end{Boxample}
 
-\section{Summary}
-Here is a summary of the results so far on table implementations.
+\section{Summary of Table implementations}
+
+We summarise the table implementations that we have looked at so far.
+
+{\color{red} TODO: is this table helpful here since most of the discussion hasn't been about worst case?}
 
 \begin{table}[htb] 
 \caption{Worst case running time (asymptotic order)} 
