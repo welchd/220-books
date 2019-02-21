@@ -822,10 +822,11 @@ concludes the proof of correctness.
 
 \subsection{Running time}
 The complexity of the algorithm depends to a great extent on the data
-structures used. The best known for Prim is the same as for Dijkstra
-and so we also get a running time in $O(m + n\log n)$.
+structure used. The best known for Prim is the same as for Dijkstra
+and we  get a running time in $O(m + n\log n)$.
 
 \section{Kruskal's algorithm}
+
 \defnfont{Kruskal's algorithm} is even simpler than Prim's to state.
 \begin{itemize}
 \item Start with an empty set of edges.
@@ -890,11 +891,9 @@ operations efficiently. We do not look at the details of this ADT here.
 
 
 
-\textcolor{red}{TODO broken sentences}
- and for Kruskal $O(m \log n)$. The disjoint sets
-ADT can be implemented in such a way that the union and find operations
-in Kruskal's algorithm runs in \boldfont{almost} linear time (the exact bound
-is very complicated). So if the edge weights are presorted, or can be
+Kruskal's is in $O(m \log n)$ using the disjoint sets
+ADT. The ADT can be implemented in such a way that the union and find operations
+in Kruskal's algorithm runs in \boldfont{almost} linear time. So if the edge weights are presorted, or can be
 sorted in linear time (for example, if they are known to be integers in
 a fixed range), then Kruskal's algorithm runs for practical purposes in
 linear time.
