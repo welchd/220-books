@@ -668,7 +668,7 @@ deciding the order in which to process events becomes a problem of sorting the n
 
 \begin{Boxample}[0]
 Consider a compiler evaluating sub-expressions of the expression $-(a+b) * (b+c) + ((b+c)+d)$.  
-The compiler must compute, for example, (a+b) and (b+c) before it could compute $-(a+b) * (b+c)$. 
+The compiler must compute, for example, $(a+b)$ and $(b+c)$ before it could compute $-(a+b) * (b+c)$. 
 This can be shown as a dependency digraph where the arc $(u,v)$ means 
 that $u$ depends on $v$ so that $v$ must be calculated first (this is the opposite of a precedence digraph discussed above).\\
 \includegraphics{precedence}

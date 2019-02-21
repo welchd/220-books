@@ -400,7 +400,7 @@ It is not surprising that the algorithm thus runs more slowly than Dijkstra's al
 \end{algorithm}
 
 \begin{Boxample}[0]
-An application of Bellman--Ford algorithm with starting vertex $4$
+An application of Bellman--Ford algorithm with starting node $4$
 when the nodes are processed in the order from $0$ to $4$.
 \begin{center} 
   \includegraphics[width=1.0\textwidth]{BellmanFordEx2}
@@ -410,7 +410,11 @@ when the nodes are processed in the order from $0$ to $4$.
 \end{Boxample}
 
 \begin{Boxample}[0]
-jo TODO: Bellman-Ford example
+Execute the Bellman--Ford algorithm on the graph below with starting vertex $0$.
+Process nodes in the order from $0$ to $5$.
+\begin{center} 
+  \includegraphics[width=1.0\textwidth]{BellmanFordEx}
+\end{center}
 \end{Boxample}
 
 
@@ -537,12 +541,15 @@ while the inner two loops cycle through all pairs seeing if a shorter path can b
 \end{algorithm}
 
 
-\begin{Boxample}[0]
-\label{eg:floyd}
-An application of Floyd's algorithm on the third graph of
-\cref{ex:graphExWeighted} is given below.  The initial cost 
-matrix is as follows.
+\begin{Boxample}[0] \label{eg:floyd}
+An application of Floyd's algorithm on the graph on the left is given below.
+The initial cost matrix is as follows.
 
+\begin{minipage}[c]{0.45\textwidth}
+\centering
+\includegraphics{graphWeighted}
+\end{minipage}
+\begin{minipage}[c]{0.45\textwidth}
 \[ 
 \left[
 \begin{array}{cccccc} % cost matrix
@@ -556,11 +563,11 @@ matrix is as follows.
 \right]
 \hspace{.5cm}
 \]
+\end{minipage}\\
 
-In the matrices below, the index $k$ refers to
-the number of times we have been through the outer for-loop.
+In the matrices below, we list the entries that change in bold after each iteration of the outer for-loop, 
+that is, after $x$ has been $0$, $1$, and so on. 
 
-\begin{samepage}
 {\footnotesize
 %
 \[
@@ -597,7 +604,7 @@ the number of times we have been through the outer for-loop.
 \end{array}
 \right]
 \]\\[-5pt]
-\hspace*{1in}$k=1$ \hspace{1.2in} $k=2$ \hspace{1.2in} $k=3$ \\
+\hspace*{2.25cm}$x = 0$ \hspace{3.45cm} $x = 1$ \hspace{3.1cm} $x = 2$ \\
 \[
 \left[
 \begin{array}{cccccc} % k = 3
@@ -632,17 +639,20 @@ the number of times we have been through the outer for-loop.
 \end{array}
 \right]
 \]\\[-5pt]
-\hspace*{1in} $k=4$ \hspace{1.2in} $k=5$ \hspace{1.2in} $k=6$
+\hspace*{2.25cm} $x = 3$ \hspace{3.1cm} $x = 4$ \hspace{3.1cm} $x = 5$
 \\
 } % footnotesize
-\end{samepage}
-
-In the above matrices we list the entries that change in bold after each
-increment of $k$. 
 \end{Boxample}
 
-\begin{Boxample}[0]
-jo TODO: Floyd's practice example
+\begin{Boxample}[14]
+Give the cost matrix for the graph on the left.
+
+\vspace{1.5cm}
+$\quad$\includegraphics{FloydEx} 
+
+\vspace{1.5cm}
+Execute Floyd's algorithm on the graph above by giving the matrices after each iteration of the outer for-loop.
+
 \end{Boxample}
 
 \section{Proof of Floyd's algorithm}
@@ -783,13 +793,16 @@ Application of Prim's algorithm on a digraph.
 \end{center}
 \end{Boxample}
 
-\begin{Boxample}[0]
-jo TODO: Prim's practice example
+\begin{Boxample}[0.2]
+Execute Prim's algorithm.\\
+
+\begin{center}
+\includegraphics[width=1.0\textwidth]{PrimEx}
+\end{center}
 \end{Boxample}
 
 \begin{Theorem} \label{thm:prim}
 Prim's algorithms is correct.
-\end{Theorem}
 \begin{proof}
 Define a set of edges to be \boldfont{promising} if it can be extended in some way to a MST. 
 Then the empty set is promising since some MST exists. 
@@ -821,6 +834,7 @@ or the set of vertices in the tree containing $u$ (Kruskal), then we may
 apply the fact above to conclude that $T \cup \{e\}$ is promising. This
 concludes the proof of correctness.
 \end{proof}
+\end{Theorem}
 
 \subsection{Running time}
 The complexity of the algorithm depends to a great extent on the data
@@ -861,14 +875,18 @@ at each step, and the different trees merge as the algorithm progresses.
 \begin{Boxample}
 Application of Kruskal's algorithm on a graph shown until an MST is found. 
 Note that the edge \set{0, 2} with weight $2$ is not added, 
-because $0$ and $2$ are already in the same set in $A$.
+because $0$ and $2$ are already in the same set in $A$.\\
 \begin{center}
-\includegraphics{KruskalEx3}
+\includegraphics[width=1.0\textwidth]{KruskalEx3}
 \end{center}
 \end{Boxample}
 
-\begin{Boxample}[0]
-jo TODO: Kruskal's practice example
+\begin{Boxample}[0.2]
+Execute Kruskal's algorithm by adding or crossing out the next edge. Stop when you reached an MST.\\
+
+\begin{center}
+\includegraphics[width=1.0\textwidth]{KruskalEx2}
+\end{center}
 \end{Boxample}
 
 In Prim's algorithm, we checked whether a cycle would be created by adding
