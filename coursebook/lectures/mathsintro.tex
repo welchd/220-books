@@ -5,7 +5,6 @@
 We list here some important mathematical facts and techniques  that will be used often in this course. 
 It is very important to understand them well - ask for help if your background has substantial holes.
 
-
 \section{Sets}
 A \defnfont{set} is an unordered collection of distinct objects (repeated elements are not allowed), called \defnfont{elements} of the set. 
 We write $a \in X$ to mean that $a$ is an element of $X$. Some important sets are 
@@ -18,23 +17,26 @@ We write $a \in X$ to mean that $a$ is an element of $X$. Some important sets ar
 Notation: List elements, e.g. $X = \{2,3,5,7,11\}$ or use set-builder notation $X = \{x \in \mathbb{N} : x \text{ is prime and } x < 12\}$. 
 Note that $\{a, a, b\} = \{a, b\}$ because elements cannot be repeated in a set.
 
-Operations on sets: 
+Operations on sets $A$ and $B$: 
 \begin{itemize}
 \item $A\cap B = \{x: x \in A \text{ and } x \in B\}$, the \defnfont{intersection} of $A$ and $B$.
 \item $A\cup B = \{x: x \in A \text{ or  } x \in B\}$, the \defnfont{union} of $A$ and $B$.
 \item $|A|$ is the number of elements of $A$, the \defnfont{cardinality} of $A$.
 \end{itemize}
 
-\begin{Boxample}[4]
-What is the cardinality of $\{1,1,4\}$? Of $\{x^2 : x \in \{-1,1,2\}\}$?
+\begin{Boxample}[2.5]
+What is the cardinality of $A = \{1,1,5\}$? Of $B = \{x^2 : x \in \{-1,1,2\}\}$?\\
+
+\vspace{2cm}
+What is $A \cap B$? What is $A \cup B$?
 \end{Boxample}
 
 
 \section{Functions}
 A \defnfont{function} is a mapping $f$ from a set $X$ (the \defnfont{domain}) to a set $Y$ (the \defnfont{codomain}) such that every $x \in X$ maps to a unique $y \in Y$. 
-We write $f \colon X \to Y$. A function $f \colon X \to Y$ is \defnfont{1--1} if whenever $x \neq x'$, we have $f(x) \neq f(x')$.
- It is \defnfont{onto} if every element of $Y$ has the form $f(x)$ for some $x\in X$. 
- A function that is both 1--1 and onto has an \defnfont{inverse}: $f(x) = y$ if and only if $g(y) = x$. 
+We write $f \colon X \to Y$. A function $f \colon X \to Y$ is \defnfont{one-to-one} if whenever $x \neq x'$, we have $f(x) \neq f(x')$.
+It is \defnfont{onto} if every element of $Y$ has the form $f(x)$ for some $x \in X$. 
+A function that is both one-to-one and onto has an \defnfont{inverse}: $f(x) = y$ if and only if $g(y) = x$. 
 
 Important functions from $\mathbb{R}$ to $\mathbb{R}$: 
 \begin{itemize}
@@ -57,7 +59,8 @@ Other useful functions:
 and satisfies $$a^{x+y} = a^x a^y$$ for all $x,y\in \mathbb{R}$. 
 \item For fixed $a>1$ the logarithm $\log_a$ is strictly increasing and satisfies 
 $$\log_a(xy) = \log_a x + \log_a y$$ for all $x,y>0$.
-\item We write $\ln = \log_e$ and $\lg = \log_2$. Note that $\log_a x = \log_a b \log_b x$ and $a^x = e^{x\ln a}$. If the base of the logarithm does not matter (for example when we do asymptotic analysis) e often just write $\log$.
+\item We write $\ln = \log_e$ and $\lg = \log_2$. Note that $\log_a x = \log_a b \log_b x$ and $a^x = e^{x\ln a}$. 
+If the base of the logarithm does not matter (for example when we do asymptotic analysis) we often just write $\log$.
 \end{itemize}
 
 \begin{Boxample}[4]
@@ -94,7 +97,7 @@ Prove that if $a\neq 1$ then for all  $n\geq 0$
 $$
 	\sum_{i=0}^n a^i = \frac{a^{n+1} - 1}{a - 1}.
 $$
-Proof: It is true for $n=0$: $1 = 1$. Assume it is true for a given  $n\geq 0$. Then
+\textit{Proof.} It is true for $n=0$: $1 = 1$. Assume it is true for a given  $n\geq 0$. Then
 \begin{align*}
 \sum_{i=0}^{n+1} a^i 
 	& = a^{n+1} + \sum_{i=0}^n a^i = a^{n+1} + \frac{a^{n+1} - 1}{a - 1} \\
@@ -116,7 +119,7 @@ We can also define them using explicit external nodes (null pointers) to represe
 
 There is a unique path from the root to each node. The length of this path is the \defnfont{depth} of the node. The maximum depth of all nodes is the \defnfont{height} of the tree.
 
-Binary trees can be traversed in several ways,including \defnfont{preorder}, \defnfont{postorder}, \defnfont{inorder}. 
+Binary trees can be traversed in several ways, including \defnfont{preorder}, \defnfont{postorder}, \defnfont{inorder}. 
 The latter recursively visits the left child, node, and right child.
 
 
@@ -137,13 +140,14 @@ f'(x) = \lim_{h\to 0} \frac{f(x+h) - f(x)}{h}
 $$
 when this limit exists.
 \begin{Boxample}[4]
-If $f(x)$ is respectively $e^x, \ln x, x^a$ for some constant $a$, then $f'(x)$ is respectively $e^x, 1/x, ax^{a-1}$.
+If $f(x)$ is respectively $e^x$, $\ln x$, $x^a$ for some constant $a$, then $f'(x)$ is respectively $e^x$, $1/x$, $ax^{a-1}$.
 \end{Boxample}
 There are some basic rules for derivatives, for example $(f+g)' = f'+g', (fg)' = fg'+f'g$.
 
-An important technique is \defnfont{L'H\^{o}pital's rule}: $$\lim_{x\to \infty} f(x)/g(x) = \lim_{x\to \infty} f'(x)/g'(x)$$ as long as the latter exists. 
+An important technique is \defnfont{L'H\^{o}pital's rule}: 
+$$\lim_{x\to \infty} f(x)/g(x) = \lim_{x\to \infty} f'(x)/g'(x)$$ as long as the latter exists. 
 
-\begin{Boxample}[2]
+\begin{Boxample}[3]
 $\lim_{x\to\infty} \frac{e^x}{x^2} =  \lim_{x\to\infty} \frac{e^x}{2x} = \lim_{x\to\infty} \frac{e^x}{2} = \infty$.
 \end{Boxample}
  

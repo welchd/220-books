@@ -85,7 +85,7 @@ Proving correctness of \algfont{fastfib} is done by induction on $n$.  We omit t
 %\item In fact even a bad implementation in a slow interpreted language on an 
 %ancient machine of \texttt{fastfib} will beat the best implementation of 
 %\texttt{slowfib}, once $n$ becomes big enough.
-\begin{Boxample}[6]
+\begin{Boxample}[7]
 It is easy to see that the number of additions, function calls, etc needed by 
 \texttt{fastfib} to compute $F(n)$ has the form $An + B$ for some constants $A, B$.
 What about \texttt{slowfib}?
@@ -164,19 +164,19 @@ Note that there are about $3 \times 10^{18}$ nanoseconds in a century.
 \end{center}
  
 
-\begin{Boxample}[4]
+\begin{Boxample}[5]
 \label{exr:time-compl:2}
 A quadratic algorithm with running time \(T(n)=cn^2 \)
 uses 500 elementary operations for processing $10$ data items. How many will it 
 use for processing $1000$ data items? 
 \end{Boxample}
 
-\begin{Boxample}[4]
+\begin{Boxample}[5]
 Algorithm $A$ takes $n^2$ elementary operations to sort a file of $n$ lines, while Algorithm $B$ takes $50n\lg n$. 
 Which algorithm is better when $n = 10$? When $n=10^6$? How do we decide which algorithm to use?
 \end{Boxample}
 
-\begin{Boxample}[4]
+\begin{Boxample}[7]
 \label{exr:time-compl:7A}
 Algorithms \boldfont{A} and \boldfont{B} use exactly $T_\mathrm{A}(n) = c_\mathrm{A} n \lg n$
 and $T_\mathrm{B}(n) = c_\mathrm{B} n^{2}$ elementary operations, respectively, for a problem of size $n$.
@@ -197,7 +197,6 @@ Here are some easy basic rules.
 \item For example, single, double, and triple loops with fixed number of elementary operations inside the inner loop yield linear, quadratic, and cubic running time.
 \end{itemize}
 
-% \begin{Boxample}
 \begin{algorithm}[H]
   \caption{Swapping two elements in an array.}
   \label{alg:swap}
@@ -211,11 +210,9 @@ Here are some easy basic rules.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-\Cref{alg:swap} \algfont{swap} is a constant time algorithm.
-% \end{Boxample}
+%
+\Cref{alg:swap} is a constant time algorithm.
 
-
-% \begin{Boxample}
 \begin{algorithm}[H]
   \caption{Finding the maximum in an array.
     \label{alg:findmax}}
@@ -231,9 +228,10 @@ Here are some easy basic rules.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+%
 \Cref{alg:findmax} is a linear time algorithm, since it makes one pass through the array and does a constant amount of work each time.
-% \end{Boxample}
 
+\pagebreak[4]
 What happens if the loop variable changes in a more complicated way?
 
 \begin{algorithm}[H]
@@ -248,7 +246,7 @@ What happens if the loop variable changes in a more complicated way?
 \end{algorithmic}
 \end{algorithm}
 
-\begin{Boxample}[4]
+\begin{Boxample}[6]
 What is the running time for \cref{alg:runtime1} and why?
 %This runs in logarithmic time because $i$ doubles about $\lg n$ times until reaching $n$.
 \end{Boxample}
@@ -264,10 +262,12 @@ What is the running time for \cref{alg:runtime1} and why?
 \EndFor
 \end{algorithmic}
 \end{algorithm}
-\begin{Boxample}[4]
+
+\begin{Boxample}[6]
 What is the running time for \cref{alg:nestloop} and why?
 \end{Boxample}
 
+\pagebreak[4]
 What do we do if the control flow of the algorithm is more complicated? 
 For example, how do we handle \textbf{if} statements?
 
@@ -321,7 +321,7 @@ What is the running time for \cref{alg:ifstatements} and why?
 \end{algorithmic}
 \end{algorithm}
 
-\begin{Boxample}[6] \label{exm:nest2}
+\begin{Boxample}[1] \label{exm:nest2}
 Let us roughly estimate the running time of \cref{alg:nest2}.
 
 The inner loop is executed $k$ times for $j = 2, 4, \ldots, 2^{k}$
@@ -361,45 +361,46 @@ the growth rates of functions. We want to see what happens for large values of $
 We are not usually interested in constant factors and only want to consider the dominant terms in the running time.
 
 The standard mathematical approach to this is to use \defnfont{asymptotic notation}
-$O, \Omega, \Theta$ which we will now describe. 
-Note that $O(g)$ is really a class of functions and strictly speaking 
-we should write $f \in O(g)$, but we use the less formal terminology to reduce the overload of symbols.
+$O$, $\Omega$, $\Theta$ which we will now describe. 
 
 \section{Big-O notation}
 \begin{Definition}
 Suppose that $f$ and $g$ are functions from $\mathbb{N}$ to $\mathbb{R}$, 
 which take on non-negative values. 
 \begin{itemize}
-\item Say \defnfont{$f$ is $O(g)$} (``$f$ is Big-Oh of $g$") if there is
+\item Say \defnfont{$f$ is $\,O(g)$} (``$f$ is Big-Oh of $g$") if there is
 some $C > 0$ and some $n_0 \in \mathbb{N}$ such that for all $n \geq
 n_0$, $f(n) \leq C g(n)$. 
 
 Informally, $f/g$ is eventually bounded away from infinity, and $f$ grows at most as fast as $g$.
 
-\item Say \defnfont{$f$ is $\Omega(g)$} (``$f$ is big-Omega of $g$") if $g$ is
+\item Say \defnfont{$f$ is $\,\Omega(g)$} (``$f$ is big-Omega of $g$") if $g$ is
 $O(f)$. 
 
 Informally, $f/g$ is eventually bounded away from zero, and $f$ grows at least as fast as $g$.
-\item Say \defnfont{$f$ is $\Theta(g)$} (``$f$ is big-Theta of $g$") if $f$ is 
+\item Say \defnfont{$f$ is $\,\Theta(g)$} (``$f$ is big-Theta of $g$") if $f$ is 
 $O(g)$ and $g$ is $O(f)$. 
 
 Informally, $f/g$ is bounded away from zero and infinity, and $f$ grows at the same rate as $g$.
 \end{itemize}
 \end{Definition}
 
+Note that $O(g)$ is really a class of functions and strictly speaking 
+we should write $f \in O(g)$, but we use the less formal terminology to reduce the overload of symbols.
+
 
 %\section{Asymptotic comparison --- examples}
 \section{Examples}
 \begin{Boxample}
 Every linear function $f(n) = an + b$, $a > 0$, is $O(n)$.\\
-Proof: $an + b \leq an + |b| \leq (a + |b|) n$ for $n \geq 1$. 
+\textit{Proof.} $an + b \leq an + |b| \leq (a + |b|) n$ for $n \geq 1$. 
 \end{Boxample}
 
 \begin{Boxample} 
 \label{eg:asymp-lin-quadrat}
 If $f(n) = n, g(n) = n^2/2$, then $f$ is $O(g)$ and $g$ is not
 $O(f)$, so $g$ grows asymptotically faster than $f$.\\
-Proof: First note that $f(n) \leq 2 g(n)$ for $n \geq 0$ (because $n \leq n^2$). 
+\textit{Proof.} First note that $f(n) \leq 2 g(n)$ for $n \geq 0$ (because $n \leq n^2$). 
 Conversely, suppose that eventually $n^2 \leq Cn$. 
 Then $n \leq C$ for all sufficiently large $n$, a contradiction.
 \end{Boxample}
@@ -414,7 +415,7 @@ it is often easier not to. For example, in \cref{eg:asymp-lin-quadrat}, we could
 $n_0 = 2$ and $C = 1$, because $n\leq n^2/2$ for all $n\geq 2$.
 
 We usually do not prove such results from the definition but you
-need to know how to, in case the rules (coming up) do not apply.
+need to know how to, in case the following rules do not apply.
 
 \section{Rules for asymptotic notation}
 \begin{description}
@@ -496,7 +497,8 @@ $\log n \prec (\log n)^2 \prec \sqrt{n} \prec n \prec n \log n
 Here we consider some more subtle questions that have been ignored so far.
 
 \section{Is addition of integers an elementary operation?}
-If the integers (and their sum) can fit into a machine word (typically 64 bits, so not bigger than $9$, $223$, $372$, $036$, $854$, $775$, $807$) then 
+If the integers (and their sum) can fit into a machine word (typically 64 bits, 
+so not bigger than $\numprint{9223372036854775807}$) then 
 adding two of them can be done in constant time. 
 If the integers are much longer, as occurs for example in symbolic algebra systems, cryptography, etc, 
 then to avoid overflow they must be represented another way (``big integers"). Typically these are strings. 
@@ -571,7 +573,7 @@ in practice than one with running time $10^{10} n$, since the latter
 will eventually beat the former, but only on instances of size at least $10^{20}$, 
 which is rarely met in practice. 
 
-Conclusion: We should have at least a rough feel for the constants
+Conclusion: we should have at least a rough feel for the constants
 of competing algorithms. However, in practice the constants are usually
 of moderate size. 
 
