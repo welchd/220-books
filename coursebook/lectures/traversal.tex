@@ -427,13 +427,13 @@ It is more useful to record the number of steps from the root in the array $d$.
 \begin{algorithmic}[1]
 \Function{BFS}{digraph $G$}
 	\State queue $Q$  
-	\State array $\colour[0..n-1]$, $\pred[0..n-1]$, $d[0..n-1]$
+	\State array $\colour[0..n-1]$, $\pred[0..n-1]$, $d[0..n-1]$ 
 	\For{$u \in V(G)$} 
-		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ \texttt{null}
+		\State $\colour[u] \gets $ WHITE; $\pred[u] \gets $ \texttt{null} \Comment{initialise arrays}
 	\EndFor
 	\For{$s \in V(G)$} 
-		\If{$\colour[s] = $ WHITE } 
-			\State \texttt{BFSvisit}$(s)$
+		\If{$\colour[s] = $ WHITE } \Comment{find a WHITE node}
+			\State \texttt{BFSvisit}$(s)$\Comment{start traversal from $s$}
 		\EndIf
 	\EndFor
 	\State \Return{$\pred, d$}
@@ -447,16 +447,16 @@ It is more useful to record the number of steps from the root in the array $d$.
   \begin{algorithmic}[1]
 \Function{BFSvisit}{node $s$}
 	\State $\colour[s] \gets $ GREY; $d[s] \gets 0$ 
-	\State $Q$.\texttt{insert}$(s)$
+	\State $Q$.\texttt{insert}$(s)$ \Comment{put $s$ in queue}
 	\While{\textbf{not} $Q$.\texttt{isEmpty}$()$}
-		\State $u \gets Q$.\texttt{peek}$()$
+		\State $u \gets Q$.\texttt{peek}$()$  \Comment{get node at front of queue}
 		\For{each $v$ adjacent to $u$}
-			\If{$\colour[v] = $ WHITE}
+			\If{$\colour[v] = $ WHITE} \Comment{find white neighbours}
 				\State $\colour[v] \gets $ GREY; $\pred[v] \gets u$; $d[v] \gets d[u]+1$
-				\State $Q$.\texttt{insert}$(v)$
+				\State $Q$.\texttt{insert}$(v)$ \Comment{update colour, tree, and depth, put in queue}
 			\EndIf
 		\EndFor
-		\State $Q$.\texttt{delete}$()$
+		\State $Q$.\texttt{delete}$()$ \Comment{done with this node} 
 		\State $\colour[u] \gets $ BLACK
 	\EndWhile
 \EndFunction
@@ -470,8 +470,8 @@ BFS on a digraph.
 \end{center}
 \end{Boxample}
 
-\begin{Boxample}
-Execute BFS and following \cref{ex:BFSqueue} fill out the values for $Q$ and $d$, and highlight the BFS search tree after each step. 
+\begin{Boxample}[1]
+Execute BFS starting at $0$ and following \cref{ex:BFSqueue} fill out the values for $Q$ and $d$, and highlight the BFS search tree after each step. 
 \begin{center}
   \includegraphics{BFSalgoQueueEx}
 \end{center}
@@ -1058,7 +1058,7 @@ This generalises to all strongly connected components (\cref{fig:sccdecomp}). By
 
 If we started a DFS in $C_1$, we'd reach only nodes in $C_1$ and no other nodes. If we then started a DFS in $C_2$, we'd see only those in $C2$ and so on. The question is, how do we know to start in $C_1$, the $C_2$ etc.?
 
-Since $H$ is a DAG, we can find a topological order of it using the reverse order of finishing times of a DFS. WE also note that the the strong components of $G$ are the same as the strong components of its reverse, $G_r$. So, as before, starting a DFS in $C_m$ in $G_r$ means we would only visit nodes in $C_m$ and so on. This leads to the following solution, due to Tarjan.
+Since $H$ is a DAG, we can find a topological order of it using the reverse order of finishing times of a DFS. We  note that the the strong components of $G$ are the same as the strong components of its reverse, $G_r$. So, as before, starting a DFS in $C_m$ of $G_r$ means we would only visit nodes in $C_m$ and so on. This leads to the following solution, due to Tarjan.
 
 
 \begin{itemize}
@@ -1176,7 +1176,7 @@ There are exponentially many partitions of $V$ into two subsets so we
 do not want to have to test all possibilities to determine whether $V$ is bipartite.
 
 \begin{Definition}
-Let $k$ be a positive integer. A graph $G$ has a \defnfont{$k$-colouring}
+Let $k$ be a positive integer. A graph $G$ has a \defnfont{$ \boldsymbol k$-colouring}
 if $V(G)$ can be partitioned into $k$ nonempty disjoint subsets such
 that each edge of $G$ joins two vertices in different subsets.
 \end{Definition}
