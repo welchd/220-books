@@ -253,13 +253,14 @@ A hash function should be deterministic, but appear ``random" -- in other
 words it should pass some statistical tests (similar to pseudorandom number generators). 
 
 \begin{Boxample}[4]
-Suppose that we hash dictionary words by letting $h(w)$ be the address of the last letter of $w$, converted to lower case (so there are 26 slots in the hash table, numbered $0,\dots , 25$ to correspond to $a, b, \dots, z$ respectively. 
+\label{ex:hashfunc}
+Suppose that we hash dictionary words by letting $h(w)$ be the address of the last letter of $w$, converted to lower case (so there are 26 slots in the hash table, numbered $0,\dots , 25$ to correspond to $a, b, \dots, z$). 
 
 List two words that are very ``different" yet have the same hash value. Which of the criteria listed above are satisfied by this hash function?
 \end{Boxample}
 
 \section{Collisions}
-The number of possible keys is usually much large than the actual number of keys so we do not want to allocate an array large enough to fit all possible keys. 
+The number of possible keys is usually much larger than the actual number of keys so we do not want to allocate an array large enough to fit all possible keys. 
 But this means that hash functions are not $1$-to-$1$. When two keys may be mapped to the same index we call it a \defnfont{collision}. 
 
 We need a \defnfont{collision resolution policy} to prescribe what to do when collisions occur. 
@@ -296,29 +297,29 @@ sizes of lists turns out to be very uneven.
 \end{itemize}
 
 \begin{Boxample}
-A hash table with chaining.
+A hash table with chaining, showing empty chains and chains of length 1, 2 and 3.
 \begin{center}
 \includegraphics{hashChaining} 
 \end{center}
 \label{ex:chaining}
 \end{Boxample}
 
-\begin{Boxample}[4]
-If we use the hash function for dictionary words given above, and hash the following 14 words using chaining, what is the length of the longest chain formed?
-The words are:
+\begin{Boxample}[6]
+Using the hash function from \cref{ex:hashfunc} to hash the following 14 words using chaining. What is the length of the longest chain formed?
+The words are:\\
 abacus, abaci, acrid, grampus, radii, celery, homely, comely, xylitol, animal, seminar, seminal, radar, box
 
 \end{Boxample}
 
 \section{Collision resolution via open addressing}
 \begin{itemize}
-	\item Every key is stored somewhere in the array; no extra space is used.
+	\item Every key is stored somewhere in the array; no extra space is required.
 	\item If a key  $k$ hashes to a value $h(k)$ that is already occupied, 
 	we probe (look for an empty space). 
 	\begin{itemize}
 		\item The most common probing method is \defnfont{linear probing}, which moves left
 		 one index at a time, wrapping around if necessary, until it finds an empty 
-		 address. This is easy to implement but leads to \boldfont{clustering}.
+		 address. This is easy to implement but leads to \defnfont{clustering}.
 		\item Another method is \defnfont{double hashing}. Move to the left by a
 		fixed step size $t$, wrapping around if necessary, until we find an
 		empty address. The difference is that $t$ is not fixed in advance, but
@@ -342,9 +343,7 @@ If instead of linear probing we use double hashing with $p(w)$ defined to be the
 \end{Boxample}
 
 
-Linear probing is easy to implement, easier than double hashing.
-However it is prone to \emph{clustering} -- large clusters of filled entries form, 
-and this makes search times longer on average.
+Linear probing is simple but is prone to \emph{clustering} -- large stretches filled entries form making average search times longer.
 
 \section{Analysis of hashing}
 We count cost by number of key comparisons/probes.
@@ -377,7 +376,7 @@ $$Q(m, n) = \frac{m!}{(m-n)! m^n} = \frac{m}{m} \frac{m-1}{m} \dots
 Note that $Q(m,0) = 1, Q(m, n) = 0$ for $n > m$.
 
 For example, $Q(366, 180) \approx 0.4487
- \times 10^{-23}$  (negligible chance of no collision when 180 balls thrown into 366 boxes) while $Q(366, 24) \approx  0.4627$ (slightly more likely than not to have a collision when throwing 24 balls in 366 boxes).
+ \times 10^{-23}$  (negligible chance of no collision when 180 balls thrown into 366 boxes) while $Q(366, 24) \approx  0.4627$ (more likely than not to have a collision when throwing 24 balls in 366 boxes).
 
 %The expected number of balls until the first collision is equal to 
 %$E(m):=\sum_{n \leq m} Q(m, n)$. Note $E(365) \approx 25$.
@@ -493,7 +492,7 @@ $$
 \frac{1}{|F|} \left|\{ h\in F : h(k) = h(k') \}\right| \leq \frac{1}{m}.
 $$
 
-\begin{Boxample}[12]
+\begin{Boxample}[20]
 Construct the family of hash function $F = \{ h_{ab} \}$ by taking a prime $p\geq m$  and for $0<a <p, 0\leq b < p$ define 
 $$h_{ab}(x) = ax+b \mod p \mod m\text{.}$$ 
 Prove that this is a universal family.
