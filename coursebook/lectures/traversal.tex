@@ -1,4 +1,4 @@
-\part{Graph Traversals and Applications}
+\part{Graph traversals and applications}
 \label{ch:traversal}
 
 \chapter{Graph traversal algorithms} %----------------------------------------
@@ -195,7 +195,7 @@ asymptotically $\Omega(n^2)$ regardless of the data structure, so using
 the adjacency matrix is not clearly ruled out.
 
 
-\chapter{Depth first search (DFS)} %------------------------------------------------
+\chapter{Depth-first search (DFS)} %------------------------------------------------
 Traversal algorithms differ in the rules for choosing the next grey and next white node, 
 with different rules leading to very different results.
 
@@ -385,7 +385,7 @@ Suppose that we have performed \texttt{DFS} on a digraph $G$.
 %\end{Boxample}
 
 
-\chapter{Breadth First Search (BFS) and Priority\\ First Search (PFS)} %------------------
+\chapter{Breadth-first search (BFS) and\\ priority-first search (PFS)} %------------------
 \begin{Definition}
 In \defnfont{breadth-first search} (BFS) the new grey node chosen is the one
 that has been grey for the \boldfont{longest} time
@@ -1036,8 +1036,6 @@ Using \texttt{BFSvisit} or \texttt{DFSvisit}, devise an algorithm that will dete
 \chapter{Finding strong components, and bipartite graphs} %--------------------------------------------------
 
 \section{Finding the strongly connected components}
-
-
 It turns out we can find all connected components of $G$ in linear time using by a clever use of DFS, known as Tarjan's algorithm.
 
 Suppose the underlying graph of $G$ is connected but $G$ is
