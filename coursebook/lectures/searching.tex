@@ -508,26 +508,42 @@ Prove that this is a universal family.
 
 \section{Summary of Table implementations}
 
-We summarise the table implementations that we have looked at so far.
-
-{\color{red} TODO: is this table helpful here since most of the discussion hasn't been about worst case?}
+We summarise the table implementations that we have looked at so far in terms of worst and average case.
 
 \begin{table}[htb] 
 \caption{Worst case running time (asymptotic order)} 
 \centerline{
 \begin{tabular}{|c|c|c|c|c|} \hline 
-Data structure & Insert & Delete & Find & Traverse \\
+Data structure & Insert & Find & Delete & Traverse \\
 \hline
 Unsorted list (array) & $1$ & $n$ & $n$  & $n$  \\
 Unsorted list (pointer) & $1$ & $n$ & $n$ &  $n$ \\
-Sorted list (array)& $n$  & $n$  & $\log n$ & $n$\\
+Sorted list (array)& $n$  & $\log n$  & $ n$ & $n$\\
 Sorted list (pointer)& $n$ & $n$ & $n$ & $n$ \\
 Binary search tree & $n$ & $n$ & $n$ & $n$  \\
 Balanced BST & $\log n$ & $\log n$ & $\log n$ & $n$ \\
-Hash table & $n$ & $n$ & $n$ & $n$ \\
+Hash table (chaining) & $n$ & $n$ & $n$ & $m$ \\
 \hline
 \end{tabular}}
 \end{table}
+
+\begin{table}[htb] 
+\caption{Average case running time (asymptotic order)} 
+\centerline{
+\begin{tabular}{|c|c|c|c|c|} \hline 
+Data structure & Insert & Find & Delete & Traverse \\
+\hline
+Unsorted list (array) & $1$ & $n$ & $n$  & $n$  \\
+Unsorted list (pointer) & $1$ & $n$ & $n$ &  $n$ \\
+Sorted list (array)& $n$  & $\log n$  & $ n$ & $n$\\
+Sorted list (pointer)& $n$ & $n$ & $n$ & $n$ \\
+Binary search tree & $\log n$ & $\log n$ & $\log n$ & $n$  \\
+Balanced BST & $\log n$ & $\log n$ & $\log n$ & $n$ \\
+Hash table (chaining) & $\lambda$ & $\lambda$ & $\lambda$ & $m$ \\
+\hline
+\end{tabular}}
+\end{table}
+
 
 \begin{Boxample}[6]
 If we want to print out all items of a table in sorted order, what is the best data structure?
