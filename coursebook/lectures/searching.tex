@@ -346,7 +346,7 @@ If instead of linear probing we use double hashing with $p(w)$ defined to be the
 Linear probing is simple but is prone to \emph{clustering} -- large stretches filled entries form making average search times longer.
 
 \section{Analysis of hashing}
-We count cost by number of key comparisons/probes.
+Cost is measured by the number of key comparisons or probes.
 
 Insertion has the same cost as an unsuccessful search, provided the table is not full.
 Thus the average cost of a successful search is the average of all insertions needed to construct the table from empty.
@@ -395,12 +395,12 @@ $\quad$
 \end{figure}
 
 \section{Analysis of chaining}
-The worst case for searching is $\Theta(n)$, since there may be only one chain with all the keys. 
+With chaining, the worst case for searching is $\Theta(n)$, since there may be only one chain with all the keys. 
 The average cost for an unsuccessful search is the average list length, namely $\lambda$.
 
 The average cost for a successful search is then 
 $$
-\frac{1}{n} \sum_{k=1}^n \frac{k}{m} = \frac{n+1}{2m} \approx \lambda/2 \text{.}
+\frac{1}{n} \sum_{k=1}^n \frac{k}{m} = \frac{n+1}{2m} \approx  \frac{n}{2m}  = \lambda/2 \text{.}
 $$
 Thus provided the load factor is kept bounded, basic operations all run in 
 constant time on average. 
@@ -408,24 +408,25 @@ constant time on average.
 \section{Analysis of open addressing}
 We assume \defnfont{uniform hashing}: each configuration of 
 $n$ keys in a table of size $m$ is equally likely to occur. In other words, the 
-hash function produces a random permutation of the keys, and the slots are 
-probed in random order for each key.
+hash function produces a uniformly random permutation of the keys.
 
-Uniform hashing cannot be implemented practically but seems to be a good 
-model when double hashing is used.
+Uniform hashing is a theoretical model and cannot be implemented practically but is approximation when double hashing is used.
 
-It can be shown that the average cost for insertion under this 
-hypothesis is $\Theta(1/(1-\lambda))$ as $m \to \infty$ (proof given below).
+We show in \cref{sec:hashinsert} that the average cost for insertion (unsuccessful search) under uniform hashing  
+ is $\Theta(1/(1-\lambda))$ as $m \to \infty$.
 
 Linear probing is not well described by the uniform hashing model 
-(because of the clustering). A more detailed analysis can be done. 
-The average insertion cost is $\Theta(1 + 1/(1 - \lambda)^2)$ (no proof given here).
+(because of the clustering). The average insertion cost is $\Theta(1 + 1/(1 - \lambda)^2)$ (proof omitted).
 
 If the load factor is bounded away from $1$, basic operations 
 run in constant time; otherwise performance will be very bad. We should resize as $\lambda$ grows!
 
+\begin{Boxample}[9]
+Sketch the functions $f(\lambda) = 1+1/(1 - \lambda)^2$ and $g(\lambda) = 1/(1 - \lambda)$
+\end{Boxample}
 
 \section{Unsuccessful search under uniform hashing hypothesis}
+\label{sec:hashinsert}
 \begin{itemize}
 \item Let $X$ be the number of probes taken for an unsuccessful search. 
 Let $p_i$ be the probability that we need to make $i+1$ probes 
@@ -445,7 +446,7 @@ which is $\Theta(1/(1 - \lambda))$ as $\lambda \to 1$. This agrees with
 intuition.
 \end{itemize}
 
-\section{Statistics for balls in bins: some facts}
+\section{Statistics for balls in bins: some facts without proof}
 \begin{itemize}
 \item When do we expect the first collision? This is the \defnfont{birthday problem}. 
 Answer: $E(m) \approx \sqrt{\pi m/2} + 2/3$.
@@ -458,7 +459,7 @@ Answer: $e^{-\lambda}$. Many of the lists are just wasted space even for
 pretty full tables.
 \item When $m$ is $\Theta(n)$, what is the expected maximum number of balls in a box? 
 Answer: About $(\log n)/(\log \log n)$. Some of the lists may be fairly long. 
-\item The analysis that gives these results is beyond this course. See lecturer for references.
+%\item The analysis that gives these results is beyond this course. See lecturer for references.
 \end{itemize}
 
 \section{Hashing in practice (Dec 2018)}
