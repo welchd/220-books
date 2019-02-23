@@ -367,6 +367,8 @@ Compute the load factor for the hash tables shown in \cref{ex:chaining,ex:probin
 
 \chapter{Analysis of hashing} %-------------------------------------------------
 
+This lecture presents theoretical results, some without proof. The analysis of hashing leads to some interesting and tricky mathematics.
+
 \section{Analysis of balls in bins}
 
 The probability of no collisions when $n$ balls are thrown into $m$ boxes 
@@ -410,7 +412,7 @@ We assume \defnfont{uniform hashing}: each configuration of
 $n$ keys in a table of size $m$ is equally likely to occur. In other words, the 
 hash function produces a uniformly random permutation of the keys.
 
-Uniform hashing is a theoretical model and cannot be implemented practically but is approximation when double hashing is used.
+Uniform hashing is a theoretical model and cannot be implemented practically but is a good approximation when double hashing is used.
 
 We show in \cref{sec:hashinsert} that the average cost for insertion (unsuccessful search) under uniform hashing  
  is $\Theta(1/(1-\lambda))$ as $m \to \infty$.
