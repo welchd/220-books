@@ -17,7 +17,7 @@ together with a (possibly empty) set $E$ of ordered pairs of nodes of $G$ called
 Digraph stands for \boldfont{di}rected \boldfont{graph}.
 \end{Definition}
 
-\begin{Boxample}[0] \label{ex:digraph}
+\begin{Boxample}[0.5] \label{ex:digraph}
 For the digraph shown, write down the sets $V$ and $E$.\\
 \newline 
 \includegraphics{graphExDirectedVE}
@@ -30,7 +30,7 @@ pairs of vertices of $G$ called \defnfont{edges}.
 Note that the singular of vertices is \defnfont{vertex}.
 \end{Definition}
 
-\begin{Boxample}[1] \label{ex:graph}
+\begin{Boxample}[0.5] \label{ex:graph}
 For the graph shown, write down the sets $V$ and $E$.\\
 \newline 
 \includegraphics{graphExUndirectedVE}
@@ -291,8 +291,6 @@ Notice that the number of $1$'s in a row in the adjacency matrix is the outdegre
 while the number of $1$'s in a column is the indegree.
 \end{Boxample}
 
-
-
 \begin{Boxample}
 \label{ex:adjlist}
 A digraph and its adjacency matrix and adjacency list.\\
@@ -426,10 +424,9 @@ $$
 
 
 \section{Using other structures to represent graphs}
-
-Other specialized digraph representations may be used take advantage of
-special structure in a family of digraphs for improved storage or access time. For such specialized
-purposes they may be better adjacency matrices or lists.
+Other specialized digraph representations may be used to take advantage of
+special structure in a family of digraphs for improved storage or access time. 
+For such specialized purposes they may be better than adjacency matrices or lists.
 
 For example, trees can be stored more efficiently (c.f. \cref{sec:heapsort}).  
 \begin{itemize}
@@ -510,7 +507,7 @@ Performance for the adjacency list representation is based on using doubly linke
 \label{tbl:basicOpsSteps}
 \begin{tabular}{|l|l|l|}
 \hline
-\textbf{Operation} & \textbf{Adjacency Matrix} & \textbf{Adjacency Lists} \\
+\textbf{Operation} & \textbf{Adjacency matrix} & \textbf{Adjacency lists} \\
 \hline
 arc $(i, j)$ exists? & is entry $(i,j)$ 0 or 1  & find $j$ in  list $i$ \\
 \hline
@@ -532,11 +529,11 @@ delete node $i$ & delete row/column $i$  & delete list $i$ \\
 
 \begin{table}[H]
 \centering
-\caption{Comparative worst-case performance of adjacency lists and matrices.}
+\caption{Comparative worst-case performance of adjacency matrices and lists.}
 \label{tbl:basicOpsPerformance}
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Operation} 	& \textbf{Matrix} & \textbf{Lists} \\
+\textbf{Operation} 	& \textbf{Adjacency matrix} & \textbf{Adjacency lists} \\
 \hline
 arc $(i, j)$ exists? & $\Theta(1)$  & $\Theta(d)$ \\
 \hline
@@ -569,7 +566,8 @@ have very different time complexity.
 Clearly finding all indegrees would be slow if we just used multiple calls to a method designed for getting the indegree of a single node. 
 
 \begin{Boxample}[8]
-Show that that sorted adjacency lists represention of the reverse digraph of $G$ can be found in time $\Theta(n+m)$ given the sorted adjacncy lits of $G$. Also show how this can be used to find indegrees for all nodes of $G$ in time $\Theta(n+m)$.
+Show that the sorted adjacency lists representation of the reverse digraph of $G$ can be found in time $\Theta(n+m)$ 
+given the sorted adjacency lists of $G$. Also show how this can be used to find indegrees for all nodes of $G$ in time $\Theta(n+m)$.
 \end{Boxample}
 
 \section{Space requirements}
@@ -581,7 +579,7 @@ since we need $n$ lists and the combined length of all the lists is $m$.
 But node numbers require more than one bit of storage each; the number $k$ uses about $\Theta(\log k)$ bits.
 The average entry in a list is $\frac n 2$, so the total space requirement is more like $\Theta(n + m \log(n))$ 
 
-\begin{Boxample}[4]
+\begin{Boxample}[5]
 What is the storage requirement for a complete digraph on $n$ nodes, that is, a digraph where every possible arc
 occurs?
 \end{Boxample}
@@ -590,7 +588,7 @@ For small, sparse digraphs, lists use less space than a matrix, whereas for smal
 dense digraphs the space requirements are comparable. For large sparse
 digraphs, a matrix can still be more efficient, but this happens rarely.
 
-\begin{Boxample}[4]
+\begin{Boxample}[5]
 Find a large sparse digraph where the matrix representation uses less space than the lists representation.
 \end{Boxample}
 

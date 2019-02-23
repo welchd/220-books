@@ -44,7 +44,7 @@ Most of the work is done in \cref{alg:visit} (\algfont{visit}) which takes a sta
 and explores the portion of the subgraph reachable from that node.
 
 \begin{algorithm}[H]
-  \caption{Basic graph traversal main routine: \algfont{traverse}}
+  \caption{Basic graph traversal main routine: \algfont{traverse}.}
   \label{alg:traverse}
 \begin{algorithmic}[1]
 \Function{traverse}{digraph $G$}
@@ -64,7 +64,7 @@ and explores the portion of the subgraph reachable from that node.
 \end{algorithm}
 
 \begin{algorithm}[H]
-  \caption{Basic graph traversal subroutine: \algfont{visit}}
+  \caption{Basic graph traversal subroutine: \algfont{visit}.}
    \label{alg:visit}
 \begin{algorithmic}[1]
 \Function{visit}{node $s$ of digraph $G$}
@@ -94,7 +94,7 @@ which we call the \defnfont{search forest}.
 The search forest is returned by \texttt{traverse} in the array $\pred$.
 
 \begin{Boxample}
-Traversal of a digraph.
+Traversal of a digraph. Visiting a white vertex turns it grey.
 \begin{center}
   \includegraphics[width=1.0\linewidth]{traversalAlgoEx}
 \end{center}
@@ -157,12 +157,12 @@ resulting in a search forest $F$. Let $v, w \in V(G)$.
 %or the entering arc will contradict the first part.
 %\end{proof}
 
-\begin{Boxample}[5]
+\begin{Boxample}[6]
 Assuming the first statement of \cref{thm:trav}, prove the third statement.
 \end{Boxample}
 
 \section{Running time for the general traversal algorithm}
-The generality of our traversal algorithm makes it exact running time impossible to determine.  
+The generality of our traversal algorithm makes its exact running time impossible to determine.  
 It depends on how one chooses the next grey node $u$ and its white neighbour $v$.  
 Some schemes for choosing $u$ and $v$ can be complex and depend on $n$. 
 The schemes we consider here are simple and constant time.
@@ -244,9 +244,9 @@ The pseudocode for \algfont{DFS} and \algfont{DFSvisit} is in \cref{alg:DFScode,
 \begin{itemize}
   \item We loop through the nodes adjacent to the chosen grey node $u$, 
   and as soon as we find a white one, we add it to the stack.
-  \item We also introduce a variable $\timeVar$ and keep track of the time a node changes colour
-  \item The array $\seen$ records the time a node turns grey
-  \item The array  $\done$ records the time a node turns black
+  \item We also introduce a variable $\timeVar$ and keep track of the time a node changes colour.
+  \item The array $\seen$ records the time a node turns grey.
+  \item The array  $\done$ records the time a node turns black.
 \end{itemize}
 
 \begin{algorithm}[H]
@@ -385,10 +385,10 @@ Suppose that we have performed \texttt{DFS} on a digraph $G$.
 %\end{Boxample}
 
 
-\chapter{Breadth-first search (BFS) and\\ priority-first search (PFS)} %------------------
+\chapter{Breadth-first search (BFS) and priority-first search (PFS)} %------------------
 \begin{Definition}
 In \defnfont{breadth-first search} (BFS) the new grey node chosen is the one
-that has been grey for the \boldfont{longest} time
+that has been grey for the \boldfont{longest} time.
 \end{Definition}
  
 BFS takes us away from the root node as slowly as possible. 
@@ -570,9 +570,9 @@ Priority-first search is a more general and sophisticated form of traversal that
 	\item To mimic BFS, set the key for the node $v$ to be the time that $v$ turns grey. 
 	It will always remain as the lowest key until it turns black.
 	\item To mimic DFS, set the key for node $v$ to be $-\seen[v]$, 
-	so that the most recently seen node has the lowest key
+	so that the most recently seen node has the lowest key.
 	\item The running time of PFS depends on how long it takes to find the minimum key value.
-	\item The rules described here implemented using an array take $\Omega(n)$ to find the lowest key 
+	\item The rules described here implemented using an array take $\Omega(n)$ to find the lowest key, 
 	so the algorithm is $\Theta(n^2)$. Contrast with with $\Theta(m+n)$ for standard traversal.
 	\item PFS is best described via the priority queue ADT, 
 	which has more efficient implementations than using a standard array.
@@ -611,7 +611,7 @@ The subroutine \algfont{setKey} there is the rule for giving the key value when 
 We do not include any code for \texttt{setKey}.
 
 \begin{algorithm}[H]
-  \caption{Priority-first search algorithm (first kind)}
+  \caption{Priority-first search algorithm.}
   \label{alg:PFScode}
 \begin{algorithmic}[1]
 \Function{PFS}{digraph $G$}
@@ -631,7 +631,7 @@ We do not include any code for \texttt{setKey}.
 \end{algorithm}
 
 \begin{algorithm}[H]
-  \caption{Priority-first visit algorithm (first kind)}
+  \caption{Priority-first visit algorithm.}
   \label{alg:PFScodeVisit}
   \begin{algorithmic}[1]
 \Function{PFSvisit}{node $s$}
@@ -692,16 +692,17 @@ of the order) where we can safely evaluate the expression.
 
 \begin{Boxample}[0]
 \label{ex:topoorders}
-A graph with all possible topological orders and drawn with topological order $0, 1, 2, 3, 4$.  
-Draw the graph for the topological order $0, 2, 1, 4, 3$. 
+A digraph with all possible topological orders and drawn with topological order $0, 1, 2, 3, 4$.  
+Draw the digraph for the topological order $0, 2, 1, 4, 3$. 
 \begin{center}
 \includegraphics{topologicalOrder1}
 \end{center}
-Find a topological order of the following graph and draw it.
+\vspace{0.5cm}
+Find a topological order of the following digraph and draw it.
 \begin{center}
 \includegraphics{topologicalOrder2}
 \end{center}
-Topological orders are not unique. List all possible topological orders of the following graph.
+Topological orders are not unique. List all possible topological orders of the following digraph.
 \begin{center}
 \includegraphics{topologicalOrder3}
 \end{center}
@@ -713,14 +714,14 @@ precedences given (for example, $a$ precedes $b$ precedes $c$ precedes $a$) and 
 
 \begin{Definition}
 A digraph without cycles is commonly called a \defnfont{DAG}, an
-abbreviation for \textbf{d}irected \textbf{a}cyclic \textbf{g}raph.  
+abbreviation for \textbf{d}irected \textbf{a}cyclic \textbf{g}raph.
 \end{Definition}
 
 \begin{Theorem} \label{thm:topDAG}
 A digraph has a topological order if and only if it is a DAG.
 \end{Theorem}
 
-\begin{Boxample}[8]
+\begin{Boxample}[7]
 It is clear that if a digraph has a topological order it has no cycles, so it a DAG. 
 Show that a DAG always has a topological order by first showing that every DAG has a source
 and that by removing the source and any out-arcs from the source you still have a DAG. 
@@ -732,7 +733,7 @@ for topologically sorting a DAG.
 If we apply zero-indegree sorting to a digraph that is not a DAG, 
 eventually it will stop because no source node can be found at some point.
 
-\begin{Boxample}[3]
+\begin{Boxample}[2.5]
 What is the running time of a naive implementation of zero-indegree where a zero degree node is found and then removed at each step? How could this idea be made more efficient?
 \end{Boxample}
 
@@ -778,9 +779,7 @@ which means $u$ comes before $v$ in the alleged topological order.
 
 %Note that printing the nodes in order of finishing time gives a topological order of the reverse digraph $G_r$.
 
-
-
-\begin{Boxample}[1] 
+\begin{Boxample}[0] 
 Find the topological order for the graph shown by running DFS starting at node $0$.  
 Is it the same order you produced for this graph in \cref{ex:topoorders}?
 \begin{center}
@@ -827,7 +826,7 @@ the length of the smallest directed cycle.
 \end{Definition}
 
 \begin{Boxample}[0]
-What are the girth and the directed girth of the following digraph?
+What are  girth and directed girth of the following digraph?
 \begin{center}
 \includegraphics{girthEx}
 \end{center}
@@ -880,14 +879,13 @@ Which is the smallest cycle it finds with the back edges? Which smaller cycle do
 % cycle is found, we may find a cycle whose length is one more than the
 % shortest possible.
 % \end{Boxample}
-% TODO: include this?
 
 \section{Finding the directed girth of a digraph with DFS}
 
 A similar idea can be applied to finding the directed girth of a digraph.
 
 \begin{Boxample}[2.5]
-Convince yourself the the following procedure finds the (length of the) shortest directed cycle through node $v$ in a digraph.
+Convince yourself that the following procedure finds the (length of the) shortest directed cycle through node $v$ in a digraph.
 \begin{enumerate}
 \item Run \algfont{DFSvisit} starting at node $v$.
 \item Whenever a back-arc of the form $(x,v)$ is found, we have found a cycle of length equal to $(1 + \mbox{the depth of }x\mbox{ in the search tree})$. 
@@ -914,9 +912,9 @@ vertices $u, v \in V(G)$, there is a path between them.
 
 \begin{Theorem} \label{thm:components}
 Let $G$ be a graph. Then $G$ can be uniquely written as a union of
-subgraphs $G_i$ with the following properties:
+subgraphs $G_i$ such that
 \begin{itemize}
-  \item each $G_i$ is connected,
+  \item each $G_i$ is connected, and
   \item if $i \neq j$, there are no edges from any vertices in $G_i$ 
   to any vertices in $G_j$.
 \end{itemize}
@@ -933,7 +931,7 @@ subgraphs $G_i$ with the following properties:
 The subgraphs $G_i$ above are called the \defnfont{connected components} of the graph $G$. 
 Clearly, a graph is connected if and only if it has exactly one connected component.
 
-\begin{Boxample}[2] \label{eg:components}
+\begin{Boxample}[3] \label{eg:components}
 The graph obtained by deleting two edges from a triangle has 2 connected components. Draw a graph with 5 vertices, 5 edges and 2 connected components.
 \end{Boxample}
 
@@ -972,7 +970,7 @@ of $G$, there is a path in $G$ from $u$ to $v$ and from $v$ to $u$ (that is, $u$
 \end{Definition}
 
 \begin{Boxample}[4]
-Show that a strongly connected digraph of order at least three contains at least one cycle.
+Show that a strongly connected digraph of order at least two contains at least one cycle.
 % Note: Definition of cycle says cycle must contain at lesat three vertices, hence example with ``order at least two'' doesn't work.
 \end{Boxample}
 
@@ -1012,25 +1010,9 @@ in \cref{thm:trav-comps} fails at finding strongly connected components of digra
 \end{Boxample}
 
 \begin{Boxample}[4]
-Using \texttt{BFSvisit} or \texttt{DFSvisit}, devise an algorithm that will determine whether or not $G$ is strongly connected (i.e., has a single strongly connected component). What is the running time of the algorithm?
+Using \texttt{BFSvisit} or \texttt{DFSvisit}, devise an algorithm that will determine whether or not $G$ is strongly connected 
+(i.e., has a single strongly connected component). What is the running time of the algorithm?
 \end{Boxample}
-
-
-%\subsection*{Exercises}
-%
-%\begin{Exercise}
-%\label{ex:DFSfails}
-%Give an example to show that a single use of DFS does not in general
-%find the strongly connected components of a digraph.
-%\end{Exercise}
-%
-%\begin{Exercise}
-%\label{ex:dolinscc}
-%Carry out the above  algorithm by hand on the digraph of
-%\cref{eg:scc} and verify that the components given there are
-%correct. Then run it again on the reverse digraph and verify that the
-%answers are the same.
-%\end{Exercise}
 
 
 \chapter{Finding strong components, and bipartite graphs} %--------------------------------------------------
@@ -1045,103 +1027,34 @@ from $C_2$ to $C_1$. If $C_1$ and $C_2$ are different strong
 components, then any arcs between them must either all point from
 $C_1$ to $C_2$ or from $C_2$ to $C_1$.  
 
-This generalises to all strongly connected components (\cref{fig:sccdecomp}). By reducing each strongly connected component to a single node, we derive a new graph, $H$, from $G$ that is a DAG.
+This generalises to all strongly connected components (\cref{fig:sccdecomp}). 
+By reducing each strongly connected component to a single node, we derive a new graph, $H$, from $G$ that is a DAG.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.7\textwidth]{decomposition2}
-\caption{Decomposing a graph into its strongly connected components, $C_1, \ldots, C_m$. If each $C_i$ is considered a single node, this decomposiion is a DAG.}
+\caption{Decomposing a graph into its strongly connected components, $C_1, \ldots, C_m$. 
+If each $C_i$ is considered a single node, this decomposition is a DAG.}
  \label{fig:sccdecomp}
 \end{figure}
 
-If we started a DFS in $C_1$, we'd reach only nodes in $C_1$ and no other nodes. If we then started a DFS in $C_2$, we'd see only those in $C2$ and so on. The question is, how do we know to start in $C_1$, the $C_2$ etc.?
+If we started a DFS in $C_1$, we'd reach only nodes in $C_1$ and no other nodes. 
+If we then started a DFS in $C_2$, we'd see only those in $C2$ and so on. The question is, how do we know to start in $C_1$, the $C_2$ etc.?
 
-Since $H$ is a DAG, we can find a topological order of it using the reverse order of finishing times of a DFS. We  note that the the strong components of $G$ are the same as the strong components of its reverse, $G_r$. So, as before, starting a DFS in $C_m$ of $G_r$ means we would only visit nodes in $C_m$ and so on. This leads to the following solution, due to Tarjan.
+Since $H$ is a DAG, we can find a topological order of it using the reverse order of finishing times of a DFS. 
+We  note that the strong components of $G$ are the same as the strong components of its reverse, $G_r$. 
+So, as before, starting a DFS in $C_m$ of $G_r$ means we would only visit nodes in $C_m$ and so on. This leads to the following solution, due to Tarjan.
 
 
 \begin{itemize}
 \item Run a DFS on $G$ starting at an arbitrary node and record the finishing ($\done$) times for each node.
 \item List nodes of $G$ in reverse order of finishing (from last finished to first).
-%\item Find $G_r$, the reverse of $G$. 
 \item Run DFS on $G_r$, the reverse of $G$, always choosing a root (starting) node as the unvisited node that occurs first on the list in the previous step.
 \item This produces a forest $F_r$ where each tree in the forest is a strongly connected component of $G$ (and of $G_r$).
 \end{itemize}
 
-
-%Consider the reverse $G_r$. The strong components of $G_r$ are the
-%same as those of $G$. Shrinking each strong component to a point,
-%we obtain  acyclic digraphs $H$ and $H_r$. Consider a sink $S_1$ in
-%$H_r$. If we run DFS on $G_r$ starting  in the strong component
-%$S_1$, we will reach every node in that component \boldfont{and no
-%other nodes of $G_r$}. The DFS tree will exactly span $S_1$. Now
-%choose the next root to lie in the strong component $S_2$ node of
-%$H_r$ whose only possible out-neighbour is $S_1$ (this is possible
-%by the same reasoning used for zero-indegree sort, except here we
-%deal with outdegree). The DFS will visit all of $S_2$ and no other
-%nodes of $G_r$ because all other possible nodes have already been
-%visited. Proceed in this way until we have visited all strong
-%components.
-%
-%We have shown that if we can choose the roots correctly, then we can
-%find all strong components. Now of course we do not know these components
-%\boldfont{a priori}, so how do we identify the roots to choose?
-%
-%Whenever there is a choice for the root of a new search tree, it must
-%correspond to a new node of the DAG $H_r$. We want at least a reverse
-%topological order of $H_r$. This is simply a topological order for
-%$H$. Note that in the case where $H=G$ (each strong component has just
-%one point), then $G$ is a DAG. The method above will work if and only
-%if we choose the roots so that each tree in the DFS for $G_r$ has only
-%one point. We just need a topological order for $G$, so run DFS on $G$
-%and print the nodes in reverse order of finishing time. Then choose the
-%roots for the DFS on $G_r$ in the printed order.
-%
-%It therefore seems reasonable to begin with a DFS of $G$. Furthermore,
-%an obvious choice is: in the DFS of $G_r$, \boldfont{choose each new root
-%from among white nodes that finished latest in $F$}.
-%
-%Then each DFS tree in the search of $G_r$ definitely contains the strong
-%component $S$ of the root $r$. To see this, note that no node in that
-%strong component could have been visited before in $G_r$, otherwise $r$
-%would have already been visited. By \cref{thm:white-path}, every
-%node in the strong component of $r$ is a descendant of $r$.
-%
-%The only thing that could go wrong is that a search tree in $G_r$
-%might contain more than one strong component. This cannot happen,
-%as we now prove.
-%
-%\begin{Theorem} \label{thm:scc-alg} 
-%If the following rule for choosing roots is used in the algorithm
-%described above, then each tree in the second search forest spans a
-%strong component of $G$, and all strong components arise this way.
-%
-%Rule: use the white node whose finishing time in $F$ was largest.
-%\end{Theorem}
-
-%\begin{proof}
-%Suppose that a search tree in $G_r$ does  contain more than one strong
-%component. Let $S_1$ be the first strong component seen in $G_r$ and let
-%$S_2$ be another, and let the roots be $r, s$ respectively. Note that by
-%the rule for choosing nodes $r$ was the first node of $S_1$ seen in $F$
-%(by Theorem~\ref{thm:white-path}, every node of $S_1$ is a descendant
-%of the first one seen, which therefore has latest finishing time). The
-%analogous statement holds for $s$ and $S_2$.
-%
-%By the rule for choosing roots, we have $\done[r] > \done[s]$ in $F$. We
-%cannot have $\seen[s] > \seen[r]$ in $F$, for then $s$ would be a descendant
-%of $r$ in $F$ and in $G_r$, so they would belong to the same strong
-%component. Thus $\seen[r] > \seen[s]$ in $F$. Hence $S_2$ was explored
-%in $F$ before $r$ (and hence any node of $S_1$) was seen. But then $r$
-%would have been reachable from $s$ in $G$ via a path of white nodes,
-%so Theorem~\ref{thm:white-path} shows that $r$ and $s$ are in the same
-%strong component, another contradiction.
-%\end{proof} 
-
 The above algorithm runs in linear time with adjacency lists, since
 DFS and the creation of the reverse digraph take linear time. 
-%We only
-%need to remember  while performing the first DFS to store the nodes in
-%an array in order of finishing time. 
 
 \begin{Boxample}[7]
 Run the algorithm above on the graph shown (starting in the initial DFS at node $0$) to find all strongly connected components. 
@@ -1158,7 +1071,7 @@ reproducing organisms, for example).
 
 \begin{Definition}
 A graph $G$ is \defnfont{bipartite} if $V(G)$  can be partitioned into
-two nonempty disjoint subsets $V_0, V_1$ such that each edge of $G$
+two nonempty disjoint subsets $V_0$ and $V_1$ such that each edge of $G$
 has one endpoint in $V_0$ and one in $V_1$.
 \end{Definition}
 
@@ -1179,12 +1092,9 @@ if $V(G)$ can be partitioned into $k$ nonempty disjoint subsets such
 that each edge of $G$ joins two vertices in different subsets.
 \end{Definition}
 
-\begin{Example}
+\begin{Boxample}
 The graph in \cref{ex:bipartite} has a 2-colouring as indicated.
-\end{Example}
-
-%It is not just a coincidence that our example of a bipartite graph
-%has a 2-colouring.
+\end{Boxample}
 
 \begin{Theorem} 
 \label{thm:bipart}
@@ -1195,8 +1105,9 @@ The following conditions on a graph $G$ are equivalent.
   \item $G$ does not contain an odd length cycle.
 \end{enumerate}
 \end{Theorem}
-\begin{Boxample}[6.5]
-Prove \cref{thm:bipart}  by showing that statement 1 implies 2 implies 3 which implies 1. To show statement 3 implies 1, consider a BFS on $G$ where vertices at level $i$ are given ``colour" $i \bmod 2$.
+\begin{Boxample}[6]
+Prove \cref{thm:bipart}  by showing that statement 1 implies 2 implies 3 which implies 1. 
+To show statement 3 implies 1, consider a BFS on $G$ where vertices at level $i$ are given ``colour" $i \bmod 2$.
 %Given a bipartition, use the same subsets to get a $2$-colouring, and
 %vice versa. This shows the equivalence of the first two conditions. Now
 %suppose $G$ is bipartite.  A cycle must have even length, since the start
@@ -1209,261 +1120,3 @@ Prove \cref{thm:bipart}  by showing that statement 1 implies 2 implies 3 which i
 %node $w$ of the same colour at the same level $k$. But then a cycle of
 %length $2k+1$ is created.
 \end{Boxample}
-
-%It is now easy to see that we may use the method in the proof above
-%to detect an odd length cycle if it exists, and otherwise produce a
-%$2$-colouring of $G$. This of course runs in linear time.
-
-
-%\section{Maximum matchings}
-%\label{sec:matching}
-%
-%Next we want to introduce an important graph problem that can
-%be solved in polynomial time by a clever path augmentation algorithm.  
-%
-%\begin{Definition}
-%A \defnfont{matching} in a graph is a set of pairwise non-adjacent edges
-%(that is, each vertex can be in at most one edge of the matching).
-%A \defnfont{maximal matching} is a matching such that is not a proper subset
-%of any other matching.
-%A \defnfont{maximum matching} is one with the largest possible number of
-%edges (over all possible matchings).
-%\end{Definition}
-%
-%Often, for many real-world problems, we want to find a maximum matching 
-%in bipartite graphs as illustrated by the next two examples.  
-%
-%\begin{Example}
-%Suppose we have a set of workers $V_0$ and a set of tasks $V_1$ that need to be
-%assigned.  A given worker of $V_0$ is able to perform a subset of the tasks in $V_1$.
-%Now with each worker capable of doing at most one task at a time, the boss 
-%would like to assign (match) as many workers as possible to as many of 
-%the tasks. 
-%\end{Example}
-%
-%\begin{Example}\label{ex:mp}
-%Consider mating fussy kakapo who all live in differnt zoos.  We have a set of males  and females (as vertices) and edges 
-%representing compatible mates.  The goal is to mate as many kakapo
-%as possible in the current season, which is the same as finding a maximum matching in the
-%relationship graph. This is traditionally called the \defnfont{marriage problem}
-%\end{Example}
-%
-%In \cref{fig:matchbipartite} we illustrate the difference between
-%a maximal and maximum matching in the setting of \cref{ex:mp}.
-%The matchings consist of bold-dashed edges (between females on the left
-%and males on the right) in the drawings.
-%
-%\begin{figure}
-%\centering
-%\includegraphics{bipartiteMatching}
-%\caption{A maximal and maximum matching in a bipartite graph.}
-%\label{fig:matchbipartite}
-%\end{figure}
-%
-%It is easy to find a maximal matching $M$ in a graph. For example, 
-%a simple greedy approach of
-%iterating over all edges and adding each edge to $M$ if it is
-%non-adjacent to anything already in $M$ will work.  As illustrated in
-%\cref{fig:matchbipartite}, a maximal matching may have fewer
-%edges than a more desirable maximum matching.
-%
-%Our algorithm to compute a maximum matching will be based on
-%trying to improve an existing matching $M$ by finding certain
-%types of paths in a graph.
-%
-%\begin{Definition}
-%Given a matching $M$, an \defnfont{alternating path} is a path in which 
-%the edges 
-%of the path alternate from being in the matching and not.
-%An \defnfont{augmenting path} is an alternating path that starts from and ends 
-%on unmatched vertices.
-%\end{Definition}
-%
-%For example, consider the augmenting path Eve--Doug--Cher--Fred of
-%\cref{fig:matchbipartite}.  It contains three edges but only the
-%middle edge is part of a matching on the left case.  We can get the
-%better matching on the right if we add Eve-Doug, remove Doug--Cher, and add 
-%Cher--Fred to the existing matching.  Thus, in general, we see that we can 
-%improve a matching if we can find an augmenting path.  Note that there is always one
-%more non-matching edge than matching edge in an augmenting path.
-%Likewise, it is pretty easy to show that if there is no such augmenting path 
-%then we must have a maximum matching (see Exercise~\ref{ex:agpath}).
-%
-%We next present a polynomal-time algorithm that finds an augmenting path if
-%one exists.  The basic idea is to start from an unmatched vertex $v$
-%and build a tree (via a graph traversal algorithm such as BFS) 
-%of alternating paths away from $v$.  If we reach another unmatched vertex 
-%then we have found an augmenting path.  Otherwise, if we visit all vertices
-%(in the same component as $v$) then we conclude that no augmenting 
-%path exists starting at $v$.  This algorithm is given in \cref{fig:augpath}.
-%
-%
-%%\begin{algorithm}[H]
-%%  \caption{An algorithm to find an augmenting path, given a matching
-%%and an unmatched starting vertex.}
-%%    \label{alg:augpath}
-%%\begin{algorithmic}[1]
-%%\Function{findAugmentingPath}{bipartite graph $G$; matching $M$; unmatched vertex $x$}
-%%	\State queue $Q$
-%%	\State array $\status[0..n-1]$, $\pred[0..n-1]$
-%%	\For{$u \in V(G)$}
-%%  		\State $\status[u] \gets $ WHITE; $\pred[u] \gets $ \texttt{null} 
-%%	\EndFor
-%%	\State $\status[x] \gets $ EVEN
-%%	\State $Q$.\algfont{insert}$(x)$
-%%	\While{\textbf{not}  $Q$.\algfont{isEmpty}$()$}
-%%		\State $u \gets Q$.\algfont{pop}$()$
-%% 		\If{$\status[u] =$ EVEN}
-%% 			\For{each $v$ adjacent to $u$}
-%% 				\If{$\status[v]$ = WHITE}
-%% 					\State $\status[v] \gets$ ODD; $\pred[v] \gets$ u
-%% 					\If{$v$ is unmatched in $M$}
-%% 						\State \Return{path $x,\ldots, \pred[\pred[u]], \pred[u], u, v$}
-%% 					\Else
-%%	 					\State $Q$.\algfont{insert}$(v)$
-%% 					\EndIf
-%% 				\EndIf
-%% 			\EndFor
-%% 		\Else 			\Comment{that is, $\status[u] =$ ODD} 
-%%			\State $v \gets$ matched vertex of $u$ from $M$
-%%			\If{$status[v]$ = WHITE}
-%%				\State$\status[v] \gets$ EVEN; $\pred[v] \gets u$
-%% 				\State$Q$.insert$(v)$
-%%	 		\EndIf
-%% 		\EndIf
-%%	\EndWhile
-%%	\State \Return{false} \Comment{no augmenting paths containing $x$}
-%%\EndFunction
-%%\end{algorithmic}
-%%\end{algorithm}
-%
-%
-%
-%\begin{Theorem}
-%There exists a polynomial-time algorithm to find a maximum matching
-%in a bipartite graph.
-%\end{Theorem}
-%%\begin{proof}
-%%We first need to show that the algorithm \algfont{findAugmentingPath}, given in
-%%\cref{fig:augpath}, does find an augmenting path if one exists.
-%%It is sufficient to show that if there exists at least one augmenting path 
-%%from vertex $x$ to some other unmatched vertex that we find any one of them 
-%%(in our case, by imitating BFS, it will be one of shortest length).  
-%%\algfont{findAugmentingPath}
-%%builds a traversal tree starting at $x$ using the following constraints.
-%%\begin{itemize}
-%%\item If a reachable vertex $u$ is in the same partition as $x$ (status will
-%%be set to EVEN by the algorithm) then we know (except for $x$) that there is 
-%%an alternating path with the last edge including $u$ being in the matching.
-%%\item If a reachable vertex $v$ is not in the same partition as $x$ (status will
-%%be set to ODD if it is matched) then we know that there is 
-%%an alternating path with the last edge including $v$ is not in the matching.
-%%\end{itemize}
-%%This process produces a tree with alternating paths rooted at $x$ as 
-%%illustrated in \cref{fig:augtree}.  The status of the nodes are ODD 
-%%or EVEN depending if they are an even or odd distance from $x$.  If a vertex 
-%%(first seen) is at an odd distance then we have seen an alternating path 
-%%where the last edge is not in the matching.  If this last vertex is unmatched 
-%%then we have found an augmenting path, otherwise we extend the path by using 
-%%the matched edge.  
-%%If a vertex is at an even distance then we have seen an alternating path
-%%where the last edge is in the matching.  Since the graph is bipartite the
-%%status of being ODD or EVEN is unambiguous.
-%%
-%%\begin{figure}
-%%\centering
-%%\includegraphics{augtree} 
-%%\caption{Structure of the graph traversal tree for finding augmenting paths.}
-%%\label{fig:augtree}
-%%\end{figure}
-%%
-%%Suppose the algorithm \algfont{findAugmentingPath} terminates without
-%%finding an augmenting path when one does exist.  Let $x=v_0,v_1,\ldots,v_k$
-%%be a counterexample.  Consider the
-%%first index $0<i\leq k$ such that $status[v_i] =$ WHITE.  We know $v_{i-1}$ was
-%%inserted in the queue $Q$. Consider the two cases.  If $i-1$ is even then
-%%since $v_i$ is a neighbour of $v_{i-1}$ its status would have changed to
-%%ODD.
-%%If $i-1$ is odd then either $(v_{i-1},v_i)$ is in the matching or not.
-%%If so, the status of $v_i$ would have changed; if not, a prefix of the 
-%%counterexample is not an augmenting path.  Thus, by contradiction,
-%%\algfont{findAugmentingPath} will find an augmenting path if one exists.
-%%
-%%The running time of one invocation of \algfont{findAugmentingPath} is the same 
-%%as the running time of BFS since each vertex is added to the queue $Q$
-%%at most once.  For adjacency list representation of graphs this 
-%%can be carried out in time $O(m)$.  If we find an augmenting path
-%%then our best matching increases by one.  
-%%Since a maximum matching is bounded by $\lfloor n/2 \rfloor$ we
-%%only need to find at most $O(n)$ augmenting paths.
-%%We potentially need to call \algfont{findAugmentingPath}
-%%once for each unmatched vertex, which is bounded by $O(n)$, and 
-%%repeat the process for each modified matching.  Therefore, the total 
-%%running time to find a maximum matching is at most $O(n^2m)$.
-%%\end{proof}
-%
-%The algorithm presented here can easily be improved to $O(nm)$ by
-%noting that it is only required to traverse and compute an 
-%``alternating path forest'' in order to find an augmenting path.  
-%That is, we do not need to originate a call to \algfont{findAugmentingPath} for all 
-%unmatched vertices. However the correctness is a bit tricky to justify.
-%
-%There are other algorithms that find maximum matchings more efficiently
-%than the one presented.  One of these is the Hopcroft-Karp algorithm
-%which runs in time $O(m\sqrt{n})$ and is based on finding a maximal 
-%flow in a network (by adding a source and sink vertex and directing all edges
-%from one vertex partition to the other of the bipartite graph).
-%
-%We conclude this section by mentioning that there also exist
-%poly\-nomial-time algorithms to find maximum matchings in arbitrary
-%(non-bipartite) graphs. The details are beyond the scope of this book.
-%
-%%\subsection*{Exercises}
-%
-%\begin{Exercise}\label{ex:agpath}
-%Prove that a matching for a graph is maximum if and only if it does not
-%have any augmenting paths.
-%\end{Exercise}
-%
-%\begin{Exercise}
-%Give an example of a bipartite graph of order 12 with a maximal matching 
-%that has an augmenting path of length 5 and a maximum matching of 
-%the same graph with two more edges.
-%\end{Exercise}
-%
-%%\if 01
-%%\begin{Exercise}
-%%Explain what changes need to be done to the algorithm
-%% \algfont{findAugmentingPath} 
-%%so that it runs in time $O(|E|)$ and traverses all of the bipartite graph
-%%(instead of just the tree reachable from the unmatched vertex $x$).
-%%\end{Exercise}
-%%\fi
-%
-%\begin{Exercise}\label{ex:konig}
-%Show that the size of a maximum matching in a bipartite graph $G=(V,E)$ is the
-%same as the size of the smallest \defnfont{vertex cover} of $G$.  A vertex cover
-%is a subset $V' \subseteq V$ of vertices such that for 
-%all $(u,v) \in E$, at least one of $u$ or $v$ is in $V'$.
-%Does the equality hold for arbitrary graphs?
-%\end{Exercise}
-%
-%\section{Notes}
-%
-%The linear-time algorithm for finding strong components of a digraph was 
-%introduced by R. E. Tarjan in 1971.
-%
-%One of the early polynomial-time algorithms for finding
-%maximum matchings in bipartite graphs is based on the Ford--Fulkerson 
-%network flow algorithm \cite{FF56} from 1956.
-%The first polynomial-time algorithm for finding a maximum matching in an 
-%arbitrary graph was presented by J.~Edmonds \cite{Ed65} in 1965.
-
-%[FF56]
-%L. R. Ford and D. R. Fulkerson 
-%"Maximal flow through a network". 
-%\textit{Canadian Journal of Mathematics} \textbf{8} (1956), pp 399--404.
-
-%[Ed65]
-%J. Edmonds.  Paths, trees, and flowers
-%\textit{Canadian Journal of Mathematics} \textbf{17} (1965), pp. 449-467. 

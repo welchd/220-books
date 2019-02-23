@@ -23,7 +23,7 @@ where the cost of each arc is $1$.
 %each of a pair of antiparallel arcs has the same weight.
 
 \begin{Boxample} \label{ex:graphExWeighted}
-A classic unweighted graph (called the $3$-cube) of diameter $3$, a digraph with arc weights, 
+A classic unweighted graph (called the $3$-cube), a digraph with arc weights, 
 and a graph with edge weights.
 \begin{center}
  \includegraphics{graphExWeighted}
@@ -103,7 +103,7 @@ A graph, its adjacency matrix and its distance matrix.\\
 \includegraphics{distanceMatrixGraph}
 \end{minipage}
 \begin{minipage}[c]{0.65\textwidth}
-$$\left[
+$$\quad\left[
 \begin{array}{ccccc}
 0 & 1 & 1 & 0 & 0 \\
 1 & 0 & 0 & 1 & 0 \\
@@ -112,7 +112,7 @@ $$\left[
 0 & 0 & 0 & 1 & 0 \\
 \end{array}
 \right]
-\hspace{2cm}
+\hspace{1.5cm}
 \left[
 \begin{array}{ccccc}
 0 & 1 & 1 & 2 & 3 \\
@@ -151,7 +151,7 @@ What is the path with minimum weight from $2$ to $0$, and what is its weight?\\
 It may fail in the presence of negative weight arcs.
 
 It is easiest to understand the algorithm in terms of a set of visited nodes $S$, which eventually includes all nodes in $G$. 
-We'll consider only shortest paths through $S$.% and make sure the length of these shortest paths is accurate.
+We'll consider only shortest paths through $S$. % and make sure the length of these shortest paths is accurate.
 Once $S = V(G)$, all shortest path lengths are known. 
 
 Initially $S$ contains only the single node $s$. 
@@ -733,7 +733,7 @@ We look at two simple greedy algorithms that solve the MST problem.
 The basic idea of \defnfont{Prim's algorithm} is simple:
 \begin{itemize}
 \item Start at any vertex.
-\item choose at each step an edge of minimum weight from the remaining edges ensuring that
+\item Choose at each step an edge of minimum weight from the remaining edges ensuring that
 \begin{enumerate}
 \item adding the edge does not create a cycle in the subgraph built so
 far; and 
@@ -909,8 +909,8 @@ operations efficiently. We do not look at the details of this ADT here.
 
 
 
-Kruskal's is in $O(m \log n)$ using the disjoint sets
-ADT. The ADT can be implemented in such a way that the union and find operations
+Kruskal's is in $O(m \log n)$ using the disjoint sets ADT. 
+The ADT can be implemented in such a way that the union and find operations
 in Kruskal's algorithm runs in \boldfont{almost} linear time. So if the edge weights are presorted, or can be
 sorted in linear time (for example, if they are known to be integers in
 a fixed range), then Kruskal's algorithm runs for practical purposes in
@@ -934,19 +934,18 @@ a graph (a \defnfont{Hamiltonian cycle});
 \item finding a
 minimum weight path that passes through all the vertices of a weighted
 digraph (the \defnfont{travelling salesperson problem} or TSP);
-\item finding the largest \defnfont{independent set} in a graph --- that is, 
+\item finding the largest \defnfont{independent set} in a graph, that is, 
 a subset of vertices no two of which are connected by an edge;
-\item finding the smallest \defnfont{vertex cover} of a graph---that is, a special subset of
+\item finding the smallest \defnfont{vertex cover} of a graph, that is, a special subset of
 vertices so that each vertex of the graph is adjacent to one in that
-subset. (However, from \cref{ex:konig}, this problem 
-is polynomial-time solvable when restricted to bipartite graphs.)
+subset. (However, this problem is polynomial-time solvable when restricted to bipartite graphs.)
 \end{itemize}
 
 Investigating these problems is an active research area in computer
 science. In many cases the only approach known is essentially to try
 all possibilities, with some rules that prevent the listing of obviously
 hopeless ones. In some special cases (for example, graphs that are 
-\defnfont{planar} (they can be drawn in the plane without edges crossing) 
+\defnfont{planar} (they can be drawn in the plane without edges crossing))
 or are in some sense ``close to" trees, much faster algorithms can be developed.
 
 %\subsection*{Exercises}
