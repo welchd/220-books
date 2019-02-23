@@ -126,7 +126,7 @@ Running time on a linked list is not much different from performance on an array
 The differences involve swap versus insertion, but comparisons dominate the running time anyway.
 
 Lastly, note that there is no better way to find the maximum using a list than what we have done above. 
-But if we change the data structure \dots (see lecture on heapsort).
+But if we change the data structure \dots (see \cref{sec:heapsort} on heapsort).
 
 
 \chapter{Insertion sort} %----------------------------------------------------
@@ -222,7 +222,7 @@ How many inversions are in the permutation $72481536$?
 \begin{Boxample}[6]
 What is the average number of inversions in a random permutation of $\{1,\dots, n\}$?
 \end{Boxample}
-% \textit{Proof:} For every pair $(i,j)$ with $i\neq j$,  and every permutation $\pi$, 
+% \textit{Proof.} For every pair $(i,j)$ with $i\neq j$,  and every permutation $\pi$, 
 % this pair is an inversion in exactly one of $\pi$ or the reverse of $\pi$.
 
 \section{Which inputs give the best and worst case?}
@@ -262,19 +262,18 @@ The key property is that each run removes inversions and none are
 restored by later runs. The last run is just insertion sort, but on a file that 
 is almost sorted.
 
-This is a simple algorithm whose analysis is very hard. 
-Values of $h$ chosen from all relevant numbers of the form $2^i 3^j$ have been proved to give 
-$O(n (\log n)^2)$ running time, but better ones are used in practice. 
-Almost nothing is known about average-case running time of Shellsort. 
-Empirically, behaviour that looks like $O(n^{7/6})$ has been obtained. 
-
-
 \begin{Boxample}
 An example of ShellSort with $h = 5, 3, 1$.
 \begin{center}
   \includegraphics[width=0.55\linewidth]{ShellSort} 
 \end{center}
 \end{Boxample}
+
+This is a simple algorithm whose analysis is very hard. 
+Values of $h$ chosen from all relevant numbers of the form $2^i 3^j$ have been proved to give 
+$O(n (\log n)^2)$ running time, but better ones are used in practice. 
+Almost nothing is known about average-case running time of Shellsort. 
+Empirically, behaviour that looks like $O(n^{7/6})$ has been obtained. 
 
 Shellsort is easy to program and useful in practice for fairly large arrays (say $10^5$) especially for partially sorted data. 
 It is substantially  better than insertion sort.
@@ -373,7 +372,7 @@ However the input only affects lower order terms -- it turns out
 (next lecture)  that mergesort does about $n \lg n$ comparisons on every input.
 
 \section{Is mergesort in-place?}
-\begin{Boxample}[4]
+\begin{Boxample}[6]
 Show by example that it is not, when implemented on an array.
 \end{Boxample}
 
@@ -429,12 +428,12 @@ sufficiently large $n$. The smaller values of $n$ are called the
 
 \section{Important special cases}
 \begin{description}
-  \item[Tower of Hanoi:] $T(n) = 2 T(n - 1) + 1, T(1) = 0$;
-  \item[Searching a linked list:] $T(n) = T(n - 1) + 1, T(0) = 0$;
-  \item[Insertion sort:] $T(n) = T(n-1) + n$, T(0) = 0;
-  \item[Binary search:] $T(n) = T(n/2) + 1, T(1) = 0$ makes sense when $n$ is a power of $2$. 
-  \item[Mergesort:] $T(n) = 2T(n/2) + n, T(1) = 0$ makes sense when $n$ is a power of $2$.
-  \item[Quicksort:] $T(n) = (2/n)\sum_{i<n} T(i) + n-1, T(1) = 0$.
+  \item[Tower of Hanoi:] $T(n) = 2 T(n - 1) + 1$, $T(1) = 0$.
+  \item[Searching a linked list:] $T(n) = T(n - 1) + 1$, $T(0) = 0$.
+  \item[Insertion sort:] $T(n) = T(n-1) + n$, $T(0) = 0$.
+  \item[Binary search:] $T(n) = T(n/2) + 1$, $T(1) = 0$ makes sense when $n$ is a power of $2$. 
+  \item[Mergesort:] $T(n) = 2T(n/2) + n$, $T(1) = 0$ makes sense when $n$ is a power of $2$.
+  \item[Quicksort:] $T(n) = (2/n)\sum_{i<n} T(i) + n-1$, $T(1) = 0$.
 \end{description}
 
 Important examples  in this course are \defnfont{constant coefficient linear recurrences} which have the form 
@@ -459,12 +458,13 @@ T(n) & = 2 T(n - 1) + 1  \\
 
 \section{Bottom-up solution method example}
 \begin{Boxample}
-We are given $T(n) = 2 T(n - 1) + 1, T(1) = 0$. 
-We compute values from the bottom up using the recurrence. 
-We have $T(1) = 0, T(2) = 2T(1) + 1 = 1, T(3) = 2T(2) + 1 = 3, T(4) = 7, T(5) = 15$. 
+We are given $T(n) = 2 T(n - 1) + 1$, $T(1) = 0$. 
+We compute values from the bottom up using the recurrence.\\
 
-We guess $T(n) = 2^{n-1} - 1$. The guess is correct when $n = 1$. 
 
+We have $T(1) = 0$, $T(2) = 2T(1) + 1 = 1$, $T(3) = 2T(2) + 1 = 3$, $T(4) = 7$, $T(5) = 15$. 
+
+We guess $T(n) = 2^{n-1} - 1$. The guess is correct when $n = 1$.
 Now assume that $n > 1$ and the formula holds for all smaller values than $n$. 
 From the recurrence we then have 
 $T(n) = 2T(n-1) + 1 = 2(2^{n-2} - 1) + 1 = 2^{n-1} - 1$. 
@@ -473,12 +473,14 @@ Thus the formula holds for all $n \geq 1$, by \boldfont{mathematical induction}.
 
 \section{Change of variable}
 \begin{Boxample} \label{eg:recur-cov}
-Consider the divide-and-conquer recurrence $T(n) = T(n/2) + 1, T(1) = 0$. 
-This makes sense for $n$ a power of $2$.
+Consider the divide-and-conquer recurrence $T(n) = T(n/2) + 1$, $T(1) = 0$. 
+This makes sense for $n$ a power of $2$.\\
+
 Changing variable by $n = 2^i$, $T(n) = U(i)$ 
-gives $U(i) = U(i-1) + 1, U(0) = 0$. 
+gives $U(i) = U(i-1) + 1$, $U(0) = 0$. 
 By top-down or bottom-up guessing as above, we get 
-$$T(n) = U(i) =  i = \lg n \qquad \text{when } n \text{ is a power of }2\text{.}$$
+$$T(n) = U(i) =  i = \lg n$$ when $n$ is a power of $2$.
+
 Similarly the mergesort recurrence $T(n) = 2T(n/2) + n, T(1)  = 0$ 
 has solution $T(n) = n \lg n$ for $n$ a power of $2$.
 \end{Boxample}
@@ -502,11 +504,11 @@ we get the same answer, asymptotically.
 
 
 \section{How do we solve the Fibonacci recurrence?}
-Recall $F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2), (n \geq 2)$.
+Recall $F(0) = 0$, $F(1) = 1$, $F(n) = F(n-1) + F(n-2)$,  $(n \geq 2)$.
 Such linear homogeneous recurrences can be solved exactly with
 more theory than we have time for in this course. 
 
-\begin{Boxample}[2]
+\begin{Boxample}[3]
 Try to solve the Fibonacci recurrence using the top-down or bottom-up method. Why does it fail?
 
 \end{Boxample}
@@ -599,11 +601,8 @@ $\geq p$. One method is \cref{alg:partition} (Hoare, 1960) and it works as follo
 \end{algorithmic}
 \end{algorithm}
 
-\begin{Boxample}[1]
-Does the quicksort algorithm in \cref{ex:quicksortSmall} use Hoare's method, \cref{alg:partition}, for partitioning? 
-\end{Boxample}
 
-\begin{Boxample}[1]
+\begin{Boxample}[0]
 Complete the following example for the partition algorithm \cref{alg:partition}. 
 Begin with setting the pointers $p$, $l$ and $r$ after finding the big and small element in the second iteration.
 \begin{center}
@@ -611,8 +610,13 @@ Begin with setting the pointers $p$, $l$ and $r$ after finding the big and small
 \end{center}
 \end{Boxample}
 
+\begin{Boxample}[1]
+Does the quicksort algorithm in \cref{ex:quicksortSmall} use Hoare's method, \cref{alg:partition}, for partitioning? 
+\end{Boxample}
+
+
 \begin{Boxample}[2]
-Execute the quicksort algorithm \cref{alg:quicksort} using the partition algorithm \cref{alg:partition}.
+Execute the quicksort algorithm \cref{alg:quicksort} using Hoare's partition algorithm.
 \begin{center}
 \includegraphics{QuickSortExercise}
 \end{center}
@@ -793,7 +797,7 @@ graph algorithms (later in this course), sorting, \dots .
 Priority queues can be implemented in many ways: unsorted list, sorted 
 list, binary heap, binomial heap, \dots . 
 
-\begin{Boxample}[3]
+\begin{Boxample}[5]
 Show how (a) a queue and (b) a stack can be interpreted as special cases of a priority queue.
 \end{Boxample}
 
@@ -897,6 +901,8 @@ latter method: solution is $\Theta(n)$ (exact formula is tricky to guess).
 This method can be rewritten to avoid recursion (``bottom-up") and to work 
 in place in the array implementation. 
 
+There is still serious research being done on better priority queue implementations.
+
 \begin{Boxample}\label{ex:heapbuild}
 Heap-building algorithm as in the first while-loop of \cref{alg:heapsort}.
 \begin{center}
@@ -926,32 +932,26 @@ Heap-building algorithm as in the first while-loop of \cref{alg:heapsort}.
 \end{algorithmic}
 \end{algorithm}
 
-\begin{Boxample}[0]
-Heapsort on the already built heap from \cref{ex:heapbuild}. 
-Complete the last steps.
+\begin{Boxample}[0] Complete the last steps of Heapsort.
 \begin{center}
 \includegraphics[width=1.0\textwidth]{heapSort}
 \end{center}
 \end{Boxample}
 
-There is still serious research being done on better priority queue 
-implementations.
+% There is still serious research being done on better priority queue implementations. %<< moved up for pagebreak
 
 
 \chapter{Data selection and quickselect} %-------------------------------------------
 \label{sec:qselect}
 
-\Cref{t:sortchar} gives a summary of results so far on sorting algorithms.
+The table below gives a summary of results so far on sorting algorithms.
 Running times give asymptotic order only. 
 Shellsort analysis depends on the increments used, and is difficult. 
 Quicksort needs a stack of size $\Theta(\log n)$ for the recursion. 
 Selection sort is stable for linked lists. 
 Mergesort is in-place for linked lists.
 
-\begin{table}[htb] 
-\caption{Characteristics of sorting methods} 
-\label{t:sortchar}
-\centerline{
+\begin{center}
 \begin{tabular}{|c|c|c|c|c|c|} \hline 
 Method & Worst & Average & Best & Stable? & In-place? \\
 \hline
@@ -962,8 +962,8 @@ Mergesort & $n \log n$ & $n \log n$ & $n \log n$ & Yes & No \\
 Quicksort & $n^2$ & $n \log n$ & $n \log n$ & No & Almost \\
 Heapsort & $n \log n$ & $n \log n$ & $n \log n$ & No & Yes \\
 \hline
-\end{tabular}}
-\end{table} 
+\end{tabular}
+\end{center}
 
 
 \section{Selection}
@@ -1023,7 +1023,7 @@ $$E(n) = n + \frac{1}{n} \sum_{i=0}^{n-1} E(p)\text{.}$$
 
 This has a solution that is $\Theta(n)$, via the same method used for the quicksort recurrence.
 
-\begin{Boxample}[5]
+\begin{Boxample}[6]
 Solve the quickselect recurrence above.
 \end{Boxample}
 
