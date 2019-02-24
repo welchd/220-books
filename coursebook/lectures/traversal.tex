@@ -652,9 +652,11 @@ We do not include any code for \texttt{setKey}.
 \end{algorithm}
 
 \begin{Boxample}
-Execute PFS on the graph below so that nodes with higher degree have higher priority (recall that higher priority corresponds to lower key). 
+Execute PFS on the graph below so that nodes with higher degree have higher priority (recall that a lower key corresponds to a higher priority). 
+
 Start the traversal at vertex 0 and break ties by choosing the vertex with the lower index first.
-In each step add one vertex and edge to the search tree. 
+
+At each step add one vertex and edge to the search tree. 
 \begin{center}
   \includegraphics{PFSex}
 \end{center}
@@ -835,7 +837,7 @@ What are  girth and directed girth of the following digraph?
 
 
 
-\chapter{Finding girth using BFS, connectivity, components, and strong components} %-----------------------
+\chapter{Finding girth using BFS, connectivity, and components} %-----------------------
 
 \section{Finding the girth of a graph with BFS}
 How to compute the girth of a graph? Here is an algorithm for finding
