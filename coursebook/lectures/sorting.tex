@@ -204,7 +204,7 @@ Complete the following insertion sort process.
 
 
 \section{Insertion sort analysis}
-The number of key comparisons for fixed $i$ is one more than the number of $a[j]$ with $j < i$ and $a[i] < a[j]$.
+The number of key comparisons for fixed $i$ is one more than the number of $j$ such that $j < i$ and $a[i] < a[j]$.
 Thus the total number of comparisons is $n-1$ plus the number of \defnfont{inversions}, 
 namely pairs $(i, j)$ of indices with $j < i$ and $a[j] > a[i]$ (``out of order" pairs of elements).
 The number of swaps in the second version is the number of inversions. 
