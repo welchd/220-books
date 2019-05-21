@@ -882,19 +882,19 @@ Which is the smallest cycle it finds with the back edges? Which smaller cycle do
 % shortest possible.
 % \end{Boxample}
 
-\section{Finding the directed girth of a digraph with DFS}
+\section{Finding the directed girth of a digraph with BFS}
 
 A similar idea can be applied to finding the directed girth of a digraph.
 
 \begin{Boxample}[2.5]
 Convince yourself that the following procedure finds the (length of the) shortest directed cycle through node $v$ in a digraph.
 \begin{enumerate}
-\item Run \algfont{DFSvisit} starting at node $v$.
-\item Whenever a back-arc of the form $(x,v)$ is found, we have found a cycle of length equal to $(1 + \mbox{the depth of }x\mbox{ in the search tree})$. 
-\item When  \algfont{DFSvisit} completes, return the shortest length found.\\
+\item Run \algfont{BFSvisit} starting at node $v$.
+\item The first time a back-arc of the form $(x,v)$ is found, we have found a cycle of length equal to $(1 + \mbox{the depth of }x\mbox{ in the search tree})$. 
+\item Return the shortest length found.\\
 
 \vspace{2.5cm}
-How can this be used to find the directed girth of the digraph? What is the running time for doing so?
+Why is there no need to continue to the end of the level before halting the traversal? How can this be used to find the directed girth of the digraph? What is the running time for doing so?
 \end{enumerate}
 \end{Boxample}
 
