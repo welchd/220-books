@@ -325,7 +325,7 @@ What is the running time for \cref{alg:ifstatements} and why?
 Let us roughly estimate the running time of \cref{alg:nest2}.
 
 The inner loop is executed $k$ times for $j = 2, 4, \ldots, 2^{k}$
-where $k < \lg n \le k + 1$. The total time for the elementary operations is 
+where $k \leq \lg n < k + 1$. The total time for the elementary operations is 
 proportional to $kn$, that is, $T(n) =  n  \lfloor \lg n \rfloor \approx n \lg n$.
 \end{Boxample}
 

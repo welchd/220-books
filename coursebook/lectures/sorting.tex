@@ -176,7 +176,7 @@ It works well on small lists, or lists that are nearly sorted.
 	%\State $n \gets \texttt{a.size()}$  
 	\For{$i\gets 1$ \text{to} $n-1$}  
 		\State $j \gets i - 1$
-		\While{$a[j] > a[i]$ and $j \geq 0$} 
+		\While{$a[j] > a[j+1]$ and $j \geq 0$} 
 			\State \Comment{swap backward to move to right place}
 			\State \texttt{swap}$(a,j,j+1)$
 			\State $j \gets j - 1$
@@ -204,7 +204,7 @@ Complete the following insertion sort process.
 
 
 \section{Insertion sort analysis}
-The number of key comparisons for fixed $i$ is one more than the number of $a[j]$ with $j < i$ and $a[i] < a[j]$.
+The number of key comparisons for fixed $i$ is one more than the number of $j$ such that $j < i$ and $a[i] < a[j]$.
 Thus the total number of comparisons is $n-1$ plus the number of \defnfont{inversions}, 
 namely pairs $(i, j)$ of indices with $j < i$ and $a[j] > a[i]$ (``out of order" pairs of elements).
 The number of swaps in the second version is the number of inversions. 

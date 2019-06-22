@@ -652,9 +652,11 @@ We do not include any code for \texttt{setKey}.
 \end{algorithm}
 
 \begin{Boxample}
-Execute PFS on the graph below so that nodes with higher degree have higher priority (recall that higher priority corresponds to lower key). 
+Execute PFS on the graph below so that nodes with higher degree have higher priority (recall that a lower key corresponds to a higher priority). 
+
 Start the traversal at vertex 0 and break ties by choosing the vertex with the lower index first.
-In each step add one vertex and edge to the search tree. 
+
+At each step add one vertex and edge to the search tree. 
 \begin{center}
   \includegraphics{PFSex}
 \end{center}
@@ -734,7 +736,7 @@ If we apply zero-indegree sorting to a digraph that is not a DAG,
 eventually it will stop because no source node can be found at some point.
 
 \begin{Boxample}[2.5]
-What is the running time of a naive implementation of zero-indegree where a zero degree node is found and then removed at each step? How could this idea be made more efficient?
+What is the running time of a naive implementation of zero-indegree where a source is found and then removed at each step? How could this idea be made more efficient?
 \end{Boxample}
 
 \section{Finding cycles and topological sorting using DFS}
@@ -835,7 +837,7 @@ What are  girth and directed girth of the following digraph?
 
 
 
-\chapter{Finding girth using BFS, connectivity, components, and strong components} %-----------------------
+\chapter{Finding girth using BFS, connectivity, and components} %-----------------------
 
 \section{Finding the girth of a graph with BFS}
 How to compute the girth of a graph? Here is an algorithm for finding
@@ -880,19 +882,19 @@ Which is the smallest cycle it finds with the back edges? Which smaller cycle do
 % shortest possible.
 % \end{Boxample}
 
-\section{Finding the directed girth of a digraph with DFS}
+\section{Finding the directed girth of a digraph with BFS}
 
 A similar idea can be applied to finding the directed girth of a digraph.
 
 \begin{Boxample}[2.5]
 Convince yourself that the following procedure finds the (length of the) shortest directed cycle through node $v$ in a digraph.
 \begin{enumerate}
-\item Run \algfont{DFSvisit} starting at node $v$.
-\item Whenever a back-arc of the form $(x,v)$ is found, we have found a cycle of length equal to $(1 + \mbox{the depth of }x\mbox{ in the search tree})$. 
-\item When  \algfont{DFSvisit} completes, return the shortest length found.\\
+\item Run \algfont{BFSvisit} starting at node $v$.
+\item The first time a back-arc of the form $(x,v)$ is found, we have found a cycle of length equal to $(1 + \mbox{the depth of }x\mbox{ in the search tree})$. 
+\item Return the shortest length found.\\
 
 \vspace{2.5cm}
-How can this be used to find the directed girth of the digraph? What is the running time for doing so?
+Why is there no need to continue to the end of the level before halting the traversal? How can this be used to find the directed girth of the digraph? What is the running time for doing so?
 \end{enumerate}
 \end{Boxample}
 

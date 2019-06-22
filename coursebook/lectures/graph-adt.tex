@@ -139,7 +139,7 @@ A node of indegree $0$ is called a \defnfont{source} and a node of outdegree $0$
 
 \begin{Definition}
 The \defnfont{distance} from $u$ to $v$ in $G$, denoted by $d(u,v)$, is 
-the number of arc on a shortest path from $u$ to $v$. If no path from $u$ to $v$ exists, the 
+the number of arcs on a shortest path from $u$ to $v$. If no path from $u$ to $v$ exists, the 
 distance is undefined (or $+\infty$).
 \end{Definition}
 
@@ -584,13 +584,14 @@ What is the storage requirement for a complete digraph on $n$ nodes, that is, a 
 occurs?
 \end{Boxample}
 
-For small, sparse digraphs, lists use less space than a matrix, whereas for small
-dense digraphs the space requirements are comparable. For large sparse
-digraphs, a matrix can still be more efficient, but this happens rarely.
-
-\begin{Boxample}[5]
-Find a large sparse digraph where the matrix representation uses less space than the lists representation.
-\end{Boxample}
+For sparse digraphs, lists use less space than a matrix, whereas for 
+dense digraphs the space requirements are comparable.
+% For large sparse
+%digraphs, a matrix can still be more efficient, but this happens rarely.
+%
+%\begin{Boxample}[5]
+%Find a large sparse digraph where the matrix representation uses less space than the lists representation.
+%\end{Boxample}
 
 The representation that is best will depend on the application and we cannot make general rules.  
 We will mostly use adjacency lists, which are

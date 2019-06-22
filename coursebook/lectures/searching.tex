@@ -402,7 +402,7 @@ The average cost for an unsuccessful search is the average list length, namely $
 
 The average cost for a successful search is then 
 $$
-\frac{1}{n} \sum_{k=1}^n \frac{k}{m} = \frac{n+1}{2m} \approx  \frac{n}{2m}  = \lambda/2 \text{.}
+\frac{1}{n}   \sum_{k=1}^n (1+\frac{k-1}{m}) = 1+ \frac{n-1}{2m} \approx 1+ \frac{n}{2m}  = 1+ \lambda/2 \text{.}
 $$
 Thus provided the load factor is kept bounded, basic operations all run in 
 constant time on average. 
