@@ -428,7 +428,7 @@ Other specialized digraph representations may be used to take advantage of
 special structure in a family of digraphs for improved storage or access time. 
 For such specialized purposes they may be better than adjacency matrices or lists.
 
-For example, trees can be stored more efficiently (c.f. \cref{sec:heapsort}).  
+For example, trees can be stored more efficiently. We saw in \cref{sec:heapsort} how to store a complete binary tree in an array. Here is way of storing a  general tree in an array.
 \begin{itemize}
 \item A general rooted tree of $n$ nodes can be stored in array $\pred$ of size $n$. 
 \item $\pred[i]$ is the parent of node $i$. 

@@ -179,19 +179,19 @@ The schemes we consider here are simple and constant time.
   is in $\Theta(n + t)$, where $t$ is the total time taken by all the calls to \texttt{visit}.
   \item We execute the while-loop of \texttt{visit} in total $\Theta(n)$ times 
   since every node must eventually move from white through grey to black. 
-  \item The time taken in choosing grey nodes is $\Omega(n)$. 
+  \item The time taken in choosing grey nodes is $\Theta(n)$. 
   \item The time taken to find a white neighbour involves examining each neighbour of $u$ 
   and checking whether it is white, then applying a selection rule. 
-  \item The total time in choosing white neighbours is in $\Omega(m)$ if adjacency lists are used 
+  \item The total time in choosing white neighbours is in $\Theta(m)$ if adjacency lists are used 
   and is in $\Omega(n^2)$ if an adjacency matrix is used.
-  \item So the running time of \texttt{traverse} is $\Omega(n + (n+m)) = \Omega(n + m)$
-  if adjacency lists are used, and $\Omega(n + n^2) = \Omega(n^2)$ if the adjacency matrix format is used.
+  \item So the running time of \texttt{traverse} is $\Theta(n + (n+m)) = \Theta(n + m)$
+  if adjacency lists are used, and $\Theta(n + n^2) = \Theta(n^2)$ if the adjacency matrix format is used.
 \end{itemize}
 
 So for simple selection rules and assuming a sparse input digraph, the adjacency list format seems
 preferable. But if more complex selection rules are used, for example, choosing a single grey node is 
 of order $n$ while choosing a single white node is still constant time, then the running time is 
-asymptotically $\Omega(n^2)$ regardless of the data structure, so using
+asymptotically $\Theta(n^2)$ regardless of the data structure, so using
 the adjacency matrix is not clearly ruled out.
 
 

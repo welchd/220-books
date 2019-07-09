@@ -358,7 +358,8 @@ The next lecture looks at a more efficient implementation with running time $O((
 	\State $\colour[s] \gets $ GREY
 	\State $Q$.\texttt{insert}$(s, 0)$
 	\While{\textbf{not} $Q$.\texttt{isEmpty}$()$}
-		\State $u \gets Q$.\texttt{peek}$()$; $t_1 \gets$  $Q$.\texttt{getKey}$(u)$
+		\State $t_1 \gets$  $Q$.\texttt{getKey}$Q$.\texttt{peek}$()$
+		\State $u \gets Q$.\texttt{pop}$()$
 		\For{each $x$ adjacent to $u$}
 			\State $t_2 \gets t_1 + c(u, x)$
 			\If{$\colour[x] = $ WHITE}
@@ -368,7 +369,6 @@ The next lecture looks at a more efficient implementation with running time $O((
 				\State $Q$.\texttt{decreaseKey}$(x, t_2)$
 			\EndIf
 		\EndFor
-		\State $Q$.\texttt{delete}$()$
 		\State $\colour[u] \gets $ BLACK
 		\State $\dist[u] \gets t_1$ 
 	\EndWhile
