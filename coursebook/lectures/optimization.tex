@@ -714,7 +714,7 @@ is not involved then the result follows by inductive hypothesis. If $x$
 is involved, let $\gamma_1, \gamma_2$ be the subpaths from $u$ to $x$
 and $x$ to $v$ respectively. Then $\gamma_1$ and $\gamma_2$ are
 $S_k$-paths and by the inductive hypothesis, $$L \geq |\gamma_1| +
-|\gamma_2| \geq d_k[u,x] + d_k[x,v] \geq d_{k+1}[u,v]\text{.}$$
+|\gamma_2| = d_k[u,x] + d_k[x,v] \geq d_{k+1}[u,v]\text{.}$$
 \end{proof}
 
 \begin{Boxample}[8]
@@ -783,7 +783,7 @@ The main difference is in the update formula. We also store the PFS tree, which 
   \caption{Prim's algorithm.}
   \label{alg:primcode}
 \begin{algorithmic}[1]
-\Function{Prim}{weighted digraph $(G, c)$; vertex $s\in V(G)$}
+\Function{Prim}{weighted graph $(G, c)$; vertex $s\in V(G)$}
 	\State priority queue $Q$
 	\State array $\colour[0..n-1]$, $\pred[0..n-1]$
 	\For{$u \in V(G)$}
