@@ -988,7 +988,7 @@ is relative to the desired element. This algorithm is called \defnfont{Quicksele
 \begin{algorithmic}[0]
 \Require{$0 \leq i \leq j \leq n-1$, $1\leq r \leq j-i+1$}
 \Function{quickselect}{list $a[0..n-1]$, int $i$, int $j$, int $r$}
-	\If{$i < j$}
+	\If{$i \leq j$}
 		\State $p \gets a[i]$ \Comment{pivot element}
 		\State $q \gets \Call{partition}{a, i,j,p}$ \Comment{put $p$ in correct position}
 		\If{$q-i=r-1$}
