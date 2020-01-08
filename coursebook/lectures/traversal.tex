@@ -1043,20 +1043,24 @@ If each $C_i$ is considered a single node, this decomposition is a DAG.}
 If we started a DFS in $C_1$, we'd reach only nodes in $C_1$ and no other nodes. 
 If we then started a DFS in $C_2$, we'd see only those in $C2$ and so on. The question is, how do we know to start in $C_1$, the $C_2$ etc.?
 
-Since $H$ is a DAG, we can find a topological order of it using the reverse order of finishing times of a DFS. 
-We  note that the strong components of $G$ are the same as the strong components of its reverse, $G_r$. 
-So, as before, starting a DFS in $C_m$ of $G_r$ means we would only visit nodes in $C_m$ and so on. This leads to the following solution, due to Tarjan.
+Since $H$ is a DAG, we can find a topological order of it using the reverse order of finishing times of a DFS. Now consider starting a DFS in the $C_i$'s. In the example shown in Figure \cref{fig:sccdecomp}, you'd be starting in $C_1$ and only seeing nodes in $C_1$, and so on.  %the from the end of the topological order (so starting in reverse topological order). the reverse topological order
+%We  note that the strong components of $G$ are the same as the strong components of its reverse, $G_r$. 
+%So, as before, starting a DFS in $C_m$ of $G_r$ means we would only visit nodes in $C_m$ and so on. 
+This leads to the following solution, due to Tarjan.
 
 
 \begin{itemize}
 \item Run a DFS on $G$ starting at an arbitrary node and record the finishing ($\done$) times for each node.
-\item List nodes of $G$ in reverse order of finishing (from last finished to first).
-\item Run DFS on $G_r$, the reverse of $G$, always choosing a root (starting) node as the unvisited node that occurs first on the list in the previous step.
-\item This produces a forest $F_r$ where each tree in the forest is a strongly connected component of $G$ (and of $G_r$).
+\item List nodes of $G$ in order of finishing (from first finished to last). This is a reverse topological order of $G$.
+\item Run DFS on $G$, always choosing a root (starting) node as the unvisited node that occurs first on the list in the previous step.
+\item This produces a forest $F$ where each tree in the forest is a strongly connected component of $G$.
+%\item Run a DFS on $G$ starting at an arbitrary node and record the finishing ($\done$) times for each node.
+%\item List nodes of $G$ in reverse order of finishing (from last finished to first).
+%\item Run DFS on $G_r$, the reverse of $G$, always choosing a root (starting) node as the unvisited node that occurs first on the list in the previous step.
+%\item This produces a forest $F_r$ where each tree in the forest is a strongly connected component of $G$ (and of $G_r$).
 \end{itemize}
 
-The above algorithm runs in linear time with adjacency lists, since
-DFS and the creation of the reverse digraph take linear time. 
+The above algorithm runs in linear time with adjacency lists, since it only requires two DFS traversals of $G$, each of which runs in linear time. (Note that the textbook gives a slightly different version of this algorithm that requires finding the reverse of $G$, and also is linear time).
 
 \begin{Boxample}[7]
 Run the algorithm above on the graph shown (starting in the initial DFS at node $0$) to find all strongly connected components. 
