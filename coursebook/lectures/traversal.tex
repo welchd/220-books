@@ -1051,8 +1051,8 @@ This leads to the following solution, due to Tarjan.
 
 \begin{itemize}
 \item Run a DFS on $G$ starting at an arbitrary node and record the finishing ($\done$) times for each node.
-\item List nodes of $G$ in order of finishing (from first finished to last). This is a reverse topological order of $G$.
-\item Run DFS on $G$, always choosing a root (starting) node as the unvisited node that occurs first on the list in the previous step.
+\item List nodes of $G$ in order of finishing (from first finished to last). This gives a reverse topological order of $H$.
+\item Run DFS on $G$, always choosing a root (starting) node as the unvisited node that occurs first on the ordered list in the previous step.
 \item This produces a forest $F$ where each tree in the forest is a strongly connected component of $G$.
 %\item Run a DFS on $G$ starting at an arbitrary node and record the finishing ($\done$) times for each node.
 %\item List nodes of $G$ in reverse order of finishing (from last finished to first).
