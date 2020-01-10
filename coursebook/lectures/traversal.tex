@@ -891,7 +891,7 @@ Convince yourself that the following procedure finds the (length of the) shortes
 \begin{enumerate}
 \item Run \algfont{BFSvisit} starting at node $v$.
 \item The first time a back-arc of the form $(x,v)$ is found, we have found a cycle of length equal to $(1 + \mbox{the depth of }x\mbox{ in the search tree})$. 
-\item Return the shortest length found.\\
+\item Stop and Return the length found.\\
 
 \vspace{2.5cm}
 Why is there no need to continue to the end of the level before halting the traversal? How can this be used to find the directed girth of the digraph? What is the running time for doing so?
