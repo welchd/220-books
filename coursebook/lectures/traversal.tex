@@ -1029,8 +1029,9 @@ from $C_2$ to $C_1$. If $C_1$ and $C_2$ are different strong
 components, then any arcs between them must either all point from
 $C_1$ to $C_2$ or from $C_2$ to $C_1$.  
 
-This generalises to all strongly connected components (\cref{fig:sccdecomp}). 
-By reducing each strongly connected component to a single node, we derive a new graph, $H$, from $G$ that is a DAG.
+This generalises to all strongly connected components
+(\cref{fig:sccdecomp}). By reducing each strongly connected component to
+a single node, we derive a new graph, $H$, from $G$ that is a DAG.
 
 \begin{figure}[h]
 \centering
@@ -1040,12 +1041,17 @@ If each $C_i$ is considered a single node, this decomposition is a DAG.}
  \label{fig:sccdecomp}
 \end{figure}
 
-If we started a DFS in $C_1$, we'd reach only nodes in $C_1$ and no other nodes. 
-If we then started a DFS in $C_2$, we'd see only those in $C2$ and so on. The question is, how do we know to start in $C_1$, the $C_2$ etc.?
+If we started a DFS in $C_1$, we'd reach only nodes in $C_1$ and no
+other nodes. If we then started a DFS in $C_2$, we'd see only those in
+$C2$ and so on. The question is, how do we know to start in $C_1$, the
+$C_2$ etc.?
 
-Since $H$ is a DAG, we can find a topological order of it using the reverse order of finishing times of a DFS. 
-We  note that the strong components of $G$ are the same as the strong components of its reverse, $G_r$. 
-So, as before, starting a DFS in $C_m$ of $G_r$ means we would only visit nodes in $C_m$ and so on. This leads to the following solution, due to Tarjan.
+Since $H$ is a DAG, we can find a topological order of it using the
+reverse order of finishing times of a DFS. We  note that the strong
+components of $G$ are the same as the strong components of its reverse,
+$G_r$. So, as before, starting a DFS in $C_m$ of $G_r$ means we would
+only visit nodes in $C_m$ and so on. This leads to the following
+solution, due to Tarjan.
 
 
 \begin{itemize}

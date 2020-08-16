@@ -542,8 +542,7 @@ Thus $F(n)$ is $\Theta(\phi^n)$.
 	\Require{$0 \leq i \leq j \leq n-1$}
 	\Function{quicksort}{list $a[0..n-1]$, integer $i$, integer $j$} 
 		\If{$i < j$}
-			\State $p \gets a[i]$ \Comment{pivot element}
-			\State $q \gets  \Call{partition}{a, i,j,p}$ \Comment{put $p$ in correct position}
+		        \State $q \gets  \Call{partition}{a, i,j}$ \Comment{put $p$ in correct position}
 			\State $\Call{quicksort}{a,i,q-1}$ \Comment{sort left half}
 			\State $\Call{quicksort}{a,q+1,j}$ \Comment{sort right half}
 		\EndIf
@@ -554,7 +553,7 @@ Thus $F(n)$ is $\Theta(\phi^n)$.
 
 The exact way in which quicksort works depends on the details of the way we choose the pivot element and how the 
 partition algorithm works. Each choice for these gives a different quicksort algorithm.
-We use the first entry as pivot element.
+We use the first entry as pivot element for a basic presentation, but there are better options in practice.
 
 \begin{Boxample} \label{ex:quicksortSmall}
 Illustration of quicksort. First the array is partitioned and the pivot element 4 moved into the middle. 
@@ -579,8 +578,8 @@ $\geq p$. One method is \cref{alg:partition} (Hoare, 1960) and it works as follo
   \caption{Partition - Hoare's method.}
     \label{alg:partition}
 \begin{algorithmic}[0]
-\Require{$0 \leq i \leq p \leq j \leq n-1$}
-\Function{partition}{list $a[0..n-1]$, integer $i$, integer $j$, integer $p$}
+\Require{$0 \leq i \leq j \leq n-1$}
+\Function{partition}{list $a[0..n-1]$, integer $i$, integer $j$}
 %	\State $p \gets a[i]$ \Comment{pivot element}
 	\State $l \gets i $ \Comment{left pointer}
 	\State $r \gets j+1$ \Comment{right pointer}
