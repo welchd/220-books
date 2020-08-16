@@ -263,7 +263,7 @@ restored by later runs. The last run is just insertion sort, but on a file that
 is almost sorted.
 
 \begin{Boxample}
-An example of ShellSort with $h = 5, 3, 1$.
+An example of Shellsort with $h = 5, 3, 1$.
 \begin{center}
   \includegraphics[width=0.55\linewidth]{ShellSort} 
 \end{center}
@@ -281,7 +281,9 @@ It is substantially  better than insertion sort.
 
 \chapter{Mergesort}  %----------------------------
 \label{sec:mergesort}
-Here we discuss two ``industrial strength" sorting algorithms, \defnfont{Mergesort} and \defnfont{Quicksort}, and look at the first one in more detail.
+Here we discuss two ``industrial strength" sorting algorithms,
+\defnfont{Mergesort} and \defnfont{Quicksort}, and look at the first one
+in more detail. 
 \begin{itemize}
 \item Each algorithm splits the input list into two sublists, 
 recursively sorts each sublist, and then combines the sorted sublists to sort 
@@ -293,8 +295,8 @@ lists with a procedure \texttt{merge}.
 \item Quicksort (C. A. R. Hoare, 1962): most of the work is in the 
 splitting, combining is very easy. We choose a \defnfont{pivot} element, and use a 
 procedure \texttt{partition} to alter the list so that the pivot is in its 
-correct position relative to the left and right sublists on each side. Then the left and right sublists 
-are sorted recursively.
+correct position relative to the left and right sublists on each side.
+Then the left and right sublists are sorted recursively.
 \end{itemize}
 %Mergesort is stable. Quicksort is (more or less) in place. 
 Each is used as the basis for 
@@ -304,12 +306,12 @@ built-in sorting algorithms in common programming languages.
   \caption{Mergesort.}
     \label{alg:mergesort}
 \begin{algorithmic}[0]
-\Require{$0 \leq i \leq j \leq n-1$}
+%\Require{$0 \leq i \leq j \leq n-1$}
 \Function{mergesort}{list $a[0..n-1]$, integer $i$, integer $j$}
-\If{$i < j$}
-\State $m \gets \lfloor (i + j)/2 \rfloor$ \Comment{median index of list}
-\State $l \gets \Call{mergesort}{a,i,m}$ \Comment{sort left half}
-\State $r \gets  \Call{mergesort}{a,m+1,j}$ \Comment{sort right half}
+\If{$n > 1$}
+%\State $m \gets \lfloor (i + j)/2 \rfloor$ \Comment{median index of list}
+\State $l \gets \Call{mergesort}{a,0,m}$ \Comment{sort left half}
+\State $r \gets  \Call{mergesort}{a,m+1,n-1}$ \Comment{sort right half}
 \State $a \gets  \Call{merge}{l, r}$ \Comment{merge both halves}
 \EndIf
 \State \Return{$a$}
@@ -495,8 +497,7 @@ The mergesort recurrence involves floor and ceiling functions. How do we deal wi
 We can solve the mergesort recurrence $T(n) = T(\lceil n/2 \rceil) + T(\lfloor n/2 \rfloor) + n$ asymptotically. 
 ``Exact" solutions are hard. See COMPSCI 720 and beyond. Then we consider the recurrence $\hat{T}(n) =
 2\hat{T}(\lceil(n/2)\rceil) + n$. It is easily shown that $T \leq \hat{T}$, and 
-as above $\hat{T}(n) = n \lg n$ for $n$ a power of $2$. We can then show that $T(n)
-\in O(n \lg n)$. A similar argument gives $T(n) \in \Omega(n \lg n)$.
+as above $\hat{T}(n) = n \lg n$ for $n$ a power of $2$. We can then show that $T(n)$ is $O(n \lg n)$. A similar argument gives $T(n)$ is $\Omega(n \lg n)$.
 
 In real life we usually do not have exactly an additive term $n$
 but just some $f(n)$ where $f(n)$ is $\Theta(n)$. Similar techniques show that 
@@ -519,7 +520,7 @@ In other words, there are $C > 0$ and $r > 1$ such that
 $F(n) \geq C r^n$ for all sufficiently large $n$.
 
 Try to prove this by induction. The obvious method gives 
-$F(n+1) = F(n) + F(n-1) \geq C(r^n + r^{n-1}) = Cr^{n+1}(1+r)$, so that we easily obtain
+$F(n+1) = F(n) + F(n-1) \geq C(r^n + r^{n-1}) = Cr^{n}(1+r)$, so that we easily obtain
 the conclusion we want if and only if $1 + r \geq r^2$, or $r \leq
 \phi:= (1 + \sqrt{5})/2 \approx 1.618$. 
 
@@ -578,9 +579,9 @@ $\geq p$. One method is \cref{alg:partition} (Hoare, 1960) and it works as follo
   \caption{Partition - Hoare's method.}
     \label{alg:partition}
 \begin{algorithmic}[0]
-\Require{$0 \leq i \leq j \leq n-1$}
-\Function{partition}{list $a[0..n-1]$, integer $i$, integer $j$}
-	\State $p \gets a[i]$ \Comment{pivot element}
+\Require{$0 \leq i \leq p \leq j \leq n-1$}
+\Function{partition}{list $a[0..n-1]$, integer $i$, integer $j$, integer $p$}
+%	\State $p \gets a[i]$ \Comment{pivot element}
 	\State $l \gets i $ \Comment{left pointer}
 	\State $r \gets j+1$ \Comment{right pointer}
 	\While{True}
@@ -661,7 +662,7 @@ $$
 $$
 We can iterate to obtain
 $$\frac{a_n}{n+1} = \frac{a_1}{2} + \sum_{j=2}^n \left(\frac{4}{j+1} - 
-\frac{2}{j}\right) = 4(H_{n+1} - (1+1/2)) - 2(H_n - 1)\dots = 2H_n + \frac{4}{n+1}\text{.}$$
+\frac{2}{j}\right) = 4(H_{n+1} - (1+1/2)) - 2(H_n - 1)\dots = 2H_n + \frac{4}{n+1} - 4\text{.}$$
 
 \section{Which inputs give the best and worst-case?}
 The worst case number of comparisons occurs when the pivot is always at the end of the sublist. 
