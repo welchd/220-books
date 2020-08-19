@@ -307,11 +307,11 @@ built-in sorting algorithms in common programming languages.
     \label{alg:mergesort}
 \begin{algorithmic}[0]
 %\Require{$0 \leq i \leq j \leq n-1$}
-\Function{mergesort}{list $a[0..n-1]$, integer $i$, integer $j$}
+\Function{mergesort}{list $a[0..n-1]$}
 \If{$n > 1$}
-%\State $m \gets \lfloor (i + j)/2 \rfloor$ \Comment{median index of list}
-\State $l \gets \Call{mergesort}{a,0,m}$ \Comment{sort left half}
-\State $r \gets  \Call{mergesort}{a,m+1,n-1}$ \Comment{sort right half}
+\State $m \gets \lfloor (n-1)/2 \rfloor$ \Comment{median index of list}
+\State $l \gets \Call{mergesort}{a[0..m]}$ \Comment{sort left half}
+\State $r \gets  \Call{mergesort}{a[m+1..n-1]}$ \Comment{sort right half}
 \State $a \gets  \Call{merge}{l, r}$ \Comment{merge both halves}
 \EndIf
 \State \Return{$a$}
@@ -542,7 +542,7 @@ Thus $F(n)$ is $\Theta(\phi^n)$.
 	\Require{$0 \leq i \leq j \leq n-1$}
 	\Function{quicksort}{list $a[0..n-1]$, integer $i$, integer $j$} 
 		\If{$i < j$}
-		        \State $q \gets  \Call{partition}{a, i,j}$ \Comment{put $p$ in correct position}
+		        \State $q \gets  \Call{partition}{a, i,j}$ \Comment{put pivot in correct position}
 			\State $\Call{quicksort}{a,i,q-1}$ \Comment{sort left half}
 			\State $\Call{quicksort}{a,q+1,j}$ \Comment{sort right half}
 		\EndIf
@@ -580,7 +580,7 @@ $\geq p$. One method is \cref{alg:partition} (Hoare, 1960) and it works as follo
 \begin{algorithmic}[0]
 \Require{$0 \leq i \leq j \leq n-1$}
 \Function{partition}{list $a[0..n-1]$, integer $i$, integer $j$}
-%	\State $p \gets a[i]$ \Comment{pivot element}
+	\State $p \gets a[i]$ \Comment{pivot element}
 	\State $l \gets i $ \Comment{left pointer}
 	\State $r \gets j+1$ \Comment{right pointer}
 	\While{True}
