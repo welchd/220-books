@@ -533,13 +533,17 @@ Thus $F(n)$ is $\Theta(\phi^n)$.
 \chapter{Quicksort} %---------------------------------------------------------
 \label{sec:quicksort}
 
-\defnfont{Quicksort} was described briefly in \cref{sec:mergesort}. We give the details now.
+\defnfont{Quicksort} was described briefly in \cref{sec:mergesort}. We give the details now. Note that a purely recursive version would do a lot of copying to 
+create new versions of the left and right sublists, as happens with mergesort. In terms of programming languages, we are talking about ``passing by value". 
+We can get an in-place implementation if we use functions that can modify the value of their argument without explicitly returning them 
+(they have ``side effects", usually implemented in programming languages via ``passing by mutable reference", which is commonly done for arrays by default).
 
 \begin{algorithm}[H]
   \caption{Quicksort - basic.}    
   \label{alg:quicksort}
 \begin{algorithmic}[0]
 	\Require{$0 \leq i \leq j \leq n-1$}
+	\Comment{Side effect: changes $a$}
 	\Function{quicksort}{list $a[0..n-1]$, integer $i$, integer $j$} 
 		\If{$i < j$}
 		        \State $q \gets  \Call{partition}{a, i,j}$ \Comment{put pivot in correct position}
@@ -579,6 +583,7 @@ $\geq p$. One method is \cref{alg:partition} (Hoare, 1960) and it works as follo
     \label{alg:partition}
 \begin{algorithmic}[0]
 \Require{$0 \leq i \leq j \leq n-1$}
+\Comment{Side effect: changes $a$}
 \Function{partition}{list $a[0..n-1]$, integer $i$, integer $j$}
 	\State $p \gets a[i]$ \Comment{pivot element}
 	\State $l \gets i $ \Comment{left pointer}
