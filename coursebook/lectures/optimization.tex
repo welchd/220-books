@@ -396,7 +396,7 @@ It is not surprising that the algorithm thus runs more slowly than Dijkstra's al
 \begin{itemize}
   \item The basic idea, as with Dijkstra's algorithm, is to solve the SSSP under restrictions that become progressively more relaxed. 
   \item Bellman--Ford solves the problem for all nodes at ``level" $0, 1, \dots , n-1$ in turn.
-  \item By level we mean the maximum possible number of arcs in a minimum weight path to that node from the source.
+  \item By level we mean the minimum possible number of arcs in a minimum weight path to that node from the source.
 \end{itemize}
 
 \begin{algorithm}[H]
