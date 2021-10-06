@@ -1064,11 +1064,22 @@ solution, due to Tarjan.
 The above algorithm runs in linear time with adjacency lists, since it only requires two 
 DFS traversals (which are each linear time), and the creation of the reverse digraph which also takes linear time. 
 
-\begin{Boxample}[7]
+\begin{Boxample}[7] \label{ex:tarjan}
 Run the algorithm above on the graph shown (starting in the initial DFS at node $0$) to find all strongly connected components. 
 \begin{center}
 \includegraphics{sccBoxample}
 \end{center}
+\end{Boxample}
+
+\begin{Boxample}[4]
+ It is tempting to think the following simpler version of this algorithm might work:
+ \begin{itemize}
+\item run DFS
+\item list nodes of G in order of finishing times (first finished to last) 
+\item  use this ordering to direct a second DFS on the digraph $G$.
+\end{itemize}
+ In general this will not find the strongly connected components. \\
+To see this consider the digraph in Example \ref{ex:tarjan} with the  arc $(3,2)$ removed. Start DFS from node zero and follow this alternative algorthim to see that you do not recover the strong components of the digraph. 
 \end{Boxample}
 
 \section{Bipartite graphs}
