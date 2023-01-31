@@ -502,7 +502,7 @@ so not bigger than $\numprint{9223372036854775807}$) then
 adding two of them can be done in constant time. 
 If the integers are much longer, as occurs for example in symbolic algebra systems, cryptography, etc, 
 then to avoid overflow they must be represented another way (``big integers"). Typically these are strings. 
-In this case the addition is done componentwise and the running time grows linearly with the size of the integers. 
+In this case the addition is done componentwise and the running time grows linearly with the size (in digits) of the integers.
 
 \begin{Boxample}
 Assuming that $F(n)$ has the order of $n$ decimal digits (which is true), the amount of work 
