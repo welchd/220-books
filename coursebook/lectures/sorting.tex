@@ -134,7 +134,8 @@ But if we change the data structure \dots (see \cref{sec:heapsort} on heapsort).
 
 \chapter{Insertion sort} %----------------------------------------------------
 \label{sec:insertionsort}
-The sorting algorithm \defnfont{insertion sort} works as follows.
+Similarly to selection sort, in the \defnfont{insertion sort} sorting algorithm we have a sorted part followed by an unsorted part.
+We grow the sorted part in the following way.
 \begin{itemize}
 	\item For each element $x$ in the unsorted part of the input list, 
 	scan backward while the preceding element exceeds it. 
@@ -149,11 +150,11 @@ It works well on small lists, or lists that are nearly sorted.
 \begin{algorithmic}[1]
 \Function{Insort}{list $a[0..n-1]$}
 	%\State $n \gets \texttt{a.size()}$  
-	\For{$i\gets 1$ \text{to} $n-1$}  
-		\State $j \gets i - 1$
-		\While{$a[j] > a[j+1]$ and $j \geq 0$} 
+	\For{$i\gets 1$ \text{to} $n-1$}  \Comment{$i$ is the first unsorted position}
+		\State $j \gets i$  \Comment{$j$ is the element being moved}
+		\While{$a[j-1] > a[j]$ and $j > 0$}
 			\State \Comment{swap backward to move to right place}
-			\State \texttt{swap}$(a,j,j+1)$
+			\State \texttt{swap}$(a,j-1,j)$
 			\State $j \gets j - 1$
 			%\State $j \gets $ \texttt{findlastinv}($a[0..i]$)
 			%\If{a[j]>a[i]}
@@ -218,7 +219,9 @@ Execute insertion sort on the following input to convince yourself that the algo
 
 \section{Analysis when implemented on a linked list}
 We can reduce the number of data moves if we use a linked list to implement 
-the list ADT. However, searching to find the right insertion point still takes time in 
+the list ADT.
+Instead of repeatedly swapping an element, we can remove it from the list and insert it back in the right position.
+However, searching to find the right insertion point still takes time in
 $\Theta(n^2)$ in the worst case.
 
 \section{How can we improve insertion sort?}
