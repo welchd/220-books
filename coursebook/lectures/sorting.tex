@@ -145,37 +145,9 @@ It works well on small lists, or lists that are nearly sorted.
 
 \begin{algorithm}[H]
   \caption{Insertion sort.}
-  \label{alg:insort}
-\begin{algorithmic}[1]
-\Function{Insort}{list $a[0..n-1]$}
-	%\State $n \gets \texttt{a.size()}$  
-	\For{$i\gets 1$ \text{to} $n-1$}  
-		\State $k \gets a[i]$ \Comment{save value so we do not overwrite}
-		\State $j \gets i - 1$
-		\While{$a[j] > k$ and $j \geq 0$} 
-			\State \Comment{scan backward to find correct insertion position}
-			\State $a[j+1] \gets a[j]$
-			\State $j \gets j - 1$
-			%\State $j \gets $ \texttt{findlastinv}($a[0..i]$)
-			%\If{a[j]>a[i]}
-			%\State \texttt{swap}($a,i,j$) 
-			%\EndIf 
-		\EndWhile
-		\State $a[j+1] \gets k$ \Comment{insert $a[i]$ in correct position}
-	\EndFor
-	%\If{$j \neq i$} 
-	%\State \texttt{swap}($a,i,j$)
-	%\EndIf
-	\State \Return{$a$}
-\EndFunction  
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[H]
-  \caption{Insertion sort swap version.}
     \label{alg:insort2}
 \begin{algorithmic}[1]
-\Function{Insort2}{list $a[0..n-1]$}
+\Function{Insort}{list $a[0..n-1]$}
 	%\State $n \gets \texttt{a.size()}$  
 	\For{$i\gets 1$ \text{to} $n-1$}  
 		\State $j \gets i - 1$
@@ -210,9 +182,8 @@ Complete the following insertion sort process.
 The number of key comparisons for fixed $i$ is one more than the number of $j$ such that $j < i$ and $a[i] < a[j]$.
 Thus the total number of comparisons is $n-1$ plus the number of \defnfont{inversions}, 
 namely pairs $(i, j)$ of indices with $j < i$ and $a[j] > a[i]$ (``out of order" pairs of elements).
-The number of swaps in the second version is the number of inversions. 
-The number of element assignments in the first version is $n-1$ plus the number of inversions.
-In the best case insertion sort runs in linear time. 
+This is also thee number of swaps.
+In the best case insertion sort runs in linear time.
 In the worst case the number of inversions is $n(n-1)/2$ 
 (where input is in reverse sorted order) so it runs in quadratic time $\Theta(n^2)$.
 
