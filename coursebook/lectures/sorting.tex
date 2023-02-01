@@ -703,7 +703,8 @@ $A$ uses at most $cn$ comparisons to sort? Interestingly, the answer is no, as w
 
 Let $\algo$ be a comparison-based sorting algorithm. 
 The execution of $\algo$ on an input of $n$ distinct keys can be modelled by a \defnfont{decision tree}. 
-This is a binary tree whose leaves are the $n!$ possible permutations of the keys. 
+This is a binary tree whose leaves are the outputs of the algorithm.
+Recall that sorting is equivalent to inverting a permutation, therefore there are $n!$ possible outputs or leaves, each corresponding to a permutation of the keys.
 At each step we can only ask a Yes/No question of the form ``$(a_i < a_j)$?'', and this determines the branching: 
 left for Yes, right for No. 
 The number of comparisons required to obtain the output at a leaf is the 
