@@ -613,18 +613,16 @@ However, quicksort seems to behave well in practice. We can prove that
 if elements are distinct and all input permutations are equally likely, then 
 quicksort has average running time in $O(n \log n)$.
 
-The recurrence for this average running time is basically
-$$ a_n = \frac{2}{n} \sum_{i<n} a_i + n-1. $$ 
-This requires a different solution method to the easier recurrences.
-%\item  Answer turns out to be $a_n = 2 (n + 1) H_n - 4n$ we know 
+%\item  Answer turns out to be $a_n = 2 (n + 1) H_n - 4n$ we know
 %that $H_n$ is $\Theta(\log n)$.
 
 \section{Quicksort recurrence solution}
 Let $a_n$ be the average of $C_n$ so that 
-$a_n = n - 1 + \frac{1}{n} \sum_{1\leq p \leq n} (a_{p-1} + a_{n-p})$. 
+$$a_n = n - 1 + \frac{1}{n} \sum_{1\leq p \leq n} (a_{p-1} + a_{n-p}).$$
 Collect common terms in the sums to obtain
 $$a_n = n - 1 + \frac{2}{n} \sum_{j=0}^{n-1} a_j.$$ 
 Note that to compute each term using this recurrence, we require knowledge of all previous terms.
+This requires a different solution method to the easier recurrences.
 We first \emph{eliminate the history}, (a general form of \emph{telescoping}). 
 %\item The solution is 
 %$a_n = 2 (n + 1) H_n - 4n \approx 2 n \ln n$, where 
