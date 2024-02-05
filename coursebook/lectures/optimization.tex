@@ -261,36 +261,37 @@ with starting vertex $0$ fails.
 
 Proving Dijkstra's algorithm works is trickier than for other algorithms we've seen.
 
-Define an \defnfont{$\boldsymbol S$-path} from $s$ to $w$ as a
-path from $s$ to $w$ with $s$ and all intermediate nodes belonging to $S$. 
-In other words, $w$ may not belong to $S$, but all other nodes in the path do.
+%Define an \defnfont{$\boldsymbol S$-path} from $s$ to $w$ as a
+%path from $s$ to $w$ with $s$ and all intermediate nodes belonging to $S$. 
+%In other words, $w$ may not belong to $S$, but all other nodes in the path do.
 
 \begin{Theorem}
-\label{thm:dijkstra} Suppose that all arc weights are non-negative. 
-Then at the top of the \boldfont{while} loop, we have the following properties:
-\begin{description}
-  \item[P1:] If $x \in V(G)$, then $\dist[x]$ is the minimum cost of an $S$-path from $s$ to $x$.
-  \item[P2:] If $w \in S$, then $\dist[w]$ is the minimum cost of a path from $s$ to $w$.
-\end{description}
+\label{thm:dijkstra} Suppose that all arc weights are non-negative in a weighted digraph $(G,c)$. 
+Then at the top of the \boldfont{while} loop, black nodes $x \in S$ have that property that $\dist[x]$  is the minimum cost of a path from $s$ to $x$, that is, $\dist[x] = d(s,x)$. Hence Dijkstra's algorithm solves solves the . 
+%we have the following properties:
+%\begin{description}
+%  \item[P1:] If $x \in V(G)$, then $\dist[x]$ is the minimum cost of an $S$-path from $s$ to $x$.
+%  \item[P2:] If $w \in S$, then $\dist[w]$ is the minimum cost of a path from $s$ to $w$.
+%\end{description}
 \end{Theorem}
 %\begin{proof} 
 At every step, $\dist[x]$ is the length of some path from $s$ to $x$, or $\infty$. 
-That path is an $S$-path if $x \in S$. 
+%That path is an $S$-path if $x \in S$. 
 Also note that the update formula ensures that $\dist[x]$ never increases. 
 
-To prove P1 and P2, we use induction on the number of times $k$ we
+To prove the theorem, we use induction on the number of times $k$ we
 have been through the while-loop. Let $S_k$ denote the value of $S$
 at this stage. 
 
-\begin{Boxample}[3]
-Show that P1 and P2 hold when $k = 0$.
+\begin{Boxample}[5]
+Show that the statement holds when $k = 0$.
 \end{Boxample}
-\begin{Boxample}[9]
-Show that P1 holds for any value of $k$.
+\begin{Boxample}[20]
+Show that the statement holds for any value of $k$.
 \end{Boxample}
-\begin{Boxample}[9]
-Show that P2 holds for any value of $k$ and that this proves the correctness of Dijkstra's algorithm.
-\end{Boxample}
+%\begin{Boxample}[9]
+%Show that P2 holds for any value of $k$ and that this proves the correctness of Dijkstra's algorithm.
+%\end{Boxample}
 %
 %To prove P1 and P2, we use induction on the number of times $k$ we
 %have been through the while-loop. Let $S_k$ denote the value of $S$
