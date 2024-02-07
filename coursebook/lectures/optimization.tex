@@ -267,7 +267,7 @@ Proving Dijkstra's algorithm works is trickier than for other algorithms we've s
 
 \begin{Theorem}
 \label{thm:dijkstra} Suppose that all arc weights are non-negative in a weighted digraph $(G,c)$. 
-Then at the top of the \boldfont{while} loop, black nodes $x \in S$ have that property that $\dist[x]$  is the minimum cost of a path from $s$ to $x$, that is, $\dist[x] = d(s,x)$. Hence Dijkstra's algorithm solves solves the . 
+Then at the top of the \boldfont{while} loop in Algorithm \ref{alg:dijkstra}, black nodes $x \in S$ have that property that $\dist[x]$  is the minimum cost of a path from $s$ to $x$, that is, $\dist[x] = d(s,x)$. Hence Dijkstra's algorithm is correct. 
 %we have the following properties:
 %\begin{description}
 %  \item[P1:] If $x \in V(G)$, then $\dist[x]$ is the minimum cost of an $S$-path from $s$ to $x$.
@@ -287,7 +287,7 @@ at this stage.
 Show that the statement holds when $k = 0$.
 \end{Boxample}
 \begin{Boxample}[20]
-Show that the statement holds for any value of $k$.
+Show that the statement holds for any value of $k$ and conclude that Dijkstra's algorithm solves the SSSP when arc weights are non-negative.
 \end{Boxample}
 %\begin{Boxample}[9]
 %Show that P2 holds for any value of $k$ and that this proves the correctness of Dijkstra's algorithm.
