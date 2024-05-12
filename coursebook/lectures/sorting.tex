@@ -180,10 +180,11 @@ Complete the following insertion sort process.
 
 
 \section{Insertion sort analysis}
-The number of key comparisons for fixed $i$ is one more than the number of $j$ such that $j < i$ and $a[i] < a[j]$.
-Thus the total number of comparisons is $n-1$ plus the number of \defnfont{inversions}, 
+The number of swaps for fixed $i$ is exactly the number of $j$ such that $j < i$ and $a[i] < a[j]$.
+Thus the total number of swaps is the number of \defnfont{inversions},
 namely pairs $(i, j)$ of indices with $j < i$ and $a[j] > a[i]$ (``out of order" pairs of elements).
-This is also thee number of swaps.
+The number of key comparisons for fixed $i$ is the number of swaps plus $1$, unless $a[i]$ is swapped to the beginning of the array, in which case it is exactly that number.
+Hence the number of key comparisons is between the number of inversions and $n-1$ plus the number of inversions.
 In the best case insertion sort runs in linear time.
 In the worst case the number of inversions is $n(n-1)/2$ 
 (where input is in reverse sorted order) so it runs in quadratic time $\Theta(n^2)$.
