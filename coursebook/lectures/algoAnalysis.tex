@@ -144,6 +144,7 @@ number of elementary operations used when $\inp$ is fed into $\algo$.
 \pagebreak[4]
 \section{How running time scales with problem size}
 The table below describes the \boldfont{growth rate} of some commonly used functions as the problem size grows.
+The table does not show absolute but relative values: if we measured that $T(10)=1$, how large will $T(n)$ be for $n=100$, $n=1000$, $n=10^7$?
 Note that there are about $3 \times 10^{18}$ nanoseconds in a century.
 
 \begin{center}
@@ -164,14 +165,14 @@ Note that there are about $3 \times 10^{18}$ nanoseconds in a century.
 \end{center}
  
 
-\begin{Boxample}[5]
+\begin{Boxample}[7]
 \label{exr:time-compl:2}
 A quadratic algorithm with running time \(T(n)=cn^2 \)
 uses 500 elementary operations for processing $10$ data items. How many will it 
 use for processing $1000$ data items? 
 \end{Boxample}
 
-\begin{Boxample}[5]
+\begin{Boxample}[7]
 Algorithm $A$ takes $n^2$ elementary operations to sort a file of $n$ lines, while Algorithm $B$ takes $50n\lg n$. 
 Which algorithm is better when $n = 10$? When $n=10^6$? How do we decide which algorithm to use?
 \end{Boxample}
