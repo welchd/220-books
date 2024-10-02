@@ -952,10 +952,10 @@ linear time.
 \chapter{Hard graph problems}%------------------------------------------------
 \label{sec:hardgraph}
 All of the problems we have considered so far have solutions whose running time is  bounded above by a low
-degree polynomial in the size of the input. However, there are many
+degree polynomial in the size of the input. We deem such problems efficient to solve and call them \defnfont{P} problems. However, there are many
 essential problems that currently do not have known polynomial-time
-algorithms (so-called \defnfont{NP-hard} problems). Some examples
-are:
+algorithms. Problems whose solutions can be verified efficiently, no matter how hard it is to find one, are \defnfont{NP} problems. Problems for which designing an efficient algorithm would lead to efficient algorithms for all NP problems are called \defnfont{NP-hard} problems.
+Some examples are:
 \begin{itemize}
 \item finding the longest path between two nodes of a digraph;
 \item finding a $k$-colouring of a graph, for fixed $k \geq 3$;
