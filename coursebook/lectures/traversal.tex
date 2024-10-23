@@ -1020,7 +1020,7 @@ Using \texttt{BFSvisit} or \texttt{DFSvisit}, devise an algorithm that will dete
 \chapter{Finding strong components, and bipartite graphs} %--------------------------------------------------
 
 \section{Finding the strongly connected components}
-It turns out we can find all connected components of $G$ in linear time using by a clever use of DFS, known as Tarjan's algorithm.
+It turns out we can find all connected components of $G$ in linear time using by a clever use of DFS, known as Kosaraju's algorithm.
 
 Suppose the underlying graph of $G$ is connected but $G$ is
 not strongly connected, then  there are strong components $C_1$ and
@@ -1051,7 +1051,7 @@ reverse order of finishing times of a DFS. We  note that the strong
 components of $G$ are the same as the strong components of its reverse,
 $G_r$. So, as before, starting a DFS in $C_m$ of $G_r$ means we would
 only visit nodes in $C_m$ and so on. This leads to the following
-solution, due to Tarjan.
+solution.
 
 
 \begin{itemize}
@@ -1064,7 +1064,7 @@ solution, due to Tarjan.
 The above algorithm runs in linear time with adjacency lists, since it only requires two 
 DFS traversals (which are each linear time), and the creation of the reverse digraph which also takes linear time. 
 
-\begin{Boxample}[7] \label{ex:tarjan}
+\begin{Boxample}[7] \label{ex:kosaraju}
 Run the algorithm above on the graph shown (starting in the initial DFS at node $0$) to find all strongly connected components. 
 \begin{center}
 \includegraphics{sccBoxample}
