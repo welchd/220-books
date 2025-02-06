@@ -702,10 +702,14 @@ Is it possible to sort $n$ items in $O(n)$ time in the worst case?
 Is there a general sorting algorithm $A$ and constant $c>0$ such that for all inputs of size $n$, 
 $A$ uses at most $cn$ comparisons to sort? Interestingly, the answer is no, as we shall now see.
 
-Let $\algo$ be a comparison-based sorting algorithm. 
-The execution of $\algo$ on an input of $n$ distinct keys can be modelled by a \defnfont{decision tree}. 
+Let $\algo$ be a comparison-based sorting algorithm.
+The execution of $\algo$ on an input of $n$ keys can be modelled by a \defnfont{decision tree}. 
 This is a binary tree whose leaves are the outputs of the algorithm.
-Recall that sorting is equivalent to inverting a permutation, therefore there are $n!$ possible outputs or leaves, each corresponding to a permutation of the keys.
+We assume that input keys are distinct.
+We can do this because the running time is the maximum over all inputs, and disregarding inputs in our calculations can only decrease that maximum.
+
+Recall that sorting is equivalent to inverting a permutation. If two different input permutations ended up in the same output leaf, the algorithm would be incorrect on at least one of the inputs. Therefore there are $n!$ possible outputs or leaves, each corresponding to a permutation of the keys.
+
 At each step we can only ask a Yes/No question of the form ``$(a_i < a_j)$?'', and this determines the branching: 
 left for Yes, right for No. 
 The number of comparisons required to obtain the output at a leaf is the 
@@ -742,8 +746,7 @@ Thus we must have $2^h \geq n!$ and therefore $h \geq \lg n!$.
 \section{Worst case running time of comparison-based sorting algorithm}
 We have already shown that $\lg n!$ is $\Omega (n \log n)$. Thus the
 worst-case number of comparisons of any comparison-based sorting method must 
-grow at least at the asymptotic rate $n \log n$ (any input that had duplicates 
-could only make the worst case worse!)
+grow at least at the asymptotic rate $n \log n$.
 %\item The same type of argument also works on average provided the $n!$ inputs 
 %are equally likely (see textbook).  So the average-case runtime for any such 
 %algorithm is  $\Omega(n \log n)$.
