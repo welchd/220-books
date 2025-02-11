@@ -491,12 +491,12 @@ Then $d[v] = d(r, v)$.
 We can classify arcs, but the answer is not as nice as with DFS.
 
 \begin{Theorem} \label{thm:BFS-arcclass}
-Suppose that we are performing \texttt{BFS} on a digraph $G$. Let $(v,
-w)\in E(G)$ and suppose that we have just chosen the grey node $v$. 
+Suppose we are running \texttt{BFS} on a digraph $G$. Let $(v,
+w)\in E(G)$ and suppose that we have just picked (grey) node $v$ at the front of the queue.
 Then
 \begin{itemize}
-  \item if $(v, w)$ is a tree arc then $\colour[w] = $ WHITE, $d[w] = d[v] + 1$;
-  \item if $(v, w)$ is a back arc, then $\colour[w] = $ BLACK, $d[w] \leq d[v] - 1$;  
+  \item if $(v, w)$ is a tree arc, then $\colour[w] = $ WHITE and $d[w] = d[v] + 1$;
+  \item if $(v, w)$ is a back arc, then $\colour[w] = $ BLACK and $d[w] \leq d[v] - 1$;
   \item there are no forward arcs; and
   \item if $(v, w)$ is a cross arc then one of the following holds:
   \begin{itemize}
