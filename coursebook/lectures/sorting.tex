@@ -95,6 +95,7 @@ Complete the following selection sort process.
 \begin{center}
 \includegraphics{SelectionSort}
 \end{center}
+\hfill\footnotesize More examples on \url{https://tinyurl.com/220drills}
 \end{Boxample}
 
 We now analyse the properties of selection sort.
@@ -225,7 +226,7 @@ Instead of repeatedly swapping an element, we can remove it from the list and in
 However, searching to find the right insertion point still takes time in
 $\Theta(n^2)$ in the worst case.
 
-\section{How can we improve insertion sort?}
+\section{Extra: How can we improve insertion sort?}
 On an array, we can reduce the number of comparisons by using binary search (see future lecture) to find 
 the insertion point. However, the swaps still take time in $\Theta(n^2)$ as above, so this is of little use.
 
@@ -469,7 +470,7 @@ has solution $T(n) = n \lg n$ for $n$ a power of $2$.
 How does the solution to \cref{eg:recur-cov} look if we do not do the change of variable?
 \end{Boxample}
 
-\section{Mathematical extra: dealing with floors and ceilings, etc}
+\section{Extra: dealing with floors and ceilings, etc}
 The mergesort recurrence involves floor and ceiling functions. How do we deal with these?
 
 We can solve the mergesort recurrence $T(n) = T(\lceil n/2 \rceil) + T(\lfloor n/2 \rfloor) + n$ asymptotically. 
@@ -482,7 +483,7 @@ but just some $f(n)$ where $f(n)$ is $\Theta(n)$. Similar techniques show that
 we get the same answer, asymptotically. 
 
 
-\section{How do we solve the Fibonacci recurrence?}
+\section{Extra: How do we solve the Fibonacci recurrence?}
 Recall $F(0) = 0$, $F(1) = 1$, $F(n) = F(n-1) + F(n-2)$,  $(n \geq 2)$.
 Such linear homogeneous recurrences can be solved exactly with
 more theory than we have time for in this course. 
@@ -617,7 +618,7 @@ quicksort has average running time in $O(n \log n)$.
 %\item  Answer turns out to be $a_n = 2 (n + 1) H_n - 4n$ we know
 %that $H_n$ is $\Theta(\log n)$.
 
-\section{Quicksort recurrence solution}
+\section{Extra: Quicksort recurrence solution}
 Let $a_n$ be the average of $C_n$ so that 
 $$a_n = n - 1 + \frac{1}{n} \sum_{1\leq p \leq n} (a_{p-1} + a_{n-p}).$$
 Collect common terms in the sums to obtain
